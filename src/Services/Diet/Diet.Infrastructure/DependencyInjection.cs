@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Meal.Infrastructure;
+namespace Diet.Infrastructure;
 
 public static class DependencyInjection
 {

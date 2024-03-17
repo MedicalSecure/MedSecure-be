@@ -1,4 +1,4 @@
-﻿namespace Meal.Domain.Abstractions;
+﻿namespace Diet.Domain.Abstractions;
 
 public interface IAggregate<T> : IAggregate, IEntity<T>
 {

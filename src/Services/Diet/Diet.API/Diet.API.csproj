@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Meal.Application\Meal.Application.csproj" />
-    <ProjectReference Include="..\Meal.Infrastructure\Meal.Infrastructure.csproj" />
+    <ProjectReference Include="..\Diet.Application\Diet.Application.csproj" />
+    <ProjectReference Include="..\Diet.Infrastructure\Diet.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

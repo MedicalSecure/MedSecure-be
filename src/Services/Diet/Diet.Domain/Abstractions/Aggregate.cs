@@ -1,5 +1,5 @@
 ﻿
-namespace Meal.Domain.Abstractions;
+namespace Diet.Domain.Abstractions;
 
 public class Aggregate<TId> : Entity<TId>, IAggregate<TId>
 {

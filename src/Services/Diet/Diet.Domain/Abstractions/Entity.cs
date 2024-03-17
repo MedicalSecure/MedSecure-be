@@ -1,4 +1,4 @@
-﻿namespace Meal.Domain.Abstractions;
+﻿namespace Diet.Domain.Abstractions;
 public abstract class Entity<T> : IEntity<T>
 {
     public T Id { get; set; }

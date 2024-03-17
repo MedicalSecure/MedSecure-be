@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Meal.Domain.Abstractions;
+namespace Diet.Domain.Abstractions;
 
 public interface IDomainEvent : INotification
 {
