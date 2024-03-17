@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  diet.api:
+    image: ${DOCKER_REGISTRY-}dietapi
+    build:
+      context: .
+      dockerfile: Services/Diet/Diet.API/Dockerfile
+
+  waste.api:
+    image: ${DOCKER_REGISTRY-}wasteapi
+    build:
+      context: .
+      dockerfile: Services/Waste/Waste.API/Dockerfile
+
