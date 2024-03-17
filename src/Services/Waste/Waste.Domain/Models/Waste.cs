@@ -6,7 +6,7 @@ public class Waste : Aggregate<WasteId>
 
     public IReadOnlyList<WasteItem> WasteItems => _wasteItems.AsReadOnly();
 
-    public RoomId RoomId { get; private set; } = default!;
+    public RoomId RoomId { get; set; } = default!;
 
     public Address PickupLocation { get; private set; } = default!;
 
@@ -14,7 +14,7 @@ public class Waste : Aggregate<WasteId>
 
     public WasteStatus Status { get; private set; } = WasteStatus.Pending;
 
-    public WasteColor Color { get; private set; } = WasteColor.Blue;
+    public WasteColor Color { get; private set; } = WasteColor.Black;
 
     public decimal TotalWeight
     {
