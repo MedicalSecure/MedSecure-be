@@ -1,13 +1,12 @@
 ﻿namespace Diet.Domain.Models;
-
 public class Diet : Aggregate<DietId>
 {
-    private readonly List<Meal> _Meals = new();
-    public List<Meal> Meals { get; private set; } = default!;
+    private readonly List<Meal> _meals = new();
+    public IReadOnlyList<Meal> Meals => _meals.AsReadOnly();
     public PatientId PatientId { get; private set; } = default!;
+    public DietType DietType { get; private set; } = DietType.Normal;
     public DateTime StartDate { get; private set; } = default!;
     public DateTime EndDate { get; private set; } = default!;
-    public DietType DietType { get; private set; } = DietType.Normal;
 
     public static Diet Create(
         DietId id,
@@ -30,38 +29,34 @@ public class Diet : Aggregate<DietId>
         return diet;
     }
 
-    public static Diet Update(
-        Diet diet,
+    public void Update(
         PatientId patientId,
         DateTime startDate,
         DateTime endDate,
         DietType dietType)
     {
-        diet.PatientId = patientId;
-        diet.StartDate = startDate;
-        diet.EndDate = endDate;
-        diet.DietType = dietType;
+        PatientId = patientId;
+        StartDate = startDate;
+        EndDate = endDate;
+        DietType = dietType;
 
-        diet.AddDomainEvent(new DietUpdatedEvent(diet));
-
-        return diet;
+        AddDomainEvent(new DietUpdatedEvent(this));
     }
 
-    public void AddMeal(string name, MealType mealType, Dictionary<MealComponent, List<string>> components)
+    public void AddMeal(DietId dietId, string name, MealType mealType)
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
-        ArgumentNullException.ThrowIfNull(components);
 
-        var meal = new Meal(name, mealType, components);
-        _Meals.Add(meal);
+        var meal = new Meal(dietId,name,mealType);
+        _meals.Add(meal);
     }
 
-    public void RemoveMeal(MealId mealId)
+    public void RemoveMeal(DietId dietId)
     {
-        var mealToRemove = _Meals.FirstOrDefault(meal => meal.MealId == mealId);
+        var mealToRemove = _meals.FirstOrDefault(meal => meal.DietId == dietId);
         if (mealToRemove != null)
         {
-            _Meals.Remove(mealToRemove);
+            _meals.Remove(mealToRemove);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace Diet.Domain.Enums;
 
-public enum MealComponent
+public enum MealCategory
 {
-    EntreesOrSoups = 1,
+    StartersAndSoups = 1,
     MainCourses = 2,
     GarnishesAndVegetables = 3,
     Beverages = 4,

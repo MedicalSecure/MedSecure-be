@@ -1,4 +1,4 @@
-﻿namespace Meal.API;
+﻿namespace Diet.API;
 
 public static class DependencyInjection
 {

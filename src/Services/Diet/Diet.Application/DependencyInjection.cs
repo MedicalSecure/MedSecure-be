@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Meal.Application;
+namespace Diet.Application;
 
 public static class DependencyInjection
 {

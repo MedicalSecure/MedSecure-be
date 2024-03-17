@@ -1,6 +1,6 @@
-using Meal.API;
-using Meal.Application;
-using Meal.Infrastructure;
+using Diet.API;
+using Diet.Application;
+using Diet.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

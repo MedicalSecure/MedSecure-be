@@ -16,4 +16,3 @@ public record DietId
         return new DietId(value);
     }
 }
-
