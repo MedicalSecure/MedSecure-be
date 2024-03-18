@@ -1,6 +1,8 @@
 version: '3.4'
 
 services:
+  dietdb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
   diet.api:
     image: ${DOCKER_REGISTRY-}dietapi
     build:

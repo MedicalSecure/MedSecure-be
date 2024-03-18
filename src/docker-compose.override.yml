@@ -1,6 +1,14 @@
 version: '3.4'
 
 services:
+  dietdb:
+    container_name: dietdb
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=SwN12345678
+    restart: always
+    ports:
+      - "1433:1433"
   diet.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
