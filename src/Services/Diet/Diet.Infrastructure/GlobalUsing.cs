@@ -9,4 +9,9 @@ global using System.Reflection;
 global using Diet.Domain.Enums;
 global using Microsoft.AspNetCore.Builder;
 global using Diet.Infrastructure.Data.Exceptions;
+global using Diet.Domain.Abstractions;
+global using Microsoft.EntityFrameworkCore.ChangeTracking;
+global using Microsoft.EntityFrameworkCore.Diagnostics;
+global using MediatR;
+global using Diet.Infrastructure.Data.Interceptors;
 
