@@ -1,4 +1,5 @@
-﻿namespace Diet.Domain.Models;
+﻿
+namespace Diet.Domain.Models;
 public class Diet : Aggregate<DietId>
 {
     private readonly List<Meal> _meals = new();
@@ -43,17 +44,17 @@ public class Diet : Aggregate<DietId>
         AddDomainEvent(new DietUpdatedEvent(this));
     }
 
-    public void AddMeal(DietId dietId, string name, MealType mealType)
+    public void AddMeal(Meal meal)
     {
-        ArgumentException.ThrowIfNullOrEmpty(name);
+        if (meal == null)
+            throw new ArgumentNullException(nameof(meal));
 
-        var meal = new Meal(dietId,name,mealType);
         _meals.Add(meal);
     }
 
-    public void RemoveMeal(DietId dietId)
+    public void RemoveMeal(MealId mealId)
     {
-        var mealToRemove = _meals.FirstOrDefault(meal => meal.DietId == dietId);
+        var mealToRemove = _meals.FirstOrDefault(meal => meal.Id == mealId);
         if (mealToRemove != null)
         {
             _meals.Remove(mealToRemove);

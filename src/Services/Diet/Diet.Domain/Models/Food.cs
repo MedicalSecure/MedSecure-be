@@ -17,6 +17,7 @@ public class Food : Aggregate<FoodId>
             Description = description,
         };
 
+        food.AddDomainEvent(new FoodCreatedEvent(food));
         return food;
     }
 
@@ -25,5 +26,7 @@ public class Food : Aggregate<FoodId>
         Name = name;
         Calories = calories;
         Description = description;
+
+        AddDomainEvent(new FoodUpdatedEvent(this));
     }
 }

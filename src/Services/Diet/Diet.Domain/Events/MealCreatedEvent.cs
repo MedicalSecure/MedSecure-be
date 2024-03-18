@@ -1,3 +1,4 @@
-﻿namespace Diet.Domain.Events;
+﻿
+namespace Diet.Domain.Events;
 
-public record MealCreatedEvent(Models.Meal meal) : IDomainEvent;
+public record MealCreatedEvent(Meal meal) : IDomainEvent;

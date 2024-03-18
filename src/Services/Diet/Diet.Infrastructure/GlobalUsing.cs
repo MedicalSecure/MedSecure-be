@@ -7,4 +7,6 @@ global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using System.Reflection;
 global using Diet.Domain.Enums;
+global using Microsoft.AspNetCore.Builder;
+global using Diet.Infrastructure.Data.Exceptions;
 
