@@ -18,7 +18,7 @@ public class Waste : Aggregate<WasteId>
 
     public decimal TotalWeight
     {
-        get => WasteItems.Sum(x => x.Weight * x.Quntity);
+        get => WasteItems.Sum(x => x.Weight * x.Quantity);
         private set { }
     }
 

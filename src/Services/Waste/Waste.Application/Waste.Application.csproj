@@ -11,4 +11,14 @@
     <ProjectReference Include="..\Waste.Domain\Waste.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Room\Commands\DeleteRoom\" />
+    <Folder Include="Product\Commands\DeleteProduct\" />
+    <Folder Include="Waste\Commands\DeleteWaste\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
+  </ItemGroup>
+
 </Project>

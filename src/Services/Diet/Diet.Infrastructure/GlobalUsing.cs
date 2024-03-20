@@ -13,5 +13,6 @@ global using Diet.Domain.Abstractions;
 global using Microsoft.EntityFrameworkCore.ChangeTracking;
 global using Microsoft.EntityFrameworkCore.Diagnostics;
 global using MediatR;
+global using Diet.Application.Data;
 global using Diet.Infrastructure.Data.Interceptors;
 

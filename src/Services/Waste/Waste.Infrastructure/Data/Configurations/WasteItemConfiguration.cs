@@ -12,7 +12,7 @@ public class WasteItemConfiguration : IEntityTypeConfiguration<WasteItem>
 
         builder.HasOne<Product>().WithMany().HasForeignKey(wi => wi.ProductId);
 
-        builder.Property(wi => wi.Quntity)
+        builder.Property(wi => wi.Quantity)
                .IsRequired()
                .HasDefaultValue(0);
 

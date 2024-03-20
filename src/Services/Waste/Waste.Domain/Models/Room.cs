@@ -1,6 +1,6 @@
 ﻿namespace Waste.Domain.Models;
 
-public class Room : Entity<RoomId>
+public class Room : Aggregate<RoomId>
 {
     public string Name { get; private set; } = default!;
     public string Description { get; private set; } = default!;
@@ -9,11 +9,23 @@ public class Room : Entity<RoomId>
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
 
-        return new Room
+        var room =  new Room
         {
             Id = id,
             Name = name,
             Description = description
         };
+
+        room.AddDomainEvent(new RoomCreatedEvent(room));
+
+        return room;
+    }
+
+    public void Update(string name, string description)
+    {
+        Name = name;
+        Description = description;
+
+        AddDomainEvent(new RoomUpdatedEvent(this));
     }
 }
