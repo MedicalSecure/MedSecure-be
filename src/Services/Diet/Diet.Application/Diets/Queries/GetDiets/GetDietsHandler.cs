@@ -1,10 +1,10 @@
 ﻿
 namespace Diet.Application.Diets.Queries.GetDiets;
 
-public class GetFoodsHandler(IApplicationDbContext dbContext)
-    : IQueryHandler<GetFoodsQuery, GetDietsResult>
+public class GetDietsHandler(IApplicationDbContext dbContext)
+    : IQueryHandler<GetDietsQuery, GetDietsResult>
 {
-    public async Task<GetDietsResult> Handle(GetFoodsQuery query, CancellationToken cancellationToken)
+    public async Task<GetDietsResult> Handle(GetDietsQuery query, CancellationToken cancellationToken)
     {
         // get diets with pagination
         // return result

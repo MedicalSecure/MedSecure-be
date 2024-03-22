@@ -1,5 +1,5 @@
 ﻿
-namespace Diet.Application.Foods.Commands.UpdateDiet;
+namespace Diet.Application.Foods.Commands.UpdateFood;
 
 public record UpdateFoodCommand(FoodDto Food) : ICommand<UpdateFoodResult>;
 

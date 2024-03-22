@@ -1,22 +1,18 @@
 ﻿
-using Diet.Application.Extensions;
-
-
 namespace Diet.Application.Diets.Queries.GetFoodByNameQuery;
 
-public class GetFoodByNameHandler(IApplicationDbContext dbContext) : IQueryHandler<GetFoodByNameQuery, GetDietByPatientIdResult>
+public class GetFoodByNameHandler(IApplicationDbContext dbContext) : IQueryHandler<GetFoodByNameQuery, GetFoodByNameResult>
 {
-    public async Task<GetDietByPatientIdResult> Handle(GetFoodByNameQuery query, CancellationToken cancellationToken)
+    public async Task<GetFoodByNameResult> Handle(GetFoodByNameQuery query, CancellationToken cancellationToken)
     {
-        // get diets by Id using dbContext
+        // get foods by Id using dbContext
         // return result
-        var diets = await dbContext.Diets
-             .Include(o => o.Meals)
+        var foods = await dbContext.Foods
              .AsNoTracking()
-             .Where(o => o.PatientId == PatientId.Of(query.id))
+             .Where(o => o.Name.Contains(query.name))
              .OrderBy(o => o.Id)
              .ToListAsync(cancellationToken);
 
-        return new GetDietByPatientIdResult(diets.ToDietDto());
+        return new GetFoodByNameResult(foods.ToFoodDto());
     }
 }

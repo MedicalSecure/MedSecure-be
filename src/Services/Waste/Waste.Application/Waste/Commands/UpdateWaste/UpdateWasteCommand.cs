@@ -1,11 +1,11 @@
 ﻿
 namespace Waste.Application.Wastes.Commands.UpdateWaste;
 
-public record UpdateRoomCommand(WasteDto Waste) : ICommand<UpdateWasteResult>;
+public record UpdateWasteCommand(WasteDto Waste) : ICommand<UpdateWasteResult>;
 
 public record UpdateWasteResult(bool IsSuccess);
 
-public class UpdateWasteCommandValidator : AbstractValidator<UpdateRoomCommand>
+public class UpdateWasteCommandValidator : AbstractValidator<UpdateWasteCommand>
 {
     public UpdateWasteCommandValidator()
     {

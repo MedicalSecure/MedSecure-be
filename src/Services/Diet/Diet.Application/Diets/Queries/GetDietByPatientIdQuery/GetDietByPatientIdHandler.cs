@@ -1,11 +1,9 @@
 ﻿
-using Diet.Application.Extensions;
+namespace Diet.Application.Diets.Queries.GetDietByPatientIdQuery;
 
-namespace Diet.Application.Diets.Queries.GetDietByIdQuery;
-
-public class GetFoodByNameHandler(IApplicationDbContext dbContext) : IQueryHandler<GetFoodByNameQuery, GetDietByPatientIdResult>
+public class GetDietByPatientIdHandler(IApplicationDbContext dbContext) : IQueryHandler<GetDietByPatientIdQuery, GetDietByPatientIdResult>
 {
-    public async Task<GetDietByPatientIdResult> Handle(GetFoodByNameQuery query, CancellationToken cancellationToken)
+    public async Task<GetDietByPatientIdResult> Handle(GetDietByPatientIdQuery query, CancellationToken cancellationToken)
     {
         // get diets by Id using dbContext
         // return result

@@ -1,7 +1,3 @@
-using Waste.API;
-using Waste.Application;
-using Waste.Infrastructure;
-using Waste.Infrastructure.Data.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

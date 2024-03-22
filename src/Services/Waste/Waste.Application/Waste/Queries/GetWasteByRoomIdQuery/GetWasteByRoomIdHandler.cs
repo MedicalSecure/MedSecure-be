@@ -1,9 +1,9 @@
 ﻿
 namespace Waste.Application.Wastes.Queries.GetWasteByRoomIdQuery;
 
-public class RoomByNameHandler(IApplicationDbContext dbContext) : IQueryHandler<RoomByNameQuery, GetWasteByRoomIdResult>
+public class GetWasteByRoomIdHandler(IApplicationDbContext dbContext) : IQueryHandler<GetWasteByRoomIdQuery, GetWasteByRoomIdResult>
 {
-    public async Task<GetWasteByRoomIdResult> Handle(RoomByNameQuery query, CancellationToken cancellationToken)
+    public async Task<GetWasteByRoomIdResult> Handle(GetWasteByRoomIdQuery query, CancellationToken cancellationToken)
     {
         // get wastes by Id using dbContext
         // return result

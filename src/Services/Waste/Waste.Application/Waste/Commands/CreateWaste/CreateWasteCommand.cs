@@ -1,10 +1,10 @@
 ﻿namespace Waste.Application.Wastes.Commands.CreateWaste;
 
-public record CreateRoomCommand(WasteDto Waste) : ICommand<CreateWasteResult>;
+public record CreateWasteCommand(WasteDto Waste) : ICommand<CreateWasteResult>;
 
 public record CreateWasteResult(Guid Id);
 
-public class CreateWasteCommandValidator : AbstractValidator<CreateRoomCommand>
+public class CreateWasteCommandValidator : AbstractValidator<CreateWasteCommand>
 {
     public CreateWasteCommandValidator()
     {

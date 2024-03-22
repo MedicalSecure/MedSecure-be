@@ -1,15 +1,9 @@
 ﻿
-using System.Diagnostics.Metrics;
-using System.IO;
-using System.Net.NetworkInformation;
-using System.Numerics;
-using System.Reflection.Emit;
-
 namespace Waste.Application.Wastes.Commands.UpdateWaste;
 
-public class UpdateRoomHandler(IApplicationDbContext dbContext) : ICommandHandler<UpdateRoomCommand, UpdateWasteResult>
+public class UpdateWasteHandler(IApplicationDbContext dbContext) : ICommandHandler<UpdateWasteCommand, UpdateWasteResult>
 {
-    public async Task<UpdateWasteResult> Handle(UpdateRoomCommand command, CancellationToken cancellationToken)
+    public async Task<UpdateWasteResult> Handle(UpdateWasteCommand command, CancellationToken cancellationToken)
     {
         // Update Waste entity from command object
         // save to database

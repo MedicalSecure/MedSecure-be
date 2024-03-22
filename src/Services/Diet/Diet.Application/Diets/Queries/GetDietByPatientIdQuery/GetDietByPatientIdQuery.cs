@@ -1,7 +1,7 @@
 ﻿
-namespace Diet.Application.Diets.Queries.GetDietByIdQuery
+namespace Diet.Application.Diets.Queries.GetDietByPatientIdQuery
 {
-    public record GetFoodByNameQuery(Guid id) : IQuery<GetDietByPatientIdResult>;
+    public record GetDietByPatientIdQuery(Guid id) : IQuery<GetDietByPatientIdResult>;
 
     public record GetDietByPatientIdResult(IEnumerable<DietDto> Diets);
    

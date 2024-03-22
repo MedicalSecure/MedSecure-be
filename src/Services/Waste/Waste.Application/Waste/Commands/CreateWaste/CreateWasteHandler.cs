@@ -1,9 +1,9 @@
 ﻿
 namespace Waste.Application.Wastes.Commands.CreateWaste;
 
-public class CreateRoomHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateRoomCommand, CreateWasteResult>
+public class CreateWasteHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateWasteCommand, CreateWasteResult>
 {
-    public async Task<CreateWasteResult> Handle(CreateRoomCommand command, CancellationToken cancellationToken)
+    public async Task<CreateWasteResult> Handle(CreateWasteCommand command, CancellationToken cancellationToken)
     {
         // create Waste entity from command object
         // save to database

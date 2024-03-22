@@ -1,7 +1,3 @@
-using Diet.API;
-using Diet.Application;
-using Diet.Infrastructure;
-using Diet.Infrastructure.Data.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
