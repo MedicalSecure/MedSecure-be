@@ -4,4 +4,4 @@ namespace Diet.Application.Diets.Queries.GetDiets;
 public record GetDietsQuery(PaginationRequest PaginationRequest)
 : IQuery<GetDietsResult>;
 
-public record GetDietsResult(PaginatedResult<DietDto> Orders);
+public record GetDietsResult(PaginatedResult<DietDto> Diets);

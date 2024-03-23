@@ -3,7 +3,7 @@ namespace Diet.Application.Extensions;
 
 public static partial class DietExtensions
 {
-    public static IEnumerable<DietDto> ToDietDto(this List<Domain.Models.Diet> diets)
+    public static IEnumerable<DietDto> ToDietDto(this IEnumerable<Domain.Models.Diet> diets)
     {
         return diets.Select(d => new DietDto(
          Id: d.Id.Value,
