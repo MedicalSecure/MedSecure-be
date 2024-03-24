@@ -1,8 +1,13 @@
 version: '3.4'
 
 services:
-  dietdb:
+
+  sql-server-db:
     image: mcr.microsoft.com/mssql/server:2019-latest
+
+  message-broker:
+    image: rabbitmq:management
+
   diet.api:
     image: ${DOCKER_REGISTRY-}dietapi
     build:

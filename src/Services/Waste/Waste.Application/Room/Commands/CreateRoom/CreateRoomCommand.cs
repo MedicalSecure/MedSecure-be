@@ -1,4 +1,5 @@
-﻿namespace Waste.Application.Rooms.Commands.CreateRoom;
+﻿
+namespace Waste.Application.Rooms.Commands.CreateRoom;
 
 public record CreateRoomCommand(RoomDto Room) : ICommand<CreateRoomResult>;
 

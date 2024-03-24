@@ -23,7 +23,7 @@ public class UpdateProductHandler(IApplicationDbContext dbContext) : ICommandHan
 
         return new UpdateProductResult(true);
     }
-    private static void UpdateProductWithNewValues(Product product, ProductDto productDto)
+    private static void UpdateProductWithNewValues(Domain.Models.Product product, ProductDto productDto)
     {
         product.Update(productDto.Name, productDto.Weight);
     }

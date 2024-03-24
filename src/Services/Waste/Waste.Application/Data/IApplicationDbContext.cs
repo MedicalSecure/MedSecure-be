@@ -7,9 +7,9 @@ public interface IApplicationDbContext
 
     DbSet<WasteItem> WasteItems { get; }
 
-    DbSet<Product> Products { get; }
+    DbSet<Domain.Models.Product> Products { get; }
 
-    DbSet<Room> Rooms { get; }
+    DbSet<Domain.Models.Room> Rooms { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

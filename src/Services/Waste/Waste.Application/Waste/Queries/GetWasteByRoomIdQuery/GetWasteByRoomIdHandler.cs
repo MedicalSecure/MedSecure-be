@@ -1,5 +1,5 @@
 ﻿
-namespace Waste.Application.Wastes.Queries.GetWasteByRoomIdQuery;
+namespace Waste.Application.Waste.Queries.GetWasteByRoomIdQuery;
 
 public class GetWasteByRoomIdHandler(IApplicationDbContext dbContext) : IQueryHandler<GetWasteByRoomIdQuery, GetWasteByRoomIdResult>
 {

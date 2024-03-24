@@ -1,7 +1,7 @@
 ﻿
-namespace Waste.Application.Rooms.EventHandlers;
+namespace Waste.Application.Room.EventHandlers.Domain;
 
-public class RoomCreatedEventHandler (ILogger<RoomCreatedEventHandler> logger)
+public class RoomCreatedEventHandler(ILogger<RoomCreatedEventHandler> logger)
     : INotificationHandler<RoomCreatedEvent>
 {
     public Task Handle(RoomCreatedEvent notification, CancellationToken cancellationToken)

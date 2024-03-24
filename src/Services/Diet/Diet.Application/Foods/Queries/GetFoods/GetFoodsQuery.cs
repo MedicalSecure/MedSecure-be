@@ -1,5 +1,5 @@
 ﻿
-namespace Diet.Application.Diets.Queries.GetFoods;
+namespace Diet.Application.Foods.Queries.GetFoods;
 
 public record GetFoodsQuery(PaginationRequest PaginationRequest)
 : IQuery<GetFoodsResult>;

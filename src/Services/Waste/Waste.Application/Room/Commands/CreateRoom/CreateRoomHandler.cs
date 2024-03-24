@@ -16,9 +16,9 @@ public class CreateRoomHandler(IApplicationDbContext dbContext) : ICommandHandle
         return new CreateRoomResult(room.Id.Value);
     }
 
-    private static Room CreateNewRoom(RoomDto roomDto)
+    private static Domain.Models.Room CreateNewRoom(RoomDto roomDto)
     {
-        var newRoom = Room.Create(
+        var newRoom = Domain.Models.Room.Create(
          id: RoomId.Of(Guid.NewGuid()),
          name: roomDto.Name,
          description: roomDto.Description

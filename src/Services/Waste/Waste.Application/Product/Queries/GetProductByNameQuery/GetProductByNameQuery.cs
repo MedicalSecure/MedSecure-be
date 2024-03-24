@@ -1,8 +1,7 @@
 ﻿
-namespace Waste.Application.Products.Queries.GetProductyNameQuery
-{
-    public record GetProductyNameQuery(string Name) : IQuery<GetProductByNameResult>;
+namespace Waste.Application.Products.Queries.GetProductyNameQuery;
 
-    public record GetProductByNameResult(IEnumerable<ProductDto> Products);
-   
-}
+public record GetProductyNameQuery(string Name) : IQuery<GetProductByNameResult>;
+
+public record GetProductByNameResult(IEnumerable<ProductDto> Products);
+

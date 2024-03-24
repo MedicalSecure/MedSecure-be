@@ -1,5 +1,5 @@
 ﻿
-namespace Waste.Application.Wastes.Commands.UpdateWaste;
+namespace Waste.Application.Waste.Commands.UpdateWaste;
 
 public record UpdateWasteCommand(WasteDto Waste) : ICommand<UpdateWasteResult>;
 

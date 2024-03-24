@@ -91,7 +91,7 @@ namespace Waste.Infrastructure.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     WasteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Quntity = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    Quantity = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),

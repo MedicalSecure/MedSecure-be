@@ -1,4 +1,5 @@
-﻿namespace Diet.Application.Diets.Commands.UpdateDiet;
+﻿
+namespace Diet.Application.Diets.Commands.UpdateDiet;
 
 public class UpdateDietHandler(IApplicationDbContext dbContext) : ICommandHandler<UpdateDietCommand, UpdateDietResult>
 {

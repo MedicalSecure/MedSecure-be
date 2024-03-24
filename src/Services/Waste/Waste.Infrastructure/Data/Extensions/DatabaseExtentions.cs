@@ -28,8 +28,8 @@ public static class DatabaseExtentions
         // Clear all data from tables
         context.Rooms.RemoveRange(context.Rooms);
         context.Wastes.RemoveRange(context.Wastes);
-        context.WasteItems.RemoveRange(context.WasteItems);
         context.Products.RemoveRange(context.Products);
+        context.WasteItems.RemoveRange(context.WasteItems);
 
         // Save changes to the database
         await context.SaveChangesAsync();

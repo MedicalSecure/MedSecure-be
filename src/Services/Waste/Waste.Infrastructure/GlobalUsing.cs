@@ -13,4 +13,5 @@ global using Waste.Domain.Abstractions;
 global using Microsoft.EntityFrameworkCore.ChangeTracking;
 global using Microsoft.EntityFrameworkCore.Diagnostics;
 global using MediatR;
+global using Waste.Application.Data;
 global using Waste.Infrastructure.Data.Interceptors;

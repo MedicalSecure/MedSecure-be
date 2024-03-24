@@ -1,4 +1,5 @@
-﻿namespace Waste.Application.Wastes.Commands.CreateWaste;
+﻿
+namespace Waste.Application.Waste.Commands.CreateWaste;
 
 public record CreateWasteCommand(WasteDto Waste) : ICommand<CreateWasteResult>;
 

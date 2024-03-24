@@ -1,4 +1,6 @@
 ﻿
+namespace Waste.Application.Waste.Queries.GetWastes;
+
 public record GetWastesQuery(PaginationRequest PaginationRequest)
 : IQuery<GetWastesResult>;
 

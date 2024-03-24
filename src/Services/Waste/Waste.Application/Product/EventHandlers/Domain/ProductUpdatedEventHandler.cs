@@ -1,12 +1,12 @@
 ﻿
-namespace Waste.Application.Products.EventHandlers;
+namespace Waste.Application.Product.EventHandlers.Domain;
 
 public class ProductUpdatedEventHandler(ILogger<ProductUpdatedEventHandler> logger)
     : INotificationHandler<ProductUpdatedEvent>
 {
     public Task Handle(ProductUpdatedEvent notification, CancellationToken cancellationToken)
-{
-    logger.LogInformation("Domain Event handled: {DomainEvent}", notification.GetType().Name);
-    return Task.CompletedTask;
-}
+    {
+        logger.LogInformation("Domain Event handled: {DomainEvent}", notification.GetType().Name);
+        return Task.CompletedTask;
+    }
 }

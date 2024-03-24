@@ -1,8 +1,5 @@
-﻿using Diet.Application.Dtos;
-using Diet.Domain.Enums;
-using Diet.Domain.ValueObjects;
-
-namespace Diet.Application.Diets.Commands.CreateFood;
+﻿
+namespace Diet.Application.Foods.Commands.CreateFood;
 
 public class CreateFoodHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateFoodCommand, CreateFoodResult>
 {

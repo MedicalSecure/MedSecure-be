@@ -1,4 +1,5 @@
-﻿namespace Diet.Application.Diets.Commands.CreateDiet;
+﻿
+namespace Diet.Application.Diets.Commands.CreateDiet;
 
 public class CreateDietHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateDietCommand, CreateDietResult>
 {
@@ -11,6 +12,9 @@ public class CreateDietHandler(IApplicationDbContext dbContext) : ICommandHandle
 
         dbContext.Diets.Add(diet);
         await dbContext.SaveChangesAsync(cancellationToken);
+
+        //var eventMessage = command.Diet.Adapt<DietPlanSharedEvent>();
+        //await publishEndpoint.Publish(eventMessage, cancellationToken);
 
         return new CreateDietResult(diet.Id.Value);
     }

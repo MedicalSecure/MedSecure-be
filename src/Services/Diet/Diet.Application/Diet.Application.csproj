@@ -7,14 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks.Messaging\BuildingBlocks.Messaging\BuildingBlocks.Messaging.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
     <ProjectReference Include="..\Diet.Domain\Diet.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Diets\Commands\DeleteDiet\" />
+    <Folder Include="Diets\EventHandlers\Integration\" />
     <Folder Include="Foods\Commands\DeleteFood\" />
+    <Folder Include="Foods\EventHandlers\Integration\" />
     <Folder Include="Patients\Commands\DeletePatient\" />
+    <Folder Include="Patients\EventHandlers\Integration\" />
   </ItemGroup>
 
   <ItemGroup>

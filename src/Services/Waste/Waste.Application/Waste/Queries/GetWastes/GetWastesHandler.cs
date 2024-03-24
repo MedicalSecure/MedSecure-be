@@ -1,5 +1,5 @@
 ﻿
-namespace Waste.Application.Wastes.Queries.GetWastes;
+namespace Waste.Application.Waste.Queries.GetWastes;
 
 public class GetWastesHandler(IApplicationDbContext dbContext)
     : IQueryHandler<GetWastesQuery, GetWastesResult>

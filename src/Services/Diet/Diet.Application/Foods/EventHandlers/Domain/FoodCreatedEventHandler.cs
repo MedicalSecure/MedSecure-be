@@ -1,5 +1,5 @@
 ﻿
-namespace Diet.Application.Foods.EventHandlers;
+namespace Diet.Application.Foods.EventHandlers.Domain;
 
 public class FoodCreatedEventHandler(ILogger<FoodCreatedEventHandler> logger)
     : INotificationHandler<FoodCreatedEvent>

@@ -1,4 +1,5 @@
-﻿namespace Diet.Application.Diets.Commands.CreateDiet;
+﻿
+namespace Diet.Application.Diets.Commands.CreateDiet;
 
 public record CreateDietCommand(DietDto Diet) : ICommand<CreateDietResult>;
 

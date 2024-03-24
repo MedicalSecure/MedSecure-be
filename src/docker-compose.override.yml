@@ -1,14 +1,26 @@
 version: '3.4'
 
 services:
-  dietdb:
-    container_name: dietdb
+  sql-server-db:
+    container_name: sql-server-db
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=SwN12345678
     restart: always
     ports:
       - "1433:1433"
+
+  message-broker:
+    container_name: message-broker
+    hostname: medsecure-mq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   diet.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -20,6 +32,7 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
   waste.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development

@@ -1,31 +1,30 @@
 ﻿
-namespace Waste.API.Endpoints
+namespace Waste.API.Endpoints.Product;
+
+//- Accepts pagination parameters.
+//- Constructs a GetProductsQuery with these parameters.
+//- Retrieves the data and returns it in a paginated format.
+
+//public record GetProductsRequest(PaginationRequest PaginationRequest);
+public record GetProductsResponse(PaginatedResult<ProductDto> Products);
+
+public class GetProducts : ICarterModule
 {
-    //- Accepts pagination parameters.
-    //- Constructs a GetProductsQuery with these parameters.
-    //- Retrieves the data and returns it in a paginated format.
-
-    //public record GetProductsRequest(PaginationRequest PaginationRequest);
-    public record GetProductsResponse(PaginatedResult<ProductDto> Products);
-
-    public class GetProducts : ICarterModule
+    public void AddRoutes(IEndpointRouteBuilder app)
     {
-        public void AddRoutes(IEndpointRouteBuilder app)
+        app.MapGet("/products", async ([AsParameters] PaginationRequest paginationRequest, ISender sender) =>
         {
-            app.MapGet("/products", async ([AsParameters] PaginationRequest paginationRequest, ISender sender) =>
-            {
-                var result = await sender.Send(new GetProductsQuery(paginationRequest));
+            var result = await sender.Send(new GetProductsQuery(paginationRequest));
 
-                var response = result.Adapt<GetProductsResponse>();
+            var response = result.Adapt<GetProductsResponse>();
 
-                return Results.Ok(response);
-            })
-            .WithName("GetProducts")
-            .Produces<GetProductsResponse>(StatusCodes.Status200OK)
-            .ProducesProblem(StatusCodes.Status400BadRequest)
-            .ProducesProblem(StatusCodes.Status404NotFound)
-            .WithSummary("Get Products")
-            .WithDescription("Get Products");
-        }
+            return Results.Ok(response);
+        })
+        .WithName("GetProducts")
+        .Produces<GetProductsResponse>(StatusCodes.Status200OK)
+        .ProducesProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status404NotFound)
+        .WithSummary("Get Products")
+        .WithDescription("Get Products");
     }
 }

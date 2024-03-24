@@ -1,7 +1,7 @@
 ﻿
-namespace Diet.Application.Diets.EventHandlers;
+namespace Diet.Application.Diets.EventHandlers.Domain;
 
-public class DietCreatedEventHandler (ILogger<DietCreatedEventHandler> logger)
+public class DietCreatedEventHandler(ILogger<DietCreatedEventHandler> logger)
     : INotificationHandler<DietCreatedEvent>
 {
     public Task Handle(DietCreatedEvent notification, CancellationToken cancellationToken)

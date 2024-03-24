@@ -1,5 +1,5 @@
 ﻿
-namespace Waste.Application.Wastes.Commands.CreateWaste;
+namespace Waste.Application.Waste.Commands.CreateWaste;
 
 public class CreateWasteHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateWasteCommand, CreateWasteResult>
 {

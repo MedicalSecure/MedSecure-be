@@ -1,4 +1,5 @@
-﻿namespace Diet.Application.Patients.Commands.UpdatePatient;
+﻿
+namespace Diet.Application.Patients.Commands.UpdatePatient;
 
 public record UpdatePatientCommand(PatientDto Patient) : ICommand<UpdatePatientResult>;
 

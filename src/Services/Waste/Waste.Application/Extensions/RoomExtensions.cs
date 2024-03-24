@@ -3,7 +3,7 @@ namespace Waste.Application.Extensions;
 
 public static partial class RoomExtensions
 {
-    public static IEnumerable<RoomDto> ToRoomDto(this List<Room> rooms)
+    public static IEnumerable<RoomDto> ToRoomDto(this List<Domain.Models.Room> rooms)
     {
         return rooms.Select(f => new RoomDto(
             Id: f.Id.Value,

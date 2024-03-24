@@ -1,4 +1,5 @@
-﻿namespace Diet.Application.Diets.Commands.CreateFood;
+﻿
+namespace Diet.Application.Foods.Commands.CreateFood;
 
 public record CreateFoodCommand(FoodDto Food) : ICommand<CreateFoodResult>;
 

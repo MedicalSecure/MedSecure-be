@@ -1,4 +1,5 @@
-﻿namespace Waste.Application.Products.Commands.CreateProduct;
+﻿
+namespace Waste.Application.Products.Commands.CreateProduct;
 
 public record CreateProductCommand(ProductDto Product) : ICommand<CreateProductResult>;
 

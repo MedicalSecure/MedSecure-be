@@ -1,4 +1,5 @@
-﻿namespace Diet.Application.Patients.Commands.UpdatePatient;
+﻿
+namespace Diet.Application.Patients.Commands.UpdatePatient;
 
 public class UpdatePatientHandler(IApplicationDbContext dbContext) : ICommandHandler<UpdatePatientCommand, UpdatePatientResult>
 {

@@ -13,7 +13,7 @@ using Waste.Infrastructure.Data;
 namespace Waste.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240317035634_InitialCreate")]
+    [Migration("20240324233731_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

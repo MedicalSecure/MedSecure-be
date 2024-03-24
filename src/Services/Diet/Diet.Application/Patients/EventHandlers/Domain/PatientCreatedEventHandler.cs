@@ -1,5 +1,5 @@
 ﻿
-namespace Diet.Application.Patients.EventHandlers;
+namespace Diet.Application.Patients.EventHandlers.Domain;
 
 public class PatientCreatedEventHandler(ILogger<PatientCreatedEventHandler> logger)
     : INotificationHandler<PatientCreatedEvent>

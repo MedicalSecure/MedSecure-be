@@ -1,5 +1,5 @@
 ﻿
-namespace Waste.Application.Wastes.Commands.UpdateWaste;
+namespace Waste.Application.Waste.Commands.UpdateWaste;
 
 public class UpdateWasteHandler(IApplicationDbContext dbContext) : ICommandHandler<UpdateWasteCommand, UpdateWasteResult>
 {

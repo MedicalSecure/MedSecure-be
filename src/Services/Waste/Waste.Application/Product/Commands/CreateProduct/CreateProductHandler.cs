@@ -16,9 +16,9 @@ public class CreateRoomHandler(IApplicationDbContext dbContext) : ICommandHandle
         return new CreateProductResult(product.Id.Value);
     }
 
-    private static Product CreateNewProduct(ProductDto productDto)
+    private static Domain.Models.Product CreateNewProduct(ProductDto productDto)
     {
-        var newProduct = Product.Create(
+        var newProduct = Domain.Models.Product.Create(
          id: ProductId.Of(Guid.NewGuid()),
          name: productDto.Name,
          weight: productDto.Weight);

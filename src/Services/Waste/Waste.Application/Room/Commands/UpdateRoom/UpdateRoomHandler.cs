@@ -23,7 +23,7 @@ public class UpdateRoomHandler(IApplicationDbContext dbContext) : ICommandHandle
 
         return new UpdateRoomResult(true);
     }
-    private static void UpdateRoomWithNewValues(Room room, RoomDto roomDto)
+    private static void UpdateRoomWithNewValues(Domain.Models.Room room, RoomDto roomDto)
     {
         room.Update(roomDto.Name, roomDto.Description);
     }

@@ -1,5 +1,5 @@
 ﻿
-namespace Diet.Application.Diets.Queries.GetFoodByNameQuery;
+namespace Diet.Application.Foods.Queries.GetFoodByNameQuery;
 
 public class GetFoodByNameHandler(IApplicationDbContext dbContext) : IQueryHandler<GetFoodByNameQuery, GetFoodByNameResult>
 {

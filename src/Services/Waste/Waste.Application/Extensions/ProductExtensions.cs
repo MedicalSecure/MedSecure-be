@@ -3,7 +3,7 @@ namespace Waste.Application.Extensions;
 
 public static partial class ProductExtensions
 {
-    public static IEnumerable<ProductDto> ToProductDto(this List<Product> products)
+    public static IEnumerable<ProductDto> ToProductDto(this List<Domain.Models.Product> products)
     {
         return products.Select(p => new ProductDto(
             Id: p.Id.Value,

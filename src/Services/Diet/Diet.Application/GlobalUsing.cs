@@ -17,3 +17,7 @@ global using BuildingBlocks.Pagination;
 global using Diet.Application.Extensions;
 global using BuildingBlocks.Behaviors;
 global using Microsoft.Extensions.Configuration;
+global using BuildingBlocks.Messaging.MassTransit;
+global using BuildingBlocks.Messaging.Events;
+global using Mapster;
+global using MassTransit;

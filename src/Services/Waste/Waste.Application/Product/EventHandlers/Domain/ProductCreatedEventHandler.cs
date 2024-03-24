@@ -1,5 +1,5 @@
 ﻿
-namespace Waste.Application.Products.EventHandlers;
+namespace Waste.Application.Product.EventHandlers.Domain;
 
 public class ProductCreatedEventHandler(ILogger<ProductCreatedEventHandler> logger)
     : INotificationHandler<ProductCreatedEvent>
