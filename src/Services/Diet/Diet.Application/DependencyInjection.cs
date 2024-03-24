@@ -1,11 +1,11 @@
-﻿
-using BuildingBlocks.Behaviors;
-
-namespace Diet.Application;
+﻿namespace Diet.Application;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
     {
         services.AddMediatR(config =>
         {

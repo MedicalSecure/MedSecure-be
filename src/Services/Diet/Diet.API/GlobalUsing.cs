@@ -19,3 +19,6 @@ global using Diet.API;
 global using Diet.Application;
 global using Diet.Infrastructure;
 global using Diet.Infrastructure.Data.Extensions;
+global using BuildingBlocks.Exceptions;
+global using HealthChecks.UI.Client;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;

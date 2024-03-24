@@ -16,3 +16,6 @@ global using Waste.API;
 global using Waste.Application;
 global using Waste.Infrastructure;
 global using Waste.Infrastructure.Data.Extensions;
+global using BuildingBlocks.Exceptions;
+global using HealthChecks.UI.Client;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;

@@ -8,7 +8,7 @@ public class UpdatePatientCommandValidator : AbstractValidator<UpdatePatientComm
 {
     public UpdatePatientCommandValidator()
     {
-        RuleFor(x => x.Patient.Id).NotEmpty().WithMessage("DietId is required");
+        RuleFor(x => x.Patient.Id).NotEmpty().WithMessage("PatientId is required");
         RuleFor(x => x.Patient.FirstName).NotEmpty().WithMessage("Patient.FirstName is required");
         RuleFor(x => x.Patient.LastName).NotEmpty().WithMessage("Patient.LastName is required");
     }

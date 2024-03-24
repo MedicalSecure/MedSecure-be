@@ -1,18 +1,20 @@
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services
-    .AddApplicationServices()
+builder
+    .Services.AddApplicationServices(builder.Configuration)
     .AddInfrastructureServices(builder.Configuration)
-    .AddApiServices();
+    .AddApiServices(builder.Configuration);
+
+//Async Communication Services
+//builder.Services.AddMessageBroker(builder.Configuration);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipline.
 app.UseApiServices();
 
-if(app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     await app.InitialiseDatabaseAsync();
 }
