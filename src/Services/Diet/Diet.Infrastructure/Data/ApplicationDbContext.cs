@@ -9,8 +9,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Meal> Meals => Set<Meal>();
 
-    public DbSet<MealItem> MealItems => Set<MealItem>();
-
     public DbSet<Food> Foods => Set<Food>();
 
     public DbSet<Patient> Patients => Set<Patient>();

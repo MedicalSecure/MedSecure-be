@@ -8,8 +8,6 @@ public interface IApplicationDbContext
 
     DbSet<Meal> Meals { get; }
 
-    DbSet<MealItem> MealItems { get; }
-
     DbSet<Food> Foods { get; }
 
     DbSet<Patient> Patients { get; }

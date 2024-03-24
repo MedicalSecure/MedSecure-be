@@ -12,7 +12,7 @@ public class GetPatientsHandler(IApplicationDbContext dbContext)
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var totalCount = await dbContext.Diets.LongCountAsync(cancellationToken);
+        var totalCount = await dbContext.Patients.LongCountAsync(cancellationToken);
 
         var patients = await dbContext.Patients
                        .OrderBy(o => o.DateOfBirth)

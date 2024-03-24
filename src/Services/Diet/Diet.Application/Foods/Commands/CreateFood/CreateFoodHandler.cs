@@ -1,4 +1,8 @@
-﻿namespace Diet.Application.Diets.Commands.CreateFood;
+﻿using Diet.Application.Dtos;
+using Diet.Domain.Enums;
+using Diet.Domain.ValueObjects;
+
+namespace Diet.Application.Diets.Commands.CreateFood;
 
 public class CreateFoodHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateFoodCommand, CreateFoodResult>
 {
@@ -20,9 +24,11 @@ public class CreateFoodHandler(IApplicationDbContext dbContext) : ICommandHandle
         //FoodId id, string name, decimal calories, string description
         var newFood = Food.Create(
             id: FoodId.Of(Guid.NewGuid()),
+            mealId: MealId.Of(foodDto.MealId),
             name: foodDto.Name,
             calories: foodDto.Calories,
-            description: foodDto.Description
+            description: foodDto.Description,
+            foodCategory: foodDto.FoodCategory
             );
 
         return newFood;

@@ -6,7 +6,7 @@ namespace Diet.API.Endpoints.Patient
     //- Retrieves the data and returns it.
 
     public record GetPatientByNameRequest(string PatientName);
-    public record GetPatientByNameResponse(PatientDto Patient);
+    public record GetPatientByNameResponse(IEnumerable<PatientDto> Patients);
 
     public class GetPatientByName : ICarterModule
     {
@@ -18,7 +18,7 @@ namespace Diet.API.Endpoints.Patient
 
                 var response = result.Adapt<GetPatientByNameResponse>();
 
-                if (response.Patient != null)
+                if (response.Patients != null)
                 {
                     return Results.Ok(response);
                 }

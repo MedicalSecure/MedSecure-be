@@ -1,26 +1,33 @@
 ﻿
-namespace Diet.Application.Extensions;
-
-public static partial class DietExtensions
+namespace Diet.Application.Extensions
 {
-    public static IEnumerable<DietDto> ToDietDto(this IEnumerable<Domain.Models.Diet> diets)
+    public static partial class DietExtensions
     {
-        return diets.Select(d => new DietDto(
-         Id: d.Id.Value,
-                 PatientId: d.PatientId.Value,
-                 DietType: d.DietType,
-                 StartDate: d.StartDate,
-                 EndDate: d.EndDate,
-                 Meals: d.Meals.Select(m => new MealDto(
-                     m.Id.Value,
-                     m.DietId.Value,
-                     m.Name,
-                     m.MealType,
-                     m.MealItems.Select(mi => new MealItemDto(
-                         Id: mi.Id.Value,
-                         MealId: mi.MealId.Value,
-                         FoodId: mi.FoodId.Value,
-                         MealCategory: mi.MealCategory)).ToList()
-                 )).ToList()));
+        public static IEnumerable<DietDto> ToDietDto(this IEnumerable<Domain.Models.Diet> diets)
+        {
+            return diets.OrderBy(d => d.DietType)
+                        .Select(d => new DietDto(
+                            Id: d.Id.Value,
+                            PatientId: d.PatientId.Value,
+                            DietType: d.DietType,
+                            StartDate: d.StartDate,
+                            EndDate: d.EndDate,
+                            Meals: d.Meals.OrderBy(m => m.MealType)
+                                         .Select(m => new MealDto(
+                                             Id: m.Id.Value,
+                                             DietId: m.DietId.Value,
+                                             Name: m.Name,
+                                             MealType: m.MealType,
+                                             Foods: m.Foods.Select(mi => new FoodDto(
+                                                 Id: mi.Id.Value,
+                                                 MealId: mi.MealId.Value,
+                                                 Name: mi.Name,
+                                                 Calories: mi.Calories,
+                                                 Description: mi.Description,
+                                                 FoodCategory: mi.FoodCategory
+                                             )).ToList()
+                                         )).ToList()
+                        ));
+        }
     }
 }

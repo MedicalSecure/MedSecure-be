@@ -9,7 +9,7 @@ public static partial class PatientExtensions
             Id: p.Id.Value,
             FirstName: p.FirstName,
             LastName: p.LastName,
-            DateOfBirth: p.DateOfBirth,
+            DateOfBirth: p.DateOfBirth.Date,
             Gender: p.Gender));
     }
 }

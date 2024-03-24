@@ -26,6 +26,6 @@ public class UpdateFoodHandler(IApplicationDbContext dbContext) : ICommandHandle
 
     private static void UpdateFoodWithNewValues(Food food, FoodDto foodDto)
     {
-        food.Update(foodDto.Name, foodDto.Calories, foodDto.Description);
+        food.Update(foodDto.Name, MealId.Of(foodDto.MealId) , foodDto.Calories, foodDto.Description, foodDto.FoodCategory);
     }
 }

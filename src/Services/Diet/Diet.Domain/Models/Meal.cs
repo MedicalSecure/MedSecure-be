@@ -3,23 +3,11 @@ namespace Diet.Domain.Models;
 
 public class Meal : Aggregate<MealId>
 {
-    private readonly List<MealItem> _mealItems = new();
-    public IReadOnlyList<MealItem> MealItems => _mealItems.AsReadOnly();
+    private readonly List<Food> _foods = new();
+    public IReadOnlyList<Food> Foods => _foods.AsReadOnly();
     public DietId DietId { get; set; } = default!;
     public string Name { get; set; } = default!;
     public MealType MealType { get; set; } = MealType.Breakfast;
-
-    public Meal(DietId dietId, string name, MealType mealType)
-    {
-        Id = MealId.Of(Guid.NewGuid());
-        DietId = dietId;
-        Name = name;
-        MealType = mealType;
-    }
-
-    public Meal()
-    {
-    }
 
     public static Meal Create(
         MealId id,
@@ -33,7 +21,7 @@ public class Meal : Aggregate<MealId>
             DietId = dietId,
             Name = name,
             MealType = mealType,
-    };
+        };
 
         meal.AddDomainEvent(new MealCreatedEvent(meal));
 
@@ -52,18 +40,20 @@ public class Meal : Aggregate<MealId>
         AddDomainEvent(new MealUpdatedEvent(this));
     }
 
-    public void AddItem(MealId mealId, MealCategory mealCategory, FoodId foodId)
+    public void AddFood(Food food)
     {
-        var mealItem = new MealItem(mealId, foodId, mealCategory);
-        _mealItems.Add(mealItem);
+        if (food == null)
+            throw new ArgumentNullException(nameof(food));
+
+        _foods.Add(food);
     }
 
-    public void RemoveItem(FoodId foodId)
+    public void RemoveFood(FoodId foodId)
     {
-        var mealItem = _mealItems.FirstOrDefault(p => p.FoodId == foodId);
-        if (mealItem != null)
+        var mealFood = _foods.FirstOrDefault(p => p.Id == foodId);
+        if (mealFood != null)
         {
-            _mealItems.Remove(mealItem);
+            _foods.Remove(mealFood);
         }
     }
 }

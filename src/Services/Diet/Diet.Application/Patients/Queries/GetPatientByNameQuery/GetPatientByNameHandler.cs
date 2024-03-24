@@ -7,6 +7,7 @@ public class GetPatientByNameHandler(IApplicationDbContext dbContext) : IQueryHa
     {
         // get patients by Id using dbContext
         // return result
+
         var patients = await dbContext.Patients
              .AsNoTracking()
              .Where(o => o.FirstName.Contains(query.name) || o.LastName.Contains(query.name))

@@ -16,11 +16,11 @@ public class GetDietsHandler(IApplicationDbContext dbContext)
 
         var diets = await dbContext.Diets
                        .Include(o => o.Meals)
-                       .ThenInclude(m => m.MealItems)
+                       .ThenInclude(f=> f.Foods)
                        .OrderBy(o => o.PatientId)
                        .Skip(pageSize * pageIndex)
                        .Take(pageSize)
-        .ToListAsync(cancellationToken);
+                       .ToListAsync(cancellationToken);
 
         return new GetDietsResult(
             new PaginatedResult<DietDto>(

@@ -1,4 +1,5 @@
-﻿namespace Diet.Infrastructure.Data.Configurations;
+﻿
+namespace Diet.Infrastructure.Data.Configurations;
 
 public class FoodConfiguration : IEntityTypeConfiguration<Food>
 {
@@ -7,8 +8,12 @@ public class FoodConfiguration : IEntityTypeConfiguration<Food>
         builder.HasKey(w => w.Id);
 
         builder.Property(w => w.Id)
-               .HasConversion(mealId => mealId.Value,
+               .HasConversion(foodId => foodId.Value,
                               dbId => FoodId.Of(dbId));
+
+        builder.HasOne<Meal>()
+               .WithMany(d => d.Foods)
+               .HasForeignKey(w => w.MealId);
 
         builder.Property(wi => wi.Name).HasMaxLength(255)
                .IsRequired();

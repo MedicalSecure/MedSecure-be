@@ -7,7 +7,7 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
         builder.HasKey(mi => mi.Id);
 
         builder.Property(mi => mi.Id)
-                 .HasConversion(mealItemId => mealItemId.Value,
+                 .HasConversion(mealFoodId => mealFoodId.Value,
                                 dbId => PatientId.Of(dbId));
 
         builder.Property(wi => wi.FirstName).HasMaxLength(50)
