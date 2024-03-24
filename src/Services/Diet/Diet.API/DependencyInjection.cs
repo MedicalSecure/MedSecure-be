@@ -1,4 +1,5 @@
-﻿namespace Diet.API;
+﻿
+namespace Diet.API;
 
 public static class DependencyInjection
 {

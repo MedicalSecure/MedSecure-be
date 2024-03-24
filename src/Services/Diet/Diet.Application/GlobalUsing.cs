@@ -15,3 +15,5 @@ global using MediatR;
 global using Microsoft.Extensions.Logging;
 global using BuildingBlocks.Pagination;
 global using Diet.Application.Extensions;
+global using BuildingBlocks.Behaviors;
+global using Microsoft.Extensions.Configuration;
