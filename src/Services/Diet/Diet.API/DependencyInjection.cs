@@ -17,6 +17,10 @@ public static class DependencyInjection
         // Add health checks for SQL Server database using the provided connection string
         services.AddHealthChecks().AddSqlServer(configuration.GetConnectionString("Database")!);
 
+        // Add support for generating OpenAPI documentation
+        services.AddEndpointsApiExplorer(); // Adds API explorer services to generate OpenAPI documentation
+        services.AddSwaggerGen(); // Adds Swagger generation services to generate OpenAPI documentation
+
         // Return the modified service collection
         return services;
     }
