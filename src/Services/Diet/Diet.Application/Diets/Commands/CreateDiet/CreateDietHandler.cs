@@ -1,21 +1,29 @@
 ﻿
+using MediatR;
+using Microsoft.FeatureManagement;
+
 namespace Diet.Application.Diets.Commands.CreateDiet;
 
-public class CreateDietHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateDietCommand, CreateDietResult>
+public class CreateDietHandler(IPublishEndpoint publishEndpoint, IApplicationDbContext dbContext, IFeatureManager featureManager) : ICommandHandler<CreateDietCommand, CreateDietResult>
 {
     public async Task<CreateDietResult> Handle(CreateDietCommand command, CancellationToken cancellationToken)
     {
         // create Diet entity from command object
-        // save to database
-        // return result
         var diet = CreateNewDiet(command.Diet);
 
+        // save to database
         dbContext.Diets.Add(diet);
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        //var eventMessage = command.Diet.Adapt<DietPlanSharedEvent>();
-        //await publishEndpoint.Publish(eventMessage, cancellationToken);
+        // Check if the feature for using message broker is enabled
+        if (await featureManager.IsEnabledAsync("DietPlanSharedFulfillment"))
+        {
+            // Adapt the command.Diet object to a DietPlanSharedEvent and publish it
+            var eventMessage = command.Diet.Adapt<DietPlanSharedEvent>();
+            await publishEndpoint.Publish(eventMessage, cancellationToken);
+        }
 
+        // return result containing the ID of the created diet
         return new CreateDietResult(diet.Id.Value);
     }
 

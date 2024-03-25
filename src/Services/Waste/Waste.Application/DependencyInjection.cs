@@ -11,9 +11,10 @@ public static class DependencyInjection
             config.AddOpenBehavior(typeof(ValidationBehavior<,>));
             config.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
-        
-        //services.AddFeatureManagement();
-        //services.AddMessageBroker(configuration, Assembly.GetExecutingAssembly());
+
+        //Async Communication Services
+        services.AddFeatureManagement();
+        services.AddMessageBroker(configuration, Assembly.GetExecutingAssembly());
 
         return services;
     }

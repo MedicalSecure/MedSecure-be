@@ -6,7 +6,7 @@ namespace Diet.API.Endpoints.Diet;
 //- Uses MediatR to send the command to the corresponding handler.
 //- Returns a response with the created diet's ID.
 
-public record CreateDietRequest(DietDto Order);
+public record CreateDietRequest(DietDto Diet);
 public record CreateDietResponse(Guid Id);
 
 public class CreateDiet : ICarterModule

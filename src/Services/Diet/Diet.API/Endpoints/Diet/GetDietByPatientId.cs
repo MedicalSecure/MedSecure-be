@@ -6,7 +6,7 @@ namespace Diet.API.Endpoints.Diet;
 //- Returns the list of diets for that Patient.
 
 //public record GetDietByPatientIdRequest(Guid PatientId);
-public record GetDietByPatientIdResponse(IEnumerable<DietDto> Orders);
+public record GetDietByPatientIdResponse(IEnumerable<DietDto> Diets);
 
 public class GetDietByPatientId : ICarterModule
 {

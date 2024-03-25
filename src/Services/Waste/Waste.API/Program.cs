@@ -7,9 +7,6 @@ builder
     .AddInfrastructureServices(builder.Configuration)
     .AddApiServices(builder.Configuration);
 
-//Async Communication Services
-//builder.Services.AddMessageBroker(builder.Configuration);
-
 var app = builder.Build();
 
 // Configure the HTTP request pipline.
