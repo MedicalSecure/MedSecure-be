@@ -5,7 +5,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "diet.api": "StartDebugging",
-        "waste.api": "StartDebugging"
+        "waste.api": "StartDebugging",
+        "yarpapigateway": "StartDebugging"
       }
     }
   }

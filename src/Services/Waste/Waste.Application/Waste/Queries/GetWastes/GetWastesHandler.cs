@@ -16,7 +16,7 @@ public class GetWastesHandler(IApplicationDbContext dbContext)
 
         var wastes = await dbContext.Wastes
                        .Include(o => o.WasteItems)
-                       .OrderBy(o => o.RoomId.Value)
+                       .OrderBy(o => o.RoomId)
                        .Skip(pageSize * pageIndex)
                        .Take(pageSize)
                        .ToListAsync(cancellationToken);
