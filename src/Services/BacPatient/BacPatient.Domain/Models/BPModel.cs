@@ -44,7 +44,6 @@ namespace BacPatient.Domain.Models
                     return bp;
                 }
         public void Update(
-         BPModelId id,
             PatientId patientId,
             RoomId roomId,
             UnitCareId unitCareId,
@@ -66,7 +65,13 @@ namespace BacPatient.Domain.Models
 
             AddDomainEvent(new BPUpdatedEvent(this));
         }
+        public void AddMedicne(Medicine med)
+        {
+            if (med == null)
+                throw new ArgumentNullException(nameof(med));
 
+            _medicines.Add(med);
+        }
 
     }
 }

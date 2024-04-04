@@ -14,5 +14,30 @@ namespace BacPatient.Domain.Models
 
         private readonly List<Posology> _posologies = new();
         public IReadOnlyList<Posology> Posologies => _posologies.AsReadOnly();
+        public static Medicine Create(
+           MedicineId id,
+           string name,
+           string forme,
+           string dose,
+           string unit,
+           DateTime dateExp,
+           int stock,
+           List<string> note
+       )
+        {
+            var medicine = new Medicine()
+            {
+                Id = id,
+                name = name,
+                forme = forme,
+                dose = dose,
+                unit = unit,
+                dateExp = dateExp,
+                stock = stock,
+                note = note
+            };
+
+            return medicine;
+        }
     }
 }
