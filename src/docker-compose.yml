@@ -20,10 +20,14 @@ services:
       context: .
       dockerfile: Services/Waste/Waste.API/Dockerfile
 
+  visit.api:
+    image: ${DOCKER_REGISTRY-}visitapi
+    build:
+      context: .
+      dockerfile: Services/Visit/Visit.API/Dockerfile
 
   yarpapigateway:
     image: ${DOCKER_REGISTRY-}yarpapigateway
     build:
       context: .
       dockerfile: ApiGateways/YarpApiGateway/Dockerfile
-
