@@ -1,7 +1,7 @@
 ﻿
 using BacPatient.Domain.Enums;
 
-namespace Diet.Infrastructure.Data.Configurations;
+namespace BacPatient.Infrastructure.Data.Configurations;
 
 public class BPModelConfiguration : IEntityTypeConfiguration<BPModel>
 {
@@ -12,10 +12,20 @@ public class BPModelConfiguration : IEntityTypeConfiguration<BPModel>
         builder.Property(b => b.Id)
                .HasConversion(bpModelid => bpModelid.Value,
                               dbId => BPModelId.Of(dbId));
+        builder.Property(b => b.PatientId)
+               .HasConversion(patientid => patientid.Value,
+                              patientId => PatientId.Of(patientId));
+        builder.Property(b => b.RoomId)
+              .HasConversion(roomid => roomid.Value,
+                             roomId => RoomId.Of(roomId)); builder.Property(b => b.PatientId);
+        builder.Property(b => b.UnitCareId)
+             .HasConversion(unitid => unitid.Value,
+                            unitId => UnitCareId.Of(unitId)); builder.Property(b => b.PatientId);
 
         builder.HasOne<Patient>()
               .WithMany()
-              .HasForeignKey(w => w.PatientId);
+              .HasForeignKey(w =>  w.PatientId);
+
         builder.HasOne<UnitCare>()
              .WithMany()
              .HasForeignKey(w => w.UnitCareId);
@@ -25,7 +35,7 @@ public class BPModelConfiguration : IEntityTypeConfiguration<BPModel>
         builder.Property(d => d.status).
             HasConversion(
             dt => dt.ToString(),
-            dietType => (StatusBP)Enum.Parse(typeof(StatusBP), dietType));
+            status => (StatusBP)Enum.Parse(typeof(StatusBP), status));
 
         builder.Property(wi => wi.bed)
                .IsRequired();

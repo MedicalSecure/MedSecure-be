@@ -1,5 +1,7 @@
 ﻿
 
+using Microsoft.VisualBasic.FileIO;
+
 namespace BacPatient.Infrastructure.Data.Extensions
 {
     internal class InitialData
@@ -10,7 +12,7 @@ namespace BacPatient.Infrastructure.Data.Extensions
 
         private static readonly string unitCareId = "7506213d-3b5f-4498-b35c-9169a600ff10";
 
-        public static IEnumerable<BacPatient.Domain.Models.BPModel> bPModels
+        public static IEnumerable<BPModel> BacPatients
         {
             get
             {
@@ -38,6 +40,34 @@ namespace BacPatient.Infrastructure.Data.Extensions
                 catch (Exception ex)
                 {
                     throw new EntityCreationException(nameof(BPModel), ex.Message);
+                }
+            }
+        }
+        public static IEnumerable<Patient> Patients
+        {
+            get
+            {
+                try
+                {
+                    // Create the diet all
+                    var bp = Patient.Create(
+                        id: PatientId.Of(Guid.NewGuid()),
+                        name: "mehrez",
+                        dateOfBirth:DateTime.Now ,
+                        gender:"male" ,
+                        age:1,
+                        height:180,
+                        weight:75,
+                        activityStatus: "blabla",
+                        allergies: ["blabla"],
+                        riskFactor: "blabla",
+                        familyHistory: "blabla") ;
+
+                    return new List<Patient> { bp };
+                }
+                catch (Exception ex)
+                {
+                    throw new EntityCreationException(nameof(Patient), ex.Message);
                 }
             }
         }

@@ -4,6 +4,7 @@ namespace BacPatient.Domain.ValueObjects
     public record  MedicineId
     {
         public Guid Value { get; }
+        private MedicineId() { }
 
         private MedicineId(Guid value) => Value = value;
 

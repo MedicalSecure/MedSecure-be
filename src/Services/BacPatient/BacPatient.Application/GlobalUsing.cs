@@ -13,6 +13,7 @@ global using BacPatient.Domain.Models;
 global using BacPatient.Domain.ValueObjects;
 global using FluentValidation;
 global using Mapster;
+global using BuildingBlocks.Messaging.MassTransit;
 global using MassTransit;
 global using MediatR;
 global using Microsoft.EntityFrameworkCore;

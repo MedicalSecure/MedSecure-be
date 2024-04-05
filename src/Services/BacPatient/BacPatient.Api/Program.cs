@@ -1,25 +1,32 @@
+// Create a web application builder
+using BacPatient.API;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
+builder
+    .Services
+    .AddApplicationServices(builder.Configuration)  // Add application services layer 
+    .AddInfrastructureServices(builder.Configuration)  // Add infrastructure services layer 
+    .AddApiServices(builder.Configuration);  // Add API services layer 
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+var app = builder.Build();  // Build the application
 
-var app = builder.Build();
+// Configure the HTTP request pipeline
+app.UseApiServices();  // Configure API-related middleware
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    // Configure Swagger for API documentation in development environment
+    app.UseSwagger();  // Enable Swagger middleware
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "BacPatient API V1");  // Configure Swagger UI endpoint
+    });
+
+    // Initialize the database asynchronously with mock data 
+    await app.InitialiseDatabaseAsync();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
+// Start the application
 app.Run();

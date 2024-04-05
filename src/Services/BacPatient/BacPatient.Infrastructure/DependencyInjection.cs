@@ -1,5 +1,5 @@
 ﻿
-namespace Diet.Infrastructure;
+namespace BacPatient.Infrastructure;
 
 public static class DependencyInjection
 {

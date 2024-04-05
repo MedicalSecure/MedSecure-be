@@ -6,7 +6,7 @@ namespace BacPatient.Domain.ValueObjects
         public Guid Value { get; }
 
         private RoomId(Guid value) => Value = value;
-
+        private RoomId() { }
         public static RoomId Of(Guid value)
         {
             ArgumentNullException.ThrowIfNull(value);

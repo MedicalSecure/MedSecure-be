@@ -9,7 +9,7 @@ namespace BacPatient.Domain.ValueObjects
     public record PoslogyId
     {
         public Guid Value { get; }
-
+        private PoslogyId() { }
         private PoslogyId(Guid value) => Value = value;
 
         public static PoslogyId Of(Guid value)

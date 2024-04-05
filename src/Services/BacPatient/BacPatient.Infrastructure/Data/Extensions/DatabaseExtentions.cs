@@ -17,17 +17,27 @@ public static class DatabaseExtentions
     private static async Task SeedAsync(ApplicationDbContext context)
     {
         // Clear existing data
+        // Clear existing data
         await ClearDataAsync(context);
-        await SeedDietWithMealDetailsAsync(context);
+
+        await SeedPatientAsync(context);
+        await SeedBacPatientAsync(context);
     }
 
 
-
-    private static async Task SeedDietWithMealDetailsAsync(ApplicationDbContext context)
+    private static async Task SeedPatientAsync(ApplicationDbContext context)
+    {
+        if (!await context.Patients.AnyAsync())
+        {
+            await context.Patients.AddRangeAsync(InitialData.Patients);
+            await context.SaveChangesAsync();
+        }
+    }
+    private static async Task SeedBacPatientAsync(ApplicationDbContext context)
     {
         if (!context.BacPatients.Any())
         {
-            await context.BacPatients.AddRangeAsync(InitialData.bPModels);
+            await context.BacPatients.AddRangeAsync(InitialData.BacPatients);
             await context.SaveChangesAsync();
         }
     }
@@ -36,8 +46,8 @@ public static class DatabaseExtentions
     {
         // Clear all data from tables
         context.BacPatients.RemoveRange(context.BacPatients);
- 
 
+        context.Patients.RemoveRange(context.Patients);
         // Save changes to the database
         await context.SaveChangesAsync();
     }
