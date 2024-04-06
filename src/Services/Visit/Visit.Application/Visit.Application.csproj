@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Visit.Domain\Visit.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Patients\Commands\DeletePatient\" />
+  </ItemGroup>
+
 </Project>

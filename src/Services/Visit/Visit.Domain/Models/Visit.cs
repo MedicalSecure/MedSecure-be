@@ -7,7 +7,7 @@ public class Visit : Aggregate<VisitId>
 {
     public DateTime StartDate { get; set; }=default!; // Date de début de la visite
     public DateTime EndDate { get; set; } = default!; // Date de fin de la visite
-    public List<PatientId> PatientId { get; private set; } = new List<PatientId>(); // Liste des ID des patients
+    public PatientId PatientId { get; private set; } = default!; // Liste des ID des patients
     public DoctorId DoctorId { get; private set; } = default!; // ID du médecin
     public string Title { get; private set; } = default!;  // Titre de la visite
     public TypeVisit TypeVisit { get; private set; } = default!; // Type de visite
@@ -17,7 +17,7 @@ public class Visit : Aggregate<VisitId>
     public string Availability { get; private set; } = default!; // Disponibilité de la visite
 
     // create new visit
-    public static Visit CreateVisit(VisitId id ,DateTime startDate, DateTime endDate, List<PatientId> patientId, DoctorId doctorId, string title, TypeVisit typeVisit, LocationVisit locationVisit, string duration, string description, string availability)
+    public static Visit CreateVisit(VisitId id ,DateTime startDate, DateTime endDate, PatientId patientId, DoctorId doctorId, string title, TypeVisit typeVisit, LocationVisit locationVisit, string duration, string description, string availability)
         {
 
         var visit = new Visit ()
@@ -39,7 +39,7 @@ public class Visit : Aggregate<VisitId>
 
     }
     // updated visit
-    public void  UpdateVisit(DateTime startDate, DateTime endDate, List<PatientId> patientId, string title, TypeVisit typeVisit, LocationVisit locationVisit, string duration, string description, string availability)
+    public void  UpdateVisit(DateTime startDate, DateTime endDate, PatientId patientId, string title, TypeVisit typeVisit, LocationVisit locationVisit, string duration, string description, string availability)
     {
 
 

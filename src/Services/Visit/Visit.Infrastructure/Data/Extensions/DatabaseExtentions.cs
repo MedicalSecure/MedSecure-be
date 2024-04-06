@@ -17,19 +17,16 @@ public static class DatabaseExtentions
     {
         // Clear existing data
         await ClearDataAsync(context);
-
+        await SeedPatientAsync(context);
         await SeedVisitDetailsAsync(context);
     }
-
-    // Clear existing data
-    private static async Task ClearDataAsync(ApplicationDbContext context)
+    private static async Task SeedPatientAsync(ApplicationDbContext context)
     {
-        // Clear all data from tables
-       
-        context.Visits.RemoveRange(context.Visits);
-     
-        // Save changes to the database
-        await context.SaveChangesAsync();
+        if (!await context.Patients.AnyAsync())
+        {
+            await context.Patients.AddRangeAsync(InitialData.Patients);
+            await context.SaveChangesAsync();
+        }
     }
 
     private static async Task SeedVisitDetailsAsync(ApplicationDbContext context)
@@ -40,5 +37,18 @@ public static class DatabaseExtentions
             await context.SaveChangesAsync();
         }
     }
+
+    // Clear existing data
+    private static async Task ClearDataAsync(ApplicationDbContext context)
+    {
+        // Clear all data from tables
+        context.Patients.RemoveRange(context.Patients);
+        context.Visits.RemoveRange(context.Visits);
+     
+        // Save changes to the database
+        await context.SaveChangesAsync();
+    }
+
+  
 
 }

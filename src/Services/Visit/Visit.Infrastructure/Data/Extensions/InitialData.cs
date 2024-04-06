@@ -8,8 +8,34 @@ namespace Visit.Infrastructure.Data.Extensions;
 
 internal class InitialData
 {
-    private static readonly string patientId = "5485125-chddf-565d-b35c-4853247ff10";
-    private static readonly string doctorId = "458888-6584-565d-b35c-859995fff";
+    private static readonly string patientId = "7506213d-3b5f-4498-b35c-9169a600ff10";
+    private static readonly string doctorId = "7506213d-3b5f-4498-b35c-9169a600ff10";
+
+
+
+    public static IEnumerable<Patient> Patients
+    {
+        get
+        {
+            try
+            {
+                return new List<Patient>
+                    {
+                        // Create Patient instances
+                        Patient.Create(
+                            id: PatientId.Of(new Guid(patientId)),
+                            firstName: "Joury",
+                            lastName: "JJ",
+                            dateOfBirth: new DateTime(2002, 02, 22),
+                            gender: Gender.Female),
+                    };
+            }
+            catch (Exception ex)
+            {
+                throw new EntityCreationException(nameof(Patient), ex.Message);
+            }
+        }
+    }
 
     public static IEnumerable<Domain.Models.Visit> Visits
     {
@@ -23,7 +49,7 @@ internal class InitialData
                           id: VisitId.Of(Guid.NewGuid()),
                           startDate: DateTime.Now,
                           endDate: DateTime.Now.AddHours(1),
-                          patientId: new List<PatientId> { PatientId.Of(new Guid(patientId)) },
+                          patientId:PatientId.Of(new Guid(patientId)) ,
                           doctorId: DoctorId.Of(new Guid(doctorId)),
                           title: "Visite de suivi",
                           typeVisit: TypeVisit.FollowUp,
@@ -37,7 +63,7 @@ internal class InitialData
             }
             catch (Exception ex)
             {
-                throw new EntityCreationException(nameof(Visit), ex.Message);
+                throw new EntityCreationException(nameof(Domain.Models.Visit), ex.Message);
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿global using Visit.Application.Data;
-global using Visit.Application.Doctors;
 global using Visit.Application.Dtos;
 global using Visit.Application.Exceptions;
 global using Visit.Application.Extensions;

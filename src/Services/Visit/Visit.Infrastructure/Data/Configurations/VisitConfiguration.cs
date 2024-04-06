@@ -37,15 +37,11 @@ public class VisitConfiguration :IEntityTypeConfiguration<Domain.Models.Visit>
         //builder.HasMany(i => i.PatientId)
         //       .WithMany();
 
-        builder.Property(i => i.PatientId)
-            .IsRequired()
-            .HasConversion(
-                v => string.Join(',', v.Select(p => p.Value)),
-                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                      .Select(p => PatientId.Of(Guid.Parse(p)))
-                      .ToList()
-            );
-   
+
+        builder.HasOne<Patient>()
+              .WithMany()
+              .HasForeignKey(w => w.PatientId);
+
         //configuration proprety
         builder.Property(i => i.StartDate).IsRequired();
         builder.Property(i => i.EndDate).IsRequired();
