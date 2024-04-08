@@ -9,10 +9,7 @@
   <ItemGroup>
     <Folder Include="Events\" />
     <Folder Include="ValueObjects\" />
-    <Folder Include="Models\" />
-    <Folder Include="Exceptions\" />
     <Folder Include="Enums\" />
-    <Folder Include="Abstractions\" />
   </ItemGroup>
 
   <ItemGroup>
