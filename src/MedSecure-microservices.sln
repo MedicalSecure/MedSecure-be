@@ -39,13 +39,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YarpApiGateway", "ApiGatewa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prescription", "Prescription", "{7632429F-F617-4E1D-B374-9D13F4DD52BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prescription.API", "Services\Prescription\Prescription.API\Prescription.API.csproj", "{1C61DB4D-A99C-46EE-812A-45B91E320265}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prescription.API", "Services\Prescription\Prescription.API\Prescription.API.csproj", "{1C61DB4D-A99C-46EE-812A-45B91E320265}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prescription.Application", "Services\Prescription\Prescription.Application\Prescription.Application.csproj", "{BECCFE4A-5326-49A6-ACAD-DD8D19990974}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prescription.Application", "Services\Prescription\Prescription.Application\Prescription.Application.csproj", "{BECCFE4A-5326-49A6-ACAD-DD8D19990974}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prescription.Domain", "Services\Prescription\Prescription.Domain\Prescription.Domain.csproj", "{86920683-38A6-45B1-862B-3274C45BB442}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prescription.Domain", "Services\Prescription\Prescription.Domain\Prescription.Domain.csproj", "{86920683-38A6-45B1-862B-3274C45BB442}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prescription.Infrastructure", "Services\Prescription\Prescription.Infrastructure\Prescription.Infrastructure.csproj", "{E5E1D194-2659-4271-8467-FD91D7DED06B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prescription.Infrastructure", "Services\Prescription\Prescription.Infrastructure\Prescription.Infrastructure.csproj", "{E5E1D194-2659-4271-8467-FD91D7DED06B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
