@@ -6,7 +6,7 @@
 //- Returns a response with the created patient's ID.
 
 public record CreatePatientRequest(PatientDto Patient);
-public record CreatePatientResponse(string Id);
+public record CreatePatientResponse(Guid Id);
 
 public class CreatePatient : ICarterModule
 {

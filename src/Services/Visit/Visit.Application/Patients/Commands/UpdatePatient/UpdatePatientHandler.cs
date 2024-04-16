@@ -12,6 +12,9 @@ public class UpdatePatientHandler(IApplicationDbContext dbContext) : ICommandHan
         // Update Patient entity from command object
         // save to database
         // return result
+
+        //errur
+
         var patientId = PatientId.Of(command.Patient.Id);
         var patient = await dbContext.Patients.FindAsync([patientId], cancellationToken);
 

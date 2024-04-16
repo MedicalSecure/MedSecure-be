@@ -13,7 +13,6 @@ public class CreatePatientHandler(IApplicationDbContext dbContext) : ICommandHan
         // save to database
         // return result
         var patient = CreateNewPatient(command.Patient);
-
         dbContext.Patients.Add(patient);
         await dbContext.SaveChangesAsync(cancellationToken);
 
@@ -22,12 +21,17 @@ public class CreatePatientHandler(IApplicationDbContext dbContext) : ICommandHan
 
     private static Patient CreateNewPatient(PatientDto patientDto)
     {
+        if (patientDto == null)
+        {
+            throw new ArgumentNullException(nameof(patientDto), "PatientDto cannot be null");
+        }
+
         var newPatient = Patient.Create(
             id: PatientId.Of(Guid.NewGuid()),
             firstName: patientDto.FirstName,
             lastName: patientDto.LastName,
             dateOfBirth: patientDto.DateOfBirth,
-            gender: patientDto.Gender);
+            gender: patientDto.Gender );
 
         return newPatient;
     }

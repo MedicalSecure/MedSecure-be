@@ -39,13 +39,14 @@ public class Visit : Aggregate<VisitId>
 
     }
     // updated visit
-    public void  UpdateVisit(DateTime startDate, DateTime endDate, PatientId patientId, string title, TypeVisit typeVisit, LocationVisit locationVisit, string duration, string description, string availability)
+    public void  UpdateVisit(DateTime startDate, DateTime endDate, PatientId patientId, DoctorId doctorId, string title, TypeVisit typeVisit, LocationVisit locationVisit, string duration, string description, string availability)
     {
 
 
         StartDate = startDate;
         EndDate = endDate;
         PatientId = patientId;
+        DoctorId = doctorId;
         Title = title;
         TypeVisit = typeVisit;
         LocationVisit = locationVisit;

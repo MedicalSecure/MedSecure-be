@@ -1,6 +1,6 @@
 ﻿namespace Visit.API.EndPoints.Visit;
 public record DeleteVisitRequest(Guid Id);
-public record DeleteVisitResponse(bool Success);
+public record DeleteVisitResponse(bool IsSuccess);
 
 public class DeleteVisit: ICarterModule
 {
@@ -15,8 +15,9 @@ public class DeleteVisit: ICarterModule
             
         })
         .WithName("DeleteVisit")
-        .Produces<DeleteVisitResponse>(StatusCodes.Status204NoContent)
-        .ProducesProblem(StatusCodes.Status500InternalServerError)
+        .Produces<DeleteVisitResponse>(StatusCodes.Status200OK)
+         .ProducesProblem(StatusCodes.Status400BadRequest)
+         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithSummary("Delete Visit")
         .WithDescription("Delete Visit");
     }

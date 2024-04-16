@@ -31,7 +31,6 @@ public class Patient : Aggregate<PatientId>
         LastName = lastName;
         DateOfBirth = dateOfBirth;
         Gender = gender;
-
         AddDomainEvent(new PatientUpdatedEvent(this));
     }
 }

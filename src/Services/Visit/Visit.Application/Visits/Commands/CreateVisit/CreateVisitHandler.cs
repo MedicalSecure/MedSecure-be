@@ -25,8 +25,8 @@ public class CreateVisitHandler(IPublishEndpoint publishEndpoint,IApplicationDbC
     {
         var newvisit = Domain.Models.Visit.CreateVisit(
             id: VisitId.Of(Guid.NewGuid()),
-            patientId: visitDto.PatientId,
-            doctorId:visitDto.DoctorId,
+            patientId: PatientId.Of(visitDto.PatientId),
+            doctorId: DoctorId.Of(visitDto.DoctorId),
             title: visitDto.Title,
             startDate: visitDto.StartDate,
             endDate: visitDto.EndDate,

@@ -6,7 +6,7 @@ public class GetVisitDetailHandler (IApplicationDbContext dbContext) : IQueryHan
 
     public  async Task<GetVisitDetailResult> Handle (GetVisitDetailQuery query,CancellationToken cancellationToken)
     {
-        //get visits by id
+        //get visits by id doctor
 
         var visits = await dbContext.Visits
             .AsNoTracking()

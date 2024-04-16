@@ -2,7 +2,7 @@
 global using Visit.Application.Dtos;
 global using Visit.Application.Exceptions;
 global using Visit.Application.Extensions;
-global using Visit.Application.Visits;
+
 
 global using Visit.Domain.Enums;
 global using Visit.Domain.Events;
@@ -20,7 +20,7 @@ global using FluentValidation;
 global using Mapster;
 global using MassTransit;
 global using MediatR;
-global using Microsoft.EntityFrameworkCore;
+
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
