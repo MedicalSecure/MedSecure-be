@@ -1,15 +1,16 @@
 ﻿
 
-namespace BacPatient.API.Endpoints.BPMdel;
+
+namespace BacPatient.API.Endpoints.BacPatient;
 
 //- Accepts pagination parameters.
 //- Constructs a GetDietsQuery with these parameters.
 //- Retrieves the data and returns it in a paginated format.
 
 //public record GetDietsRequest(PaginationRequest PaginationRequest);
-public record GetBPResponse(PaginatedResult<BPModelDto> bp);
+public record GetBPResponse(PaginatedResult<BacPatientDto> BacPatients);
 
-public class GetBP : ICarterModule
+public class GetBacPatient : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {

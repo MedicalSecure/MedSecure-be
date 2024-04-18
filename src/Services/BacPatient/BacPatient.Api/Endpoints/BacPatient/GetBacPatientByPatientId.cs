@@ -1,12 +1,12 @@
 ﻿
-namespace BacPatient.API.Endpoints.BPModel;
+namespace BacPatient.API.Endpoints.BacPatient;
 
 //- Accepts a Patient ID.
 //- Uses a GetDietByPatientIdQuery to fetch diets.
 //- Returns the list of diets for that Patient.
 
 //public record GetDietByPatientIdRequest(Guid PatientId);
-public record GetBacPatientByPatientIdResponse(IEnumerable<BPModelDto> bp);
+public record GetBacPatientByPatientIdResponse(IEnumerable<BacPatientDto> BacPatients);
 
 public class GetBacPatientByPatientId : ICarterModule
 {
@@ -14,7 +14,7 @@ public class GetBacPatientByPatientId : ICarterModule
     {
         app.MapGet("/bacPatient/patient/{patientId}", async (Guid patientId, ISender sender) =>
         {
-            var result = await sender.Send(new GetBPByPatientIdQuery(patientId));
+            var result = await sender.Send(new GetBPatientByPatientIdQuery(patientId));
 
             var response = result.Adapt<GetBacPatientByPatientIdResponse>();
 

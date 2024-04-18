@@ -10,8 +10,8 @@ public class MedicineConfiguration : IEntityTypeConfiguration<Medicine>
         builder.HasKey(b => b.Id);
 
         builder.Property(b => b.Id)
-               .HasConversion(bpModelid => bpModelid.Value,
+               .HasConversion(MedicineId => MedicineId.Value,
                               dbId => MedicineId.Of(dbId));
-       
+    
     }
 }

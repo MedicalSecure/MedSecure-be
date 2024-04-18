@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BacPatient\Commands\DeleteDiet\**" />
+    <EmbeddedResource Remove="BacPatient\Commands\DeleteDiet\**" />
+    <None Remove="BacPatient\Commands\DeleteDiet\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.9.0" />
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="MassTransit" Version="8.2.0" />
@@ -26,8 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BPModels\Commands\DeleteDiet\" />
-    <Folder Include="BPModels\EventHandlers\Integration\" />
+    <Folder Include="BacPatient\EventHandlers\Integration\" />
   </ItemGroup>
 
 </Project>

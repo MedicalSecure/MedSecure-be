@@ -17,11 +17,14 @@ public static class DatabaseExtentions
     private static async Task SeedAsync(ApplicationDbContext context)
     {
         // Clear existing data
+
         // Clear existing data
         await ClearDataAsync(context);
-
+        await SeedRoomsAsync(context);
+        await SeedUnitCaresAsync(context);
         await SeedPatientAsync(context);
         await SeedBacPatientAsync(context);
+
     }
 
 
@@ -30,6 +33,22 @@ public static class DatabaseExtentions
         if (!await context.Patients.AnyAsync())
         {
             await context.Patients.AddRangeAsync(InitialData.Patients);
+            await context.SaveChangesAsync();
+        }
+    }
+    private static async Task SeedRoomsAsync(ApplicationDbContext context)
+    {
+        if (!await context.Rooms.AnyAsync())
+        {
+            await context.Rooms.AddRangeAsync(InitialData.Rooms);
+            await context.SaveChangesAsync();
+        }
+    }
+    private static async Task SeedUnitCaresAsync(ApplicationDbContext context)
+    {
+        if (!await context.UnitCares.AnyAsync())
+        {
+            await context.UnitCares.AddRangeAsync(InitialData.UnitCares);
             await context.SaveChangesAsync();
         }
     }
@@ -45,9 +64,16 @@ public static class DatabaseExtentions
     private static async Task ClearDataAsync(ApplicationDbContext context)
     {
         // Clear all data from tables
-        context.BacPatients.RemoveRange(context.BacPatients);
+        
 
+        context.BacPatients.RemoveRange(context.BacPatients);
+        context.Medecines.RemoveRange(context.Medecines);
+        context.Posologies.RemoveRange(context.Posologies);
         context.Patients.RemoveRange(context.Patients);
+        context.Rooms.RemoveRange(context.Rooms);
+
+        context.UnitCares.RemoveRange(context.UnitCares);
+
         // Save changes to the database
         await context.SaveChangesAsync();
     }

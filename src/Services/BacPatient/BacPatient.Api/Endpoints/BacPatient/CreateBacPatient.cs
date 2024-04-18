@@ -1,5 +1,6 @@
 ﻿
-using BacPatient.Application.Dtos;
+
+using BacPatient.Application.BPModels.Commands.CreateBacPatient;
 
 namespace BacPatient.API.Endpoints.BPModel;
 
@@ -8,7 +9,7 @@ namespace BacPatient.API.Endpoints.BPModel;
 //- Uses MediatR to send the command to the corresponding handler.
 //- Returns a response with the created diet's ID.
 
-public record CreateBacPatientRequest(BPModelDto bp);
+public record CreateBacPatientRequest(BacPatientDto BacPatients);
 public record CreateBacPatientResponse(Guid Id);
 
 public class CreateBacPatient : ICarterModule
@@ -17,7 +18,7 @@ public class CreateBacPatient : ICarterModule
     {
         app.MapPost("/bacPatient", async (CreateBacPatientRequest request, ISender sender) =>
         {
-            var command = request.Adapt<CreateBPModelCommand>();
+            var command = request.Adapt<CreateBacPatientCommand>();
 
             var result = await sender.Send(command);
 
