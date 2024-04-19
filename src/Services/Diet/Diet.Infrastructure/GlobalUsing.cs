@@ -3,7 +3,6 @@ global using Diet.Domain.Abstractions;
 global using Diet.Domain.Enums;
 global using Diet.Domain.Models;
 global using Diet.Domain.ValueObjects;
-global using Diet.Infrastructure;
 global using Diet.Infrastructure.Data;
 global using Diet.Infrastructure.Data.Exceptions;
 global using Diet.Infrastructure.Data.Interceptors;
