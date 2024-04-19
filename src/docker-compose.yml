@@ -20,6 +20,12 @@ services:
       context: .
       dockerfile: Services/Waste/Waste.API/Dockerfile
 
+  sensor.api:
+    image: ${DOCKER_REGISTRY-}sensorapi
+    build:
+      context: .
+      dockerfile: Services/Sensor/Sensor.API/Dockerfile
+
 
   yarpapigateway:
     image: ${DOCKER_REGISTRY-}yarpapigateway

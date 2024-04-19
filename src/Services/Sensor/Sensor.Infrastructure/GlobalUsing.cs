@@ -1,0 +1,17 @@
+﻿global using Sensor.Application.Data;
+global using Sensor.Domain.Abstractions;
+global using Sensor.Domain.Enums;
+global using Sensor.Domain.Models;
+global using Sensor.Domain.ValueObjects;
+global using Sensor.Infrastructure.Data;
+global using Sensor.Infrastructure.Data.Exceptions;
+global using Sensor.Infrastructure.Data.Interceptors;
+global using MediatR;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.ChangeTracking;
+global using Microsoft.EntityFrameworkCore.Diagnostics;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using System.Reflection;

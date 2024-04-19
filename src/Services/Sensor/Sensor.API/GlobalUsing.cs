@@ -1,0 +1,16 @@
+﻿global using BuildingBlocks.Exceptions;
+global using BuildingBlocks.Pagination;
+global using Carter;
+global using MediatR;
+global using Mapster;
+global using Sensor.Application.Dtos;
+global using Sensor.Application;
+global using Sensor.Application.Sensors.Commands.CreateSensor;
+global using Sensor.Application.Sensors.Queries.GetSensors;
+global using Sensor.Application.Sensors.Queries.GetSensorsByLocation;
+global using Sensor.Domain.Enums;
+global using Sensor.Infrastructure;
+global using Sensor.API;
+global using HealthChecks.UI.Client;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using Sensor.Infrastructure.Data.Extensions;

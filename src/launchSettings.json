@@ -6,6 +6,7 @@
       "serviceActions": {
         "diet.api": "StartDebugging",
         "waste.api": "StartDebugging",
+        "sensor.api": "StartDebugging",
         "yarpapigateway": "StartDebugging"
       }
     }
