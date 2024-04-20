@@ -1,4 +1,8 @@
-﻿using Prescription.Infrastructure.Database;
+﻿using BuildingBlocks.Exceptions;
+using Mapster;
+using Prescription.Application.Contracts;
+using Prescription.Infrastructure.Database;
+using Prescription.Infrastructure.Services;
 
 namespace Prescription.Infrastructure
 {
@@ -26,6 +30,17 @@ namespace Prescription.Infrastructure
 
             // Register IApplicationDbContext and ApplicationDbContext for dependency injection
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+
+            /*            services.AddHttpClient<IDoctorService, DoctorService>(client =>
+                        {
+                            var RegistrationApi = configuration.GetConnectionString("DoctorsEndpoint");
+                            if (RegistrationApi == null) throw new NotFoundException("DoctorsEndpoint url must be provided");
+                            client.BaseAddress = new Uri(RegistrationApi);
+                        });*/
+
+            //register the Mapster configuration
+            services.AddSingleton(TypeAdapterConfig.GlobalSettings);
+            //services.AddSingleton<IRegister, PatientMappingConfig>();
 
             // Return the modified service collection
             return services;

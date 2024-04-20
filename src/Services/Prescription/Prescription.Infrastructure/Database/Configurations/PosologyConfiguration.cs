@@ -20,6 +20,10 @@ namespace Prescription.Infrastructure.Database.Configurations
             builder.HasMany(p => p.Comments)
                         .WithOne(comment => comment.posology)
                     .HasForeignKey(comment => comment.PosologyId);
+
+            builder.HasOne(p => p.Medication)
+            .WithMany()
+            .HasForeignKey(p => p.MedicationId);
         }
     }
 }

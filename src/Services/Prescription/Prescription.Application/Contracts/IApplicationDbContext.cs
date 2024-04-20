@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Prescription.Application.Data
+namespace Prescription.Application.Contracts
 {
     public interface IApplicationDbContext
     {
@@ -17,6 +16,9 @@ namespace Prescription.Application.Data
         public DbSet<Posology> Posology { get; }
         public DbSet<Comment> Comments { get; }
         public DbSet<Patient> Patients { get; }
+        public DbSet<Doctor> Doctors { get; }
+
+        public DbSet<Medication> Medications { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

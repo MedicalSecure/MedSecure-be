@@ -7,9 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\" />
-    <Folder Include="Contracts\" />
-    <Folder Include="Profiles\" />
+    <Folder Include="Features\Symptom\EventHandlers\" />
+    <Folder Include="Features\Symptom\Queries\GetSymptomsByName\" />
+    <Folder Include="Features\Symptom\Queries\GetSymptomsByPrescriptionId\" />
+    <Folder Include="Features\Diagnosis\EventHandlers\" />
+    <Folder Include="Features\Diagnosis\Queries\GetDiagnosisById\" />
+    <Folder Include="Features\Diagnosis\Queries\GetDiagnosisByPrescriptionId\" />
+    <Folder Include="Features\Diagnosis\Queries\GetDiagnosisByName\" />
+    <Folder Include="Features\Prescription\EventHandlers\" />
+    <Folder Include="Features\Prescription\Queries\GetPrescriptionsByDate\" />
+    <Folder Include="Features\Prescription\Queries\GetPrescriptionsByPatientId\" />
   </ItemGroup>
 
   <ItemGroup>

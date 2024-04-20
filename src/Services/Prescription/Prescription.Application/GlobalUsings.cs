@@ -1,10 +1,12 @@
 ﻿global using Prescription.Domain.Entities.Prescription;
 global using Prescription.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+global using System;
+global using System.Collections.Generic;
+global using Mapster;
+global using BuildingBlocks.CQRS;
+global using BuildingBlocks.Pagination;
+global using Prescription.Application.Dtos;
+global using Microsoft.EntityFrameworkCore;
 
 namespace Prescription.Application
 {

@@ -19,10 +19,12 @@ namespace Prescription.Domain.Entities.Prescription
         private PrescriptionEntity()
         { }// for EF
 
-        private PrescriptionEntity(Patient p, Doctor D)
+        private PrescriptionEntity(Patient p, Guid patientId, Doctor D, Guid doctorId)
         {
             Patient = p;
+            PatientId = patientId;
             Doctor = D;
+            DoctorId = doctorId;
         }
 
         public static PrescriptionEntity Create(Patient patient, Doctor doctor)
@@ -30,7 +32,7 @@ namespace Prescription.Domain.Entities.Prescription
             //validations here
             //..
             //..
-            return new PrescriptionEntity(patient, doctor);
+            return new PrescriptionEntity(patient, patient.Id, doctor, doctor.Id);
         }
 
         public bool addPosology(Posology posology)
@@ -45,9 +47,23 @@ namespace Prescription.Domain.Entities.Prescription
             return true;
         }
 
-        public bool addSymtom(Symptom symptom)
+        public bool addDiagnosis(ICollection<Diagnosis> diagnosis)
+        {
+            foreach (Diagnosis diagnosisItem in diagnosis)
+                this._diagnosis.Add(diagnosisItem);
+            return true;
+        }
+
+        public bool addSymptom(Symptom symptom)
         {
             this._symptoms.Add(symptom);
+            return true;
+        }
+
+        public bool addSymptoms(ICollection<Symptom> symptoms)
+        {
+            foreach (Symptom symptom in symptoms)
+                this._symptoms.Add(symptom);
             return true;
         }
     }

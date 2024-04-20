@@ -1,0 +1,30 @@
+﻿using MassTransit;
+using Microsoft.FeatureManagement;
+using Prescription.Application.Contracts;
+
+namespace Prescription.Application.Features.Diagnosis.Commands.DeleteDiagnosis
+{
+    public class DeleteDiagnosisHandler(IPublishEndpoint publishEndpoint, IApplicationDbContext dbContext, IFeatureManager featureManager) : ICommandHandler<DeleteDiagnosisCommand, DeleteDiagnosisResult>
+    {
+        public async Task<DeleteDiagnosisResult> Handle(DeleteDiagnosisCommand request, CancellationToken cancellationToken)
+        {
+            var diagnosisDto = request.Diagnosis;
+            var diagnosis = Domain.Entities.Diagnosis.Create(diagnosisDto.Id, diagnosisDto.Code, diagnosisDto.Name, diagnosisDto.ShortDescription, diagnosisDto.LongDescription);
+
+            dbContext.Diagnosis.Remove(diagnosis);
+
+            await dbContext.SaveChangesAsync(cancellationToken);
+
+            /* // Check if the feature for using message broker is enabled
+             if (await featureManager.IsEnabledAsync("DiagnosisSharedFulfilment"))
+             {
+                 // Adapt the command.Diet object to a DiagnosisPlanSharedEvent and publish it
+                 var eventMessage = command.Diet.Adapt<DiagnosisPlanSharedEvent>();
+                 await publishEndpoint.Publish(eventMessage, cancellationToken);
+             }*/
+
+            // return result containing the ID of the deleted diagnosis
+            return new DeleteDiagnosisResult(diagnosisDto.Id);
+        }
+    }
+}

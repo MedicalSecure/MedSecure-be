@@ -32,7 +32,9 @@ namespace Prescription.Infrastructure.Database.Configurations
                 .WithMany()
                 .HasForeignKey(prescription => prescription.PatientId);
 
-            builder.Ignore(p => p.Doctor);
+            builder.HasOne(p => p.Doctor)
+                .WithMany()
+                .HasForeignKey(prescription => prescription.DoctorId);
         }
     }
 }
