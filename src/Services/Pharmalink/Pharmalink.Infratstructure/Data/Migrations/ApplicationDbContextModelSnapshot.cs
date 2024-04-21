@@ -8,7 +8,7 @@ using Pharmalink.Infratstructure.Data;
 
 #nullable disable
 
-namespace Pharmalink.Infratstructure.Migrations
+namespace Pharmalink.Infratstructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -32,6 +32,11 @@ namespace Pharmalink.Infratstructure.Migrations
 
                     b.Property<int>("AvrgStock")
                         .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");

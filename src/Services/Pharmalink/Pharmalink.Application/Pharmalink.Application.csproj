@@ -16,11 +16,4 @@
     <ProjectReference Include="..\Pharmalink.Domain\Pharmalink.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Medications\Commands\CreateMedication\" />
-    <Folder Include="Medications\EventHandlers\Domain\" />
-    <Folder Include="Medications\Queries\GetMedications\" />
-    <Folder Include="Medications\Queries\GetMedicationByCreteria\" />
-  </ItemGroup>
-
 </Project>

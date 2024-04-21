@@ -1,8 +1,8 @@
 ﻿namespace Pharmalink.Infratstructure.Data.Configurations;
 
-public class DietConfiguration : IEntityTypeConfiguration<Domain.Models.Medication>
+public class MedicationConfiguration : IEntityTypeConfiguration<Medication>
 {
-    public void Configure(EntityTypeBuilder<Domain.Models.Medication> builder)
+    public void Configure(EntityTypeBuilder<Medication> builder)
     {
 
         builder.HasKey(m => m.Id);
@@ -25,6 +25,10 @@ public class DietConfiguration : IEntityTypeConfiguration<Domain.Models.Medicati
 
 
         builder.Property(m => m.Form)
+            .HasMaxLength(50)
+            .IsRequired();
+
+        builder.Property (m => m.Code) 
             .HasMaxLength(50)
             .IsRequired();
 

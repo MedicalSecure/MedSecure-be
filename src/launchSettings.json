@@ -6,7 +6,8 @@
       "serviceActions": {
         "diet.api": "StartDebugging",
         "waste.api": "StartDebugging",
-        "yarpapigateway": "StartDebugging"
+        "yarpapigateway": "StartDebugging",
+        "pharmalink.api": "StartDebugging"
       }
     }
   }

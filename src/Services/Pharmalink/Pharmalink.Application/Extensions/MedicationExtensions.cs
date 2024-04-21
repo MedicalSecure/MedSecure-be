@@ -12,6 +12,7 @@ public static partial class MedicationExtensions
             Name: m.Name,
             Dosage: m.Dosage,
             Form: m.Form,
+            Code: m.Code,
             Unit: m.Unit,
             Description: m.Description,
             ExpiredAt: m.ExpiredAt,
