@@ -10,7 +10,7 @@ public class GetPatients : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/patients", async ([AsParameters] PaginationRequest paginationRequest, ISender sender) =>
+        app.MapGet("/v1/patients", async ([AsParameters] PaginationRequest paginationRequest, ISender sender) =>
         {
             var result = await sender.Send(new GetPatientsQuery(paginationRequest));
 

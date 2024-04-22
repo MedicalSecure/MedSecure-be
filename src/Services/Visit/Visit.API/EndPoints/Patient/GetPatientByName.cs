@@ -12,7 +12,7 @@ public class GetPatientByName : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/patients/{patientName}", async (string patientName, ISender sender) =>
+        app.MapGet("/v1/patients/{patientName}", async (string patientName, ISender sender) =>
         {
             var result = await sender.Send(new GetPatientByNameQuery(patientName));
 

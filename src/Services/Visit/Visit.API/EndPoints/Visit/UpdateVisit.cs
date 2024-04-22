@@ -7,7 +7,7 @@ public class UpdateVisit :ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/visits", async (UpdateVisitRequest request, ISender sender) =>
+        app.MapPut("/v1/visits", async (UpdateVisitRequest request, ISender sender) =>
        {
            var command = request.Adapt<UpdateVisitCommand>();
            var result = await sender.Send(command);

@@ -6,7 +6,7 @@ public class GetVisitDetail : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/visits/{Id}", async (Guid Id, ISender sender) =>
+        app.MapGet("/v1/visits/{Id}", async (Guid Id, ISender sender) =>
         {
             var result = await sender.Send(new GetVisitDetailQuery(Id));
 

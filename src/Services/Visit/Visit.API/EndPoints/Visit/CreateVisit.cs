@@ -11,7 +11,7 @@ public class CreateVisit : ICarterModule
 {
     public void AddRoutes (IEndpointRouteBuilder app)
     {
-        app.MapPost("/visits",async(CreateVisitRequest request , ISender sender)=>
+        app.MapPost("/v1/visits",async(CreateVisitRequest request , ISender sender)=>
         {
             var command =request.Adapt<CreateVisitCommand>();
             var result =await sender.Send(command);

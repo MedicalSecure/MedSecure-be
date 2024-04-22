@@ -14,7 +14,7 @@ public class UpdatePatient : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut(
-                "/patients",
+                "/v1/patients",
                 async (UpdatePatientRequest request, ISender sender) =>
                 {
                     var command = request.Adapt<UpdatePatientCommand>();
