@@ -10,7 +10,7 @@ namespace BacPatient.Api.Endpoints.BacPatient
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPut("/bacPatient/addNote", async (AddNoteRequest request, ISender sender) =>
+            app.MapPut("/bacpatient/addNote", async (AddNoteRequest request, ISender sender) =>
             {
                 var command = request.Adapt<AddNoteCommand>();
 

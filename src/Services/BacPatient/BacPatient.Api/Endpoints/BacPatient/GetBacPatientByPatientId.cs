@@ -1,4 +1,6 @@
 ﻿
+using BacPatient.Application.BacPatient.Queries.GetBacPatientByPatientId;
+
 namespace BacPatient.API.Endpoints.BacPatient;
 
 //- Accepts a Patient ID.
@@ -12,7 +14,7 @@ public class GetBacPatientByPatientId : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/bacPatient/patient/{patientId}", async (Guid patientId, ISender sender) =>
+        app.MapGet("/bacpatient/patient/{patientId}", async (Guid patientId, ISender sender) =>
         {
             var result = await sender.Send(new GetBPatientByPatientIdQuery(patientId));
 

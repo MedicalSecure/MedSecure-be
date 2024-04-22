@@ -1,4 +1,4 @@
-﻿namespace BacPatient.Application.BacPatient.Queries.GetBacPatientByPatientIdQuery;
+﻿namespace BacPatient.Application.BacPatient.Queries.GetBacPatientByPatientId;
 
 public class GetBacPatientByPatientIdHandler(IApplicationDbContext dbContext) : IQueryHandler<GetBPatientByPatientIdQuery, GetBPByPatientIdResult>
 {

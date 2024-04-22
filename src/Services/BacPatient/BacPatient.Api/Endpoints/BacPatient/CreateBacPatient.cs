@@ -16,7 +16,7 @@ public class CreateBacPatient : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/bacPatient", async (CreateBacPatientRequest request, ISender sender) =>
+        app.MapPost("/bacpatient", async (CreateBacPatientRequest request, ISender sender) =>
         {
             var command = request.Adapt<CreateBacPatientCommand>();
 

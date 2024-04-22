@@ -16,9 +16,6 @@ public static class DatabaseExtentions
 
     private static async Task SeedAsync(ApplicationDbContext context)
     {
-        // Clear existing data
-
-        // Clear existing data
         await ClearDataAsync(context);
         await SeedRoomsAsync(context);
         await SeedUnitCaresAsync(context);
