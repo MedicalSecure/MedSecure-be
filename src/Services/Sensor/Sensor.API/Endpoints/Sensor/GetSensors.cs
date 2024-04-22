@@ -8,7 +8,7 @@ public class GetSensors : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/sensors", async ([AsParameters] PaginationRequest request, ISender sender) =>
+        app.MapGet("/v1/sensors", async ([AsParameters] PaginationRequest request, ISender sender) =>
         {
             var result = await sender.Send(new GetSensorsQuery(request));
 

@@ -9,7 +9,7 @@ public class CreateSensor : ICarterModule
 {
     public async void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/sensor", async (CreateSensorRequest request, ISender sender) =>
+        app.MapPost("/v1/sensor", async (CreateSensorRequest request, ISender sender) =>
 
             {
                 var command = request.Adapt<CreateSensorCommand>();

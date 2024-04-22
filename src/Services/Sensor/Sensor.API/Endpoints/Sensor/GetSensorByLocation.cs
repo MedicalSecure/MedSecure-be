@@ -5,7 +5,7 @@ public class GetSensorByLocation : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/sensors/{location}", async (Location location, ISender sender) =>
+        app.MapGet("/v1/sensors/{location}", async (Location location, ISender sender) =>
         {
             var result = await sender.Send(new GetSensorsByLocationQuery(location));
 
