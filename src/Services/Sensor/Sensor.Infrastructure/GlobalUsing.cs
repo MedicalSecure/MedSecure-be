@@ -6,6 +6,7 @@ global using Sensor.Domain.ValueObjects;
 global using Sensor.Infrastructure.Data;
 global using Sensor.Infrastructure.Data.Exceptions;
 global using Sensor.Infrastructure.Data.Interceptors;
+global using Sensor.Infrastructure.Data.Configurations;
 global using MediatR;
 global using Microsoft.AspNetCore.Builder;
 global using Microsoft.EntityFrameworkCore;

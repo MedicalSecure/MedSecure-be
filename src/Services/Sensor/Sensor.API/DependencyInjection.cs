@@ -40,7 +40,7 @@ public static WebApplication UseApiServices(this WebApplication app)
         "/health",
         new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse }
     );
-
+     
     // Return the configured WebApplication
     return app;
 }

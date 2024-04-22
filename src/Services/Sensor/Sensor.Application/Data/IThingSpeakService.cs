@@ -9,5 +9,6 @@ namespace Sensor.Application.Data
     public interface IThingSpeakService
     {
         Task<ThingSpeakDataResponse> GetSensorDataAsync();
+
     }
 }

@@ -1,9 +1,5 @@
-﻿using Sensor.Infrastructure.ExternalServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+
 
 namespace Sensor.Infrastructure;
 
@@ -29,11 +25,13 @@ public static class DependencyInjection
             options.UseSqlServer(connectionString);
         });
 
+        services.AddHttpClient();
         // Register IApplicationDbContext and ApplicationDbContext for dependency injection
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-
-        services.AddHttpClient();
         services.AddScoped<IThingSpeakService, ThingSpeakService>();
+
+
+
         // Return the modified service collection
         return services;
     }

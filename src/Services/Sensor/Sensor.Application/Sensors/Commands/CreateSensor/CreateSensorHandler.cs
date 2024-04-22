@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sensor.Application.Sensors.Commands.CreateSensor;
 
-public class CreateSensorHandler(IApplicationDbContext dbContext, IThingSpeakService thingSpeakService) : ICommandHandler<CreateSensorCommand, CreateSensorResult>
+public class CreateSensorHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateSensorCommand, CreateSensorResult>
 {
 
     public async Task<CreateSensorResult> Handle(CreateSensorCommand command, CancellationToken cancellationToken)

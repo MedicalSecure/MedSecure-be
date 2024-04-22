@@ -1,5 +1,5 @@
 using Sensor.Application.Data;
-using Sensor.Infrastructure.ExternalServices;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
