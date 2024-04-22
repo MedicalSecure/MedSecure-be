@@ -4,10 +4,6 @@ using BacPatient.Application.BPModels.Commands.CreateBacPatient;
 
 namespace BacPatient.API.Endpoints.BPModel;
 
-//- Accepts a CreateDietRequest object.
-//- Maps the request to a CreateDietCommand.
-//- Uses MediatR to send the command to the corresponding handler.
-//- Returns a response with the created diet's ID.
 
 public record CreateBacPatientRequest(BacPatientDto BacPatients);
 public record CreateBacPatientResponse(Guid Id);
@@ -16,7 +12,7 @@ public class CreateBacPatient : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/bacpatient", async (CreateBacPatientRequest request, ISender sender) =>
+        app.MapPost("/v1/bacpatient", async (CreateBacPatientRequest request, ISender sender) =>
         {
             var command = request.Adapt<CreateBacPatientCommand>();
 

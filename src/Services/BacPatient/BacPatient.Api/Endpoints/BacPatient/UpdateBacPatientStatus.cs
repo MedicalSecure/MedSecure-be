@@ -15,7 +15,7 @@ public class UpdateBacPatientStatus : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/bacpatient/updateStatus", async (UpdateBacPatientStatusRequest request, ISender sender) =>
+        app.MapPut("/v1/bacpatient/updateStatus", async (UpdateBacPatientStatusRequest request, ISender sender) =>
         {
             var command = request.Adapt<UpdateBacPatientStatusCommand>();
 
