@@ -6,14 +6,16 @@ namespace Prescription.Domain.Entities
 {
     public class Patient : Aggregate<Guid>
     {
-        public string PatientName { get; set; } = default!;
-        public DateTime DateOfBirth { get; set; } = default!;
-        public Gender Gender { get; set; } = default!;
-        public int Height { get; set; } = default!;
-        public int Weight { get; set; } = default!;
-        public Register Register { get; set; } = default!;
-        public RiskFactor RiskFactor { get; set; } = default!;
-        public RiskFactor Disease { get; set; } = default!;
+        public string PatientName { get; private set; } = default!;
+        public DateTime DateOfBirth { get; private set; } = default!;
+        public Gender Gender { get; private set; } = default!;
+        public int Height { get; private set; } = default!;
+        public int Weight { get; private set; } = default!;
+
+        public Register? Register { get; set; } = default!;
+        public RiskFactor? RiskFactor { get; set; } = default!;
+        public RiskFactor? Disease { get; set; } = default!;
+        public ICollection<PrescriptionEntity> Prescriptions { get; private set; }
 
         public Patient()
         { } // For EF
@@ -22,6 +24,7 @@ namespace Prescription.Domain.Entities
         {
             var patient = new Patient
             {
+                Id = id,
                 PatientName = patientName,
                 DateOfBirth = dateOfbirth,
                 Gender = gender,
@@ -57,14 +60,14 @@ namespace Prescription.Domain.Entities
 
     public class Register
     {
-        public List<RiskFactor> familymedicalhistory { get; set; }
-        public List<RiskFactor> personalMedicalHistory { get; set; }
+        public List<RiskFactor>? familymedicalhistory { get; set; }
+        public List<RiskFactor>? personalMedicalHistory { get; set; }
     }
 
     public class RiskFactor
     {
-        public string key { get; set; }
-        public string value { get; set; }
-        public List<RiskFactor> subRiskfactory { get; set; }
+        public string? key { get; set; }
+        public string? value { get; set; }
+        public List<RiskFactor>? subRiskfactory { get; set; }
     }
 }

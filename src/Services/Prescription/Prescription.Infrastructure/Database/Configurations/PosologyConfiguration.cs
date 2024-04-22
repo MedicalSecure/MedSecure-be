@@ -23,7 +23,8 @@ namespace Prescription.Infrastructure.Database.Configurations
 
             builder.HasOne(p => p.Medication)
             .WithMany()
-            .HasForeignKey(p => p.MedicationId);
+            .HasForeignKey(p => p.MedicationId)
+            .IsRequired();
         }
     }
 }

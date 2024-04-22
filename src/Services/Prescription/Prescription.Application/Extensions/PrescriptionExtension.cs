@@ -16,7 +16,6 @@ namespace Prescription.Application.Extensions
 
         public static PrescriptionDto ToPrescriptionDto(this PrescriptionEntity pres)
         {
-            var p = pres.Patient;
             return new PrescriptionDto(
                 Id: pres.Id,
                 Patient: pres.Patient.ToPatientDto(),

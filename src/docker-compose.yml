@@ -5,30 +5,31 @@ services:
   sql-server-db:
     image: mcr.microsoft.com/mssql/server:2019-latest
 
-  #message-broker:
-    #image: rabbitmq:management
+  message-broker:
+    image: rabbitmq:management
 
-  #diet.api:
-    #: ${DOCKER_REGISTRY-}dietapi
-#build:
-#context: .
-#dockerfile: Services/Diet/Diet.API/Dockerfile
+  diet.api:
+    image: ${DOCKER_REGISTRY-}dietapi
+    build:
+      context: .
+      dockerfile: Services/Diet/Diet.API/Dockerfile
 
- # waste.api:
-#image: ${DOCKER_REGISTRY-}wasteapi
- #   build:
-  #    context: .
-   #   dockerfile: Services/Waste/Waste.API/Dockerfile
+  waste.api:
+    image: ${DOCKER_REGISTRY-}wasteapi
+    build:
+      context: .
+      dockerfile: Services/Waste/Waste.API/Dockerfile
 
 
-  #yarpapigateway:
- #   image: ${DOCKER_REGISTRY-}yarpapigateway
-  #  build:
-   #   context: .
-    #  dockerfile: ApiGateways/YarpApiGateway/Dockerfile
+  yarpapigateway:
+    image: ${DOCKER_REGISTRY-}yarpapigateway
+    build:
+      context: .
+      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
 
-   #prescription.api:
-   # image: ${DOCKER_REGISTRY-}prescriptionapi
-   # build:
-   #     context: .
-   #     dockerfile: Services/Prescription/Prescription.API/Dockerfile
+  prescription.api:
+    image: ${DOCKER_REGISTRY-}prescriptionapi
+    build:
+      context: .
+      dockerfile: Services/Prescription/Prescription.API/Dockerfile
+

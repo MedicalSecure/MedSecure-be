@@ -17,8 +17,6 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
     public class GetPrescriptionByIdHandler : IQueryHandler<GetPrescriptionByIdQuery, GetPrescriptionsResult>
     {
         private readonly IApplicationDbContext _dbContext;
-        private readonly IPatientService _patientService;
-        private readonly IDoctorService _doctorService;
         private readonly TypeAdapterConfig _mapsterConfig;
 
         public GetPrescriptionByIdHandler(IApplicationDbContext dbContext, TypeAdapterConfig mapsterConfig)
@@ -29,12 +27,14 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
 
         public async Task<GetPrescriptionsResult> Handle(GetPrescriptionByIdQuery query, CancellationToken cancellationToken)
         {
-            // get Prescription with singke page
+            // get Prescription with single page
             // return result
 
             var p = await _dbContext.Prescriptions.Where(p => p.Id == query.Id)
                     .Include(p => p.Symptoms)
                     .Include(p => p.Diagnosis)
+                    .Include(p => p.Patient)
+                    .Include(p => p.Doctor)
                     .Include(p => p.Posology)
                     .ThenInclude(posology => posology.Comments)
                     .Include(p => p.Posology)
@@ -49,13 +49,12 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
                 return new GetPrescriptionsResult(new PaginatedResult<PrescriptionDto>(0, 0, totalCount, []));
             }
 
-            var doctor = await _doctorService.GetDoctorByIdAsync(p.DoctorId, cancellationToken);
             /*TODO fix this*/
             PrescriptionDto result = new PrescriptionDto(
                 p.Id,
-                null,
+                p.Patient.ToPatientDto(),
                 p.PatientId,
-                doctor,
+                p.Doctor.ToDoctorDto(),
                 p.DoctorId,
                 p.Symptoms.ToSymptomsDto(),
                 p.Diagnosis.ToDiagnosisDto(),

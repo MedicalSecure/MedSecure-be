@@ -35,6 +35,14 @@ namespace Prescription.Domain.Entities.Prescription
             return new PrescriptionEntity(patient, patient.Id, doctor, doctor.Id);
         }
 
+        public static PrescriptionEntity Create(Guid patientId, Guid DoctorId)
+        {
+            //validations here
+            //..
+            //..
+            return new PrescriptionEntity(null, patientId, null, DoctorId);
+        }
+
         public bool addPosology(Posology posology)
         {
             this._posology.Add(posology);

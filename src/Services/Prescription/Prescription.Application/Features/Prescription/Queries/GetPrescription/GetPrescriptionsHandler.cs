@@ -34,6 +34,8 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             var prescriptions = await _dbContext.Prescriptions
                            .Include(p => p.Symptoms)
                            .Include(p => p.Diagnosis)
+                           .Include(p => p.Patient)
+                           .Include(p => p.Doctor)
                            .Include(p => p.Posology)
                            .ThenInclude(posology => posology.Comments)
                            .Include(p => p.Posology)

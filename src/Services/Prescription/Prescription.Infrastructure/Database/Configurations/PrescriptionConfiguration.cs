@@ -28,13 +28,28 @@ namespace Prescription.Infrastructure.Database.Configurations
             builder.HasMany(Prescription => Prescription.Posology)
                 .WithOne(Posology => Posology.Prescription);
 
-            builder.HasOne(prescription => prescription.Patient)
-                .WithMany()
-                .HasForeignKey(prescription => prescription.PatientId);
+            /*            builder.HasOne(prescription => prescription.Patient)
+                            .WithMany()
+                            .HasForeignKey(prescription => prescription.PatientId).IsRequired(); ;
 
-            builder.HasOne(p => p.Doctor)
-                .WithMany()
-                .HasForeignKey(prescription => prescription.DoctorId);
+                        builder.HasOne(p => p.Doctor)
+                            .WithMany()
+                            .HasForeignKey(prescription => prescription.DoctorId).IsRequired(); ;*/
+            builder.HasOne(prescription => prescription.Patient)
+        .WithMany(patient => patient.Prescriptions)
+        .HasForeignKey(prescription => prescription.PatientId)
+        .IsRequired()
+        .OnDelete(DeleteBehavior.Restrict); // Specify the desired delete behavior
+
+            builder.HasOne(prescription => prescription.Doctor)
+                .WithMany(doctor => doctor.Prescriptions)
+                .HasForeignKey(prescription => prescription.DoctorId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict); // Specify the desired delete behavior
+
+            // Ignore the circular reference
+            builder.Navigation(p => p.Patient).AutoInclude(false);
+            builder.Navigation(p => p.Doctor).AutoInclude(false);
         }
     }
 }

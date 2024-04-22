@@ -7,12 +7,17 @@ namespace Prescription.Infrastructure.Database.Extensions
     {
         private static readonly Guid commentId1 = new Guid("f3c58f4e-4e49-4180-ba4c-0a2e8cddc58c");
         private static readonly Guid commentId2 = new Guid("2b05fc3d-2e2e-4e88-8a91-2dcf3a01c3d1");
+
         private static readonly Guid dispenseId1 = new Guid("7506213d-3b5f-4498-b35c-9169a600ff10");
         private static readonly Guid dispenseId2 = new Guid("0f42ff42-f701-48c9-a7b5-c56ad78f55b1");
+
         private static readonly Guid doctorId = new Guid("44444444-4444-4444-4444-444444444444");
+        private static readonly Guid doctorId2 = new Guid("44444444-4444-4444-4444-444444444445"); // Next sequential number for doctor
+        private static readonly Guid patientId = new Guid("22222222-2222-2222-2222-222222222222");
+        private static readonly Guid patientId2 = new Guid("22222222-2222-2222-2222-222222222223"); // Next sequential number for patient
         private static readonly Guid medicationId = new Guid("55555555-5555-5555-5555-555555555555");
         private static readonly Guid medicationId2 = new Guid("55555555-5555-5555-5555-555555555556");
-        private static readonly Guid patientId = new Guid("22222222-2222-2222-2222-222222222222");
+
         private static readonly Guid posologyId = new Guid("142f0efe-9e11-4808-a7f6-fcb564908772");
         private static readonly Guid prescriptionId = new Guid("7506213d-3b5f-4498-b35c-9169a600ff12");
 
@@ -71,6 +76,7 @@ namespace Prescription.Infrastructure.Database.Extensions
                             dateOfBirth: new DateTime(1975, 10, 25)
                         ),
                         Doctor.Create(
+                            id: doctorId2,
                             firstName: "Jane",
                             lastName: "Smith",
                             speciality: "Pediatrics",
@@ -188,6 +194,7 @@ namespace Prescription.Infrastructure.Database.Extensions
                             }
                         ),
                         Patient.Create(
+                            id: patientId2,
                             patientName: "Patient 2",
                             dateOfbirth: new DateTime(1985, 8, 20),
                             gender: Domain.Enums.Gender.Female,
@@ -231,52 +238,47 @@ namespace Prescription.Infrastructure.Database.Extensions
             }
         }
 
-        public static IEnumerable<Posology> posology
+        public static List<Posology> posology(List<Medication> medications)
         {
-            get
+            if (medications.Count < 1) return null!;
+            try
             {
-                try
-                {
-                    Posology posology1 = Posology.Create(prescriptionId, Medications[0], new DateTime(), null, true);
-                    Posology posology2 = Posology.Create(prescriptionId, Medications[1], new DateTime(), null, true);
-                    posology1.AddDispense(Dispenses.ToArray()[0]);
-                    posology1.AddDispense(Dispenses.ToArray()[1]);
-                    posology2.AddDispense(Dispenses.ToArray()[2]);
+                Posology posology1 = Posology.Create(prescriptionId, medications[0], new DateTime(), null, true);
+                Posology posology2 = Posology.Create(prescriptionId, medications[1], new DateTime(), null, true);
+                posology1.AddDispense(Dispenses.ToArray()[0]);
+                posology1.AddDispense(Dispenses.ToArray()[1]);
+                posology2.AddDispense(Dispenses.ToArray()[2]);
 
-                    return new List<Posology>
+                return new List<Posology>
                     {
                         posology1,
                         posology2
                     };
-                }
-                catch (Exception ex)
-                {
-                    throw new EntityCreationException(nameof(Posology), ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                throw new EntityCreationException(nameof(Posology), ex.Message);
             }
         }
 
-        public static PrescriptionEntity prescription
+        public static PrescriptionEntity Prescription(Patient patient, Doctor d, List<Medication> medications)
         {
-            get
+            try
             {
-                try
-                {
-                    var p = PrescriptionEntity.Create(Patients.ToList()[0], Doctors.ToList()[0]);
-                    p.addPosology(posology.ToList()[0]);
-                    p.addPosology(posology.ToList()[1]);
-                    p.addSymptom(Symptom.Create("R292", "Abnormal reflex", "Abnormal reflex", "Other symptoms and signs involving the nervous and musculoskeletal systems"));
-                    p.addSymptom(Symptom.Create("R402", "Coma", "Unspecified coma", "Unspecified coma"));
-                    p.addSymptom(Symptom.Create("R1911", "Abnormal bowel sounds", "Other abnormal bowel sounds", "Other abnormal bowel sounds"));
-                    p.addDiagnosis(Diagnosis.Create("A000", "Cholera", "Cholera due to Vibrio cholerae 01, biovar cholerae", "Cholera due to Vibrio cholerae 01, biovar cholerae long description test"));
-                    p.addDiagnosis(Diagnosis.Create("D701", "Neutropenia", "Agranulocytosis secondary to cancer chemotherapy", "Agranulocytosis secondary to cancer chemotherapy long description test"));
-                    p.addDiagnosis(Diagnosis.Create("D511", "Vitamin B12 deficiency anemia", "Vit B12 defic anemia d/t slctv vit B12 malabsorp w protein", "Vitamin B12 deficiency anemia due to selective vitamin B12 malabsorption with proteinuria"));
-                    return p;
-                }
-                catch (Exception ex)
-                {
-                    throw new EntityCreationException(nameof(PrescriptionEntity), ex.Message);
-                }
+                var p = PrescriptionEntity.Create(patient, d);
+                p.addPosology(posology(medications)[0]);
+                p.addPosology(posology(medications)[1]);
+                p.addSymptom(Symptom.Create("R292", "Abnormal reflex", "Abnormal reflex", "Other symptoms and signs involving the nervous and musculoskeletal systems"));
+                p.addSymptom(Symptom.Create("R402", "Coma", "Unspecified coma", "Unspecified coma"));
+                p.addSymptom(Symptom.Create("R1911", "Abnormal bowel sounds", "Other abnormal bowel sounds", "Other abnormal bowel sounds"));
+                p.addDiagnosis(Diagnosis.Create("A000", "Cholera", "Cholera due to Vibrio cholerae 01, biovar cholerae", "Cholera due to Vibrio cholerae 01, biovar cholerae long description test"));
+                p.addDiagnosis(Diagnosis.Create("D701", "Neutropenia", "Agranulocytosis secondary to cancer chemotherapy", "Agranulocytosis secondary to cancer chemotherapy long description test"));
+                p.addDiagnosis(Diagnosis.Create("D511", "Vitamin B12 deficiency anemia", "Vit B12 defic anemia d/t slctv vit B12 malabsorp w protein", "Vitamin B12 deficiency anemia due to selective vitamin B12 malabsorption with proteinuria"));
+                return p;
+            }
+            catch (Exception ex)
+            {
+                throw new EntityCreationException(nameof(PrescriptionEntity), ex.Message);
             }
         }
     }

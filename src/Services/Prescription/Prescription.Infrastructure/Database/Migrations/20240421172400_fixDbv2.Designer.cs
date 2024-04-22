@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Prescription.Infrastructure.Database;
 
@@ -11,9 +12,11 @@ using Prescription.Infrastructure.Database;
 namespace Prescription.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240421172400_fixDbv2")]
+    partial class fixDbv2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -576,15 +579,15 @@ namespace Prescription.Infrastructure.Database.Migrations
             modelBuilder.Entity("Prescription.Domain.Entities.Prescription.PrescriptionEntity", b =>
                 {
                     b.HasOne("Prescription.Domain.Entities.Doctor", "Doctor")
-                        .WithMany("Prescriptions")
+                        .WithMany()
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Prescription.Domain.Entities.Patient", "Patient")
-                        .WithMany("Prescriptions")
+                        .WithMany()
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Doctor");
@@ -605,16 +608,6 @@ namespace Prescription.Infrastructure.Database.Migrations
                         .HasForeignKey("SymptomsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Prescription.Domain.Entities.Doctor", b =>
-                {
-                    b.Navigation("Prescriptions");
-                });
-
-            modelBuilder.Entity("Prescription.Domain.Entities.Patient", b =>
-                {
-                    b.Navigation("Prescriptions");
                 });
 
             modelBuilder.Entity("Prescription.Domain.Entities.Prescription.Posology", b =>

@@ -17,6 +17,10 @@ public static class DatabaseExtensions
         // Clear existing data
         await ClearDataAsync(context);
 
+        await SeedMedicationsAsync(context);
+        await SeedPatientsAsync(context);
+        await SeedDoctorsAsync(context);
+
         await SeedPrescriptionsAsync(context);
     }
 
@@ -27,6 +31,9 @@ public static class DatabaseExtensions
         context.Posology.RemoveRange(context.Posology);
         context.Comments.RemoveRange(context.Comments);
         context.Dispenses.RemoveRange(context.Dispenses);
+        context.Medications.RemoveRange(context.Medications);
+        context.Patients.RemoveRange(context.Patients);
+        context.Doctors.RemoveRange(context.Doctors);
 
         context.Diagnosis.RemoveRange(context.Diagnosis);
         context.Symptoms.RemoveRange(context.Symptoms);
@@ -35,29 +42,67 @@ public static class DatabaseExtensions
         await context.SaveChangesAsync();
     }
 
-    private static async Task SeedCommentsAsync(ApplicationDbContext context)
+    private static async Task SeedMedicationsAsync(ApplicationDbContext context)
     {
-        if (!await context.Comments.AnyAsync())
+        if (!await context.Medications.AnyAsync())
         {
-            await context.Comments.AddRangeAsync(InitialData.Comments);
+            await context.Medications.AddRangeAsync(InitialData.Medications);
+            await context.SaveChangesAsync();
+        }
+    }
+
+    private static async Task SeedPatientsAsync(ApplicationDbContext context)
+    {
+        if (!await context.Patients.AnyAsync())
+        {
+            await context.Patients.AddRangeAsync(InitialData.Patients);
+            await context.SaveChangesAsync();
+        }
+    }
+
+    private static async Task SeedDoctorsAsync(ApplicationDbContext context)
+    {
+        if (!await context.Doctors.AnyAsync())
+        {
+            await context.Doctors.AddRangeAsync(InitialData.Doctors);
             await context.SaveChangesAsync();
         }
     }
 
     private static async Task SeedPrescriptionsAsync(ApplicationDbContext context)
     {
-        if (!await context.Prescriptions.AnyAsync())
+        try
         {
-            await context.Prescriptions.AddRangeAsync(InitialData.prescription);
-            await context.SaveChangesAsync();
+            var patients = await context.Patients.ToListAsync();
+            var doctors = await context.Doctors.ToListAsync();
+            var medications = await context.Medications.ToListAsync();
+
+            // Check if there are any patients and doctors
+            if (patients.Count > 0 && doctors.Count > 0)
+            {
+                var patient = patients.First();
+                var doctor = doctors.First();
+
+                if (!await context.Prescriptions.AnyAsync())
+                {
+                    var newPrescription = InitialData.Prescription(patient, doctor, medications);
+
+                    await context.Prescriptions.AddAsync(newPrescription);
+                    await context.SaveChangesAsync();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            throw;
         }
     }
 
-    private static async Task SeedSymptomsAsync(ApplicationDbContext context)
+    /*private static async Task SeedSymptomsAsync(ApplicationDbContext context)
     {
         if (!await context.Symptoms.AnyAsync())
         {
-            await context.Symptoms.AddRangeAsync(InitialData.prescription.Symptoms);
+            await context.Symptoms.AddRangeAsync(InitialData.Prescription.Symptoms);
             await context.SaveChangesAsync();
         }
     }
@@ -66,7 +111,16 @@ public static class DatabaseExtensions
     {
         if (!await context.Diagnosis.AnyAsync())
         {
-            await context.Diagnosis.AddRangeAsync(InitialData.prescription.Diagnosis);
+            await context.Diagnosis.AddRangeAsync(InitialData.Prescription.Diagnosis);
+            await context.SaveChangesAsync();
+        }
+    }
+
+        private static async Task SeedCommentsAsync(ApplicationDbContext context)
+    {
+        if (!await context.Comments.AnyAsync())
+        {
+            await context.Comments.AddRangeAsync(InitialData.Comments);
             await context.SaveChangesAsync();
         }
     }
@@ -87,5 +141,5 @@ public static class DatabaseExtensions
             await context.Posology.AddRangeAsync(InitialData.posology);
             await context.SaveChangesAsync();
         }
-    }
+    }*/
 }

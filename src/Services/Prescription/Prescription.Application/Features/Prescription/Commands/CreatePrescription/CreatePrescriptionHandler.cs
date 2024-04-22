@@ -36,9 +36,8 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
 
         private async Task<PrescriptionEntity> CreateNewPrescription(PrescriptionDto prescriptionDto, CancellationToken cancellationToken)
         {
-/*fix this*/
             //var newPrescription = PrescriptionEntity.Create(patient.Adapt<Patient>(_mapsterConfig), doctor.Adapt<Doctor>(_mapsterConfig));
-
+            var newPrescription = prescriptionDto.Adapt<PrescriptionEntity>(_mapsterConfig);
 
             var diagnosisEntities = prescriptionDto.Diagnoses
                 .Select(dto => dto.Adapt<Domain.Entities.Diagnosis>(_mapsterConfig))

@@ -12,8 +12,8 @@ using Prescription.Infrastructure.Database;
 namespace Prescription.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240420122529_addMedicationPatientDoctor")]
-    partial class addMedicationPatientDoctor
+    [Migration("20240421172617_fixDbv3")]
+    partial class fixDbv3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,7 +48,8 @@ namespace Prescription.Infrastructure.Database.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -64,15 +65,18 @@ namespace Prescription.Infrastructure.Database.Migrations
 
                     b.Property<string>("LongDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ShortDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -172,7 +176,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("ReservedStock")
                         .HasColumnType("int");
@@ -241,7 +245,8 @@ namespace Prescription.Infrastructure.Database.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -251,7 +256,8 @@ namespace Prescription.Infrastructure.Database.Migrations
 
                     b.Property<string>("Label")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
@@ -389,7 +395,8 @@ namespace Prescription.Infrastructure.Database.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -405,15 +412,18 @@ namespace Prescription.Infrastructure.Database.Migrations
 
                     b.Property<string>("LongDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ShortDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -458,15 +468,12 @@ namespace Prescription.Infrastructure.Database.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("key")
-                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("subRiskfactory")
-                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("value")
-                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("PatientId");
@@ -483,15 +490,12 @@ namespace Prescription.Infrastructure.Database.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("key")
-                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("subRiskfactory")
-                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("value")
-                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("PatientId");
@@ -508,11 +512,9 @@ namespace Prescription.Infrastructure.Database.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("familymedicalhistory")
-                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("personalMedicalHistory")
-                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("PatientId");
@@ -577,15 +579,15 @@ namespace Prescription.Infrastructure.Database.Migrations
             modelBuilder.Entity("Prescription.Domain.Entities.Prescription.PrescriptionEntity", b =>
                 {
                     b.HasOne("Prescription.Domain.Entities.Doctor", "Doctor")
-                        .WithMany()
+                        .WithMany("Prescriptions")
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Prescription.Domain.Entities.Patient", "Patient")
-                        .WithMany()
+                        .WithMany("Prescriptions")
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Doctor");
@@ -606,6 +608,16 @@ namespace Prescription.Infrastructure.Database.Migrations
                         .HasForeignKey("SymptomsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Prescription.Domain.Entities.Doctor", b =>
+                {
+                    b.Navigation("Prescriptions");
+                });
+
+            modelBuilder.Entity("Prescription.Domain.Entities.Patient", b =>
+                {
+                    b.Navigation("Prescriptions");
                 });
 
             modelBuilder.Entity("Prescription.Domain.Entities.Prescription.Posology", b =>

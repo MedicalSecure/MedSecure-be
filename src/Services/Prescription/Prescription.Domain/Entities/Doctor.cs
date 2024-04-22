@@ -6,7 +6,7 @@
         public string LastName { get; init; }
         public string Speciality { get; init; }
         public DateTime DateOfBirth { get; init; }
-
+        public ICollection<PrescriptionEntity> Prescriptions { get; set; }
         public Doctor()
         { } // For EF
 

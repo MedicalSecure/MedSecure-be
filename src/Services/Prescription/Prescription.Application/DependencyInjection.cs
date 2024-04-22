@@ -15,7 +15,6 @@ namespace Prescription.Application
 {
     public static class DependencyInjection
     {
-
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Add MediatR for handling commands and queries

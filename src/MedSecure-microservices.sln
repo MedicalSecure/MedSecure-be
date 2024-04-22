@@ -47,8 +47,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prescription.Domain", "Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prescription.Infrastructure", "Services\Prescription\Prescription.Infrastructure\Prescription.Infrastructure.csproj", "{E5E1D194-2659-4271-8467-FD91D7DED06B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "externalServicesForTesting", "..\externalServicesForTesting\externalServicesForTesting.csproj", "{0AB1F396-DE66-433F-906C-3492C9474155}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,10 +117,6 @@ Global
 		{E5E1D194-2659-4271-8467-FD91D7DED06B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5E1D194-2659-4271-8467-FD91D7DED06B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5E1D194-2659-4271-8467-FD91D7DED06B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0AB1F396-DE66-433F-906C-3492C9474155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0AB1F396-DE66-433F-906C-3492C9474155}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0AB1F396-DE66-433F-906C-3492C9474155}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0AB1F396-DE66-433F-906C-3492C9474155}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,7 +140,6 @@ Global
 		{BECCFE4A-5326-49A6-ACAD-DD8D19990974} = {7632429F-F617-4E1D-B374-9D13F4DD52BB}
 		{86920683-38A6-45B1-862B-3274C45BB442} = {7632429F-F617-4E1D-B374-9D13F4DD52BB}
 		{E5E1D194-2659-4271-8467-FD91D7DED06B} = {7632429F-F617-4E1D-B374-9D13F4DD52BB}
-		{0AB1F396-DE66-433F-906C-3492C9474155} = {7632429F-F617-4E1D-B374-9D13F4DD52BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {78EAC569-7962-4714-8D31-E25EC45A4573}

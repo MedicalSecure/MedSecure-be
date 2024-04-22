@@ -176,7 +176,7 @@ namespace Prescription.Infrastructure.Database.Migrations
             migrationBuilder.AddColumn<decimal>(
                 name: "Price",
                 table: "Medications",
-                type: "decimal(18,2)",
+                type: "decimal(18,4)",
                 nullable: false,
                 defaultValue: 0m);
 

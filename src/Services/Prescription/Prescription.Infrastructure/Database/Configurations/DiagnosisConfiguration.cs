@@ -11,7 +11,17 @@ namespace Prescription.Infrastructure.Database.Configurations
     {
         public void Configure(EntityTypeBuilder<Diagnosis> builder)
         {
-            builder.HasKey(d => d.Id);
+            builder.Property(d => d.Code)
+            .HasMaxLength(50);
+
+            builder.Property(d => d.Name)
+                .HasMaxLength(50).IsRequired();
+
+            builder.Property(d => d.ShortDescription)
+                .HasMaxLength(100);
+
+            builder.Property(d => d.LongDescription)
+                .HasMaxLength(250);
         }
     }
 }

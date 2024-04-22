@@ -6,7 +6,7 @@ namespace Prescription.Infrastructure.Database.Configurations
 {
     //called from : ApplicationDbContext :
     //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    public class RiskFactorListConverter : ValueConverter<List<RiskFactor>, string>
+    public class RiskFactorListConverter : ValueConverter<List<RiskFactor?>, string>
     {
         public RiskFactorListConverter() : base(
             riskFactors => JsonSerializer.Serialize(riskFactors, new JsonSerializerOptions { /* Add any necessary options */ }),
@@ -32,34 +32,30 @@ namespace Prescription.Infrastructure.Database.Configurations
             builder.OwnsOne(p => p.Register, register =>
             {
                 register.Property(r => r.familymedicalhistory)
-                    .HasConversion(new RiskFactorListConverter());
+                    .HasConversion(new RiskFactorListConverter()).IsRequired(false);
 
                 register.Property(r => r.personalMedicalHistory)
-                    .HasConversion(new RiskFactorListConverter());
+                    .HasConversion(new RiskFactorListConverter()).IsRequired(false);
             });
 
             builder.OwnsOne(p => p.RiskFactor, riskFactor =>
             {
-                riskFactor.Property(r => r.key)
-                    .IsRequired();
+                riskFactor.Property(r => r.key).IsRequired(false); ;
 
-                riskFactor.Property(r => r.value)
-                    .IsRequired();
+                riskFactor.Property(r => r.value).IsRequired(false); ;
 
                 riskFactor.Property(r => r.subRiskfactory)
-                    .HasConversion(new RiskFactorListConverter());
+                    .HasConversion(new RiskFactorListConverter()).IsRequired(false); ;
             });
 
             builder.OwnsOne(p => p.Disease, disease =>
             {
-                disease.Property(d => d.key)
-                    .IsRequired();
+                disease.Property(d => d.key).IsRequired(false); ;
 
-                disease.Property(d => d.value)
-                    .IsRequired();
+                disease.Property(d => d.value).IsRequired(false); ;
 
                 disease.Property(d => d.subRiskfactory)
-                    .HasConversion(new RiskFactorListConverter());
+                    .HasConversion(new RiskFactorListConverter()).IsRequired(false); ;
             });
         }
     }
