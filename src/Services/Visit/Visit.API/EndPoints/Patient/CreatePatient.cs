@@ -12,7 +12,7 @@ public class CreatePatient : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/v1//patients", async (CreatePatientRequest request, ISender sender) =>
+        app.MapPost("/v1/patients", async (CreatePatientRequest request, ISender sender) =>
         {
             var command = request.Adapt<CreatePatientCommand>();
 
