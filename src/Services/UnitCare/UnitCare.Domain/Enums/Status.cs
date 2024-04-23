@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UnitCare.Domain.Enums
+﻿namespace UnitCare.Domain.Enums
 {
     public enum Status
     {
-        activated,
-        desactivated,
-        pending
+        pending = 1,
+        activated =2,
+        desactivated=3
+        
     }
    
 }

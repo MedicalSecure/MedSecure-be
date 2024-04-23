@@ -14,6 +14,12 @@ services:
       context: .
       dockerfile: Services/Diet/Diet.API/Dockerfile
 
+  unitcare.api:
+    image: ${DOCKER_REGISTRY-}unitcareapi
+    build:
+      context: .
+      dockerfile: Services/UnitCare/UnitCare.API/Dockerfile
+
   waste.api:
     image: ${DOCKER_REGISTRY-}wasteapi
     build:

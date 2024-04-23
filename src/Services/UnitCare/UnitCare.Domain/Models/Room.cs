@@ -7,7 +7,7 @@ namespace UnitCare.Domain.Models
         public IReadOnlyList<Equipment> Equipments => _equipments.AsReadOnly();
         public UnitCareId UnitCareId { get; set; } = default!;
         public decimal RoomNumber { get; set; } = default!;
-        public Status Status { get; set; } = default!;
+        public Status Status { get; set; } = Status.pending;
 
         public static Room Create(
             RoomId id,
