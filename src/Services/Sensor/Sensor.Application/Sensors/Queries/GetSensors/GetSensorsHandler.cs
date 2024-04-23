@@ -10,7 +10,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Sensor.Application.Sensors.Queries.GetSensors;
 
-public class GetSensorsHandler(IApplicationDbContext dbContext, IThingSpeakService thingSpeakService)
+public class GetSensorsHandler(IApplicationDbContext dbContext)
     : IQueryHandler<GetSensorsQuery, GetSensorsResult>
 {
     public async Task<GetSensorsResult> Handle(GetSensorsQuery query, CancellationToken cancellationToken)

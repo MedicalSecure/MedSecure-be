@@ -13,6 +13,8 @@ public static class DependencyInjection
         // Add Carter as the routing framework for the API
         services.AddCarter();
 
+        services.AddHttpClient();
+
         // Add custom exception handling using CustomExceptionHandler
         services.AddExceptionHandler<CustomExceptionHandler>();
 
@@ -31,6 +33,8 @@ public static WebApplication UseApiServices(this WebApplication app)
 {
     // Map Carter routes
     app.MapCarter();
+
+   
 
     // Configure exception handling
     app.UseExceptionHandler(options => { });

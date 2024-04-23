@@ -28,9 +28,6 @@ public static class DependencyInjection
         services.AddHttpClient();
         // Register IApplicationDbContext and ApplicationDbContext for dependency injection
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-        services.AddScoped<IThingSpeakService, ThingSpeakService>();
-
-
 
         // Return the modified service collection
         return services;
