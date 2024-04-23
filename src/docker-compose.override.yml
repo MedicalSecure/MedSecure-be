@@ -38,13 +38,13 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-  bacpatient.api:
-    container_name: bacpatient-api
+  bacPatient.api:
+    container_name: bacPatient-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__Database=Server=sql-server-db;Database=bacpatientDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
+      - ConnectionStrings__Database=Server=sql-server-db;Database=bacPatientDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
       - MessageBroker__Host=amqp://medsecure-mq:5672
       - MessageBroker__UserName=guest
       - MessageBroker__Password=guest

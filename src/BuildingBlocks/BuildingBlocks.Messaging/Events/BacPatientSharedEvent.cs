@@ -4,7 +4,7 @@ using BacPatient.Domain.Enums;
 
 namespace BuildingBlocks.Messaging.Events;
 
-public record BPModelPlanSharedEvent : IntegrationEvent
+public record BacPatientSharedEvent : IntegrationEvent
 {
     public Guid BPModelId { get; init; } = default!;
     public Guid PatientId { get; init; } = default!;

@@ -14,7 +14,7 @@ public class GetBacPatient : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/v1/bacpatient", async ([AsParameters] PaginationRequest request, ISender sender) =>
+        app.MapGet("/v1/bacPatient", async ([AsParameters] PaginationRequest request, ISender sender) =>
         {
             var result = await sender.Send(new GetBacPatientQuery(request));
 

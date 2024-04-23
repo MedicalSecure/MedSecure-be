@@ -6,9 +6,9 @@ using BacPatient.Application.BacPatient.Commands.UpdateBacPatientStatus;
 namespace BacPatient.Application.BacPatient.Commands.AddNote
 {
 
-    public class UpdateBacPatientStatusHandler(IPublishEndpoint publishEndpoint, IApplicationDbContext dbContext, IFeatureManager featureManager) : ICommandHandler<UpdateBacPatientStatusCommand, UpdateBPResult>
+    public class UpdateStatusHandler(IPublishEndpoint publishEndpoint, IApplicationDbContext dbContext, IFeatureManager featureManager) : ICommandHandler<UpdateStatusCommand, UpdateStatusResult>
     {
-        public async Task<UpdateBPResult> Handle(UpdateBacPatientStatusCommand command, CancellationToken cancellationToken)
+        public async Task<UpdateStatusResult> Handle(UpdateStatusCommand command, CancellationToken cancellationToken)
         {
             var BPid = BacPatienId.Of(command.Id);
             var bacPatients = await dbContext.BacPatients.FindAsync([BPid], cancellationToken);
@@ -22,7 +22,7 @@ namespace BacPatient.Application.BacPatient.Commands.AddNote
             dbContext.BacPatients.Update(bacPatients);
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return new UpdateBPResult(true);
+            return new UpdateStatusResult(true);
         }
 
         private static void UpdateBacPatientStatusWithNewValues(Domain.Models.BacPatient bPModel, StatusBP status)

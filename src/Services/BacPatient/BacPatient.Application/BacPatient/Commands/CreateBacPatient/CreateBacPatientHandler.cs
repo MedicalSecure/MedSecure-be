@@ -15,7 +15,7 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
 
         if (await featureManager.IsEnabledAsync("DietPlanSharedFulfillment"))
         {
-            var eventMessage = command.BacPatients.Adapt<BPModelPlanSharedEvent>();
+            var eventMessage = command.BacPatients.Adapt<BacPatientSharedEvent>();
             await publishEndpoint.Publish(eventMessage, cancellationToken);
         }
 
