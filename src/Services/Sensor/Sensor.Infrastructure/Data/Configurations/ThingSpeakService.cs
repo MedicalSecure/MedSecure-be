@@ -15,7 +15,7 @@ public class ThingSpeakService : IThingSpeakService
 
     public async Task<ThingSpeakDataResponse> GetSensorDataAsync()
     {
-        var url = _configuration.GetConnectionString("urlthingspeak");
+        var url = _configuration.GetValue<string>("ExternalService:thingspeakurl");
         var response = await _httpClient.GetAsync(url);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsAsync<ThingSpeakDataResponse>();
