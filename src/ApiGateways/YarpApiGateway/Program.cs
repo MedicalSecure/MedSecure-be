@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
-// Ajouter la configuration à partir de appsettings.json
+// Add  configuration from appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json", optional: false);
 
-// Ajouter la configuration à partir de appsettings.local.json pour Docker Compose
+//Add configuration from appsettings.local.json for Docker Compose
 builder.Configuration.AddJsonFile("appsettings.local.json", optional: true);
 
 builder.Services.AddEndpointsApiExplorer();

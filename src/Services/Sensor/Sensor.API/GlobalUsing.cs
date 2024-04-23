@@ -14,3 +14,4 @@ global using Sensor.API;
 global using HealthChecks.UI.Client;
 global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 global using Sensor.Infrastructure.Data.Extensions;
+global using Sensor.Application.Sensors.Queries.GetSensorsByType;
