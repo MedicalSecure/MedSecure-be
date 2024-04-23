@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Prescription.Domain\Prescription.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Database\Migrations\" />
+  </ItemGroup>
+
 </Project>

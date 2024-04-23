@@ -522,14 +522,11 @@ namespace Prescription.Infrastructure.Database.Migrations
                                 .HasForeignKey("PatientId");
                         });
 
-                    b.Navigation("Disease")
-                        .IsRequired();
+                    b.Navigation("Disease");
 
-                    b.Navigation("Register")
-                        .IsRequired();
+                    b.Navigation("Register");
 
-                    b.Navigation("RiskFactor")
-                        .IsRequired();
+                    b.Navigation("RiskFactor");
                 });
 
             modelBuilder.Entity("Prescription.Domain.Entities.Prescription.Comment", b =>

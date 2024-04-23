@@ -12,11 +12,33 @@ namespace Prescription.Infrastructure.Database.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Diagnosis",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ShortDescription = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LongDescription = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Diagnosis", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Doctors",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Speciality = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -28,10 +50,24 @@ namespace Prescription.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Medication",
+                name: "Medications",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Dosage = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Form = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Unit = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ExpiredAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Stock = table.Column<int>(type: "int", nullable: false),
+                    AlertStock = table.Column<int>(type: "int", nullable: false),
+                    AvrgStock = table.Column<int>(type: "int", nullable: false),
+                    MinStock = table.Column<int>(type: "int", nullable: false),
+                    SafetyStock = table.Column<int>(type: "int", nullable: false),
+                    ReservedStock = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -39,7 +75,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Medication", x => x.Id);
+                    table.PrimaryKey("PK_Medications", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,7 +83,19 @@ namespace Prescription.Infrastructure.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PatientName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    Height = table.Column<int>(type: "int", nullable: false),
+                    Weight = table.Column<int>(type: "int", nullable: false),
+                    Register_familymedicalhistory = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Register_personalMedicalHistory = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RiskFactor_key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RiskFactor_value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RiskFactor_subRiskfactory = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Disease_key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Disease_value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Disease_subRiskfactory = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -63,8 +111,10 @@ namespace Prescription.Infrastructure.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ShortDescription = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LongDescription = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -95,36 +145,37 @@ namespace Prescription.Infrastructure.Database.Migrations
                         column: x => x.DoctorId,
                         principalTable: "Doctors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Prescriptions_Patients_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Patients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Diagnosis",
+                name: "DiagnosisPrescriptionEntity",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PrescriptionEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    DiagnosisId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PrescriptionsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Diagnosis", x => x.Id);
+                    table.PrimaryKey("PK_DiagnosisPrescriptionEntity", x => new { x.DiagnosisId, x.PrescriptionsId });
                     table.ForeignKey(
-                        name: "FK_Diagnosis_Prescriptions_PrescriptionEntityId",
-                        column: x => x.PrescriptionEntityId,
+                        name: "FK_DiagnosisPrescriptionEntity_Diagnosis_DiagnosisId",
+                        column: x => x.DiagnosisId,
+                        principalTable: "Diagnosis",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DiagnosisPrescriptionEntity_Prescriptions_PrescriptionsId",
+                        column: x => x.PrescriptionsId,
                         principalTable: "Prescriptions",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -146,9 +197,9 @@ namespace Prescription.Infrastructure.Database.Migrations
                 {
                     table.PrimaryKey("PK_Posology", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posology_Medication_MedicationId",
+                        name: "FK_Posology_Medications_MedicationId",
                         column: x => x.MedicationId,
-                        principalTable: "Medication",
+                        principalTable: "Medications",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -188,8 +239,8 @@ namespace Prescription.Infrastructure.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Label = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Label = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     PosologyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -238,9 +289,9 @@ namespace Prescription.Infrastructure.Database.Migrations
                 column: "PosologyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Diagnosis_PrescriptionEntityId",
-                table: "Diagnosis",
-                column: "PrescriptionEntityId");
+                name: "IX_DiagnosisPrescriptionEntity_PrescriptionsId",
+                table: "DiagnosisPrescriptionEntity",
+                column: "PrescriptionsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dispenses_PosologyId",
@@ -280,7 +331,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Diagnosis");
+                name: "DiagnosisPrescriptionEntity");
 
             migrationBuilder.DropTable(
                 name: "Dispenses");
@@ -289,13 +340,16 @@ namespace Prescription.Infrastructure.Database.Migrations
                 name: "PrescriptionEntitySymptom");
 
             migrationBuilder.DropTable(
+                name: "Diagnosis");
+
+            migrationBuilder.DropTable(
                 name: "Posology");
 
             migrationBuilder.DropTable(
                 name: "Symptoms");
 
             migrationBuilder.DropTable(
-                name: "Medication");
+                name: "Medications");
 
             migrationBuilder.DropTable(
                 name: "Prescriptions");
