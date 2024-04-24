@@ -12,28 +12,33 @@ public class BacPatientConfiguration : IEntityTypeConfiguration<Domain.Models.Ba
         builder.Property(b => b.Id)
                .HasConversion(bpModelid => bpModelid.Value,
                               dbId => BacPatienId.Of(dbId));
-        builder.Property(b => b.PatientId)
-            .IsRequired(false)
-               .HasConversion(patientid => patientid.Value,
-                              patientId => PatientId.Of(patientId));
-        builder.Property(b => b.RoomId)
-            .IsRequired(false)
-              .HasConversion(roomid => roomid.Value,
-                             roomId => RoomId.Of(roomId));
-        builder.Property(b => b.UnitCareId).IsRequired(false)
-             .HasConversion(unitid => unitid.Value,
-                            unitId => UnitCareId.Of(unitId)); builder.Property(b => b.PatientId);
+        builder.OwnsOne(b => b.Patient, patient =>
+        {
+            patient.Property(p => p.Id).IsRequired()
+             .HasConversion(bpModelid => bpModelid.Value,
+                              dbId => PatientId.Of(dbId)); ;
+            patient.Property(p => p.Name).IsRequired();
+            patient.Property(p => p.DateOfBirth).IsRequired();
 
-        builder.HasOne<Patient>()
-              .WithMany()
-              .HasForeignKey(w =>  w.PatientId);
+        });
+        builder.OwnsOne(b => b.Room, patient =>
+        {
+            patient.Property(p => p.Id).IsRequired()
+            .HasConversion(bpModelid => bpModelid.Value,
+                              dbId => RoomId.Of(dbId));
+            patient.Property(p => p.number).IsRequired();
 
-        builder.HasOne<UnitCare>()
-             .WithMany()
-             .HasForeignKey(w => w.UnitCareId);
-        builder.HasOne<Room>()
-             .WithMany()
-             .HasForeignKey(w => w.RoomId);
+        });
+        builder.OwnsOne(b => b.UnitCare, patient =>
+        {
+            patient.Property(p => p.Id).IsRequired()
+            .HasConversion(bpModelid => bpModelid.Value,
+                              dbId => UnitCareId.Of(dbId));
+            patient.Property(p => p.Title).IsRequired();
+
+        });
+      
+ 
         builder.Property(d => d.Status).
             HasConversion(
             dt => dt.ToString(),

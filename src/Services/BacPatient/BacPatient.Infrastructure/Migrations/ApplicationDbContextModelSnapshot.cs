@@ -42,12 +42,6 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PatientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RoomId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Served")
                         .HasColumnType("int");
 
@@ -61,16 +55,7 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<int>("ToServe")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UnitCareId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PatientId");
-
-                    b.HasIndex("RoomId");
-
-                    b.HasIndex("UnitCareId");
 
                     b.ToTable("BacPatients");
                 });
@@ -114,6 +99,10 @@ namespace BacPatient.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Root")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
@@ -126,64 +115,6 @@ namespace BacPatient.Infrastructure.Migrations
                     b.HasIndex("BacPatientId");
 
                     b.ToTable("Medecines");
-                });
-
-            modelBuilder.Entity("BacPatient.Domain.Models.Patient", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ActivityStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Allergies")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FamilyHistory")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RiskFactor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Weight")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Posology", b =>
@@ -232,93 +163,160 @@ namespace BacPatient.Infrastructure.Migrations
                     b.ToTable("Posologies");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Room", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Beds")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("number")
-                        .HasColumnType("int");
-
-                    b.Property<int>("status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Rooms");
-                });
-
-            modelBuilder.Entity("BacPatient.Domain.Models.UnitCare", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UnitCares");
-                });
-
             modelBuilder.Entity("BacPatient.Domain.Models.BacPatient", b =>
                 {
-                    b.HasOne("BacPatient.Domain.Models.Patient", null)
-                        .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.OwnsOne("BacPatient.Domain.Models.Patient", "Patient", b1 =>
+                        {
+                            b1.Property<Guid>("BacPatientId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("ActivityStatus")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("Age")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Allergies")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime?>("CreatedAt")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("CreatedBy")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime>("DateOfBirth")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("FamilyHistory")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Gender")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("Height")
+                                .HasColumnType("int");
+
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<DateTime?>("LastModified")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("LastModifiedBy")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("RiskFactor")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("Weight")
+                                .HasColumnType("int");
+
+                            b1.HasKey("BacPatientId");
+
+                            b1.ToTable("Patients");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BacPatientId");
+                        });
+
+                    b.OwnsOne("BacPatient.Domain.Models.Room", "Room", b1 =>
+                        {
+                            b1.Property<Guid>("BacPatientId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Beds")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime?>("CreatedAt")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("CreatedBy")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<DateTime?>("LastModified")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("LastModifiedBy")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("number")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("status")
+                                .HasColumnType("int");
+
+                            b1.HasKey("BacPatientId");
+
+                            b1.ToTable("Rooms");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BacPatientId");
+                        });
+
+                    b.OwnsOne("BacPatient.Domain.Models.UnitCare", "UnitCare", b1 =>
+                        {
+                            b1.Property<Guid>("BacPatientId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<DateTime?>("CreatedAt")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("CreatedBy")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<DateTime?>("LastModified")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("LastModifiedBy")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("Status")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Title")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Type")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("BacPatientId");
+
+                            b1.ToTable("UnitCares");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BacPatientId");
+                        });
+
+                    b.Navigation("Patient")
                         .IsRequired();
 
-                    b.HasOne("BacPatient.Domain.Models.Room", null)
-                        .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.Navigation("Room")
                         .IsRequired();
 
-                    b.HasOne("BacPatient.Domain.Models.UnitCare", null)
-                        .WithMany()
-                        .HasForeignKey("UnitCareId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.Navigation("UnitCare")
                         .IsRequired();
                 });
 

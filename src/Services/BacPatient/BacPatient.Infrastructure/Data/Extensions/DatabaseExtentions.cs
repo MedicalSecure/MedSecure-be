@@ -17,38 +17,13 @@ public static class DatabaseExtentions
     private static async Task SeedAsync(ApplicationDbContext context)
     {
         await ClearDataAsync(context);
-        await SeedRoomsAsync(context);
-        await SeedUnitCaresAsync(context);
-        await SeedPatientAsync(context);
+      
         await SeedBacPatientAsync(context);
 
     }
 
 
-    private static async Task SeedPatientAsync(ApplicationDbContext context)
-    {
-        if (!await context.Patients.AnyAsync())
-        {
-            await context.Patients.AddRangeAsync(InitialData.Patients);
-            await context.SaveChangesAsync();
-        }
-    }
-    private static async Task SeedRoomsAsync(ApplicationDbContext context)
-    {
-        if (!await context.Rooms.AnyAsync())
-        {
-            await context.Rooms.AddRangeAsync(InitialData.Rooms);
-            await context.SaveChangesAsync();
-        }
-    }
-    private static async Task SeedUnitCaresAsync(ApplicationDbContext context)
-    {
-        if (!await context.UnitCares.AnyAsync())
-        {
-            await context.UnitCares.AddRangeAsync(InitialData.UnitCares);
-            await context.SaveChangesAsync();
-        }
-    }
+
     private static async Task SeedBacPatientAsync(ApplicationDbContext context)
     {
         if (!context.BacPatients.Any())
@@ -66,10 +41,8 @@ public static class DatabaseExtentions
         context.BacPatients.RemoveRange(context.BacPatients);
         context.Medecines.RemoveRange(context.Medecines);
         context.Posologies.RemoveRange(context.Posologies);
-        context.Patients.RemoveRange(context.Patients);
-        context.Rooms.RemoveRange(context.Rooms);
 
-        context.UnitCares.RemoveRange(context.UnitCares);
+
 
         // Save changes to the database
         await context.SaveChangesAsync();

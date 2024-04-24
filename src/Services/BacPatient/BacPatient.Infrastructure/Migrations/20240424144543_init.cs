@@ -6,81 +6,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BacPatient.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Patients",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
-                    Height = table.Column<int>(type: "int", nullable: false),
-                    Weight = table.Column<int>(type: "int", nullable: false),
-                    ActivityStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Allergies = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RiskFactor = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FamilyHistory = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Patients", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rooms",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    number = table.Column<int>(type: "int", nullable: false),
-                    status = table.Column<int>(type: "int", nullable: false),
-                    Beds = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rooms", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UnitCares",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UnitCares", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BacPatients",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UnitCareId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Bed = table.Column<int>(type: "int", nullable: false),
                     ServingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Served = table.Column<int>(type: "int", nullable: false),
@@ -94,24 +29,6 @@ namespace BacPatient.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BacPatients", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BacPatients_Patients_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "Patients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BacPatients_Rooms_RoomId",
-                        column: x => x.RoomId,
-                        principalTable: "Rooms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BacPatients_UnitCares_UnitCareId",
-                        column: x => x.UnitCareId,
-                        principalTable: "UnitCares",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,6 +40,7 @@ namespace BacPatient.Infrastructure.Migrations
                     Forme = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Dose = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Unit = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Root = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateExp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -140,6 +58,89 @@ namespace BacPatient.Infrastructure.Migrations
                         column: x => x.BacPatientId,
                         principalTable: "BacPatients",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Patients",
+                columns: table => new
+                {
+                    BacPatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false),
+                    Height = table.Column<int>(type: "int", nullable: false),
+                    Weight = table.Column<int>(type: "int", nullable: false),
+                    ActivityStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Allergies = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RiskFactor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FamilyHistory = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patients", x => x.BacPatientId);
+                    table.ForeignKey(
+                        name: "FK_Patients_BacPatients_BacPatientId",
+                        column: x => x.BacPatientId,
+                        principalTable: "BacPatients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Rooms",
+                columns: table => new
+                {
+                    BacPatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    number = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<int>(type: "int", nullable: false),
+                    Beds = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rooms", x => x.BacPatientId);
+                    table.ForeignKey(
+                        name: "FK_Rooms_BacPatients_BacPatientId",
+                        column: x => x.BacPatientId,
+                        principalTable: "BacPatients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UnitCares",
+                columns: table => new
+                {
+                    BacPatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UnitCares", x => x.BacPatientId);
+                    table.ForeignKey(
+                        name: "FK_UnitCares_BacPatients_BacPatientId",
+                        column: x => x.BacPatientId,
+                        principalTable: "BacPatients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,21 +171,6 @@ namespace BacPatient.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BacPatients_PatientId",
-                table: "BacPatients",
-                column: "PatientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BacPatients_RoomId",
-                table: "BacPatients",
-                column: "RoomId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BacPatients_UnitCareId",
-                table: "BacPatients",
-                column: "UnitCareId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Medecines_BacPatientId",
                 table: "Medecines",
                 column: "BacPatientId");
@@ -199,22 +185,22 @@ namespace BacPatient.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Posologies");
-
-            migrationBuilder.DropTable(
-                name: "Medecines");
-
-            migrationBuilder.DropTable(
-                name: "BacPatients");
-
-            migrationBuilder.DropTable(
                 name: "Patients");
+
+            migrationBuilder.DropTable(
+                name: "Posologies");
 
             migrationBuilder.DropTable(
                 name: "Rooms");
 
             migrationBuilder.DropTable(
                 name: "UnitCares");
+
+            migrationBuilder.DropTable(
+                name: "Medecines");
+
+            migrationBuilder.DropTable(
+                name: "BacPatients");
         }
     }
 }

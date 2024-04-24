@@ -1,8 +1,16 @@
 // Create a web application builder
 using BacPatient.API;
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200");
+                      });
+});
 // Add services to the container
 builder
     .Services
@@ -12,6 +20,7 @@ builder
 
 var app = builder.Build();  // Build the application
 
+app.UseCors(MyAllowSpecificOrigins);
 // Configure the HTTP request pipeline
 app.UseApiServices();  // Configure API-related middleware
 

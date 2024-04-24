@@ -1,5 +1,6 @@
 ﻿
 
+using BacPatient.Domain.Enums;
 using Microsoft.VisualBasic.FileIO;
 
 namespace BacPatient.Infrastructure.Data.Extensions
@@ -20,14 +21,40 @@ namespace BacPatient.Infrastructure.Data.Extensions
                 {
                     var bp = Domain.Models.BacPatient.Create(
                         Id: BacPatienId.Of(Guid.NewGuid()),
-                        PatientId: PatientId.Of(new Guid(patientId)),
-                        RoomId : RoomId.Of(new Guid(roomId)),
-                        UnitCareId: UnitCareId.Of(new Guid(unitCareId)),
-                        Bed : 1,
-                        ServingDate : DateTime.Now,
-                        Served : 3,
-                        ToServe : 5,
-                        Status: BacPatient.Domain.Enums.StatusBP.Pending);
+                        Patient: Patient.Create(
+                            Id: PatientId.Of(new Guid(patientId)),
+                            Name: "Zizou",
+                            DateOfBirth: DateTime.Now,
+                            Gender: "male",
+                            Age: 24,
+                            Height: 165,
+                            Weight: 65,
+                            ActivityStatus: "",
+                            Allergies: [""],
+                            RiskFactor: "",
+                            FamilyHistory: ""
+                          )
+                        ,
+
+                        Room: Room.Create(
+                             id: RoomId.Of(new Guid(roomId)),
+                             number: 202,
+                             status: Status.available,
+                             beds: [1, 2, 3]
+                             ),
+                        UnitCare: UnitCare.Create(
+                            Id: UnitCareId.Of(new Guid(unitCareId)),
+                            Title: "wiiw",
+                            Type: "rkbjfnrskfg",
+                            Description: "wiiiiw",
+                            Status: Status.available
+
+                            ),
+                        Bed: 1,
+                        ServingDate: DateTime.Now,
+                        Served: 3,
+                        ToServe: 5,
+                        Status: BacPatient.Domain.Enums.StatusBP.Pending); ;
 
                     var medecines = new List<Medicine>
                     {
@@ -35,12 +62,13 @@ namespace BacPatient.Infrastructure.Data.Extensions
                          Id: MedicineId.Of(Guid.NewGuid()),
                         Name : "jlkncdnjqf",
                         Forme:"ef,klff,evf",
+                        Root: Root.Injection , 
                         Dose:"fvdnv:v",
                         Unit:"njkdcnjvf",
                         DateExp:DateTime.Now,
                         Stock:12,
                         Note:["blabla"]
-                        
+
                          )
 
                     };
@@ -54,7 +82,7 @@ namespace BacPatient.Infrastructure.Data.Extensions
                         QuantityAE:15,
                         QuantityBE:12,
                         IsPermanent:false,
-                        Hours:["1,2,3"]
+                        Hours:[01,02,03]
                          )
                     };
                     foreach (var med in medecines)
@@ -63,7 +91,7 @@ namespace BacPatient.Infrastructure.Data.Extensions
                         foreach (var pos in posologies)
                             med.AddPosology(pos);
                     }
-                       
+
                     return new List<Domain.Models.BacPatient> { bp };
                 }
                 catch (Exception ex)
@@ -72,83 +100,5 @@ namespace BacPatient.Infrastructure.Data.Extensions
                 }
             }
         }
-        public static IEnumerable<Patient> Patients
-        {
-            get
-            {
-                try
-                {
-                   
-                    var bp = Patient.Create(
-                        Id: PatientId.Of(new Guid(patientId)),
-                        Name: "mehrez",
-                        DateOfBirth:DateTime.Now ,
-                        Gender:"male" ,
-                        Age:1,
-                        Height:180,
-                        Weight:75,
-                        ActivityStatus: "blabla",
-                        Allergies: ["blabla"],
-                        RiskFactor: "blabla",
-                        FamilyHistory: "blabla") ;
-            
-
-
-                    return new List<Patient> { bp };
-                }
-                catch (Exception ex)
-                {
-                    throw new EntityCreationException(nameof(Patient), ex.Message);
-                }
-            }
-        }
-
-        public static IEnumerable<Room> Rooms
-        {
-            get
-            {
-                try
-                {
-
-                    var bp = Room.Create(
-                        id: RoomId.Of(new Guid(roomId)),
-                        number:3,
-                       status: Domain.Enums.Status.available,
-                       beds: [1,2,3,4]
-                  );
-
-                    return new List<Room> { bp };
-                }
-                catch (Exception ex)
-                {
-                    throw new EntityCreationException(nameof(Room), ex.Message);
-                }
-            }
-        }
-        public static IEnumerable<UnitCare> UnitCares
-        {
-            get
-            {
-                try
-                {
-
-                    var bp = UnitCare.Create(
-                        Id: UnitCareId.Of(new Guid(unitCareId)),
-                        Title: "wiw",
-                        Type:"wiiiw",
-                        Description:"wiiiiiiw",
-                        Status:Domain.Enums.Status.available
-                      
-                  );
-
-                    return new List<UnitCare> { bp };
-                }
-                catch (Exception ex)
-                {
-                    throw new EntityCreationException(nameof(UnitCare), ex.Message);
-                }
-            }
-        }
-
     }
 }

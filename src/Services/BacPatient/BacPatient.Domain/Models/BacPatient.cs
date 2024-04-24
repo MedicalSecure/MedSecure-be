@@ -3,9 +3,9 @@ namespace BacPatient.Domain.Models
 {
     public class BacPatient : Aggregate<BacPatienId>
     {
-        public PatientId PatientId { get; private set; } = default!;
-        public RoomId RoomId { get; private set; } = default!;
-        public UnitCareId UnitCareId { get; private set; } = default!;
+        public Patient Patient { get; private set; } = default!;
+        public Room Room { get; private set; } = default!;
+        public UnitCare UnitCare { get; private set; } = default!;
         public int Bed { get; private set; } = default!;
         public DateTime ServingDate { get; private set; } = default!;
         public int Served { get; private set; } = default!;
@@ -16,9 +16,9 @@ namespace BacPatient.Domain.Models
 
     public static BacPatient Create(
             BacPatienId Id,
-            PatientId PatientId,
-            RoomId RoomId,
-            UnitCareId UnitCareId,
+            Patient Patient,
+            Room Room,
+            UnitCare UnitCare,
             int Bed,
             DateTime ServingDate,
             int Served,
@@ -29,9 +29,9 @@ namespace BacPatient.Domain.Models
                     var bacpatient = new BacPatient()
                     {
                         Id = Id,
-                        PatientId = PatientId,
-                        RoomId = RoomId,
-                        UnitCareId = UnitCareId,
+                        Patient = Patient,
+                        Room = Room,
+                        UnitCare = UnitCare,
                         Bed = Bed,
                         ServingDate = ServingDate,
                         Served = Served,

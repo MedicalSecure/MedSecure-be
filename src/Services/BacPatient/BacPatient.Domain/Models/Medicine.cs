@@ -8,6 +8,7 @@ namespace BacPatient.Domain.Models
         public string Forme { get; private set; } = default!;
         public string Dose { get; private set; } = default!;
         public string Unit { get; private set; } = default!;
+        public Root Root { get; private set; } = default!;
         public DateTime DateExp { get; private set; } = default!;
         public int Stock { get; private set; } = default!;
         public List<string> Note { get; private set; } = default!;
@@ -18,6 +19,7 @@ namespace BacPatient.Domain.Models
            MedicineId Id,
            string Name,
            string Forme,
+           Root Root , 
            string Dose,
            string Unit,
            DateTime DateExp,
@@ -30,6 +32,7 @@ namespace BacPatient.Domain.Models
                 Id = Id,
                 Name = Name,
                 Forme = Forme,
+                Root = Root, 
                 Dose = Dose,
                 Unit = Unit,
                 DateExp = DateExp,

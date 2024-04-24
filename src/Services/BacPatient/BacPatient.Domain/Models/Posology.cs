@@ -13,7 +13,7 @@ namespace BacPatient.Domain.Models
 
         public bool IsPermanent { get; private set; } = default!;
 
-        public List<string> Hours { get; private set; } = default!;
+        public List<int> Hours { get; private set; } = default!;
         public static Posology Create(
             PoslogyId Id ,
             DateTime StartDate,
@@ -21,7 +21,7 @@ namespace BacPatient.Domain.Models
             int QuantityBE,
             int QuantityAE,
             bool IsPermanent,
-            List<string> Hours
+            List<int> Hours
         )
         {
             var posology = new Posology()

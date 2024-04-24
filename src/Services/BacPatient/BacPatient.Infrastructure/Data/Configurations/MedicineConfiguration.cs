@@ -12,6 +12,11 @@ public class MedicineConfiguration : IEntityTypeConfiguration<Medicine>
         builder.Property(b => b.Id)
                .HasConversion(MedicineId => MedicineId.Value,
                               dbId => MedicineId.Of(dbId));
-    
+
+        builder.Property(d => d.Root).
+            HasConversion(
+            dt => dt.ToString(),
+            status => (Root)Enum.Parse(typeof(Root), status));
+
     }
 }

@@ -27,9 +27,33 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
       
         var newBPModel = Domain.Models.BacPatient.Create(
             Id: BacPatienId.Of(Guid.NewGuid()),
-            PatientId: PatientId.Of(bacPatients.PatientId),
-            RoomId: RoomId.Of(bacPatients.RoomId) , 
-            UnitCareId: UnitCareId.Of(bacPatients.UnitCareId),
+            Patient:Patient.Create(
+            PatientId.Of(bacPatients.Patient.Id),
+            bacPatients.Patient.Name, 
+            bacPatients.Patient.DateOfBirth,
+            bacPatients.Patient.Gender,
+            bacPatients.Patient.Age,
+            bacPatients.Patient.Height,
+            bacPatients.Patient.Weight ,
+            bacPatients.Patient.ActivityStatus,
+            bacPatients.Patient.Allergies, 
+            bacPatients.Patient.RiskFactor, 
+            bacPatients.Patient.FamilyHistory),
+            Room: Room.Create(
+                id: RoomId.Of(bacPatients.Room.Id) ,
+                number:bacPatients.Room.number,
+                status:bacPatients.Room.status,
+                beds:bacPatients.Room.beds
+                )
+            , 
+            UnitCare:UnitCare.Create(
+                Id: UnitCareId.Of(bacPatients.UnitCare.Id),
+                Title:bacPatients.UnitCare.Title,
+                Type:bacPatients.UnitCare.Type,
+                Description:bacPatients.UnitCare.Description,
+                Status:bacPatients.UnitCare.Status
+                )
+            ,
             Bed: bacPatients.Bed,
             ServingDate : bacPatients.ServingDate ,
             Served: bacPatients.Served ,
@@ -44,6 +68,7 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
                     MedicineId.Of(medicine.Id),
                     medicine.Name,
                     medicine.Form,
+                    medicine.Root,
                     medicine.Dose,
                     medicine.Unit,
                     medicine.DateExp,

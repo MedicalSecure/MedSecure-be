@@ -2,7 +2,6 @@
 global using BuildingBlocks.Messaging.MassTransit;
 global using BuildingBlocks.Pagination;
 global using BacPatient.Application;
-global using BacPatient.Application.BacPatient.Queries.GetBacPatientByPatientId;
 global using BacPatient.Application.Dtos;
 global using Carter;
 global using BacPatient.Infrastructure;
