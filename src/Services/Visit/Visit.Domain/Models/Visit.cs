@@ -15,7 +15,17 @@ namespace Visit.Domain.Models
         public string Availability { get; private set; } = default!; // Visit availability
 
         // Create a new visit
-        public static Visit CreateVisit(VisitId id, DateTime startDate, DateTime endDate, DoctorId doctorId ,PatientId patientId, string title, TypeVisit typeVisit, LocationVisit locationVisit, string duration, string description, string availability)
+        public static Visit CreateVisit(VisitId id,
+            DateTime startDate,
+            DateTime endDate, 
+            DoctorId doctorId ,
+            PatientId patientId, 
+            string title, 
+            TypeVisit typeVisit,
+            LocationVisit locationVisit, 
+            string duration, 
+            string description, 
+            string availability)
         {
             var visit = new Visit()
             {
@@ -36,10 +46,21 @@ namespace Visit.Domain.Models
         }
 
         // Update visit details
-        public void UpdateVisit(DateTime startDate, DateTime endDate, string title, TypeVisit typeVisit, LocationVisit locationVisit, string duration, string description, string availability)
+        public void UpdateVisit(DateTime startDate, 
+            DateTime endDate, 
+            string title,
+            DoctorId doctorId,
+            PatientId patientId,
+            TypeVisit typeVisit,
+            LocationVisit locationVisit, 
+            string duration,
+            string description, 
+            string availability)
         {
             StartDate = startDate;
             EndDate = endDate;
+            PatientId = patientId;
+            DoctorId = doctorId;
             Title = title;
             TypeVisit = typeVisit;
             LocationVisit = locationVisit;
