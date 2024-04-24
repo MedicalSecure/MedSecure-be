@@ -1,4 +1,6 @@
-﻿namespace UnitCare.Infrastructure.Data.Extensions
+﻿using UnitCare.Domain.Models;
+
+namespace UnitCare.Infrastructure.Data.Extensions
 {
     internal class InitialData
     {
@@ -16,9 +18,17 @@
                         description: "this is the first unit",
                         type: "General");
 
+
+                    // Create personnels for each unitCare
+                    var TestPersonnel = Personnel.Create(PersonnelId.Of(Guid.NewGuid()), unitCare.Id, "olivier", Shift.day);
+                    var Test2Personnel = Personnel.Create(PersonnelId.Of(Guid.NewGuid()), unitCare.Id, "emily", Shift.night);
+
+
                     // Create rooms for each unitCare
                     var TestRomm = Room.Create(RoomId.Of(Guid.NewGuid()), unitCare.Id, 102, Status.pending);
                     var Test2Romm = Room.Create(RoomId.Of(Guid.NewGuid()), unitCare.Id, 103, Status.pending);
+
+
 
 
                     // Create equipments for each room
@@ -71,7 +81,9 @@
                     // Add rooms to unitCare
                     unitCare.AddRoom(TestRomm);
                     unitCare.AddRoom(Test2Romm);
-                  
+                    unitCare.AddPersonnel(TestPersonnel);
+                    unitCare.AddPersonnel(Test2Personnel);
+
 
                     return new List<Domain.Models.UnitCare> { unitCare };
                 }

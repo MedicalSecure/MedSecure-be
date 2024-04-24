@@ -2,8 +2,8 @@
 {
     public enum Shift
     {
-        day,
-        night,
-        swing
+        day=1,
+        night=2,
+        swing=3
     }
 }

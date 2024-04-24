@@ -14,6 +14,7 @@ public class GetUnitCaresHandler(IApplicationDbContext dbContext)
         var totalCount = await dbContext.UnitCares.LongCountAsync(cancellationToken);
 
         var unitcares = await dbContext.UnitCares
+                       .Include(p => p.Personnels)
                        .Include(o => o.Rooms)
                        .ThenInclude(f => f.Equipments)
                        .Skip(pageSize * pageIndex)

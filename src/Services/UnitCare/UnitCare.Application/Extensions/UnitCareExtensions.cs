@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnitCare.Application.Dtos;
-
-namespace UnitCare.Application.Extensions
+﻿namespace UnitCare.Application.Extensions
 {
     public static partial class UnitCareExtensions
     {
@@ -16,6 +9,12 @@ namespace UnitCare.Application.Extensions
                             Type: u.Type,
                             Description: u.Description,
                             Title: u.Title,
+                            Personnels: u.Personnels.Select(pe => new PersonnelDto(
+                                Id:pe.Id.Value,
+                                UnitCareId: pe.UnitCareId.Value,
+                                Name:pe.Name,
+                                Shift:pe.Shift
+                                )).ToList(),
                             Rooms: u.Rooms.Select(r => new RoomDto(
                                              Id: r.Id.Value,
                                              UnitCareId: r.UnitCareId.Value,
