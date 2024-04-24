@@ -28,7 +28,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-   // "Container (Dockerfile)": {
       "Docker": {
         "commandName": "Docker",
         "launchBrowser": true,

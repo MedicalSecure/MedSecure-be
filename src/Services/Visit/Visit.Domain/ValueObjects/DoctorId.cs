@@ -8,11 +8,10 @@ namespace Visit.Domain.ValueObjects
     {
         public Guid Value { get; }
 
-        // [JsonConstructor] errur :désérialisation des objets de valeur 
-        //Le problème réside dans le fait que ces objets de valeur (PatientId et DoctorId) n'ont pas de constructeur sans paramètre.
-        //Lorsque ASP.NET Core essaie de désérialiser la demande, il ne peut pas instancier ces objets de valeur car il ne trouve pas de constructeur sans paramètre.
-        //Pour résoudre ce problème, vous pouvez ajouter un constructeur sans paramètre à vos objets
-        //de valeur(PatientId et DoctorId) ou ajouter un constructeur annoté avec JsonConstructorAttribute.
+        /// [JsonConstructor] error: deserialization of value objects
+        // The issue arises because these value objects (PatientId and DoctorId) lack a parameterless constructor.
+        // When ASP.NET Core attempts to deserialize the request, it fails to instantiate these value objects because it can't find a parameterless constructor.
+        // To resolve this issue, you can either add a parameterless constructor to your value objects (PatientId and DoctorId) or add a constructor annotated with JsonConstructorAttribute.
         private DoctorId(Guid value) => Value = value;
 
         public static DoctorId Of (Guid value)

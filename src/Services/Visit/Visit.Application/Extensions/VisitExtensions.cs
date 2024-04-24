@@ -12,7 +12,7 @@ public static partial class VisitExtensions
                           StartDate: d.StartDate,
                           EndDate: d.EndDate,
                           PatientId : d.PatientId.Value,
-                          DoctorId : d.DoctorId.Value,
+                          DoctorId: d.DoctorId.Value,
                           Title : d.Title,
                           TypeVisit : d.TypeVisit,
                           LocationVisit : d.LocationVisit,

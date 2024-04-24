@@ -9,13 +9,13 @@ public class DeleteVisitHandler(IApplicationDbContext dbContext) : ICommandHandl
         var visitId = VisitId.Of(command.Id);
         var visit = await dbContext.Visits.FindAsync([visitId], cancellationToken);
 
-        //verfier s'il exist visit
+        // Check if visit exists
 
         if (visit == null)
         {
             throw new VisitNotFoundException(command.Id);
         }
-        //supprimer visite
+        // Delete visit
         dbContext.Visits.Remove(visit);
 
         //save to database

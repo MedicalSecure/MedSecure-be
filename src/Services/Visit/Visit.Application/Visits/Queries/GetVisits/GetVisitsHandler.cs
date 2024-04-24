@@ -1,11 +1,10 @@
 ﻿
+namespace Visit.Application.Visits.Queries.GetVisits;
 
-namespace Visit.Application.Visits.Queries.GetVisitList;
-
-public record GetVisitListHandler(IApplicationDbContext dbContext)
-    :IQueryHandler<GetVisitListQuery, GetVisitListResult>
+public record GetVisitsHandler(IApplicationDbContext dbContext)
+    : IQueryHandler<GetVisitsQuery, GetVisitsResult>
 {
-    public async Task<GetVisitListResult> Handle(GetVisitListQuery query, CancellationToken cancellationToken)
+    public async Task<GetVisitsResult> Handle(GetVisitsQuery query, CancellationToken cancellationToken)
     {
         // get visits with pagination
         // return result
@@ -15,13 +14,13 @@ public record GetVisitListHandler(IApplicationDbContext dbContext)
 
         var totalCount = await dbContext.Visits.LongCountAsync(cancellationToken);
         var visits = await dbContext.Visits
-         
+
            .OrderBy(d => d.PatientId)
            .Skip(pageSize * pageIndex)
            .Take(pageSize)
            .ToListAsync(cancellationToken);
 
-        return new GetVisitListResult(
+        return new GetVisitsResult(
                     new PaginatedResult<VisitDto>(
               pageIndex,
               pageSize,

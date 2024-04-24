@@ -24,6 +24,6 @@ public class UpdateVisitHandler(IApplicationDbContext dbContext) : ICommandHandl
     }
     private static void UpdateVisitWithNewValues(Domain.Models.Visit visit,VisitDto visitDto)
     {
-        visit.UpdateVisit(visitDto.StartDate,visitDto.EndDate, PatientId.Of(visitDto.PatientId), DoctorId.Of(visitDto.DoctorId), visitDto.Title,visitDto.TypeVisit,visitDto.LocationVisit, visitDto.Duration,visitDto.Description,visitDto.Availability);
+        visit.UpdateVisit(visitDto.StartDate,visitDto.EndDate, visitDto.Title,visitDto.TypeVisit,visitDto.LocationVisit, visitDto.Duration,visitDto.Description,visitDto.Availability);
     }
 }

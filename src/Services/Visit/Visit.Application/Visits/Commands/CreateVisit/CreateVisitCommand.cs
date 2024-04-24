@@ -7,7 +7,7 @@ public class CreateVisitCommandValidator : AbstractValidator<CreateVisitCommand>
 {
     public CreateVisitCommandValidator()
     {
-        RuleFor(x => x.Visit.DoctorId).NotEmpty().WithMessage("DoctorId is required");
+      
         RuleFor(x => x.Visit.PatientId).NotEmpty().WithMessage("PatientId is required");
         RuleFor(x => x.Visit.EndDate).LessThan(x => x.Visit.StartDate).WithMessage("EndDate should be > StartDate");
 

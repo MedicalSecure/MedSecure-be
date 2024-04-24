@@ -13,14 +13,14 @@ global using Visit.Application.Data;
 global using Visit.Application.Visits.Commands.CreateVisit;
 global using Visit.Application.Visits.Commands.UpdateVisit;
 global using Visit.Application.Visits.Commands.DeleteVist;
-global using Visit.Application.Visits.Queries.GetVisitDetail;
-global using Visit.Application.Visits.Queries.GetVisitList;
+global using Visit.Application.Visits.Queries.GetVisitById;
+global using Visit.Application.Visits.Queries.GetVisits;
 
 global using Visit.Application.Patients.Commands.CreatePatient;
 global using Visit.Application.Patients.Commands.UpdatePatient;
 global using Visit.Application.Patients.Queries.GetPatientByNameQuery;
 global using Visit.Application.Patients.Queries.GetPatients;
-
+global using Visit.Application.Patients.Queries.GetPatientById;
 global using Visit.Application.Dtos;
 global using Visit.Infrastructure;
 global using Visit.Infrastructure.Data.Extensions;
