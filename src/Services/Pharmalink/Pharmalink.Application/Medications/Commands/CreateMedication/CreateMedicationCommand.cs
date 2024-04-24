@@ -37,7 +37,7 @@ public class CreateMedicationCommandValidator : AbstractValidator<CreateMedicati
             .NotEmpty()
             .WithMessage("Medication Description is required");
 
-        RuleFor(x => x.Medication.ExpiredAt)
+        RuleFor(x => x.Medication.ExpiredAt.Date)
             .NotEmpty()
             .Must(BeInTheFuture)
             .WithMessage("Medication ExpiredAt must be in the future");
@@ -83,6 +83,7 @@ public class CreateMedicationCommandValidator : AbstractValidator<CreateMedicati
 
     private bool BeInTheFuture(DateTime date)
     {
-        return date > DateTime.Now;
+        return date > DateTime.Now.Date.AddYears(1);
     }
 }
+

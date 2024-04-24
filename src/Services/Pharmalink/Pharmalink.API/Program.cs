@@ -1,8 +1,4 @@
 // Create a web application builder
-using Pharmalink.API;
-using Pharmalink.Application;
-using Pharmalink.Infratstructure;
-using Pharmalink.Infratstructure.Data.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +20,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();  // Enable Swagger middleware
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Diet API V1");  // Configure Swagger UI endpoint
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pharmalink API V1");  // Configure Swagger UI endpoint
     });
 
     // Initialize the database asynchronously with mock data 

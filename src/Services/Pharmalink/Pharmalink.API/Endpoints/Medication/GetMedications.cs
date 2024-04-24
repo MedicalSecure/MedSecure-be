@@ -1,9 +1,4 @@
-﻿using BuildingBlocks.Pagination;
-using Mapster;
-using MediatR;
-using Pharmalink.Application.Dtos;
-
-namespace Pharmalink.API.Endpoints.Medication;
+﻿namespace Pharmalink.API.Endpoints.Medication;
 
 //- Accepts pagination parameters.
 //- Constructs a GetMedicationsQuery with these parameters.
