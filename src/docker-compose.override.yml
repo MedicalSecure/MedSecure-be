@@ -1,6 +1,15 @@
 version: '3.4'
 
 services:
+
+  esp32:
+    image: esp32_simulator_image:latest
+    ports:
+        - "8080:8080"
+    environment:
+        - ESP32_ENV_VAR=value
+
+
   sql-server-db:
     container_name: sql-server-db
     environment:
