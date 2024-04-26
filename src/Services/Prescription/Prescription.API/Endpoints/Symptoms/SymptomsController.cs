@@ -1,7 +1,9 @@
-﻿using Prescription.Application.Features.Symptom.Commands.CreateSymptom;
+﻿using BuildingBlocks.Pagination;
+using Prescription.Application.Features.Symptom.Commands.CreateSymptom;
 using Prescription.Application.Features.Symptom.Commands.DeleteSymptom;
 using Prescription.Application.Features.Symptom.Commands.UpdateSymptom;
 using Prescription.Application.Features.Symptom.Queries.GetSymptom;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -80,6 +82,17 @@ namespace Prescription.API.Endpoints.Symptoms
             var response = result.Adapt<DeleteSymptomResponse>();
 
             // Return appropriate HTTP response
+            return Ok(response);
+        }
+
+        [HttpPost("Predict")]
+        public async Task<IActionResult> Predict([FromBody] PredictFromSymptomsRequest request)
+        {
+            var query = new PredictFromSymptomsQuery(request.Symptoms);
+            var result = await _sender.Send(query);
+            var response = result.Adapt<PredictFromSymptomsResponse>();
+
+            //Return appropriate HTTP response
             return Ok(response);
         }
     }

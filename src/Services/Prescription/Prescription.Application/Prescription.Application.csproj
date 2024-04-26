@@ -7,6 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Services\PredictBySymptomsService\Resources\assets\knn_model.pkl" />
+    <None Remove="Services\PredictBySymptomsService\Resources\assets\predictBySymptom.py" />
+    <None Remove="Services\PredictBySymptomsService\Resources\assets\__pycache__\predictBySymptom.cpython-312.pyc" />
+    <None Remove="Services\PredictBySymptomsService\Resources\Data\Training.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Services\PredictBySymptomsService\Resources\assets\knn_model.pkl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Services\PredictBySymptomsService\Resources\assets\predictBySymptom.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Services\PredictBySymptomsService\Resources\assets\__pycache__\predictBySymptom.cpython-312.pyc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Services\PredictBySymptomsService\Resources\Data\Training.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Features\Symptom\EventHandlers\" />
     <Folder Include="Features\Symptom\Queries\GetSymptomsByName\" />
     <Folder Include="Features\Symptom\Queries\GetSymptomsByPrescriptionId\" />
@@ -21,6 +43,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0-preview.2.24128.4" />
+    <PackageReference Include="pythonnet" Version="3.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,5 +51,9 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
     <ProjectReference Include="..\Prescription.Domain\Prescription.Domain.csproj" />
   </ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Services\PredictBySymptomsService\Resources\**\*.*" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
 
 </Project>

@@ -4,12 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Prescription.Application.Features.Diagnosis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Prescription.Services.PredictBySymptomsService;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Prescription.Application
 {
@@ -35,6 +31,9 @@ namespace Prescription.Application
 
             // Add message broker for async communication
             services.AddMessageBroker(configuration, Assembly.GetExecutingAssembly());
+
+            //inject configuration into the ai module
+            AiModule.addAiModule(configuration);
 
             // Return the modified service collection
             return services;

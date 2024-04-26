@@ -14,4 +14,8 @@
     //Delete
     public record DeleteSymptomRequest(SymptomDto Symptom);
     public record DeleteSymptomResponse(Guid Id);
+
+    // Predict
+    public record PredictFromSymptomsRequest(List<SymptomDto> Symptoms);
+    public record PredictFromSymptomsResponse(DiagnosisDto PredictedDiagnosis);
 }

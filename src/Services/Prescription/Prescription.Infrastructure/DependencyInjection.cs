@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Exceptions;
 using Mapster;
+using Microsoft.Extensions.Configuration;
 using Prescription.Application.Contracts;
 using Prescription.Infrastructure.Database;
 

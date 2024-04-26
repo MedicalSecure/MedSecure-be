@@ -28,4 +28,10 @@
     <ProjectReference Include="..\Prescription.Infrastructure\Prescription.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="pythonRequirements.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

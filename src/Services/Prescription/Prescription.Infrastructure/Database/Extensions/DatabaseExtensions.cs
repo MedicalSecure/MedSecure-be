@@ -8,7 +8,7 @@ public static class DatabaseExtensions
     {
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        await context.Database.MigrateAsync();
+        //await context.Database.MigrateAsync();
         await SeedAsync(context);
     }
 
@@ -20,6 +20,8 @@ public static class DatabaseExtensions
         await SeedMedicationsAsync(context);
         await SeedPatientsAsync(context);
         await SeedDoctorsAsync(context);
+        await SeedSymptomsAsync(context);
+        await SeedDiagnosisAsync(context);
 
         await SeedPrescriptionsAsync(context);
     }
@@ -76,6 +78,8 @@ public static class DatabaseExtensions
             var patients = await context.Patients.ToListAsync();
             var doctors = await context.Doctors.ToListAsync();
             var medications = await context.Medications.ToListAsync();
+            var symptoms = await context.Symptoms.ToListAsync();
+            var diagnosis = await context.Diagnosis.ToListAsync();
 
             // Check if there are any patients and doctors
             if (patients.Count > 0 && doctors.Count > 0)
@@ -85,7 +89,7 @@ public static class DatabaseExtensions
 
                 if (!await context.Prescriptions.AnyAsync())
                 {
-                    var newPrescription = InitialData.Prescription(patient, doctor, medications);
+                    var newPrescription = InitialData.Prescription(patient, doctor, medications, symptoms, diagnosis);
 
                     await context.Prescriptions.AddAsync(newPrescription);
                     await context.SaveChangesAsync();
@@ -98,11 +102,11 @@ public static class DatabaseExtensions
         }
     }
 
-    /*private static async Task SeedSymptomsAsync(ApplicationDbContext context)
+    private static async Task SeedSymptomsAsync(ApplicationDbContext context)
     {
         if (!await context.Symptoms.AnyAsync())
         {
-            await context.Symptoms.AddRangeAsync(InitialData.Prescription.Symptoms);
+            await context.Symptoms.AddRangeAsync(InitialData.Symptoms());
             await context.SaveChangesAsync();
         }
     }
@@ -111,35 +115,37 @@ public static class DatabaseExtensions
     {
         if (!await context.Diagnosis.AnyAsync())
         {
-            await context.Diagnosis.AddRangeAsync(InitialData.Prescription.Diagnosis);
+            await context.Diagnosis.AddRangeAsync(InitialData.DiagnosisInitialData());
             await context.SaveChangesAsync();
         }
     }
 
-        private static async Task SeedCommentsAsync(ApplicationDbContext context)
-    {
-        if (!await context.Comments.AnyAsync())
-        {
-            await context.Comments.AddRangeAsync(InitialData.Comments);
-            await context.SaveChangesAsync();
-        }
-    }
+    /*
 
-    private static async Task SeedDispensesAsync(ApplicationDbContext context)
-    {
-        if (!await context.Dispenses.AnyAsync())
+            private static async Task SeedCommentsAsync(ApplicationDbContext context)
         {
-            await context.Dispenses.AddRangeAsync(InitialData.Dispenses);
-            await context.SaveChangesAsync();
+            if (!await context.Comments.AnyAsync())
+            {
+                await context.Comments.AddRangeAsync(InitialData.Comments);
+                await context.SaveChangesAsync();
+            }
         }
-    }
 
-    private static async Task SeedPosologyAsync(ApplicationDbContext context)
-    {
-        if (!await context.Posology.AnyAsync())
+        private static async Task SeedDispensesAsync(ApplicationDbContext context)
         {
-            await context.Posology.AddRangeAsync(InitialData.posology);
-            await context.SaveChangesAsync();
+            if (!await context.Dispenses.AnyAsync())
+            {
+                await context.Dispenses.AddRangeAsync(InitialData.Dispenses);
+                await context.SaveChangesAsync();
+            }
         }
-    }*/
+
+        private static async Task SeedPosologyAsync(ApplicationDbContext context)
+        {
+            if (!await context.Posology.AnyAsync())
+            {
+                await context.Posology.AddRangeAsync(InitialData.posology);
+                await context.SaveChangesAsync();
+            }
+        }*/
 }

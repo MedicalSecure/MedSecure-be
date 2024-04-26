@@ -1,6 +1,14 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+
+# intall python
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip
+
+# Install Python packages
+RUN pip install --no-cache-dir --break-system-packages numpy==1.26.4 scikit-learn==1.4.2
+
 USER app
 WORKDIR /app
 EXPOSE 8080
