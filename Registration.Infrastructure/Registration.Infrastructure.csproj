@@ -15,8 +15,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Registration.Application\Registration.Application.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -24,7 +24,7 @@ services:
     image: ${DOCKER_REGISTRY-}registrationapi
     build:
       context: .
-      dockerfile: Services/Registartion/Registration.API/Dockerfile
+      dockerfile: Services/Registration/Registration.API/Dockerfile
 
   yarpapigateway:
     image: ${DOCKER_REGISTRY-}yarpapigateway
