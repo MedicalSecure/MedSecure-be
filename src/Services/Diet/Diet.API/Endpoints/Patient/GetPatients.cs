@@ -5,14 +5,13 @@ namespace Diet.API.Endpoints.Patient;
 //- Constructs a GetPatientsQuery with these parameters.
 //- Retrieves the data and returns it in a paginated format.
 
-//public record GetPatientsRequest(PaginationRequest PaginationRequest);
 public record GetPatientsResponse(PaginatedResult<PatientDto> Patients);
 
 public class GetPatients : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/patients", async ([AsParameters] PaginationRequest paginationRequest, ISender sender) =>
+        app.MapGet("/patients", async (HttpContext context, [AsParameters] PaginationRequest paginationRequest, ISender sender) =>
         {
             var result = await sender.Send(new GetPatientsQuery(paginationRequest));
 
