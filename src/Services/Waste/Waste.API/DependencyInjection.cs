@@ -21,6 +21,7 @@ public static class DependencyInjection
         services.AddEndpointsApiExplorer(); // Adds API explorer services to generate OpenAPI documentation
         services.AddSwaggerGen(); // Adds Swagger generation services to generate OpenAPI documentation
 
+
         // Return the modified service collection
         return services;
     }

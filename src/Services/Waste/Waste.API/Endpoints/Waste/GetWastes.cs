@@ -1,4 +1,7 @@
 ﻿
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.Resource;
+
 namespace Waste.API.Endpoints.Waste;
 
 //- Accepts pagination parameters.
@@ -10,6 +13,7 @@ public record GetWastesResponse(PaginatedResult<WasteDto> Wastes);
 
 public class GetWastes : ICarterModule
 {
+    [RequiredScope(RequiredScopesConfigurationKey = "AzureAdB2C:Scopes:Read")]
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/wastes", async ([AsParameters] PaginationRequest paginationRequest, ISender sender) =>
