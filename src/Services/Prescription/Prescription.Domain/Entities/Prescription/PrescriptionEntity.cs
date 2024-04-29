@@ -11,16 +11,17 @@ namespace Prescription.Domain.Entities.Prescription
         public IReadOnlyList<Symptom> Symptoms => _symptoms.AsReadOnly();
         public IReadOnlyList<Diagnosis> Diagnosis => _diagnosis.AsReadOnly();
         public Guid PatientId { get; private set; }
-        public Patient Patient { get; private set; }
+        public Patient? Patient { get; private set; }
         public Guid DoctorId { get; private set; }
 
-        public Doctor Doctor { get; private set; }
+        public Doctor? Doctor { get; private set; }
 
         private PrescriptionEntity()
         { }// for EF
 
-        private PrescriptionEntity(Patient p, Guid patientId, Doctor D, Guid doctorId)
+        private PrescriptionEntity(Guid id, Patient? p, Guid patientId, Doctor? D, Guid doctorId)
         {
+            Id = id;
             Patient = p;
             PatientId = patientId;
             Doctor = D;
@@ -32,15 +33,18 @@ namespace Prescription.Domain.Entities.Prescription
             //validations here
             //..
             //..
-            return new PrescriptionEntity(patient, patient.Id, doctor, doctor.Id);
+
+            // Newly created prescription
+            Guid PrescriptionId = new Guid();
+            return new PrescriptionEntity(PrescriptionId, patient, patient.Id, doctor, doctor.Id);
         }
 
-        public static PrescriptionEntity Create(Guid patientId, Guid DoctorId)
+        public static PrescriptionEntity Create(Guid PrescriptionId, Patient patient, Doctor doctor)
         {
             //validations here
             //..
             //..
-            return new PrescriptionEntity(null, patientId, null, DoctorId);
+            return new PrescriptionEntity(PrescriptionId, patient, patient.Id, doctor, doctor.Id);
         }
 
         public bool addPosology(Posology posology)

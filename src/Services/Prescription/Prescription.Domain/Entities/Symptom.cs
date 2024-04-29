@@ -12,13 +12,7 @@
         private Symptom()
         { } // For EF
 
-        private Symptom(string code, string name, string shortDescription, string longDescription)
-        {
-            Code = code;
-            Name = name;
-            ShortDescription = shortDescription;
-            LongDescription = longDescription;
-        }
+
 
         private Symptom(Guid id, string code, string name, string shortDescription, string longDescription)
         {
@@ -31,7 +25,7 @@
 
         public static Symptom Create(string code, string name, string shortDescription, string longDescription)
         {
-            return new Symptom(code, name, shortDescription, longDescription);
+            return new Symptom(new Guid(),code, name, shortDescription, longDescription);
         }
 
         public static Symptom Create(Guid id, string code, string name, string shortDescription, string longDescription)

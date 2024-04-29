@@ -43,6 +43,7 @@ namespace Prescription.Domain.Entities
         {
             var patient = new Patient
             {
+                Id = new Guid(),
                 PatientName = patientName,
                 DateOfBirth = dateOfbirth,
                 Gender = gender,

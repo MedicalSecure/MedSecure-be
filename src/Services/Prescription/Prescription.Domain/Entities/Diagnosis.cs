@@ -7,13 +7,15 @@
         public string ShortDescription { get; private set; }
         public string LongDescription { get; private set; }
 
-        public List<PrescriptionEntity> Prescriptions;
+        public List<PrescriptionEntity>? Prescriptions;
 
         public Diagnosis()
-        { } // For EF and Mapster
+        {
+        } // For EF and Mapster
 
         private Diagnosis(string code, string name, string shortDescription, string longDescription)
         {
+            Id = new Guid();
             Code = code;
             Name = name;
             ShortDescription = shortDescription;
