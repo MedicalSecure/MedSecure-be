@@ -3,7 +3,7 @@ using BuildingBlocks.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Prescription.Application.Contracts;
-using Prescription.Application.Dtos;
+using Prescription.Application.DTOs;
 using Prescription.Application.Extensions;
 using System;
 using System.Collections.Generic;

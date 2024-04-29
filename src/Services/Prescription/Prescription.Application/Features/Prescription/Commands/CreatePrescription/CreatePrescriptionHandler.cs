@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Prescription.Application.Dtos;
+using Prescription.Application.DTOs;
 using System.Threading;
 
 namespace Prescription.Application.Features.Prescription.Commands.CreatePrescription

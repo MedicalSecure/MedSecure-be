@@ -1,4 +1,4 @@
-﻿using Prescription.Domain.DTOs;
+﻿using rescription.Application.DTOs;
 using Prescription.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Prescription.Application.Dtos
+namespace Prescription.Application.DTOs
 {
     public record PrescriptionDto(
         Guid Id,

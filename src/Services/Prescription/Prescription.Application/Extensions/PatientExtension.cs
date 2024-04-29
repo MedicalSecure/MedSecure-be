@@ -1,4 +1,4 @@
-﻿using Prescription.Domain.DTOs;
+﻿using rescription.Application.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

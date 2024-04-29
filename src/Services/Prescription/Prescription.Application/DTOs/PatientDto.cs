@@ -1,7 +1,7 @@
 ﻿using Prescription.Domain.Entities;
 using Prescription.Domain.Enums;
 
-namespace Prescription.Domain.DTOs
+namespace rescription.Application.DTOs
 {
     public record PatientDto
     {

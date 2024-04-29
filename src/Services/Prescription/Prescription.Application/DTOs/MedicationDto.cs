@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Prescription.Domain.DTOs
+namespace rescription.Application.DTOs
 {
     public record MedicationDto(Guid Id,
         string Name,

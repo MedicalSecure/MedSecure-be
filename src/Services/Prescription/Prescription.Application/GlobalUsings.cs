@@ -5,7 +5,7 @@ global using System.Collections.Generic;
 global using Mapster;
 global using BuildingBlocks.CQRS;
 global using BuildingBlocks.Pagination;
-global using Prescription.Application.Dtos;
+global using Prescription.Application.DTOs;
 global using Microsoft.EntityFrameworkCore;
 
 namespace Prescription.Application
