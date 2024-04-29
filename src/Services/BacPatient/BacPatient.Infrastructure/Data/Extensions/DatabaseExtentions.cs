@@ -28,7 +28,6 @@ public static class DatabaseExtentions
     {
         if (!context.BacPatients.Any())
         {
-            await context.BacPatients.AddRangeAsync(InitialData.BacPatients);
             await context.SaveChangesAsync();
         }
     }
@@ -38,9 +37,7 @@ public static class DatabaseExtentions
         // Clear all data from tables
         
 
-        context.BacPatients.RemoveRange(context.BacPatients);
-        context.Medecines.RemoveRange(context.Medecines);
-        context.Posologies.RemoveRange(context.Posologies);
+
 
 
 

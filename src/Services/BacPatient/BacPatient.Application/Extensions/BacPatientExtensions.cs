@@ -23,9 +23,9 @@ namespace BacPatient.Application.Extensions
                                 ),
                             Room: new RoomDto(
                                   Id: d.Room.Id.Value,
-                            number: d.Room.number,
-                            status: d.Room.status,
-                            beds: d.Room.Beds)
+                            Number: d.Room.Number,
+                            Status: d.Room.Status,
+                            Beds: d.Room.Beds)
                             ,
                             UnitCare: new UnitCareDto(
                                   Id: d.UnitCare.Id.Value,
@@ -35,6 +35,7 @@ namespace BacPatient.Application.Extensions
                             Status: d.UnitCare.Status
                                 ),
                             Bed: d.Bed,
+                            NurseId:d.NurseId,
                             Served: d.Served,
                             ToServe: d.ToServe,
                             Status: d.Status,
@@ -53,8 +54,9 @@ namespace BacPatient.Application.Extensions
                                                  Id: mi.Id.Value,
                                                  StartDate: mi.StartDate,
                                                  EndDate: mi.EndDate,
-                                                 QuantityAE: mi.QuantityAE,
                                                  QuantityBE: mi.QuantityBE,
+                                                 QuantityAE: mi.QuantityAE,
+                                                 
                                                  IsPermanent: mi.IsPermanent,
                                                  Hours: mi.Hours
                                              )).ToList()

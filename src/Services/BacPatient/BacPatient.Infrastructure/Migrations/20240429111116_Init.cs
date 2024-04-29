@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BacPatient.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,6 +17,7 @@ namespace BacPatient.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Bed = table.Column<int>(type: "int", nullable: false),
+                    NurseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ServingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Served = table.Column<int>(type: "int", nullable: false),
                     ToServe = table.Column<int>(type: "int", nullable: false),
@@ -97,9 +98,9 @@ namespace BacPatient.Infrastructure.Migrations
                 columns: table => new
                 {
                     BacPatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    number = table.Column<int>(type: "int", nullable: false),
-                    status = table.Column<int>(type: "int", nullable: false),
-                    Beds = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Beds = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),

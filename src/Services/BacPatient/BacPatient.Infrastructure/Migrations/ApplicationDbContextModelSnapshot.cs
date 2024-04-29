@@ -42,6 +42,9 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("NurseId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Served")
                         .HasColumnType("int");
 
@@ -235,7 +238,6 @@ namespace BacPatient.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Beds")
-                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<DateTime?>("CreatedAt")
@@ -253,10 +255,10 @@ namespace BacPatient.Infrastructure.Migrations
                             b1.Property<string>("LastModifiedBy")
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<int>("number")
+                            b1.Property<int>("Number")
                                 .HasColumnType("int");
 
-                            b1.Property<int>("status")
+                            b1.Property<int>("Status")
                                 .HasColumnType("int");
 
                             b1.HasKey("BacPatientId");

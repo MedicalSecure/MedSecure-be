@@ -26,7 +26,9 @@ public class BacPatientConfiguration : IEntityTypeConfiguration<Domain.Models.Ba
             patient.Property(p => p.Id).IsRequired()
             .HasConversion(bpModelid => bpModelid.Value,
                               dbId => RoomId.Of(dbId));
-            patient.Property(p => p.number).IsRequired();
+            patient.Property(p => p.Number).IsRequired();
+
+
 
         });
         builder.OwnsOne(b => b.UnitCare, patient =>

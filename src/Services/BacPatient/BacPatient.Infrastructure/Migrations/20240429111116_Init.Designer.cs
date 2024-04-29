@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BacPatient.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240424144543_init")]
-    partial class init
+    [Migration("20240429111116_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,9 @@ namespace BacPatient.Infrastructure.Migrations
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("NurseId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Served")
                         .HasColumnType("int");
@@ -238,7 +241,6 @@ namespace BacPatient.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Beds")
-                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<DateTime?>("CreatedAt")
@@ -256,10 +258,10 @@ namespace BacPatient.Infrastructure.Migrations
                             b1.Property<string>("LastModifiedBy")
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<int>("number")
+                            b1.Property<int>("Number")
                                 .HasColumnType("int");
 
-                            b1.Property<int>("status")
+                            b1.Property<int>("Status")
                                 .HasColumnType("int");
 
                             b1.HasKey("BacPatientId");

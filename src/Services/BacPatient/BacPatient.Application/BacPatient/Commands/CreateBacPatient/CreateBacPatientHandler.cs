@@ -41,9 +41,9 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
             bacPatients.Patient.FamilyHistory),
             Room: Room.Create(
                 id: RoomId.Of(bacPatients.Room.Id) ,
-                number:bacPatients.Room.number,
-                status:bacPatients.Room.status,
-                beds:bacPatients.Room.beds
+                number:bacPatients.Room.Number,
+                status:bacPatients.Room.Status,
+                beds: bacPatients.Room.Beds
                 )
             , 
             UnitCare:UnitCare.Create(
@@ -54,6 +54,7 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
                 Status:bacPatients.UnitCare.Status
                 )
             ,
+            NurseId : bacPatients.NurseId , 
             Bed: bacPatients.Bed,
             ServingDate : bacPatients.ServingDate ,
             Served: bacPatients.Served ,

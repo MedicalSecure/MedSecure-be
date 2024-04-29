@@ -18,8 +18,8 @@ namespace BacPatient.Domain.Models
             PoslogyId Id ,
             DateTime StartDate,
             DateTime EndDate,
-            int QuantityBE,
-            int QuantityAE,
+            int quantityBE,
+            int quantityAE,
             bool IsPermanent,
             List<int> Hours
         )
@@ -29,8 +29,8 @@ namespace BacPatient.Domain.Models
                 Id = Id ,
                 StartDate = StartDate,
                 EndDate = EndDate,
-                QuantityBE = QuantityBE,
-                QuantityAE = QuantityAE,
+                QuantityBE = quantityBE,
+                QuantityAE = quantityAE,
                 IsPermanent = IsPermanent,
                 Hours = Hours
             };

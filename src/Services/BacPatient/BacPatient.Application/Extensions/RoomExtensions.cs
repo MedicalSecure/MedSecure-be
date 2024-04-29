@@ -6,11 +6,9 @@
         {
             return rooms.Select(d => new RoomDto(
                             Id: d.Id.Value,
-                            number:d.number,
-                            status:d.status,
-                            beds:d.Beds
-
-                       
+                            Number:d.Number,
+                            Status:d.Status,
+                            Beds:d.Beds
                         ));
         }
     }

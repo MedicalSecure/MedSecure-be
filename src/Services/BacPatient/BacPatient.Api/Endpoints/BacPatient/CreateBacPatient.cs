@@ -14,7 +14,9 @@ public class CreateBacPatient : ICarterModule
     {
         app.MapPost("/v1/bacPatient", async (CreateBacPatientRequest request, ISender sender) =>
         {
-            var command = request.Adapt<CreateBacPatientCommand>();
+          //  var command = request.Adapt<CreateBacPatientCommand>();
+
+           CreateBacPatientCommand command = new CreateBacPatientCommand(request.BacPatients);
 
             var result = await sender.Send(command);
 

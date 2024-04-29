@@ -2,6 +2,6 @@
 namespace BacPatient.Application.Dtos;
 
 public record RoomDto(Guid Id,
-    int number,
-    Status status,
-    List<int> beds);
+    int Number,
+    Status Status,
+    List<int>? Beds);

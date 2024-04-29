@@ -7,9 +7,12 @@ namespace BacPatient.Domain.Models
         public Room Room { get; private set; } = default!;
         public UnitCare UnitCare { get; private set; } = default!;
         public int Bed { get; private set; } = default!;
+        public Guid NurseId { get; private set; } = default!;
         public DateTime ServingDate { get; private set; } = default!;
         public int Served { get; private set; } = default!;
         public int ToServe { get; private set; } = default!;
+       /* private readonly List<Meals> _meals= new();
+        public IReadOnlyList<Meals> Meals => _medicines.AsReadOnly();*/
         public StatusBP Status { get; private set; } = StatusBP.Pending;
         private readonly List<Medicine> _medicines = new();
         public IReadOnlyList<Medicine> Medicines => _medicines.AsReadOnly();
@@ -19,6 +22,7 @@ namespace BacPatient.Domain.Models
             Patient Patient,
             Room Room,
             UnitCare UnitCare,
+            Guid NurseId ,
             int Bed,
             DateTime ServingDate,
             int Served,
@@ -32,6 +36,7 @@ namespace BacPatient.Domain.Models
                         Patient = Patient,
                         Room = Room,
                         UnitCare = UnitCare,
+                        NurseId = NurseId , 
                         Bed = Bed,
                         ServingDate = ServingDate,
                         Served = Served,

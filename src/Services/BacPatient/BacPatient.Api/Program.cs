@@ -8,7 +8,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:4200");
+                          policy.WithOrigins("http://localhost:4200")
+                          .AllowAnyHeader() // Allow any header
+                                .AllowAnyMethod();
                       });
 });
 // Add services to the container
@@ -21,6 +23,7 @@ builder
 var app = builder.Build();  // Build the application
 
 app.UseCors(MyAllowSpecificOrigins);
+
 // Configure the HTTP request pipeline
 app.UseApiServices();  // Configure API-related middleware
 

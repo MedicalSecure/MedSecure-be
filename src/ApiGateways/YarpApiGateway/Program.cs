@@ -7,7 +7,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:4200");
+                          policy.WithOrigins("http://localhost:4200")
+                           .AllowAnyHeader() // Allow any header
+                                .AllowAnyMethod();
                       });
 });
 builder.Configuration.AddJsonFile("appsettings.json", optional: false);
@@ -36,6 +38,7 @@ builder.Services.AddRateLimiter(rateLimiterOptions =>
 
 var app = builder.Build();
 app.UseCors(MyAllowSpecificOrigins);
+
 
 // Configure the HTTP request pipeline.
 app.UseRateLimiter();

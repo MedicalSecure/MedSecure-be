@@ -18,7 +18,7 @@ public class GetBacPatient : ICarterModule
         {
             var result = await sender.Send(new GetBacPatientQuery(request));
 
-            var response = result.Adapt<GetBPResponse>();
+            var response = result.BacPatients;
 
             return Results.Ok(response);
         })

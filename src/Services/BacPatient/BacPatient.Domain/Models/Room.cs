@@ -3,9 +3,9 @@ namespace BacPatient.Domain.Models
 {
     public class Room : Aggregate<RoomId>
     {
-        public int number { get; private set; } = default!;
-        public Status status { get; private set; } = default!;
-        public List<int> Beds { get; private set; } = default!;
+        public int Number { get; private set; } = default!;
+        public Status Status { get; private set; } = default!;
+        public List<int>? Beds { get; private set; } = default!;
         public static Room Create(
             RoomId id,
     int number,
@@ -16,8 +16,8 @@ namespace BacPatient.Domain.Models
             var room = new Room()
             {
                 Id = id,
-                number = number,
-                status = status,
+                Number = number,
+                Status = status,
                 Beds = beds
             };
 
