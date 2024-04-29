@@ -28,11 +28,12 @@ namespace Registration.Domain.Models
 
 
 
-        public static Patient Create(PatientId id, string firstName,string lastName, DateTime dateOfbirth,int cin,int cnam, Gender gender, int height, int weight,
+        public static Patient Create(string firstName,string lastName, DateTime dateOfbirth,int cin,int cnam, Gender gender, int height, int weight,
             string email, string address1,string address2,string country,string state ,FamilyStatus familyStatus,Children children)
         {
             var patient = new Patient
             {
+                
                 FirstName = firstName,
                 LastName = lastName,
                 DateOfBirth = dateOfbirth,

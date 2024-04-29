@@ -7,8 +7,24 @@ namespace Registration.Application.Extensions
         {
             return registers.Select(p =>new RegisterDto(
                 Id : p.Id.Value,
-                patientId : p.PatientId.Value,
-                patient:p.Patient,
+                patient:new PatientDto(
+                    Id : p.Patient.Id.Value,
+                firstName : p.Patient.FirstName,
+                lastName : p.Patient.LastName,
+                dateOfbirth : p.Patient.DateOfBirth,
+                cin : p.Patient.CIN,
+                cnam : p.Patient.CNAM,
+                gender: p.Patient.Gender,
+                height : p.Patient.Height,
+                weight : p.Patient.Weight,
+                email : p.Patient.Email,
+                address1 : p.Patient.Address1,
+                address2 : p.Patient.Address2,
+                country : p.Patient.Country,
+                state : p.Patient.State,
+                familyStatus : p.Patient.FamilyStatus,
+                children : p.Patient.Children
+                    ),
                 familyHistory:p.Familymedicalhistory,
                 personalHistory:p.PersonalMedicalHistory,
                 disease:p.Disease,

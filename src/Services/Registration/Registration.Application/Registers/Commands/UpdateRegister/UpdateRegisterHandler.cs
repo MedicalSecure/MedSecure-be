@@ -15,7 +15,7 @@
                 throw new RegisterNotFoundException(command.Register.Id);
             }
 
-            UpdateRegisterWithNewValues(register, command.Register);
+            UpdateRegister(register, command.Register);
 
             dbContext.Registers.Update(register);
             await dbContext.SaveChangesAsync(cancellationToken);
@@ -23,18 +23,31 @@
             return new UpdateRegisterResult(true);
         }
 
-        private static void UpdateRegisterWithNewValues(Domain.Models.Register register, RegisterDto registerDto)
+        private static void UpdateRegister(Domain.Models.Register existingRegister, RegisterDto newRegisterDto)
         {
-            register.Update(
-                PatientId.Of(registerDto.patientId),
-                registerDto.patient,
-                registerDto.familyHistory,
-                registerDto.personalHistory,
-                registerDto.disease,
-                registerDto.allergy
-                );
-        }
+            // Update the properties of the existing register with the data from the new DTO
+            existingRegister.Patient.FirstName = newRegisterDto.patient.firstName;
+            existingRegister.Patient.LastName = newRegisterDto.patient.lastName;
+            existingRegister.Patient.DateOfBirth = newRegisterDto.patient.dateOfbirth;
+            existingRegister.Patient.CIN = newRegisterDto.patient.cin;
+            existingRegister.Patient.CNAM = newRegisterDto.patient.cnam;
+            existingRegister.Patient.Gender = newRegisterDto.patient.gender;
+            existingRegister.Patient.Height = newRegisterDto.patient.height;
+            existingRegister.Patient.Weight = newRegisterDto.patient.weight;
+            existingRegister.Patient.Email = newRegisterDto.patient.email;
+            existingRegister.Patient.Address1 = newRegisterDto.patient.address1;
+            existingRegister.Patient.Address2 = newRegisterDto.patient.address2;
+            existingRegister.Patient.Country = newRegisterDto.patient.country;
+            existingRegister.Patient.State = newRegisterDto.patient.state;
+            existingRegister.Patient.FamilyStatus = newRegisterDto.patient.familyStatus;
+            existingRegister.Patient.Children = newRegisterDto.patient.children;
 
+            // Update other properties of the register as needed
+            existingRegister.Familymedicalhistory = newRegisterDto.familyHistory;
+            existingRegister.PersonalMedicalHistory = newRegisterDto.personalHistory;
+            existingRegister.Disease = newRegisterDto.disease;
+            existingRegister.Allergy = newRegisterDto.allergy;
+        }
     }
-    
+
 }

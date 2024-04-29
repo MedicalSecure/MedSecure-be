@@ -17,7 +17,7 @@ namespace Registration.Application.Registers.Queries.GetRegisters
             var totalCount = await dbContext.Registers.LongCountAsync(cancellationToken);
 
             var registers = await dbContext.Registers
-                           .OrderBy(o => o.PatientId)
+                           .OrderBy(o => o.Patient)
                            .Skip(pageSize * pageIndex)
                            .Take(pageSize)
                            .ToListAsync(cancellationToken);

@@ -24,13 +24,47 @@ namespace Registration.Infrastructure.Data.Extensions
                         // Create Patient instances
                         Register.Create(
                              id: RegisterId.Of(Guid.NewGuid()),
-                             patientId: PatientId.Of(new Guid()),
                              patient:new Patient(),
-                              familyHistory: new List<RiskFactor>(), // Empty list
-                              personalHistory: new List<RiskFactor>(), // Empty list
-                              disease: new List<RiskFactor>(),
-                              allergy: new List<RiskFactor>()
+                             familyHistory: new List<RiskFactor>(), // Empty list
+                             personalHistory: new List<RiskFactor>(), // Empty list
+                             disease: new List<RiskFactor>(),
+                             allergy: new List<RiskFactor>()
                             ),
+                    };
+                }
+                catch (Exception ex)
+                {
+                    throw new EntityCreationException(nameof(Patient), ex.Message);
+                }
+            }
+        }
+
+        public static IEnumerable<Patient> Patients
+        {
+            get
+            {
+                try
+                {
+                    return new List<Patient>
+                    { Patient.Create(
+
+
+        "John", // First name
+        "Doe", // Last name
+        new DateTime(1990, 1, 1), // Date of birth
+        123456, // CIN
+        789012, // CNAM
+        Gender.Male, // Gender
+        180, // Height
+        75, // Weight
+        "john.doe@example.com", // Email
+        "Address Line 1", // Address 1
+        "Address Line 2", // Address 2
+        "Country", // Country
+        "State", // State
+        FamilyStatus.MARRIED, // Family status
+        new Children() // Children object, assuming Children is a value object with appropriate properties
+     ),
                     };
                 }
                 catch (Exception ex)

@@ -25,7 +25,7 @@ namespace Registration.Application.Patients.Commands.CreatePatient
         private static Patient CreateNewPatient(PatientDto patientDto)
         {
             var newPatient = Patient.Create(
-                id: PatientId.Of(Guid.NewGuid()),
+                Id: PatientId.Of(Guid.NewGuid()),
                 firstName: patientDto.firstName,
                 lastName: patientDto.lastName,
                 dateOfbirth: patientDto.dateOfbirth,
