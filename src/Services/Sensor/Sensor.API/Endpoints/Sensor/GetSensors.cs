@@ -1,5 +1,7 @@
 ﻿
+using Microsoft.Extensions.Configuration;
 using Sensor.Domain.Models;
+using System.Net.Http;
 
 namespace Sensor.API.Endpoints.Sensor;
 
@@ -8,21 +10,22 @@ public record GetSensorsResponse(PaginatedResult<ThingspeakDto> thingspeakDto);
 public class GetSensors : ICarterModule
 {
     private readonly HttpClient httpClient;
-    public GetSensors(HttpClient httpClient)
+    private readonly IConfiguration configuration;
+    public GetSensors(HttpClient httpClient , IConfiguration configuration)
     {
         this.httpClient = httpClient;
+        this.configuration=configuration;
     }
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/v1/sensors", async ([AsParameters] PaginationRequest request, ISender sender) =>
         {
             // call an extarnal api 
-            var url = "https://api.thingspeak.com/channels/2445450/feeds.json";
+            var url = configuration.GetValue<string>("ExternalService:UrlThingSpeak");
             var responseAsync = await httpClient.GetAsync(url);
             responseAsync.EnsureSuccessStatusCode();
             var resultcall = await responseAsync.Content.ReadAsAsync<ThingSpeakDataResponse>();
             // var response = resultcall.Adapt<GetSensorsResponse>();
-
             return Results.Ok(resultcall);
         })
         .WithName("GetSensors")
