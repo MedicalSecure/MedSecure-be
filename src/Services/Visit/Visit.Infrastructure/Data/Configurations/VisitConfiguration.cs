@@ -14,16 +14,36 @@ namespace Visit.Infrastructure.Data.Configurations
                 .HasConversion(visitId => visitId.Value,
                                dbId => VisitId.Of(dbId));
 
+
+            // Configuration for the relationship between Visit and Patient
+            builder.OwnsOne(b => b.Patient, patient =>
+            {
+                patient.Property(mi => mi.Id)
+                .HasConversion(id => id.Value,
+                               dbId => PatientId.Of(dbId));
+
+                patient.Property(wi => wi.FirstName).HasMaxLength(50)
+                      .IsRequired();
+
+                patient.Property(wi => wi.LastName).HasMaxLength(50)
+                    .IsRequired();
+
+                patient.Property(wi => wi.DateOfBirth)
+                    .IsRequired();
+
+                patient.Property(mi => mi.Gender).HasDefaultValue(Gender.Other).
+                    HasConversion(
+                    mi => mi.ToString(),
+                    gender => (Gender)Enum.Parse(typeof(Gender), gender));
+
+            });
             // Configuration for the DoctorId property
             builder.Property(i => i.DoctorId)
                 .IsRequired() // Assuming DoctorId is required
                 .HasConversion(doctorId => doctorId.Value,
                                dbId => DoctorId.Of(dbId));
 
-            // Configuration for the relationship between Visit and Patient
-            builder.HasOne<Patient>()
-                   .WithMany()
-                   .HasForeignKey(w => w.PatientId);
+          
 
             // Configuration for other properties
             builder.Property(i => i.StartDate).IsRequired();

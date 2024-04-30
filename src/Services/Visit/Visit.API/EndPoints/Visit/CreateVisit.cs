@@ -19,7 +19,7 @@ public class CreateVisit : ICarterModule
             return Results.Created($"/visits/{response.Id}",response);
         })
 
-         .WithName("CreateVisit")
+        .WithName("CreateVisit")
         .Produces<CreateVisitResponse>(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Create Visit")

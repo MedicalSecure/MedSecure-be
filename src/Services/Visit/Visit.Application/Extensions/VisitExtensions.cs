@@ -11,15 +11,20 @@ public static partial class VisitExtensions
                           Id: d.Id.Value,
                           StartDate: d.StartDate,
                           EndDate: d.EndDate,
-                          PatientId : d.PatientId.Value,
+                          Patient: new PatientDto(
+                          Id: d.Patient.Id.Value,
+                          FirstName: d.Patient.FirstName,
+                          LastName: d.Patient.LastName,
+                          DateOfBirth: d.Patient.DateOfBirth,
+                          Gender: d.Patient.Gender),
                           DoctorId: d.DoctorId.Value,
-                          Title : d.Title,
-                          TypeVisit : d.TypeVisit,
-                          LocationVisit : d.LocationVisit,
-                          Duration : d.Duration,
-                          Description : d.Description,
-                          Availability : d.Availability
-            
+                          Title: d.Title,
+                          TypeVisit: d.TypeVisit,
+                          LocationVisit: d.LocationVisit,
+                          Duration: d.Duration,
+                          Description: d.Description,
+                          Availability: d.Availability
+
                       ));
     }
 }

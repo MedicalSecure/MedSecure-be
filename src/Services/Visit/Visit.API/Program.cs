@@ -2,6 +2,19 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+
+                      });
+});
+
 // Add services to the container.
 // Add application services layer 
 builder.Services.AddApplicationServices(builder.Configuration);
@@ -12,9 +25,10 @@ builder.Services.AddApiServices(builder.Configuration);
 
 //build app
 var app = builder.Build();
+app.UseCors(MyAllowSpecificOrigins);
 
 // Configure the HTTP request pipeline.
-   app.UseApiServices();  // Configure API-related middleware
+app.UseApiServices();  // Configure API-related middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -32,6 +46,7 @@ if (app.Environment.IsDevelopment())
 //app.UseAuthorization();
 
 //app.MapControllers();
+
 
 app.Run();
 

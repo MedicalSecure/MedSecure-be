@@ -25,7 +25,12 @@ public class CreateVisitHandler(IPublishEndpoint publishEndpoint,IApplicationDbC
     {
         var newvisit = Domain.Models.Visit.CreateVisit(
             id: VisitId.Of(Guid.NewGuid()),
-            patientId: PatientId.Of(visitDto.PatientId),
+            patient:Patient.Create(
+            PatientId.Of(Guid.NewGuid()),
+            visitDto.Patient.FirstName,
+            visitDto.Patient.LastName,
+            visitDto.Patient.DateOfBirth,
+            visitDto.Patient.Gender),
             doctorId: DoctorId.Of(visitDto.DoctorId),
             title: visitDto.Title,
             startDate: visitDto.StartDate,
@@ -35,10 +40,7 @@ public class CreateVisitHandler(IPublishEndpoint publishEndpoint,IApplicationDbC
             duration: visitDto.Duration,
             description : visitDto.Description,
             availability : visitDto.Availability
-
-
             );
             return (newvisit);
     }
 }
-

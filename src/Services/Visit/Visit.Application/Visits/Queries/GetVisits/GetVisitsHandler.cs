@@ -14,8 +14,7 @@ public record GetVisitsHandler(IApplicationDbContext dbContext)
 
         var totalCount = await dbContext.Visits.LongCountAsync(cancellationToken);
         var visits = await dbContext.Visits
-
-           .OrderBy(d => d.PatientId)
+           .Include(d => d.Patient)
            .Skip(pageSize * pageIndex)
            .Take(pageSize)
            .ToListAsync(cancellationToken);

@@ -5,7 +5,7 @@ namespace Visit.Domain.Models
     {
         public DateTime StartDate { get; set; } = default!; // Visit start date
         public DateTime EndDate { get; set; } = default!; // Visit end date
-        public PatientId PatientId { get; private set; } = default!; // Patient ID
+        public Patient Patient { get; private set; } = default!; // Patient ID
         public DoctorId DoctorId { get; private set; } = default!; // Doctor ID
         public string Title { get; private set; } = default!; // Visit title
         public TypeVisit TypeVisit { get; private set; } = default!; // Visit type
@@ -19,7 +19,7 @@ namespace Visit.Domain.Models
             DateTime startDate,
             DateTime endDate, 
             DoctorId doctorId ,
-            PatientId patientId, 
+            Patient patient, 
             string title, 
             TypeVisit typeVisit,
             LocationVisit locationVisit, 
@@ -32,7 +32,7 @@ namespace Visit.Domain.Models
                 Id = id,
                 StartDate = startDate,
                 EndDate = endDate,
-                PatientId = patientId,
+                Patient = patient,
                 DoctorId =doctorId,
                 Title = title,
                 TypeVisit = typeVisit,
@@ -50,7 +50,7 @@ namespace Visit.Domain.Models
             DateTime endDate, 
             string title,
             DoctorId doctorId,
-            PatientId patientId,
+            Patient patient,
             TypeVisit typeVisit,
             LocationVisit locationVisit, 
             string duration,
@@ -59,7 +59,7 @@ namespace Visit.Domain.Models
         {
             StartDate = startDate;
             EndDate = endDate;
-            PatientId = patientId;
+            Patient = patient;
             DoctorId = doctorId;
             Title = title;
             TypeVisit = typeVisit;

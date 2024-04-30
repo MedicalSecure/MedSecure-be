@@ -28,7 +28,12 @@ public class UpdateVisitHandler(IApplicationDbContext dbContext) : ICommandHandl
             visitDto.EndDate, 
             visitDto.Title,
             DoctorId.Of(visitDto.DoctorId),
-            PatientId.Of(visitDto.PatientId),
+            Patient.Create(
+            PatientId.Of(visitDto.Patient.Id),
+            visitDto.Patient.FirstName,
+            visitDto.Patient.LastName,
+            visitDto.Patient.DateOfBirth,
+            visitDto.Patient.Gender),
             visitDto.TypeVisit,
             visitDto.LocationVisit, 
             visitDto.Duration,

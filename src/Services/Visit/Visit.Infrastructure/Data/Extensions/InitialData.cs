@@ -12,31 +12,6 @@ internal class InitialData
     private static readonly string doctorId = "7506213d-3b5f-4498-b35c-9169a600ff10";
 
 
-
-    public static IEnumerable<Patient> Patients
-    {
-        get
-        {
-            try
-            {
-                return new List<Patient>
-                    {
-                        // Create Patient instances
-                        Patient.Create(
-                            id: PatientId.Of(new Guid(patientId)),
-                            firstName: "Joury",
-                            lastName: "JJ",
-                            dateOfBirth: new DateTime(2002, 02, 22),
-                            gender: Gender.Female),
-                    };
-            }
-            catch (Exception ex)
-            {
-                throw new EntityCreationException(nameof(Patient), ex.Message);
-            }
-        }
-    }
-
     public static IEnumerable<Domain.Models.Visit> Visits
     {
         get
@@ -49,7 +24,12 @@ internal class InitialData
                           id: VisitId.Of(Guid.NewGuid()),
                           startDate: DateTime.Now,
                           endDate: DateTime.Now.AddHours(1),
-                          patientId:PatientId.Of(new Guid(patientId)) ,
+                          patient: Patient.Create(
+                          id: PatientId.Of(new Guid(patientId)),
+                          firstName: "Joury",
+                          lastName: "Jamel",
+                          dateOfBirth: new DateTime(2002, 02, 22),
+                          gender: Gender.Female),
                           doctorId: DoctorId.Of(new Guid(doctorId)),
                           title: "Visite de suivi",
                           typeVisit: TypeVisit.FollowUp,

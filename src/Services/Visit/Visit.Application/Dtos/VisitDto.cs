@@ -4,8 +4,8 @@ namespace Visit.Application.Dtos;
 
 public record VisitDto (Guid Id ,
     DateTime StartDate,
-    DateTime EndDate, 
-    Guid PatientId, 
+    DateTime EndDate,
+    PatientDto Patient, 
     Guid DoctorId , 
     string Title, 
     TypeVisit TypeVisit, 

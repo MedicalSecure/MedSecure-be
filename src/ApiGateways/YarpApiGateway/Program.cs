@@ -2,6 +2,15 @@ using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200");
+                      });
+});
 // Ajouter la configuration à partir de appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json", optional: false);
 
@@ -23,6 +32,7 @@ builder.Services.AddRateLimiter(rateLimiterOptions =>
 
 var app = builder.Build();
 
+app.UseCors(MyAllowSpecificOrigins);
 // Configure the HTTP request pipeline.
 app.UseRateLimiter();
 
