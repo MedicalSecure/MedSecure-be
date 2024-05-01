@@ -20,8 +20,8 @@ namespace UnitCare.Infrastructure.Data.Extensions
 
 
                     // Create personnels for each unitCare
-                    var TestPersonnel = Personnel.Create(PersonnelId.Of(Guid.NewGuid()), unitCare.Id, "olivier", Shift.day);
-                    var Test2Personnel = Personnel.Create(PersonnelId.Of(Guid.NewGuid()), unitCare.Id, "emily", Shift.night);
+                    var TestPersonnel = Personnel.Create(PersonnelId.Of(Guid.NewGuid()), unitCare.Id, "olivier", Shift.day,Gender.male);
+                    var Test2Personnel = Personnel.Create(PersonnelId.Of(Guid.NewGuid()), unitCare.Id, "emily", Shift.night,Gender.female);
 
 
                     // Create rooms for each unitCare

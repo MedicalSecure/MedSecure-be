@@ -21,7 +21,8 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
                .HasForeignKey(u => u.UnitCareId);
 
         builder.Property(wi => wi.RoomNumber) 
-              .IsRequired();
+              .IsRequired()
+              .HasColumnType("decimal(10, 2)");
 
         builder.Property(r => r.Status)
             .HasConversion(

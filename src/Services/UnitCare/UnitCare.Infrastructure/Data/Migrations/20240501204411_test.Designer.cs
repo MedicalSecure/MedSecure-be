@@ -12,7 +12,7 @@ using UnitCare.Infrastructure.Data;
 namespace UnitCare.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240423105749_test")]
+    [Migration("20240501204411_test")]
     partial class test
     {
         /// <inheritdoc />
@@ -62,6 +62,44 @@ namespace UnitCare.Infrastructure.Data.Migrations
                     b.ToTable("Equipments");
                 });
 
+            modelBuilder.Entity("UnitCare.Domain.Models.Personnel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Shift")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UnitCareId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UnitCareId");
+
+                    b.ToTable("Personnel");
+                });
+
             modelBuilder.Entity("UnitCare.Domain.Models.Room", b =>
                 {
                     b.Property<Guid>("Id")
@@ -80,7 +118,7 @@ namespace UnitCare.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("RoomNumber")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10, 2)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -139,6 +177,15 @@ namespace UnitCare.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("UnitCare.Domain.Models.Personnel", b =>
+                {
+                    b.HasOne("UnitCare.Domain.Models.UnitCare", null)
+                        .WithMany("Personnels")
+                        .HasForeignKey("UnitCareId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("UnitCare.Domain.Models.Room", b =>
                 {
                     b.HasOne("UnitCare.Domain.Models.UnitCare", null)
@@ -155,6 +202,8 @@ namespace UnitCare.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("UnitCare.Domain.Models.UnitCare", b =>
                 {
+                    b.Navigation("Personnels");
+
                     b.Navigation("Rooms");
                 });
 #pragma warning restore 612, 618

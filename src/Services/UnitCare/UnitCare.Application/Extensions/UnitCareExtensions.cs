@@ -13,7 +13,8 @@
                                 Id:pe.Id.Value,
                                 UnitCareId: pe.UnitCareId.Value,
                                 Name:pe.Name,
-                                Shift:pe.Shift
+                                Shift:pe.Shift,
+                                Gender:pe.Gender
                                 )).ToList(),
                             Rooms: u.Rooms.Select(r => new RoomDto(
                                              Id: r.Id.Value,

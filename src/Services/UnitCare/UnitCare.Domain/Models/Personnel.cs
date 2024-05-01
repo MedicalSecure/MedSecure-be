@@ -6,11 +6,15 @@
         public string Name { get; set; } = default!;
         public Shift Shift { get; set; } = default!;
 
+        public Gender Gender { get; set; } = default!;
+
+
         public static Personnel Create(
             PersonnelId id,
             UnitCareId unitCareId,
             string name,
-            Shift shift)
+            Shift shift,
+            Gender gender)
         {
             var personnel = new Personnel()
             {
@@ -18,6 +22,7 @@
                 UnitCareId = unitCareId,
                 Name = name,
                 Shift = shift,
+                Gender= gender
             };
 
             personnel.AddDomainEvent(new PersonnelCreatedEvent(personnel));
@@ -28,11 +33,13 @@
         public void Update(
             UnitCareId unitCareId,
             string name,
-            Shift shift)
+            Shift shift,
+             Gender gender)
         {
             Name = name;
             Shift = shift;
             UnitCareId = unitCareId;
+            Gender = gender;
 
             AddDomainEvent(new PersonnelUpdatedEvent(this));
         }
