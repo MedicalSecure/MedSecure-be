@@ -28,7 +28,7 @@ namespace Registration.Infrastructure.Data.Configurations
                    .HasForeignKey(w => w.RegisterId).IsRequired(); ;
 
             builder.HasOne<Register>()
-                   .WithMany(d => d.Familymedicalhistory)
+                   .WithMany(d => d.FamilyMedicalHistory)
                    .HasForeignKey(w => w.RegisterId).IsRequired(); ;
 
             builder.HasOne<Register>()

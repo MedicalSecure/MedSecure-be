@@ -15,16 +15,21 @@ namespace Registration.Application.Extensions
                 dateOfbirth: p.DateOfBirth,
                 cin: p.CIN,
                 cnam: p.CNAM,
+                assurance:p.Assurance,
                 gender: p.Gender,
                 height: p.Height,
                 weight: p.Weight,
+                addressIsRegistion: p.AddressIsRegisterations,
+                saveForNextTime:p.SaveForNextTime,
                 email: p.Email,
                 address1: p.Address1,
                 address2: p.Address2,
                 country: p.Country,
                 state: p.State,
+                zipCode: p.ZipCode,
                 familyStatus: p.FamilyStatus,
                 children: p.Children
+
 
                 ));
         }

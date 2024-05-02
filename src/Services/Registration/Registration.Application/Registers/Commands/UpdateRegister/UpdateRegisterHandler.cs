@@ -43,7 +43,7 @@
             existingRegister.Patient.Children = newRegisterDto.patient.children;
 
             // Update other properties of the register as needed
-            existingRegister.Familymedicalhistory = newRegisterDto.familyHistory;
+            existingRegister.FamilyMedicalHistory = newRegisterDto.familyHistory;
             existingRegister.PersonalMedicalHistory = newRegisterDto.personalHistory;
             existingRegister.Disease = newRegisterDto.disease;
             existingRegister.Allergy = newRegisterDto.allergy;

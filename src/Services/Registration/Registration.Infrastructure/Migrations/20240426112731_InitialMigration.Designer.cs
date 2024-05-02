@@ -235,7 +235,7 @@ namespace Registration.Infrastructure.Migrations
                         .HasForeignKey("RegisterId2");
 
                     b.HasOne("Registration.Domain.Models.Register", null)
-                        .WithMany("Familymedicalhistory")
+                        .WithMany("FamilyMedicalHistory")
                         .HasForeignKey("RegisterId3");
 
                     b.HasOne("Registration.Domain.Models.RiskFactor", null)
@@ -251,7 +251,7 @@ namespace Registration.Infrastructure.Migrations
 
                     b.Navigation("Disease");
 
-                    b.Navigation("Familymedicalhistory");
+                    b.Navigation("FamilyMedicalHistory");
 
                     b.Navigation("PersonalMedicalHistory");
                 });

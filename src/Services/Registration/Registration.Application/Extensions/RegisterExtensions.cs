@@ -14,21 +14,26 @@ namespace Registration.Application.Extensions
                 dateOfbirth : p.Patient.DateOfBirth,
                 cin : p.Patient.CIN,
                 cnam : p.Patient.CNAM,
+                assurance :p.Patient.Assurance,
                 gender: p.Patient.Gender,
                 height : p.Patient.Height,
                 weight : p.Patient.Weight,
+                addressIsRegistion: p.Patient.AddressIsRegisterations,
+                saveForNextTime: p.Patient.SaveForNextTime,
                 email : p.Patient.Email,
                 address1 : p.Patient.Address1,
                 address2 : p.Patient.Address2,
                 country : p.Patient.Country,
                 state : p.Patient.State,
+                zipCode: p.Patient.ZipCode,
                 familyStatus : p.Patient.FamilyStatus,
                 children : p.Patient.Children
                     ),
-                familyHistory:p.Familymedicalhistory,
+                familyHistory:p.FamilyMedicalHistory,
                 personalHistory:p.PersonalMedicalHistory,
                 disease:p.Disease,
-                allergy:p.Allergy
+                allergy:p.Allergy,
+                history:p.History
                 ));
         }
     }

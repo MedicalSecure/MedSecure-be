@@ -3,6 +3,6 @@ using Registration.Domain.Models;
 
 namespace Registration.Application.Dtos
 {
-    public record PatientDto(Guid Id, string firstName, string lastName, DateTime dateOfbirth, int cin, int cnam, Gender gender, int height, int weight,
-            string email, string address1, string address2, string country, string state, FamilyStatus familyStatus, Children children);
+    public record PatientDto(Guid Id, string firstName, string lastName, DateTime dateOfbirth, int cin, int cnam, string assurance, Gender gender, int height, int weight,Boolean addressIsRegistion, Boolean saveForNextTime,
+            string email, string address1, string address2, Country country, string state,int zipCode, FamilyStatus familyStatus, Children children);
 }
