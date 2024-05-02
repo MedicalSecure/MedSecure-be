@@ -9,19 +9,23 @@ using System.Threading.Tasks;
 namespace Prescription.Application.DTOs
 {
     public record PrescriptionDto(
-        Guid Id,
-        PatientDto Patient,
-        Guid PatientId,
-        DoctorDto Doctor,
-        Guid DoctorId,
-        ICollection<SymptomDto> Symptoms,
-        ICollection<DiagnosisDto> Diagnoses,
-        ICollection<PosologyDto> Posologies);
+    Guid Id,
+    PatientDto Patient,
+    Guid PatientId,
+    DoctorDto Doctor,
+    Guid DoctorId,
+    ICollection<SymptomDto> Symptoms,
+    ICollection<DiagnosisDto> Diagnoses,
+    ICollection<PosologyDto> Posologies,
+    DateTime? CreatedAt = null,
+    DateTime? LastModified = null,
+    string? CreatedBy = null,
+    string? LastModifiedBy = null);
     public record GetPrescriptionsResult(PaginatedResult<PrescriptionDto> Prescriptions);
 
     public record PosologyDto(Guid Id,
         Guid PrescriptionId,
-        Guid MedicationId,
+        MedicationDto Medication,
         DateTime StartDate,
         DateTime? EndDate,
         bool IsPermanent,

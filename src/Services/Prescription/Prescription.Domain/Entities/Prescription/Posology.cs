@@ -30,6 +30,7 @@
             EndDate = endDate;
             IsPermanent = isPermanent;
             Medication = medication;
+            MedicationId=medication.Id;
         }
 
         public static Posology Create(Guid prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)

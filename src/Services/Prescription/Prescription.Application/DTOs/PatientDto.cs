@@ -6,7 +6,6 @@ namespace rescription.Application.DTOs
     public record PatientDto
     {
         public Guid Id { get; }
-        public Guid Test { get; }
         public string PatientName { get; }
         public DateTime DateOfBirth { get; }
         public Gender Gender { get; }

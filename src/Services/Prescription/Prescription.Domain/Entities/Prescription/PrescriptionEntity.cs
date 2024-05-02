@@ -19,16 +19,18 @@ namespace Prescription.Domain.Entities.Prescription
         private PrescriptionEntity()
         { }// for EF
 
-        private PrescriptionEntity(Guid id, Patient? p, Guid patientId, Doctor? D, Guid doctorId)
+        private PrescriptionEntity(Guid id, Patient? p, Guid patientId, Doctor? D, Guid doctorId, DateTime createdAt = default)
         {
             Id = id;
             Patient = p;
             PatientId = patientId;
             Doctor = D;
             DoctorId = doctorId;
+            CreatedBy = doctorId.ToString();
+            CreatedAt = createdAt == default ? DateTime.Now : createdAt;
         }
 
-        public static PrescriptionEntity Create(Patient patient, Doctor doctor)
+        public static PrescriptionEntity Create(Patient patient, Doctor doctor, DateTime createdAt = default)
         {
             //validations here
             //..
@@ -36,15 +38,15 @@ namespace Prescription.Domain.Entities.Prescription
 
             // Newly created prescription
             Guid PrescriptionId = new Guid();
-            return new PrescriptionEntity(PrescriptionId, patient, patient.Id, doctor, doctor.Id);
+            return new PrescriptionEntity(PrescriptionId, patient, patient.Id, doctor, doctor.Id, createdAt);
         }
 
-        public static PrescriptionEntity Create(Guid PrescriptionId, Patient patient, Doctor doctor)
+        public static PrescriptionEntity Create(Guid PrescriptionId, Patient patient, Doctor doctor, DateTime createdAt = default)
         {
             //validations here
             //..
             //..
-            return new PrescriptionEntity(PrescriptionId, patient, patient.Id, doctor, doctor.Id);
+            return new PrescriptionEntity(PrescriptionId, patient, patient.Id, doctor, doctor.Id, createdAt);
         }
 
         public bool addPosology(Posology posology)

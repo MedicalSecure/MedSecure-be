@@ -24,7 +24,11 @@ namespace Prescription.Application.Extensions
                 DoctorId: pres.DoctorId,
                 Symptoms: pres.Symptoms.ToSymptomsDto(),
                 Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
-                Posologies: pres.Posology.ToPosologiesDto()
+                Posologies: pres.Posology.ToPosologiesDto(),
+                CreatedAt: pres.CreatedAt,
+                LastModified: pres.LastModified,
+                CreatedBy: pres.CreatedBy,
+                LastModifiedBy: pres.LastModifiedBy
             );
         }
 
@@ -54,7 +58,7 @@ namespace Prescription.Application.Extensions
             return new PosologyDto(
                 Id: posology.Id,
                 PrescriptionId: posology.PrescriptionId,
-                MedicationId: posology.MedicationId,
+                Medication: posology.Medication.ToMedicationDto(),
                 Comments: posology.Comments.Select(c => new CommentsDto(
                     Id: c.Id,
                     PosologyId: posology.Id,

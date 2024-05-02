@@ -40,6 +40,8 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
                            .ThenInclude(posology => posology.Comments)
                            .Include(p => p.Posology)
                            .ThenInclude(posology => posology.Dispenses)
+                           .Include(p => p.Posology)
+                           .ThenInclude(posology => posology.Medication)
                            .OrderBy(o => o.CreatedAt)
                            .Skip(pageSize * pageIndex)
                            .Take(pageSize)

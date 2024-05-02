@@ -15,7 +15,24 @@ namespace Prescription.API
             builder.Services.AddApplicationServices(builder.Configuration);  // Add application services layer
             builder.Services.AddApiServices(builder.Configuration);  // Add API services layer
 
+
+            //allow cross origin TODO REMOVE from here and place it in my API GATEWAY!!
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                      policy.WithOrigins("http://localhost:4200")
+                                       .AllowAnyHeader()
+                                       .AllowAnyMethod();
+
+                                  });
+            });
+            //build app
             var app = builder.Build();
+
+            app.UseCors(MyAllowSpecificOrigins);
             // Configure the HTTP request pipeline
             app.UseApiServices();  // Configure API-related middleware
 
