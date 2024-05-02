@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace BacPatient.Application.Extensions
 {
+
     public static partial class PatientExtensions
     {
-        public static IEnumerable<PatientDto> ToPatientDtos(this IEnumerable<Patient> patients)
+        public static PatientDto ToPatientDto(this Patient d)
         {
-            return patients.Select(d => new PatientDto(
+            return new PatientDto(
                 Id: d.Id,
                 firstName: d.FirstName,
                 lastName: d.LastName,
@@ -26,8 +27,13 @@ namespace BacPatient.Application.Extensions
                 country: d.Country,
                 state: d.State,
                 familyStatus: d.FamilyStatus,
-                children: d.Children)) ;
+                children: d.Children);
+        }
 
+        public static ICollection<PatientDto> ToPatientDto(this IReadOnlyList<Patient> patients)
+        {
+            return patients.Select(d => d.ToPatientDto()).ToList();
         }
     }
 }
+

@@ -17,10 +17,9 @@ public class GetBacPatientHandler(IApplicationDbContext dbContext)
         var totalCount = await dbContext.BacPatients.LongCountAsync(cancellationToken);
 
         var bacPatients = await dbContext.BacPatients
-             .Include(bp => bp.Patient)
+             .Include(bp => bp.Prescription)
              .Include(bp => bp.Room)
-             .Include(bp => bp.UnitCare)
-                       .Include(o => o.Medicines)
+        
                        .Skip(pageSize * pageIndex)
                        .Take(pageSize)
                        .ToListAsync(cancellationToken);

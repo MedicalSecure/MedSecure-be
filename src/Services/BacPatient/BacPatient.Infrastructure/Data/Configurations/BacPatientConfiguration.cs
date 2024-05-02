@@ -12,26 +12,9 @@ public class BacPatientConfiguration : IEntityTypeConfiguration<Domain.Models.Ba
                .HasConversion(bpModelid => bpModelid,
                               dbId => dbId);
     
-        builder.OwnsOne(b => b.Room, patient =>
-        {
-            patient.Property(p => p.Id).IsRequired()
-            .HasConversion(bpModelid => bpModelid.Value,
-                              dbId => RoomId.Of(dbId));
-            patient.Property(p => p.Number).IsRequired();
-
-
-
-        });
-        builder.OwnsOne(b => b.UnitCare, patient =>
-        {
-            patient.Property(p => p.Id).IsRequired()
-            .HasConversion(bpModelid => bpModelid.Value,
-                              dbId => UnitCareId.Of(dbId));
-            patient.Property(p => p.Title).IsRequired();
-
-        });
-        builder.HasOne(bacPatient => bacPatient.Patient)
-              .WithMany(patient => patient.bacPatient)
+    
+        builder.HasOne(bacPatient => bacPatient.Prescription)
+              .WithMany(prescription => prescription.bacPatients)
               .HasForeignKey(BacPatient => BacPatient.Id)
               .IsRequired()
               .OnDelete(DeleteBehavior.Restrict);
@@ -43,8 +26,7 @@ public class BacPatientConfiguration : IEntityTypeConfiguration<Domain.Models.Ba
         builder.Property(wi => wi.Bed)
                .IsRequired();
 
-        builder.Property(wi => wi.ServingDate)
-              .IsRequired();
+       
 
         builder.Property(wi => wi.Served)
               .IsRequired();

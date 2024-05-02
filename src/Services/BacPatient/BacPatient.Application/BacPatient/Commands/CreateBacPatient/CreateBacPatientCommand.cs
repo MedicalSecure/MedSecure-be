@@ -9,7 +9,6 @@ public class CreateBacPatientCommandValidator : AbstractValidator<CreateBacPatie
     public CreateBacPatientCommandValidator()
     {
        
-        RuleFor(x => x.BacPatients.Medicines).NotEmpty().WithMessage("Medcicnes is should not be empty");
     }
 }
 

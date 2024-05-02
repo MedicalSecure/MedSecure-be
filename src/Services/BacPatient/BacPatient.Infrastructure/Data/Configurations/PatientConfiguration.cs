@@ -1,35 +1,50 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System.Text.Json;
+﻿
+
 namespace BacPatient.Infrastructure.Data.Configurations
 {
-    //called from : ApplicationDbContext :
-    //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    public class RiskFactorListConverter : ValueConverter<List<RiskFactor?>, string>
-    {
-        public RiskFactorListConverter() : base(
-            riskFactors => JsonSerializer.Serialize(riskFactors, new JsonSerializerOptions { /* Add any necessary options */ }),
-            json => JsonSerializer.Deserialize<List<RiskFactor>>(json, new JsonSerializerOptions { /* Add any necessary options */ })
-        )
-        {
-        }
-    }
-
     public class PatientConfiguration : IEntityTypeConfiguration<Patient>
     {
-        public PatientConfiguration()
-        {
-        }
-
         public void Configure(EntityTypeBuilder<Patient> builder)
-
         {
+            builder.HasKey(mi => mi.Id);
 
-            builder.HasKey(p => p.Id);
-            builder.Property(p => p.PatientName)
-                .HasMaxLength(100);
- 
+            builder.Property(mi => mi.Id);  
+            builder.Property(wi => wi.FirstName).HasMaxLength(50)
+                   .IsRequired();
+            builder.Property(wi => wi.LastName).HasMaxLength(50)
+                   .IsRequired();
+            builder.Property(wi => wi.DateOfBirth)
+                   .IsRequired();
+            builder.Property(wi => wi.CIN).HasMaxLength(8)
+                   .IsRequired();
+            builder.Property(wi => wi.CNAM).HasMaxLength(20)
+                   .IsRequired();
 
-      
+            builder.Property(mi => mi.Gender).HasDefaultValue(Gender.Other)
+                   .HasConversion(
+                       mi => mi.ToString(),
+                       gender => (Gender)Enum.Parse(typeof(Gender), gender));
+
+            builder.Property(wi => wi.Height)
+                   .IsRequired();
+
+            builder.Property(wi => wi.Weight)
+                   .IsRequired();
+            builder.Property(wi => wi.Address1).HasMaxLength(50);
+            builder.Property(wi => wi.Address2).HasMaxLength(50);
+            builder.Property(wi => wi.Country).IsRequired();
+            builder.Property(wi => wi.State).IsRequired();
+            builder.Property(mi => mi.FamilyStatus).HasDefaultValue(FamilyStatus.SINGLE)
+                  .HasConversion(
+                      mi => mi.ToString(),
+                      familyStatus => (FamilyStatus)Enum.Parse(typeof(FamilyStatus), familyStatus));
+            builder.Property(mi => mi.Children).HasDefaultValue(Children.None)
+                 .HasConversion(
+                     mi => mi.ToString(),
+                     children => (Children)Enum.Parse(typeof(Children), children));
+
+
+
         }
     }
 }

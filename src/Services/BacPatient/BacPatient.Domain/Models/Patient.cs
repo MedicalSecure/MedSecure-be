@@ -5,72 +5,86 @@ namespace BacPatient.Domain.Models
 {
     public class Patient : Aggregate<Guid>
     {
-        public string PatientName { get; private set; } = default!;
-        public DateTime DateOfBirth { get; private set; } = default!;
-        public Gender Gender { get; private set; } = default!;
-        public int Height { get; private set; } = default!;
-        public int Weight { get; private set; } = default!;
+        public string FirstName { get; set; } = default!;
+        public string LastName { get; set; } = default!;
+        public DateTime DateOfBirth { get; set; } = default!;
+        public int CIN { get; set; } = default!;
+        public int CNAM { get; set; } = default!;
+        public string Assurance { get; set; } = default!;
+        public Gender Gender { get; set; } = default!;
+        public int Height { get; set; } = default!;
+        public int Weight { get; set; } = default!;
+        public Boolean AddressIsRegisterations { get; set; } = default!;
+        public Boolean SaveForNextTime { get; set; } = default!;
+        public string Email { get; set; } = default!;
+        public string Address1 { get; set; } = default!;
+        public string Address2 { get; set; } = default!;
+        public ActivityStatus ActivityStatus { get; set; }
+        public  Country Country { get; set; }
+        public string State { get; set; } = default!;
+        public int ZipCode { get; set; } = default!;
+        public FamilyStatus FamilyStatus { get; set; } = default!;
+        public Children Children { get; set; } = default!;
+        public Register Register { get; private set; } = default!;
+        public Guid RegisterId { get; private set; } = default!;
 
-        public Register? Register { get; set; } = default!;
-        public RiskFactor? RiskFactor { get; set; } = default!;
-        public RiskFactor? Disease { get; set; } = default!;
-        public ICollection<PrescriptionEntity> Prescriptions { get; private set; }
-        public ICollection<BacPatient> bacPatient { get; private set; }
-        public Patient()
-        { } // For EF
 
-        public static Patient Create(Guid id, string patientName, DateTime dateOfbirth, Gender gender, int height, int weight, Register register, RiskFactor riskFactor, RiskFactor disease)
+
+
+
+
+
+
+
+        public static Patient Create(string firstName,string lastName, DateTime dateOfbirth,int cin,int cnam, Gender gender, int height, int weight,
+            string email, string address1,string address2,Country country,string state ,FamilyStatus familyStatus,Children children)
         {
             var patient = new Patient
             {
-                Id = id,
-                PatientName = patientName,
+                
+                FirstName = firstName,
+                LastName = lastName,
                 DateOfBirth = dateOfbirth,
+                CIN = cin,
+                CNAM = cnam,
                 Gender = gender,
                 Height = height,
                 Weight = weight,
-                Register = register,
-                RiskFactor = riskFactor,
-                Disease = disease
+                Email = email,
+                Address1 = address1,
+                Address2 = address2,
+                Country = country,
+                State = state,
+                FamilyStatus = familyStatus,
+                Children = children
+
+
             };
-            // patient.AddDomainEvent(new PatientCreatedEvent(patient));
+            patient.AddDomainEvent(new PatientCreatedEvent(patient));
 
             return patient;
         }
-
-        public static Patient Create(string patientName, DateTime dateOfbirth, Gender gender, int height, int weight, Register register, RiskFactor riskFactor, RiskFactor disease)
+        public void Update(string firstName, string lastName, DateTime dateOfbirth, int cin, int cnam, Gender gender, int height, int weight,
+            string email, string address1, string address2, Country country, string state, FamilyStatus familyStatus, Children children)
         {
-            var patient = new Patient
-            {
-                Id = new Guid(),
-                PatientName = patientName,
-                DateOfBirth = dateOfbirth,
-                Gender = gender,
-                Height = height,
-                Weight = weight,
-                Register = register,
-                RiskFactor = riskFactor,
-                Disease = disease
-            };
-            // patient.AddDomainEvent(new PatientCreatedEvent(patient));
+            FirstName = firstName;
+            LastName = lastName;
+            DateOfBirth = dateOfbirth;
+            CIN = cin;
+            CNAM = cnam;
+            Gender = gender;
+            Height = height;
+            Weight = weight;
+            Email = email;
+            Address1 = address1;
+            Address2 = address2;
+            Country = country;
+            State = state;
+            FamilyStatus = familyStatus;
+            Children = children;
+            
 
-            return patient;
+            AddDomainEvent(new PatientUpdatedEvent(this));
         }
-    }
-
-
-    public class Register
-    {
-
-        public Guid Id { get; set; }
-        public List<RiskFactor>? familymedicalhistory { get; set; }
-        public List<RiskFactor>? personalMedicalHistory { get; set; }
-    }
-
-    public class RiskFactor
-    {
-        public string? key { get; set; }
-        public string? value { get; set; }
-        public List<RiskFactor>? subRiskfactory { get; set; }
     }
 }

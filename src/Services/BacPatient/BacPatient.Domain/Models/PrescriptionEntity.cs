@@ -13,8 +13,10 @@ namespace BacPatient.Domain.Models
         public Guid PatientId { get; private set; }
         public Patient? Patient { get; private set; }
         public Guid DoctorId { get; private set; }
-
+        
         public Doctor? Doctor { get; private set; }
+        public ICollection<BacPatient> bacPatients { get; private set; }
+
 
         private PrescriptionEntity()
         { }// for EF

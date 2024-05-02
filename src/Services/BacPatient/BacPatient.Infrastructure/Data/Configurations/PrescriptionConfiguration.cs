@@ -28,11 +28,7 @@
                         builder.HasOne(p => p.Doctor)
                             .WithMany()
                             .HasForeignKey(prescription => prescription.DoctorId).IsRequired(); ;*/
-            builder.HasOne(prescription => prescription.Patient)
-        .WithMany(patient => patient.Prescriptions)
-        .HasForeignKey(prescription => prescription.PatientId)
-        .IsRequired()
-        .OnDelete(DeleteBehavior.Restrict); // Specify the desired delete behavior
+           // Specify the desired delete behavior
 
             builder.HasOne(prescription => prescription.Doctor)
                 .WithMany(doctor => doctor.Prescriptions)

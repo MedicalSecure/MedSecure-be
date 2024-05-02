@@ -16,7 +16,7 @@ public interface IApplicationDbContext
     public DbSet<Dispense> Dispenses { get; }
     public DbSet<Posology> Posology { get; }
     public DbSet<Comment> Comments { get; }
-    public DbSet<Patient> Patients { get; }
+    public DbSet<Room> Patients { get; }
     public DbSet<Doctor> Doctors { get; }
     public DbSet<Medication> Medications { get; }
 

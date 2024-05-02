@@ -22,7 +22,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Comment> Comments => Set<Comment>();
 
-    public DbSet<Patient> Patients => Set<Patient>();
+    public DbSet<Room> Patients => Set<Room>();
 
     public DbSet<Doctor> Doctors => Set<Doctor>();
 
