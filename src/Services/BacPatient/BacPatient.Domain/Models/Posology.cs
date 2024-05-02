@@ -1,42 +1,61 @@
-﻿
-using BacPatient.Domain.ValueObjects;
-
-namespace BacPatient.Domain.Models
+﻿namespace BacPatient.Domain.Models
 {
-    public class Posology : Aggregate<PoslogyId>
+    public class Posology : Entity<Guid>
     {
-        public DateTime StartDate { get; private set; } = default!;
-        public DateTime EndDate { get; private set; } = default!;
+        private readonly List<Comment> _comments = new List<Comment>();
+        private readonly List<Dispense> _dispenses = new List<Dispense>();
 
-        public int QuantityBE { get; private set; } = default!;
-        public int QuantityAE { get; private set; } = default!;
+        public Guid PrescriptionId { get; private set; }
+        public PrescriptionEntity Prescription { get; set; }
+        public Guid MedicationId { get; set; }
+        public Medication Medication { get; private set; }
+        public DateTime StartDate { get; private set; }
 
-        public bool IsPermanent { get; private set; } = default!;
+        public DateTime? EndDate { get; private set; }
+        public bool IsPermanent { get; private set; }
 
-        public List<int> Hours { get; private set; } = default!;
-        public static Posology Create(
-            PoslogyId Id ,
-            DateTime StartDate,
-            DateTime EndDate,
-            int quantityBE,
-            int quantityAE,
-            bool IsPermanent,
-            List<int> Hours
-        )
+        public IReadOnlyList<Dispense> Dispenses => _dispenses.AsReadOnly();
+
+        public IReadOnlyList<Comment> Comments => _comments.AsReadOnly();
+
+        private Posology()
         {
-            var posology = new Posology()
-            {
-                Id = Id ,
-                StartDate = StartDate,
-                EndDate = EndDate,
-                QuantityBE = quantityBE,
-                QuantityAE = quantityAE,
-                IsPermanent = IsPermanent,
-                Hours = Hours
-            };
-
-            return posology;
         }
 
+        private Posology(Guid id, Guid prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
+        {
+            Id = id;
+            PrescriptionId = prescriptionId;
+            StartDate = startDate;
+            EndDate = endDate;
+            IsPermanent = isPermanent;
+            Medication = medication;
+            MedicationId = medication.Id;
+        }
+
+        public static Posology Create(Guid prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
+        {
+            if (isPermanent == false && endDate == null) throw new ArgumentNullException("test");
+            if (medication == null) throw new ArgumentNullException("test");
+            return new Posology(new Guid(), prescriptionId, medication, startDate, endDate, isPermanent);
+        }
+        public static Posology Create(Guid id, Guid prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
+        {
+            if (isPermanent == false && endDate == null) throw new ArgumentNullException("test");
+            if (medication == null) throw new ArgumentNullException("test");
+            return new Posology(id, prescriptionId, medication, startDate, endDate, isPermanent);
+        }
+
+        public void AddDispense(Dispense dispense)
+        {
+            // Validate and add dispense
+            _dispenses.Add(dispense);
+        }
+
+        public void AddComment(Comment comment)
+        {
+            // Validate and add comment
+            _comments.Add(comment);
+        }
     }
 }

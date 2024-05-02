@@ -9,5 +9,5 @@ public record BacPatientDto(Guid Id,
     DateTime ServingDate,
     int Served , 
     int ToServe ,
-    StatusBP Status , List<MedicineDto> Medicines);
+    StatusBP Status , List<MedicationDto> Medicines);
 

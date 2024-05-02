@@ -14,8 +14,8 @@ namespace BacPatient.Domain.Models
        /* private readonly List<Meals> _meals= new();
         public IReadOnlyList<Meals> Meals => _medicines.AsReadOnly();*/
         public StatusBP Status { get; private set; } = StatusBP.Pending;
-        private readonly List<Medicine> _medicines = new();
-        public IReadOnlyList<Medicine> Medicines => _medicines.AsReadOnly();
+        private readonly List<Medication> _medicines = new();
+        public IReadOnlyList<Medication> Medicines => _medicines.AsReadOnly();
 
     public static BacPatient Create(
             BacPatienId Id,
@@ -56,7 +56,7 @@ namespace BacPatient.Domain.Models
 
             AddDomainEvent(new BPUpdatedEvent(this));
         }
-        public void AddMedicne(Medicine med)
+        public void AddMedicne(Medication med)
         {
             if (med == null)
                 throw new ArgumentNullException(nameof(med));

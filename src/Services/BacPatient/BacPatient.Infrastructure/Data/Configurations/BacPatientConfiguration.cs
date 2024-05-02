@@ -1,5 +1,4 @@
 ﻿
-using BacPatient.Domain.Enums;
 
 namespace BacPatient.Infrastructure.Data.Configurations;
 
@@ -14,10 +13,8 @@ public class BacPatientConfiguration : IEntityTypeConfiguration<Domain.Models.Ba
                               dbId => BacPatienId.Of(dbId));
         builder.OwnsOne(b => b.Patient, patient =>
         {
-            patient.Property(p => p.Id).IsRequired()
-             .HasConversion(bpModelid => bpModelid.Value,
-                              dbId => PatientId.Of(dbId)); ;
-            patient.Property(p => p.Name).IsRequired();
+            patient.Property(p => p.Id).IsRequired();
+            patient.Property(p => p.PatientName).IsRequired();
             patient.Property(p => p.DateOfBirth).IsRequired();
 
         });
