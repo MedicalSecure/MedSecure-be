@@ -1,7 +1,7 @@
 ﻿
 namespace Registration.Domain.Models
 {
-    public class Test
+    public class Test:Aggregate<TestId>
     {
         //enum type : clique test ou labTest
         public string Code { get; set; } = default!;
