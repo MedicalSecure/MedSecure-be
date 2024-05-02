@@ -5,7 +5,6 @@
         public string Label { get; private set; }
 
         public string Content { get; private set; }
-
         public Guid PosologyId { get; private set; }
         public Posology? posology { get; private set; }
 

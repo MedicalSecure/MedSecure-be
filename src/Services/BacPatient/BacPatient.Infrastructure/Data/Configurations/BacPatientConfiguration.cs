@@ -7,17 +7,11 @@ public class BacPatientConfiguration : IEntityTypeConfiguration<Domain.Models.Ba
     public void Configure(EntityTypeBuilder<Domain.Models.BacPatient> builder)
     {
         builder.HasKey(b => b.Id);
-
+       
         builder.Property(b => b.Id)
-               .HasConversion(bpModelid => bpModelid.Value,
-                              dbId => BacPatienId.Of(dbId));
-        builder.OwnsOne(b => b.Patient, patient =>
-        {
-            patient.Property(p => p.Id).IsRequired();
-            patient.Property(p => p.PatientName).IsRequired();
-            patient.Property(p => p.DateOfBirth).IsRequired();
-
-        });
+               .HasConversion(bpModelid => bpModelid,
+                              dbId => dbId);
+    
         builder.OwnsOne(b => b.Room, patient =>
         {
             patient.Property(p => p.Id).IsRequired()
@@ -36,8 +30,11 @@ public class BacPatientConfiguration : IEntityTypeConfiguration<Domain.Models.Ba
             patient.Property(p => p.Title).IsRequired();
 
         });
-      
- 
+        builder.HasOne(bacPatient => bacPatient.Patient)
+              .WithMany(patient => patient.bacPatient)
+              .HasForeignKey(BacPatient => BacPatient.Id)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Restrict);
         builder.Property(d => d.Status).
             HasConversion(
             dt => dt.ToString(),

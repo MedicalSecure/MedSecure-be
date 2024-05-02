@@ -21,7 +21,6 @@ public class GetBacPatientHandler(IApplicationDbContext dbContext)
              .Include(bp => bp.Room)
              .Include(bp => bp.UnitCare)
                        .Include(o => o.Medicines)
-                       .ThenInclude(f => f.Posologies)
                        .Skip(pageSize * pageIndex)
                        .Take(pageSize)
                        .ToListAsync(cancellationToken);

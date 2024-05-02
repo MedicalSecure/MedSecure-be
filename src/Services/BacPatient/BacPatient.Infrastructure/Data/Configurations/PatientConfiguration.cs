@@ -21,40 +21,15 @@ namespace BacPatient.Infrastructure.Data.Configurations
         }
 
         public void Configure(EntityTypeBuilder<Patient> builder)
+
         {
+
             builder.HasKey(p => p.Id);
             builder.Property(p => p.PatientName)
                 .HasMaxLength(100);
+ 
 
-            // Configure navigation properties
-            builder.OwnsOne(p => p.Register, register =>
-            {
-                register.Property(r => r.familymedicalhistory)
-                    .HasConversion(new RiskFactorListConverter()).IsRequired(false);
-
-                register.Property(r => r.personalMedicalHistory)
-                    .HasConversion(new RiskFactorListConverter()).IsRequired(false);
-            });
-
-            builder.OwnsOne(p => p.RiskFactor, riskFactor =>
-            {
-                riskFactor.Property(r => r.key).IsRequired(false); ;
-
-                riskFactor.Property(r => r.value).IsRequired(false); ;
-
-                riskFactor.Property(r => r.subRiskfactory)
-                    .HasConversion(new RiskFactorListConverter()).IsRequired(false); ;
-            });
-
-            builder.OwnsOne(p => p.Disease, disease =>
-            {
-                disease.Property(d => d.key).IsRequired(false); ;
-
-                disease.Property(d => d.value).IsRequired(false); ;
-
-                disease.Property(d => d.subRiskfactory)
-                    .HasConversion(new RiskFactorListConverter()).IsRequired(false); ;
-            });
+      
         }
     }
 }

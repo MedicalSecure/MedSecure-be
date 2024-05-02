@@ -7,19 +7,16 @@ namespace BacPatient.Application.Extensions
         public static IEnumerable<BacPatientDto> ToBacPatientDtos(this IEnumerable<Domain.Models.BacPatient> bacPatients)
         {
             return bacPatients.Select(d => new BacPatientDto(
-                            Id: d.Id.Value,
-                            Patient: new PatientDto(
-                                Id:d.Patient.Id.Value,
-                                 Name: d.Patient.Name,
-                            DateOfBirth: d.Patient.DateOfBirth,
-                            Gender: d.Patient.Gender,
-                            Age: d.Patient.Age,
-                            Height: d.Patient.Height,
-                            Weight: d.Patient.Weight,
-                            ActivityStatus: d.Patient.ActivityStatus,
-                            Allergies: d.Patient.Allergies,
-                            RiskFactor: d.Patient.RiskFactor,
-                            FamilyHistory: d.Patient.FamilyHistory
+                            Id: d.Id,
+                            Patient: new PatientDto(id: d.Patient.Id,
+                patientName: d.Patient.PatientName,
+                dateOfBirth: d.Patient.DateOfBirth.Date,
+                gender: d.Patient.Gender,
+                height: d.Patient.Height,
+                weight: d.Patient.Weight,
+                register: d.Patient.Register,
+                riskFactor: d.Patient.RiskFactor,
+                disease: d.Patient.Disease
                                 ),
                             Room: new RoomDto(
                                   Id: d.Room.Id.Value,
@@ -40,26 +37,22 @@ namespace BacPatient.Application.Extensions
                             ToServe: d.ToServe,
                             Status: d.Status,
                             ServingDate: d.ServingDate,
-                            Medicines: d.Medicines.Select(m => new MedicineDto(
-                                             Id: m.Id.Value,
-                                             Name: m.Name,
-                                             Form: m.Forme,
-                                             Root : m.Root, 
-                                             Dose: m.Dose,
-                                             Unit: m.Unit,
-                                             DateExp: m.DateExp,
-                                             Stock: m.Stock,
-                                             Note: m.Note,
-                                             Posology: m.Posologies.Select(mi => new PosologyDto(
-                                                 Id: mi.Id.Value,
-                                                 StartDate: mi.StartDate,
-                                                 EndDate: mi.EndDate,
-                                                 QuantityBE: mi.QuantityBE,
-                                                 QuantityAE: mi.QuantityAE,
-                                                 
-                                                 IsPermanent: mi.IsPermanent,
-                                                 Hours: mi.Hours
-                                             )).ToList()
+                            Medicines: d.Medicines.Select(m => new MedicationDto(
+Id: m.Id,
+                Name: m.Name,
+                Dosage: m.Dosage,
+                Form: m.Form,
+                Code: m.Code,
+                Unit: m.Unit,
+                Description: m.Description,
+                ExpiredAt: m.ExpiredAt,
+                Stock: m.Stock,
+                AlertStock: m.AlertStock,
+                AvrgStock: m.AvrgStock,
+                MinStock: m.MinStock,
+                SafetyStock: m.SafetyStock,
+                ReservedStock: m.ReservedStock,
+                Price: m.Price
                                          )).ToList()
                         ));
         }

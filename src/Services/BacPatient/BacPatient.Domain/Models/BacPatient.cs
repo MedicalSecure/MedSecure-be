@@ -1,7 +1,7 @@
 ﻿
 namespace BacPatient.Domain.Models
 {
-    public class BacPatient : Aggregate<BacPatienId>
+    public class BacPatient : Aggregate<Guid>
     {
         public Patient Patient { get; private set; } = default!;
         public Room Room { get; private set; } = default!;
@@ -18,7 +18,7 @@ namespace BacPatient.Domain.Models
         public IReadOnlyList<Medication> Medicines => _medicines.AsReadOnly();
 
     public static BacPatient Create(
-            BacPatienId Id,
+            Guid Id,
             Patient Patient,
             Room Room,
             UnitCare UnitCare,

@@ -8,7 +8,7 @@ namespace BacPatient.Application.BacPatient.Queries.GetBacPatientById
         public async Task<GetBacPatientByIdResult> Handle(GetBacPatientByIdQuery query, CancellationToken cancellationToken)
         {
             var bacPatients = await dbContext.BacPatients
-            .Where(o => o.Id == BacPatienId.Of(query.Id))
+            .Where(o => o.Id == query.Id)
              .Include(o => o.Medicines)
              .AsNoTracking()
                  .ToListAsync(cancellationToken);

@@ -1,7 +1,8 @@
 ﻿
 namespace BacPatient.Application.Dtos;
 
-public record BacPatientDto(Guid Id,
+public record BacPatientDto(
+    Guid Id,
     PatientDto Patient, 
     RoomDto Room , 
     UnitCareDto UnitCare ,
@@ -9,5 +10,7 @@ public record BacPatientDto(Guid Id,
     DateTime ServingDate,
     int Served , 
     int ToServe ,
-    StatusBP Status , List<MedicationDto> Medicines);
+    StatusBP Status ,
+    List<MedicationDto> Medicines
+    );
 

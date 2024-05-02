@@ -1,7 +1,9 @@
 ﻿
 namespace BacPatient.Application.Dtos
 {
-    public record MedicationDto(Guid Id,
+    public record MedicationDto
+        (
+        Guid Id,
         string Name,
         string Dosage,
         string Form,

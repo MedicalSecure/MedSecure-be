@@ -15,7 +15,7 @@ namespace BacPatient.Domain.Models
         public RiskFactor? RiskFactor { get; set; } = default!;
         public RiskFactor? Disease { get; set; } = default!;
         public ICollection<PrescriptionEntity> Prescriptions { get; private set; }
-
+        public ICollection<BacPatient> bacPatient { get; private set; }
         public Patient()
         { } // For EF
 
@@ -58,8 +58,11 @@ namespace BacPatient.Domain.Models
         }
     }
 
+
     public class Register
     {
+
+        public Guid Id { get; set; }
         public List<RiskFactor>? familymedicalhistory { get; set; }
         public List<RiskFactor>? personalMedicalHistory { get; set; }
     }

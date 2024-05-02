@@ -1,6 +1,4 @@
 ﻿using BacPatient.Application.BPModels.Commands.CreateBacPatient;
-using MediatR;
-using Microsoft.FeatureManagement;
 
 namespace BacPatient.Application.BacPatient.Commands.CreateBPModel;
 
@@ -19,26 +17,24 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
             await publishEndpoint.Publish(eventMessage, cancellationToken);
         }
 
-        return new CreateBacPatientResult(bacPatients.Id.Value);
+        return new CreateBacPatientResult(bacPatients.Id);
     }
 
     private static Domain.Models.BacPatient CreateNewBP(BacPatientDto bacPatients)
     {
       
         var newBPModel = Domain.Models.BacPatient.Create(
-            Id: BacPatienId.Of(Guid.NewGuid()),
+            Id:new Guid(),
             Patient:Patient.Create(
-            PatientId.Of(bacPatients.Patient.Id),
-            bacPatients.Patient.Name, 
-            bacPatients.Patient.DateOfBirth,
-            bacPatients.Patient.Gender,
-            bacPatients.Patient.Age,
-            bacPatients.Patient.Height,
-            bacPatients.Patient.Weight ,
-            bacPatients.Patient.ActivityStatus,
-            bacPatients.Patient.Allergies, 
-            bacPatients.Patient.RiskFactor, 
-            bacPatients.Patient.FamilyHistory),
+          id: bacPatients.Patient.Id,
+                patientName: bacPatients.Patient.PatientName,
+                dateOfbirth: bacPatients.Patient.DateOfBirth.Date,
+                gender: bacPatients.Patient.Gender,
+                height: bacPatients.Patient.Height,
+                weight: bacPatients.Patient.Weight,
+                register: bacPatients.Patient.Register,
+                riskFactor: bacPatients.Patient.RiskFactor,
+                disease: bacPatients.Patient.Disease),
             Room: Room.Create(
                 id: RoomId.Of(bacPatients.Room.Id) ,
                 number:bacPatients.Room.Number,
@@ -65,34 +61,26 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
         {
             if (medicine != null)
             {
-                var newMed = Medicine.Create(
-                    MedicineId.Of(medicine.Id),
-                    medicine.Name,
-                    medicine.Form,
-                    medicine.Root,
-                    medicine.Dose,
-                    medicine.Unit,
-                    medicine.DateExp,
-                    medicine.Stock,
-                    medicine.Note
+                var newMed = Medication.Create(
+                   id: medicine.Id,
+                name: medicine.Name,
+                dosage: medicine.Dosage,
+                form: medicine.Form,
+                code: medicine.Code,
+                unit: medicine.Unit,
+                description: medicine.Description,
+                expiredAt: medicine.ExpiredAt,
+                stock: medicine.Stock,
+                alertStock: medicine.AlertStock,
+                avrgStock: medicine.AvrgStock,
+                minStock: medicine.MinStock,
+                safetyStock: medicine.SafetyStock,
+                reservedStock: medicine.ReservedStock,
+                price: medicine.Price 
+
                 );
 
-                foreach (var pos in medicine.Posology)
-                {
-                    if (pos != null)
-                    {
-                        var newPos = Posology.Create(
-                            PoslogyId.Of(pos.Id),
-                            pos.StartDate,
-                            pos.EndDate,
-                            pos.QuantityBE,
-                            pos.QuantityAE,
-                            pos.IsPermanent,
-                            pos.Hours
-                        );
-                        newMed.AddPosology(newPos);
-                    }
-                }
+            
                 newBPModel.AddMedicne(newMed);
             }
         }
