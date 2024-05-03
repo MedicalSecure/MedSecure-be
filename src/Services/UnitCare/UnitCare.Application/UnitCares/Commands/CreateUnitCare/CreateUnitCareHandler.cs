@@ -1,5 +1,7 @@
 ﻿
 
+using UnitCare.Domain.ValueObjects;
+
 namespace UnitCare.Application.UnitCares.Commands.CreateUnitCare;
 
 public class CreateUnitCareHandler(IPublishEndpoint publishEndpoint, IApplicationDbContext dbContext, IFeatureManager featureManager) : ICommandHandler<CreateUnitCareCommand, CreateUnitCareResult>
@@ -37,7 +39,28 @@ public class CreateUnitCareHandler(IPublishEndpoint publishEndpoint, IApplicatio
         foreach (var room in unitCareDto.Rooms)
         {
             var newRoom = Room.Create(RoomId.Of(room.Id), UnitCareId.Of(room.UnitCareId), room.RoomNumber, room.Status);
+
+            foreach (var equipment in room.Equipments)
+            {
+                var newEquipment= Equipment.Create(EquipmentId.Of(equipment.Id), RoomId.Of(equipment.RoomId), equipment.Name, equipment.Reference);
+
+                newRoom.AddEquipment(newEquipment);
+
+
+
+            }
+
             newUnitCare.AddRoom(newRoom);
+
+
+
+        }
+
+        foreach (var personnel in unitCareDto.Personnels)
+        {
+            var newPersonnel = Personnel.Create(PersonnelId.Of(personnel.Id), UnitCareId.Of(personnel.UnitCareId), personnel.Name, personnel.Shift, personnel.Gender);
+            newUnitCare.AddPersonnel(newPersonnel);
+
         }
 
         return newUnitCare;

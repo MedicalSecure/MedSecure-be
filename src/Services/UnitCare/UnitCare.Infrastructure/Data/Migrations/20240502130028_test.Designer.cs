@@ -12,7 +12,7 @@ using UnitCare.Infrastructure.Data;
 namespace UnitCare.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240501204411_test")]
+    [Migration("20240502130028_test")]
     partial class test
     {
         /// <inheritdoc />

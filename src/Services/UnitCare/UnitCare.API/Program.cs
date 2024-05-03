@@ -37,7 +37,7 @@ if (app.Environment.IsDevelopment())
     });
 
     // Initialize the database asynchronously with mock data 
-    await app.InitialiseDatabaseAsync();
+   await app.InitialiseDatabaseAsync();
 }
 
 // Start the application
