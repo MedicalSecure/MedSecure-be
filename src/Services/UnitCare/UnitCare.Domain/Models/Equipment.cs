@@ -8,12 +8,13 @@
 
         // A reference identifier for the equipment
         public string Reference { get; set; } = default!;
+        public EqStatus EqStatus { get; set; } = default!;
 
         // The ID of the room where the equipment is located
         public RoomId RoomId { get; set; } = default!;
 
         // Factory method to create a new equipment instance
-        public static Equipment Create(EquipmentId id, RoomId roomId, string name, string reference)
+        public static Equipment Create(EquipmentId id, RoomId roomId, string name, string reference,EqStatus eqStatus)
         {
             // Create a new equipment instance
             var equipment = new Equipment()
@@ -22,6 +23,7 @@
                 Name = name,
                 Reference = reference,
                 RoomId = roomId,
+                EqStatus= eqStatus,
             };
 
             // Add a domain event for equipment creation
@@ -30,11 +32,12 @@
         }
 
         // Update the information of the equipment
-        public void Update(string name, RoomId roomId, string reference)
+        public void Update(string name, RoomId roomId, string reference , EqStatus eqStatus)
         {
             // Update the properties of the equipment
             Name = name;
             Reference = reference;
+            EqStatus =eqStatus;
             RoomId = roomId;
 
             // Add a domain event for equipment update

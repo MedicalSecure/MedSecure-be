@@ -38,17 +38,20 @@ namespace UnitCare.Infrastructure.Data.Extensions
                     id: EquipmentId.Of(Guid.NewGuid()),
                     roomId: TestRomm.Id,
                     name: "bed",
-                    reference: "253DMT"),
+                    reference: "253DMT",
+                    eqStatus:EqStatus.nonAvailable),
                  Equipment.Create(
                     id: EquipmentId.Of(Guid.NewGuid()),
                     roomId: TestRomm.Id,
                     name: "Défibrillateurs",
-                    reference: "25354DMT"),
+                    reference: "25354DMT",
+                      eqStatus:EqStatus.available),
                 Equipment.Create(
                     id: EquipmentId.Of(Guid.NewGuid()),
                     roomId: TestRomm.Id,
                     name: "Respirateurs",
-                    reference: "21354DMT"),
+                    reference: "21354DMT",
+                      eqStatus:EqStatus.nonAvailable),
             };
 
                     var Test2RommEquipments = new List<Equipment>
@@ -57,17 +60,20 @@ namespace UnitCare.Infrastructure.Data.Extensions
                     id: EquipmentId.Of(Guid.NewGuid()),
                     roomId: Test2Romm.Id,
                     name: "Matériel de perfusion ",
-                    reference: "253DMT"),
+                    reference: "253DMT",
+                      eqStatus:EqStatus.nonAvailable),
                  Equipment.Create(
                     id: EquipmentId.Of(Guid.NewGuid()),
                     roomId: Test2Romm.Id,
                     name: "Défibrillateurs",
-                    reference: "25354DMT"),
+                    reference: "25354DMT",
+                    eqStatus:EqStatus.nonAvailable),
                 Equipment.Create(
                     id: EquipmentId.Of(Guid.NewGuid()),
                     roomId: Test2Romm.Id,
                     name: "Respirateurs",
-                    reference: "21354DMT"),
+                    reference: "21354DMT",
+                    eqStatus:EqStatus.nonAvailable),
             };
 
                   

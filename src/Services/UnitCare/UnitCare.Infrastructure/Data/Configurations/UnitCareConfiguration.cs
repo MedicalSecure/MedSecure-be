@@ -25,5 +25,15 @@ public class UnitCareConfiguration : IEntityTypeConfiguration<Domain.Models.Unit
 
         builder.Property(u => u.Description)
               .IsRequired();
+
+        builder.HasMany(u =>  u.Rooms)
+            .WithOne()
+            .HasForeignKey(t => t.UnitCareId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(u => u.Personnels)
+          .WithOne()
+          .HasForeignKey(t => t.UnitCareId)
+          .OnDelete(DeleteBehavior.Cascade);
     }
 }

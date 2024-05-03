@@ -11,7 +11,8 @@ namespace UnitCare.Application.Extensions
                                 Id: e.Id.Value,
                                 RoomId: e.RoomId.Value,
                                 Name: e.Name,
-                                Reference: e.Reference
+                                Reference: e.Reference,
+                                EqStatus:e.EqStatus
                                ));
         }
     }

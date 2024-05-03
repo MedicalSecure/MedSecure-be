@@ -12,16 +12,20 @@ public class EquipmentConfiguration : IEntityTypeConfiguration<Equipment>
 
             builder.HasOne<Room>()
                    .WithMany(d => d.Equipments)
-                   .HasForeignKey(w => w.RoomId);
+                   .HasForeignKey(w => w.RoomId)
+                  .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Property(wi => wi.Name).HasMaxLength(255)
+        builder.Property(wi => wi.Name).HasMaxLength(255)
                    .IsRequired();
 
             builder.Property(wi => wi.Reference).HasMaxLength(500)
                   .IsRequired();
 
-        
-        }
+        builder.Property(wi => wi.EqStatus).HasMaxLength(500)
+            .IsRequired();
+
+
+    }
     }
 
 
