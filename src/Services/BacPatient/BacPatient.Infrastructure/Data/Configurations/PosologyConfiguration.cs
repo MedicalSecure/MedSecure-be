@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using BacPatient.Domain.Models.Prescription;
 namespace BacPatient.Infrastructure.Database.Configurations
 {
     internal class PosologyConfiguration : IEntityTypeConfiguration<Posology>

@@ -12,12 +12,7 @@ public class BacPatientConfiguration : IEntityTypeConfiguration<Domain.Models.Ba
                .HasConversion(bpModelid => bpModelid,
                               dbId => dbId);
     
-    
-        builder.HasOne(bacPatient => bacPatient.Register)
-              .WithOne(register => register.bacPatient)
-              
-              .IsRequired()
-              .OnDelete(DeleteBehavior.Restrict);
+
         builder.Property(d => d.Status).
             HasConversion(
             dt => dt.ToString(),

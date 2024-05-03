@@ -13,6 +13,10 @@ namespace BacPatient.Application.Extensions
         {
             return prescriptions.Select(p => p.ToPrescriptionDto());
         }
+        public static IEnumerable<PrescriptionEntity> ToPrescriptionsEntities(this IEnumerable<PrescriptionDto> prescriptions)
+        {
+            return prescriptions.Select(p => p.ToPrescriptionEntity());
+        }
 
         public static PrescriptionDto ToPrescriptionDto(this PrescriptionEntity pres)
         {
@@ -31,6 +35,21 @@ namespace BacPatient.Application.Extensions
             );
             return x;
         }
+        public static PrescriptionEntity ToPrescriptionEntity(this PrescriptionDto presDto)
+        {
+            var prescriptionEntity = new PrescriptionEntity(
+                prescriptionId : presDto.Id,
+                registerId : presDto.RegisterId,
+                doctorId : presDto.DoctorId,
+                createdAt : presDto.CreatedAt
+
+
+                );
+
+
+            return prescriptionEntity;
+        }
+
 
         public static IEnumerable<DispensesDto> ToDispensesDto(this IEnumerable<Dispense> dispenses)
         {

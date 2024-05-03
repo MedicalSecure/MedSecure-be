@@ -7,6 +7,8 @@ namespace BacPatient.Domain.Models.Prescription
         private readonly List<Posology> _posology = new();
         private readonly List<Diagnosis> _diagnosis = new();
         private readonly List<Symptom> _symptoms = new();
+        private Guid prescriptionId;
+
         public IReadOnlyList<Posology> Posology => _posology.AsReadOnly();
         public IReadOnlyList<Symptom> Symptoms => _symptoms.AsReadOnly();
         public IReadOnlyList<Diagnosis> Diagnosis => _diagnosis.AsReadOnly();
@@ -16,38 +18,50 @@ namespace BacPatient.Domain.Models.Prescription
 
         public Doctor? Doctor { get; private set; }
 
-        private PrescriptionEntity()
+        public  PrescriptionEntity()
         { }// for EF
 
-        private PrescriptionEntity(Guid id, Register? r, Guid registerId, Doctor? D, Guid doctorId, DateTime createdAt = default)
+        private PrescriptionEntity(Guid id, Guid registerId, Doctor? D, Guid doctorId, DateTime? createdAt = default)
         {
             Id = id;
-            Register = r;
             RegisterId = registerId;
             Doctor = D;
             DoctorId = doctorId;
             CreatedBy = doctorId.ToString();
             CreatedAt = createdAt == default ? DateTime.Now : createdAt;
         }
-
-        public static PrescriptionEntity Create(Register r, Doctor doctor, DateTime createdAt = default)
+        private PrescriptionEntity(Guid id, Guid registerId, Guid doctorId, DateTime createdAt = default)
         {
-            //validations here
-            //..
-            //..
+            Id = id;
+            RegisterId = registerId;
+            DoctorId = doctorId;
+            CreatedBy = doctorId.ToString();
+            CreatedAt = createdAt == default ? DateTime.Now : createdAt;
+        }
 
-            // Newly created prescription
+        public PrescriptionEntity(Guid prescriptionId, Guid registerId, Guid doctorId, DateTime? createdAt)
+        {
+            this.prescriptionId = prescriptionId;
+            RegisterId = registerId;
+            DoctorId = doctorId;
+            CreatedAt = createdAt;
+        }
+        public static PrescriptionEntity Create( Guid id , Guid registerId, Guid doctorId, DateTime? createdAt = default)
+        {
             Guid PrescriptionId = new Guid();
-            return new PrescriptionEntity(PrescriptionId, r, r.Id, doctor, doctor.Id, createdAt);
+            return new PrescriptionEntity(PrescriptionId, registerId, doctorId, createdAt);
+        }
+        public static PrescriptionEntity Create(Guid RegisterId, Doctor doctor, DateTime? createdAt = default)
+        {
+            Guid PrescriptionId = new Guid();
+            return new PrescriptionEntity(PrescriptionId, RegisterId, doctor, doctor.Id, createdAt);
         }
 
-        public static PrescriptionEntity Create(Guid PrescriptionId, Register r, Doctor doctor, DateTime createdAt = default)
+        public static PrescriptionEntity Create(Guid PrescriptionId, Guid registerId, Doctor doctor, DateTime createdAt = default)
         {
-            //validations here
-            //..
-            //..
-            return new PrescriptionEntity(PrescriptionId, r, r.Id, doctor, doctor.Id, createdAt);
+            return new PrescriptionEntity(PrescriptionId, registerId, doctor, doctor.Id, createdAt);
         }
+      
 
         public bool addPosology(Posology posology)
         {

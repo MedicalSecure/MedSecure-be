@@ -18,7 +18,7 @@ namespace BacPatient.Domain.Models
     public static BacPatient Create(
             Guid Id,
             Register Register,
-            UnitCare UnitCare,
+          
             Guid NurseId ,
             int Bed,
             int Served,
@@ -30,7 +30,6 @@ namespace BacPatient.Domain.Models
             {
                 Id = Id,
                 Register = Register ,
-                        UnitCare = UnitCare,
                         NurseId = NurseId , 
                         Bed = Bed,
                         Served = Served,

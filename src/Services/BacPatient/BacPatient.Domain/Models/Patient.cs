@@ -14,7 +14,6 @@ namespace BacPatient.Domain.Models.RegisterRoot
         public int? Height { get; set; } = default!;
         public int? Weight { get; set; } = default!;
 
-        //2 checkbox de type boolean
         public Boolean? AddressIsRegisterations { get; set; } = default!;
 
         public Boolean? SaveForNextTime { get; set; } = default!;
@@ -33,8 +32,8 @@ namespace BacPatient.Domain.Models.RegisterRoot
         //Patient is the principal entity and Register is the dependent entity.
         // so the patient is created first, with null register, then we add its key as foreign key for the register
         //making the register dependent on the patient creation, and can't exist without it!
-        public static Patient Create(string firstName, string lastName, DateTime dateOfbirth, int cin, int cnam, Gender gender, int height, int weight,
-            string email, string address1, string address2, Country country, string state, FamilyStatus familyStatus, Children children)
+        public static Patient Create(string firstName, string lastName, DateTime? dateOfbirth, int? cin, int? cnam, Gender? gender, int? height, int? weight,
+            string email, string address1, string address2, Country? country, string state, FamilyStatus? familyStatus, Children? children)
         {
             var patient = new Patient
             {

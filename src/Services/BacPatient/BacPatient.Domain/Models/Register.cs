@@ -18,7 +18,6 @@ namespace BacPatient.Domain.Models.RegisterRoot
         public List<Test>? Test { get; private set; } = default!;
 
         public List<PrescriptionEntity>? Prescriptions { get; private set; } = default!;
-        public BacPatient bacPatient { get; private set; }
 
 
         public static Register Create(Guid id, Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<PrescriptionEntity>? prescriptions, List<Test>? test)

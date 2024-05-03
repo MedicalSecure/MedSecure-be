@@ -1,4 +1,6 @@
 ﻿
+using BacPatient.Domain.Models.Prescription;
+
 namespace BacPatient.Infrastructure.Data;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext

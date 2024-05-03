@@ -1,4 +1,6 @@
 ﻿using BacPatient.Application.BPModels.Commands.CreateBacPatient;
+using BacPatient.Application.DTOs;
+using BacPatient.Domain.Models.RegisterRoot;
 
 namespace BacPatient.Application.BacPatient.Commands.CreateBPModel;
 
@@ -24,15 +26,40 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
     {
         var newBPModel = Domain.Models.BacPatient.Create(
             Id: new Guid(),
-                Register: bacPatients.Register,
-                UnitCare: bacPatients.UnitCare,
+                Register: Register.Create(
+                      id: bacPatients.Register.Id,
+                     patient: Patient.Create(
+                    bacPatients.Register.Patient.firstName,
+                     bacPatients.Register.Patient.lastName,
+                    bacPatients.Register.Patient.dateOfbirth,
+                     bacPatients.Register.Patient.cin,
+                     bacPatients.Register.Patient.cnam,
+                    bacPatients.Register.Patient.gender,
+                     bacPatients.Register.Patient.height,
+                    bacPatients.Register.Patient.weight,
+                     bacPatients.Register.Patient.email,
+                     bacPatients.Register.Patient.address1,
+                     bacPatients.Register.Patient.address2,
+                     bacPatients.Register.Patient.country,
+                     bacPatients.Register.Patient.state,
+                    bacPatients.Register.Patient.familyStatus,
+                     bacPatients.Register.Patient.children
+
+                    ),
+        familyHistory: bacPatients.Register.FamilyMedicalHistory,
+                personalHistory: bacPatients.Register.PersonalMedicalHistory,
+                disease: bacPatients.Register.Diseases,
+                allergy: bacPatients.Register.Allergies,
+                test: bacPatients.Register.Test,
+                history: bacPatients.Register.History,
+        prescriptions: bacPatients.Register.Prescriptions.ToList().Select(pres => pres.ToPrescriptionEntity()).ToList()),
+              
                 Bed: bacPatients.Bed,
                 NurseId: bacPatients.NurseId,
                 Served: bacPatients.Served,
                 ToServe: bacPatients.ToServe,
                 Status: bacPatients.Status
-        ); 
-
+        )  ; 
         foreach (var roomDto in bacPatients.UnitCare.Rooms)
         {
             var newRoomModel = Domain.Models.Room.Create(

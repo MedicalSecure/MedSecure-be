@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BacPatient.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240503091344_Init")]
+    [Migration("20240503152400_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -28,6 +28,7 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.BacPatient", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Bed")
@@ -48,6 +49,9 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<Guid>("NurseId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("RegisterId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Served")
                         .HasColumnType("int");
 
@@ -63,47 +67,11 @@ namespace BacPatient.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RegisterId");
+
                     b.HasIndex("UnitCareId");
 
                     b.ToTable("BacPatients");
-                });
-
-            modelBuilder.Entity("BacPatient.Domain.Models.Comment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("PosologyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PosologyId");
-
-                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Diagnosis", b =>
@@ -121,13 +89,15 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("LongDescription")
                         .IsRequired()
@@ -149,43 +119,6 @@ namespace BacPatient.Infrastructure.Migrations
                     b.ToTable("Diagnosis");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Dispense", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Hour")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("PosologyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("QuantityAE")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("QuantityBE")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PosologyId");
-
-                    b.ToTable("Dispenses");
-                });
-
             modelBuilder.Entity("BacPatient.Domain.Models.Doctor", b =>
                 {
                     b.Property<Guid>("Id")
@@ -196,28 +129,33 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Speciality")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -261,40 +199,6 @@ namespace BacPatient.Infrastructure.Migrations
                     b.ToTable("Equipment");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.History", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("RegisterId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RegisterId");
-
-                    b.ToTable("History");
-                });
-
             modelBuilder.Entity("BacPatient.Domain.Models.Medication", b =>
                 {
                     b.Property<Guid>("Id")
@@ -316,7 +220,8 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -339,7 +244,8 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<int>("MinStock")
                         .HasColumnType("int");
@@ -369,96 +275,6 @@ namespace BacPatient.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Medications");
-                });
-
-            modelBuilder.Entity("BacPatient.Domain.Models.Patient", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("ActivityStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Address1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Address2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("AddressIsRegisterations")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Assurance")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CIN")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CNAM")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Children")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Country")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FamilyStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("SaveForNextTime")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Weight")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ZipCode")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Patient");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Personnel", b =>
@@ -499,7 +315,47 @@ namespace BacPatient.Infrastructure.Migrations
                     b.ToTable("Personnel");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Posology", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<Guid>("PosologyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PosologyId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Dispense", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -511,6 +367,44 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Hour")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PosologyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("QuantityAE")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QuantityBE")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PosologyId");
+
+                    b.ToTable("Dispenses");
+                });
+
+            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Posology", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -521,7 +415,8 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<Guid>("MedicationId")
                         .HasColumnType("uniqueidentifier");
@@ -541,7 +436,7 @@ namespace BacPatient.Infrastructure.Migrations
                     b.ToTable("Posology");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.PrescriptionEntity", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.PrescriptionEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -551,7 +446,8 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<Guid>("DoctorId")
                         .HasColumnType("uniqueidentifier");
@@ -560,21 +456,22 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
-                    b.Property<Guid>("PatientId")
+                    b.Property<Guid>("RegisterId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
 
-                    b.HasIndex("PatientId");
+                    b.HasIndex("RegisterId");
 
                     b.ToTable("Prescriptions");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Register", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.History", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -586,23 +483,219 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("RegisterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RegisterId");
+
+                    b.ToTable("History");
+                });
+
+            modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Patient", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("ActivityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Address1")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Address2")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool?>("AddressIsRegisterations")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Assurance")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("CIN")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CNAM")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Children")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Country")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("FamilyStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool?>("SaveForNextTime")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("State")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("Weight")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ZipCode")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Patient");
+                });
+
+            modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Register", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PatientId");
+                    b.HasIndex("PatientId")
+                        .IsUnique();
 
                     b.ToTable("Register");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.RiskFactor", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.RiskFactor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<Guid?>("RiskFactorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("RiskFactorParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RiskFactorParentId");
+
+                    b.ToTable("RiskFactor");
+                });
+
+            modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Test", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -622,16 +715,8 @@ namespace BacPatient.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Icon")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsSelected")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Language")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
@@ -639,42 +724,17 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RegisterId")
+                    b.Property<Guid>("RegisterId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("RegisterId1")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("RegisterId2")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("RegisterId3")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("RiskFactorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RegisterId");
 
-                    b.HasIndex("RegisterId1");
-
-                    b.HasIndex("RegisterId2");
-
-                    b.HasIndex("RegisterId3");
-
-                    b.HasIndex("RiskFactorId");
-
-                    b.ToTable("RiskFactor");
+                    b.ToTable("Test");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Room", b =>
@@ -726,13 +786,15 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("LongDescription")
                         .IsRequired()
@@ -818,12 +880,27 @@ namespace BacPatient.Infrastructure.Migrations
                     b.ToTable("PrescriptionEntitySymptom");
                 });
 
+            modelBuilder.Entity("RegisterRiskFactor", b =>
+                {
+                    b.Property<Guid>("RegisterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RiskFactorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RegisterId", "RiskFactorId");
+
+                    b.HasIndex("RiskFactorId");
+
+                    b.ToTable("RegisterRiskFactor");
+                });
+
             modelBuilder.Entity("BacPatient.Domain.Models.BacPatient", b =>
                 {
-                    b.HasOne("BacPatient.Domain.Models.PrescriptionEntity", "Prescription")
-                        .WithMany("bacPatients")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.Register", "Register")
+                        .WithMany()
+                        .HasForeignKey("RegisterId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BacPatient.Domain.Models.UnitCare", "UnitCare")
@@ -832,31 +909,9 @@ namespace BacPatient.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Prescription");
+                    b.Navigation("Register");
 
                     b.Navigation("UnitCare");
-                });
-
-            modelBuilder.Entity("BacPatient.Domain.Models.Comment", b =>
-                {
-                    b.HasOne("BacPatient.Domain.Models.Posology", "posology")
-                        .WithMany("Comments")
-                        .HasForeignKey("PosologyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("posology");
-                });
-
-            modelBuilder.Entity("BacPatient.Domain.Models.Dispense", b =>
-                {
-                    b.HasOne("BacPatient.Domain.Models.Posology", "posology")
-                        .WithMany("Dispenses")
-                        .HasForeignKey("PosologyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("posology");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Equipment", b =>
@@ -868,13 +923,6 @@ namespace BacPatient.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.History", b =>
-                {
-                    b.HasOne("BacPatient.Domain.Models.Register", null)
-                        .WithMany("History")
-                        .HasForeignKey("RegisterId");
-                });
-
             modelBuilder.Entity("BacPatient.Domain.Models.Personnel", b =>
                 {
                     b.HasOne("BacPatient.Domain.Models.UnitCare", null)
@@ -884,7 +932,29 @@ namespace BacPatient.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Posology", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Comment", b =>
+                {
+                    b.HasOne("BacPatient.Domain.Models.Prescription.Posology", "posology")
+                        .WithMany("Comments")
+                        .HasForeignKey("PosologyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("posology");
+                });
+
+            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Dispense", b =>
+                {
+                    b.HasOne("BacPatient.Domain.Models.Prescription.Posology", "posology")
+                        .WithMany("Dispenses")
+                        .HasForeignKey("PosologyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("posology");
+                });
+
+            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Posology", b =>
                 {
                     b.HasOne("BacPatient.Domain.Models.Medication", "Medication")
                         .WithMany()
@@ -892,7 +962,7 @@ namespace BacPatient.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BacPatient.Domain.Models.PrescriptionEntity", "Prescription")
+                    b.HasOne("BacPatient.Domain.Models.Prescription.PrescriptionEntity", "Prescription")
                         .WithMany("Posology")
                         .HasForeignKey("PrescriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -903,7 +973,7 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Navigation("Prescription");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.PrescriptionEntity", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.PrescriptionEntity", b =>
                 {
                     b.HasOne("BacPatient.Domain.Models.Doctor", "Doctor")
                         .WithMany("Prescriptions")
@@ -911,49 +981,54 @@ namespace BacPatient.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BacPatient.Domain.Models.Patient", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
+                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.Register", "Register")
+                        .WithMany("Prescriptions")
+                        .HasForeignKey("RegisterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Doctor");
 
-                    b.Navigation("Patient");
+                    b.Navigation("Register");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Register", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.History", b =>
                 {
-                    b.HasOne("BacPatient.Domain.Models.Patient", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
+                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.Register", null)
+                        .WithMany("History")
+                        .HasForeignKey("RegisterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Register", b =>
+                {
+                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.Patient", "Patient")
+                        .WithOne("Register")
+                        .HasForeignKey("BacPatient.Domain.Models.RegisterRoot.Register", "PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.RiskFactor", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.RiskFactor", b =>
                 {
-                    b.HasOne("BacPatient.Domain.Models.Register", null)
-                        .WithMany("Allergy")
-                        .HasForeignKey("RegisterId");
+                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.RiskFactor", "RiskFactorParent")
+                        .WithMany("SubRiskFactor")
+                        .HasForeignKey("RiskFactorParentId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("BacPatient.Domain.Models.Register", null)
-                        .WithMany("Disease")
-                        .HasForeignKey("RegisterId1");
+                    b.Navigation("RiskFactorParent");
+                });
 
-                    b.HasOne("BacPatient.Domain.Models.Register", null)
-                        .WithMany("FamilyMedicalHistory")
-                        .HasForeignKey("RegisterId2");
-
-                    b.HasOne("BacPatient.Domain.Models.Register", null)
-                        .WithMany("PersonalMedicalHistory")
-                        .HasForeignKey("RegisterId3");
-
-                    b.HasOne("BacPatient.Domain.Models.RiskFactor", null)
-                        .WithMany("SubRiskfactory")
-                        .HasForeignKey("RiskFactorId");
+            modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Test", b =>
+                {
+                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.Register", null)
+                        .WithMany("Test")
+                        .HasForeignKey("RegisterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Room", b =>
@@ -973,7 +1048,7 @@ namespace BacPatient.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BacPatient.Domain.Models.PrescriptionEntity", null)
+                    b.HasOne("BacPatient.Domain.Models.Prescription.PrescriptionEntity", null)
                         .WithMany()
                         .HasForeignKey("PrescriptionsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -982,7 +1057,7 @@ namespace BacPatient.Infrastructure.Migrations
 
             modelBuilder.Entity("PrescriptionEntitySymptom", b =>
                 {
-                    b.HasOne("BacPatient.Domain.Models.PrescriptionEntity", null)
+                    b.HasOne("BacPatient.Domain.Models.Prescription.PrescriptionEntity", null)
                         .WithMany()
                         .HasForeignKey("PrescriptionsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -995,41 +1070,55 @@ namespace BacPatient.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RegisterRiskFactor", b =>
+                {
+                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.Register", null)
+                        .WithMany()
+                        .HasForeignKey("RegisterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.RiskFactor", null)
+                        .WithMany()
+                        .HasForeignKey("RiskFactorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BacPatient.Domain.Models.Doctor", b =>
                 {
                     b.Navigation("Prescriptions");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Posology", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Posology", b =>
                 {
                     b.Navigation("Comments");
 
                     b.Navigation("Dispenses");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.PrescriptionEntity", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.PrescriptionEntity", b =>
                 {
                     b.Navigation("Posology");
-
-                    b.Navigation("bacPatients");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Register", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Patient", b =>
                 {
-                    b.Navigation("Allergy");
+                    b.Navigation("Register");
+                });
 
-                    b.Navigation("Disease");
-
-                    b.Navigation("FamilyMedicalHistory");
-
+            modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Register", b =>
+                {
                     b.Navigation("History");
 
-                    b.Navigation("PersonalMedicalHistory");
+                    b.Navigation("Prescriptions");
+
+                    b.Navigation("Test");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.RiskFactor", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.RiskFactor", b =>
                 {
-                    b.Navigation("SubRiskfactory");
+                    b.Navigation("SubRiskFactor");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Room", b =>
