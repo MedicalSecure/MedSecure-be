@@ -8,43 +8,8 @@ namespace BacPatient.Infrastructure.Data.Configurations
         {
             builder.HasKey(mi => mi.Id);
 
-            builder.Property(mi => mi.Id);  
-            builder.Property(wi => wi.FirstName).HasMaxLength(50)
-                   .IsRequired();
-            builder.Property(wi => wi.LastName).HasMaxLength(50)
-                   .IsRequired();
-            builder.Property(wi => wi.DateOfBirth)
-                   .IsRequired();
-            builder.Property(wi => wi.CIN).HasMaxLength(8)
-                   .IsRequired();
-            builder.Property(wi => wi.CNAM).HasMaxLength(20)
-                   .IsRequired();
-
-            builder.Property(mi => mi.Gender).HasDefaultValue(Gender.Other)
-                   .HasConversion(
-                       mi => mi.ToString(),
-                       gender => (Gender)Enum.Parse(typeof(Gender), gender));
-
-            builder.Property(wi => wi.Height)
-                   .IsRequired();
-
-            builder.Property(wi => wi.Weight)
-                   .IsRequired();
-            builder.Property(wi => wi.Address1).HasMaxLength(50);
-            builder.Property(wi => wi.Address2).HasMaxLength(50);
-            builder.Property(wi => wi.Country).IsRequired();
-            builder.Property(wi => wi.State).IsRequired();
-            builder.Property(mi => mi.FamilyStatus).HasDefaultValue(FamilyStatus.SINGLE)
-                  .HasConversion(
-                      mi => mi.ToString(),
-                      familyStatus => (FamilyStatus)Enum.Parse(typeof(FamilyStatus), familyStatus));
-            builder.Property(mi => mi.Children).HasDefaultValue(Children.None)
-                 .HasConversion(
-                     mi => mi.ToString(),
-                     children => (Children)Enum.Parse(typeof(Children), children));
-
-
-
+            builder.Property(mi => mi.Id);
+               
         }
     }
 }

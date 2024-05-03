@@ -3,6 +3,8 @@ namespace BacPatient.Domain.ValueObjects
 {
     public record BacPatienId
     {
+        private BacPatienId() { }
+
         public Guid Value { get; }
 
     private BacPatienId(Guid value) => Value = value;

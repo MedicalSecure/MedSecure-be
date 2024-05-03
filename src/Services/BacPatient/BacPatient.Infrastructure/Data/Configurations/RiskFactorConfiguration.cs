@@ -8,39 +8,9 @@ namespace BacPatient.Infrastructure.Data.Configurations
         {
 
             builder.HasKey(r => r.Id);
+           
 
-            builder.Property(d => d.Id)
-                   .HasConversion(riskFactorId => riskFactorId.Value,
-                                  dbId => RiskFactorId.Of(dbId));
 
-            builder.HasOne<Register>()
-                   .WithMany(d => d.Disease)
-                   .HasForeignKey(w => w.RegisterId);
-
-            builder.HasOne<Register>()
-                   .WithMany(d => d.Allergy)
-                   .HasForeignKey(w => w.RegisterId)
-                   .IsRequired(); ;
-
-            builder.HasOne<Register>()
-                   .WithMany(d => d.PersonalMedicalHistory)
-                   .HasForeignKey(w => w.RegisterId)
-                   .IsRequired(); ;
-
-            builder.HasOne<Register>()
-                   .WithMany(d => d.PersonalMedicalHistory)
-                   .HasForeignKey(w => w.RegisterId)
-                   .IsRequired(); ;
-
-            builder.HasOne<RiskFactor>()
-                   .WithMany(d => d.SubRiskfactory)
-                   .IsRequired(); ;
-
-            builder.Property(wi => wi.Key)
-                   .IsRequired();
-
-            builder.Property(wi => wi.Value)
-                   .IsRequired();
         }
     }
 }

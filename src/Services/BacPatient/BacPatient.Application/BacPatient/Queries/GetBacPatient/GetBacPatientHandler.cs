@@ -8,8 +8,7 @@ public class GetBacPatientHandler(IApplicationDbContext dbContext)
 {
     public async Task<GetBacPatientResult> Handle(GetBacPatientQuery query, CancellationToken cancellationToken)
     {
-        // get diets with pagination
-        // return result
+ 
 
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
@@ -18,7 +17,7 @@ public class GetBacPatientHandler(IApplicationDbContext dbContext)
 
         var bacPatients = await dbContext.BacPatients
              .Include(bp => bp.Prescription)
-             .Include(bp => bp.Room)
+             .Include(bp => bp.UnitCare)
         
                        .Skip(pageSize * pageIndex)
                        .Take(pageSize)

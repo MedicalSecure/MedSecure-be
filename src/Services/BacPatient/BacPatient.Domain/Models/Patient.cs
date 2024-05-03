@@ -20,28 +20,23 @@ namespace BacPatient.Domain.Models
         public string Address1 { get; set; } = default!;
         public string Address2 { get; set; } = default!;
         public ActivityStatus ActivityStatus { get; set; }
-        public  Country Country { get; set; }
+        public Country Country { get; set; }
         public string State { get; set; } = default!;
         public int ZipCode { get; set; } = default!;
         public FamilyStatus FamilyStatus { get; set; } = default!;
         public Children Children { get; set; } = default!;
-        public Register Register { get; private set; } = default!;
-        public Guid RegisterId { get; private set; } = default!;
 
 
 
 
 
 
-
-
-
-        public static Patient Create(string firstName,string lastName, DateTime dateOfbirth,int cin,int cnam, Gender gender, int height, int weight,
-            string email, string address1,string address2,Country country,string state ,FamilyStatus familyStatus,Children children)
+        public static Patient Create(string firstName, string lastName, DateTime dateOfbirth, int cin, int cnam, Gender gender, int height, int weight,
+            string email, string address1, string address2, Country country, string state, FamilyStatus familyStatus, Children children)
         {
             var patient = new Patient
             {
-                
+
                 FirstName = firstName,
                 LastName = lastName,
                 DateOfBirth = dateOfbirth,
@@ -82,7 +77,7 @@ namespace BacPatient.Domain.Models
             State = state;
             FamilyStatus = familyStatus;
             Children = children;
-            
+
 
             AddDomainEvent(new PatientUpdatedEvent(this));
         }

@@ -1,11 +1,13 @@
 ﻿
+
 namespace BacPatient.Domain.ValueObjects
 {
     public record UnitCareId
     {
+        private UnitCareId() { }
+
         public Guid Value { get; }
 
-        private UnitCareId() { }    
         private UnitCareId(Guid value) => Value = value;
 
         public static UnitCareId Of(Guid value)

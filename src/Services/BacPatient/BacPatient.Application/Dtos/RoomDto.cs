@@ -1,8 +1,5 @@
 ﻿
-namespace BacPatient.Application.Dtos;
-
-public record RoomDto(
-  Guid id , 
-    int Number,
-    Status Status,
-    List<int>? Beds);
+namespace BacPatient.Application.Dtos
+{
+    public record RoomDto(Guid Id, Guid UnitCareId, decimal RoomNumber, Status Status, List<EquipmentDto> Equipments);
+}

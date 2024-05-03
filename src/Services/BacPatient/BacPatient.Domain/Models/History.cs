@@ -5,7 +5,6 @@ namespace BacPatient.Domain.Models
     {
         public DateTime Date { get; set; }
         public Status Status { get; set; } = Enums.Status.unavailable;
-        public PatientId PatientId { get; set; } = default!;
         //public Boolean IsResident { get; set; }
       
     }

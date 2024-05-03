@@ -1,16 +1,17 @@
 ﻿
     namespace BacPatient.Infrastructure.Data.Configurations
+{
+    public class RegisterConfiguration : IEntityTypeConfiguration<Register>
     {
-        public class RegisterConfiguration : IEntityTypeConfiguration<Register>
+        public void Configure(EntityTypeBuilder<Register> builder)
         {
-            public void Configure(EntityTypeBuilder<Register> builder)
-            {
-                builder.HasKey(mi => mi.Id);
+            builder.HasKey(mi => mi.Id);
+           
 
-                builder.Property(d => d.Id)
-                       .HasConversion(registerId => registerId.Value,
-                                      dbId => RegisterId.Of(dbId));
-        }
+
+
 
         }
+
     }
+}

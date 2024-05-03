@@ -34,14 +34,6 @@ public static class DatabaseExtentions
 
     private static async Task ClearDataAsync(ApplicationDbContext context)
     {
-        // Clear all data from tables
-        
-
-
-
-
-
-        // Save changes to the database
         await context.SaveChangesAsync();
     }
 }

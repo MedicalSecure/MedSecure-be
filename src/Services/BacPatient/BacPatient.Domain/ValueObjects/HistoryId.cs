@@ -4,6 +4,7 @@ namespace BacPatient.Domain.ValueObjects
 {
     public class HistoryId
     {
+        private HistoryId() { }
         public Guid Value { get; }
 
         private HistoryId(Guid value) => Value = value;
