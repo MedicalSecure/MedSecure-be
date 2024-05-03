@@ -1,4 +1,4 @@
-﻿namespace BacPatient.Domain.Models
+﻿namespace BacPatient.Domain.Models.Prescription
 {
     public class Posology : Entity<Guid>
     {
@@ -22,28 +22,28 @@
         {
         }
 
-        private Posology(Guid id, Guid prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
+        private Posology(Guid id,Guid prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
         {
-            Id = id;
+            Id=id;
             PrescriptionId = prescriptionId;
             StartDate = startDate;
             EndDate = endDate;
             IsPermanent = isPermanent;
             Medication = medication;
-            MedicationId = medication.Id;
+            MedicationId=medication.Id;
         }
 
         public static Posology Create(Guid prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
         {
             if (isPermanent == false && endDate == null) throw new ArgumentNullException("test");
             if (medication == null) throw new ArgumentNullException("test");
-            return new Posology(new Guid(), prescriptionId, medication, startDate, endDate, isPermanent);
+            return new Posology(new Guid(),prescriptionId, medication, startDate, endDate, isPermanent) ;
         }
-        public static Posology Create(Guid id, Guid prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
+        public static Posology Create(Guid id,Guid prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
         {
             if (isPermanent == false && endDate == null) throw new ArgumentNullException("test");
             if (medication == null) throw new ArgumentNullException("test");
-            return new Posology(id, prescriptionId, medication, startDate, endDate, isPermanent);
+            return new Posology(id,prescriptionId, medication, startDate, endDate, isPermanent);
         }
 
         public void AddDispense(Dispense dispense)

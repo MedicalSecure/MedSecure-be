@@ -15,3 +15,4 @@ global using Microsoft.Extensions.DependencyInjection;
 global using System.Reflection;
 global using Microsoft.AspNetCore.Builder;
 global using BacPatient.Domain.Enums;
+global using BacPatient.Domain.Models.RegisterRoot;

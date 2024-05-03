@@ -8,7 +8,7 @@ namespace BacPatient.Application.Extensions
         {
             return bacPatients.Select(d => new BacPatientDto(
                 Id : d.Id,
-                Prescription : d.Prescription.ToPrescriptionDto(),
+                Register : d.Register.ToRegisterDto(),
                 UnitCare:d.UnitCare.ToUnitCareDto(),
                 Bed : d.Bed ,
                 NurseId : d.NurseId , 

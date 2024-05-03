@@ -1,4 +1,7 @@
-﻿namespace BacPatient.Domain.Models
+﻿
+using BacPatient.Domain.Models.Prescription;
+
+namespace BacPatient.Domain.Models
 {
     public class Doctor : Aggregate<Guid>
     {

@@ -1,5 +1,4 @@
-﻿
-namespace Registration.Domain.Enums
+﻿namespace BacPatient.Domain.Enums
 {
     public enum TestType
     {

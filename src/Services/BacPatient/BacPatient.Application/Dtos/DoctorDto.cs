@@ -1,4 +1,4 @@
-﻿namespace BacPatient.Application.Dtos
+﻿namespace BacPatient.Application.DTOs
 {
     public record DoctorDto
     {

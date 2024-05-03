@@ -1,8 +1,13 @@
-﻿
+﻿using rescription.Application.DTOs;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace BacPatient.Application.Extensions
 {
-
-    public static partial class PatientExtensions
+    public static class PatientExtension
     {
         public static PatientDto ToPatientDto(this Patient d)
         {
@@ -31,4 +36,3 @@ namespace BacPatient.Application.Extensions
         }
     }
 }
-

@@ -22,4 +22,7 @@ global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.FeatureManagement;
 global using System.Reflection;
+global using  BacPatient.Domain.Models.RegisterRoot;
+global using BacPatient.Application.DTOs;
+global using BacPatient.Domain.Models.Prescription;
 

@@ -7,23 +7,20 @@ using System.Threading.Tasks;
 
 namespace BacPatient.Infrastructure.Database.Configurations
 {
-    public class SymptomConfiguration : IEntityTypeConfiguration<Symptom>
+    public class DctorConfiguration : IEntityTypeConfiguration<Doctor>
     {
-        public void Configure(EntityTypeBuilder<Symptom> builder)
+        public void Configure(EntityTypeBuilder<Doctor> builder)
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(d => d.Code)
+            builder.Property(d => d.FirstName)
             .HasMaxLength(50);
 
-            builder.Property(d => d.Name)
-                .HasMaxLength(50).IsRequired();
+            builder.Property(d => d.LastName)
+                .HasMaxLength(50);
 
-            builder.Property(d => d.ShortDescription)
+            builder.Property(d => d.Speciality)
                 .HasMaxLength(100);
-
-            builder.Property(d => d.LongDescription)
-                .HasMaxLength(250);
 
             builder.Property(d => d.LastModifiedBy)
                 .HasMaxLength(128);

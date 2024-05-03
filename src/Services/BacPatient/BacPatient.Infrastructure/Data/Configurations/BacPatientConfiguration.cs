@@ -13,9 +13,9 @@ public class BacPatientConfiguration : IEntityTypeConfiguration<Domain.Models.Ba
                               dbId => dbId);
     
     
-        builder.HasOne(bacPatient => bacPatient.Prescription)
-              .WithMany(prescription => prescription.bacPatients)
-              .HasForeignKey(BacPatient => BacPatient.Id)
+        builder.HasOne(bacPatient => bacPatient.Register)
+              .WithOne(register => register.bacPatient)
+              
               .IsRequired()
               .OnDelete(DeleteBehavior.Restrict);
         builder.Property(d => d.Status).

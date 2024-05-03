@@ -1,5 +1,4 @@
-﻿namespace BacPatient.Domain.Events
+﻿namespace BacPatient.Domain.Events.RegisterEvents
 {
-    public record RiskFactorUpdatedEvent(RiskFactor riskFactor ) :IDomainEvent;
-    
+    public record RiskFactorUpdatedEvent(RiskFactor riskFactor) : IDomainEvent;
 }

@@ -1,11 +1,10 @@
-﻿
+﻿using rescription.Application.DTOs;
 
-namespace BacPatient.Application.Dtos
+namespace BacPatient.Application.DTOs
 {
     public record PrescriptionDto(
     Guid Id,
-    PatientDto Patient,
-    Guid PatientId,
+    Guid RegisterId,
     DoctorDto Doctor,
     Guid DoctorId,
     ICollection<SymptomDto> Symptoms,

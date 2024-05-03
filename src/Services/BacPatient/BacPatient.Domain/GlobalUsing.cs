@@ -4,5 +4,6 @@ global using BacPatient.Domain.Events;
 global using BacPatient.Domain.Exceptions;
 global using BacPatient.Domain.Shared;
 global using BacPatient.Domain.Models;
-
+global  using BacPatient.Domain.Models.RegisterRoot;
+global using BacPatient.Domain.Models.Prescription;
 global using BacPatient.Domain.ValueObjects;

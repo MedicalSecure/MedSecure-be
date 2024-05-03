@@ -1,4 +1,4 @@
-﻿namespace BacPatient.Domain.Models
+﻿namespace BacPatient.Domain.Models.Prescription
 {
     public class Dispense : Entity<Guid>
     {
@@ -13,7 +13,7 @@
         private Dispense()
         { } // Required for EF Core
 
-        private Dispense(Guid id, Guid posologyId, int hour, int? quantityBE, int? quantityAE)
+        private Dispense(Guid id,Guid posologyId, int hour, int? quantityBE, int? quantityAE)
         {
             Validator.isHourValid(hour, nameof(hour));
 
@@ -31,11 +31,11 @@
 
         public static Dispense Create(Guid posologyId, int hour, int? quantityBE, int? quantityAE)
         {
-            return new Dispense(new Guid(), posologyId, hour, quantityBE, quantityAE);
+            return new Dispense(new Guid(),posologyId, hour, quantityBE, quantityAE);
         }
-        public static Dispense Create(Guid Id, Guid posologyId, int hour, int? quantityBE, int? quantityAE)
+        public static Dispense Create(Guid Id,Guid posologyId, int hour, int? quantityBE, int? quantityAE)
         {
-            return new Dispense(Id, posologyId, hour, quantityBE, quantityAE);
+            return new Dispense(Id,posologyId, hour, quantityBE, quantityAE);
         }
     }
 }
