@@ -60,7 +60,8 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
                 ToServe: bacPatients.ToServe,
                 Status: bacPatients.Status
         )  ; 
-        foreach (var roomDto in bacPatients.UnitCare.Rooms)
+   
+       foreach (var roomDto in bacPatients.UnitCare.Rooms)
         {
             var newRoomModel = Domain.Models.Room.Create(
                 id:RoomId.Of( roomDto.Id),
