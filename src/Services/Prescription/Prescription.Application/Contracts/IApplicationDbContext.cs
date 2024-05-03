@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace Prescription.Application.Contracts
         public DbSet<Comment> Comments { get; }
         public DbSet<Patient> Patients { get; }
         public DbSet<Doctor> Doctors { get; }
+        public DbSet<Register> Register { get; }
 
         public DbSet<Medication> Medications { get; }
 

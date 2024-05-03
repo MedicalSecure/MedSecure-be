@@ -16,11 +16,10 @@ namespace Prescription.Application.Extensions
 
         public static PrescriptionDto ToPrescriptionDto(this PrescriptionEntity pres)
         {
-            return new PrescriptionDto(
+            var x = new PrescriptionDto(
                 Id: pres.Id,
-                Patient: pres.Patient.ToPatientDto(),
-                PatientId: pres.PatientId,
-                Doctor: pres.Doctor.ToDoctorDto(),
+                RegisterId: pres.RegisterId,
+                Doctor: pres.Doctor?.ToDoctorDto(),
                 DoctorId: pres.DoctorId,
                 Symptoms: pres.Symptoms.ToSymptomsDto(),
                 Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
@@ -30,6 +29,7 @@ namespace Prescription.Application.Extensions
                 CreatedBy: pres.CreatedBy,
                 LastModifiedBy: pres.LastModifiedBy
             );
+            return x;
         }
 
         public static IEnumerable<DispensesDto> ToDispensesDto(this IEnumerable<Dispense> dispenses)

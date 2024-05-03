@@ -25,38 +25,79 @@ namespace Prescription.Infrastructure.Database.Configurations
         public void Configure(EntityTypeBuilder<Patient> builder)
         {
             builder.HasKey(p => p.Id);
-            builder.Property(p => p.PatientName)
-                .HasMaxLength(100);
 
-            // Configure navigation properties
-            builder.OwnsOne(p => p.Register, register =>
-            {
-                register.Property(r => r.familymedicalhistory)
-                    .HasConversion(new RiskFactorListConverter()).IsRequired(false);
+            builder.Property(p => p.FirstName)
+                .IsRequired()
+                .HasMaxLength(50);
 
-                register.Property(r => r.personalMedicalHistory)
-                    .HasConversion(new RiskFactorListConverter()).IsRequired(false);
-            });
+            builder.Property(p => p.LastName)
+                .HasMaxLength(50)
+                .IsRequired(false);
 
-            builder.OwnsOne(p => p.RiskFactor, riskFactor =>
-            {
-                riskFactor.Property(r => r.key).IsRequired(false); ;
+            builder.Property(p => p.DateOfBirth)
+                .IsRequired(false);
 
-                riskFactor.Property(r => r.value).IsRequired(false); ;
+            builder.Property(p => p.CIN)
+                .IsRequired(false);
 
-                riskFactor.Property(r => r.subRiskfactory)
-                    .HasConversion(new RiskFactorListConverter()).IsRequired(false); ;
-            });
+            builder.Property(p => p.CNAM)
+                .IsRequired(false);
 
-            builder.OwnsOne(p => p.Disease, disease =>
-            {
-                disease.Property(d => d.key).IsRequired(false); ;
+            builder.Property(p => p.Assurance)
+                .HasMaxLength(100)
+                .IsRequired(false);
 
-                disease.Property(d => d.value).IsRequired(false); ;
+            builder.Property(p => p.Gender)
+                .IsRequired(false);
 
-                disease.Property(d => d.subRiskfactory)
-                    .HasConversion(new RiskFactorListConverter()).IsRequired(false); ;
-            });
+            builder.Property(p => p.Height)
+                .IsRequired(false);
+
+            builder.Property(p => p.Weight)
+                .IsRequired(false);
+
+            builder.Property(p => p.AddressIsRegisterations)
+                .IsRequired(false);
+
+            builder.Property(p => p.SaveForNextTime)
+                .IsRequired(false);
+
+            builder.Property(p => p.Email)
+                .HasMaxLength(100)
+                .IsRequired(false);
+
+            builder.Property(p => p.Address1)
+                .HasMaxLength(200)
+                .IsRequired(false);
+
+            builder.Property(p => p.Address2)
+                .HasMaxLength(200)
+                .IsRequired(false);
+
+            builder.Property(p => p.ActivityStatus)
+                .IsRequired(false);
+
+            builder.Property(p => p.Country)
+                .IsRequired(false);
+
+            builder.Property(p => p.State)
+                .HasMaxLength(50)
+                .IsRequired(false);
+
+            builder.Property(p => p.ZipCode)
+                .IsRequired(false);
+
+            builder.Property(p => p.FamilyStatus)
+                .IsRequired(false);
+
+            builder.Property(p => p.Children)
+                .IsRequired(false);
+
+            builder.Property(d => d.LastModifiedBy)
+                .HasMaxLength(128);
+
+            builder.Property(d => d.CreatedBy)
+                .HasMaxLength(128);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
             return new CreatePrescriptionResult(prescription.Id);
         }
 
-        private async Task<PrescriptionEntity> CreateNewPrescription(PrescriptionDto prescriptionDto, CancellationToken cancellationToken)
+        private Task<PrescriptionEntity>? CreateNewPrescription(PrescriptionDto prescriptionDto, CancellationToken cancellationToken)
         {
             //var newPrescription = PrescriptionEntity.Create(patient.Adapt<Patient>(_mapsterConfig), doctor.Adapt<Doctor>(_mapsterConfig));
             var newPrescription = prescriptionDto.Adapt<PrescriptionEntity>(_mapsterConfig);

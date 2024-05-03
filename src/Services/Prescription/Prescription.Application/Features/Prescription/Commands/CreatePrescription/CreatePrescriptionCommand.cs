@@ -16,8 +16,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
         public CreatePrescriptionCommandValidator()
         {
             RuleFor(x => x.Prescription.DoctorId).NotEmpty().WithMessage("Prescription.DoctorId is required");
-            RuleFor(x => x.Prescription.PatientId).NotEmpty().WithMessage("Prescription.PatientId is required");
-
+            RuleFor(x => x.Prescription.RegisterId).NotEmpty().WithMessage("Prescription.RegisterId is required");
         }
     }
 }

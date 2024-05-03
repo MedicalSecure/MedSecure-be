@@ -33,7 +33,7 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             var p = await _dbContext.Prescriptions.Where(p => p.Id == query.Id)
                     .Include(p => p.Symptoms)
                     .Include(p => p.Diagnosis)
-                    .Include(p => p.Patient)
+                    .Include(p => p.Register)
                     .Include(p => p.Doctor)
                     .Include(p => p.Posology)
                     .ThenInclude(posology => posology.Comments)
@@ -52,8 +52,7 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             /*TODO fix this*/
             PrescriptionDto result = new PrescriptionDto(
                 p.Id,
-                p.Patient.ToPatientDto(),
-                p.PatientId,
+                p.RegisterId,
                 p.Doctor.ToDoctorDto(),
                 p.DoctorId,
                 p.Symptoms.ToSymptomsDto(),

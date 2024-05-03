@@ -8,8 +8,12 @@ global using Prescription.Domain.Entities.Prescription;
 global using Prescription.Domain.Entities;
 global using Prescription.Infrastructure.Database;
 global using Prescription.Domain.Abstractions;
-global using Prescription.Infrastructure.Database.Interceptors;
 
+global using Prescription.Domain.Enums;
+
+global using Prescription.Domain.Entities.RegisterRoot;
+global using Prescription.Domain.Exceptions;
+global using System.Collections.Generic;
 global using MediatR;
 
 namespace Prescription.Infrastructure

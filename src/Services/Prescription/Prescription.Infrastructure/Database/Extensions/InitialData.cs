@@ -1,8 +1,4 @@
-﻿using Prescription.Domain.Entities;
-using Prescription.Domain.Exceptions;
-using System.Collections.Generic;
-
-namespace Prescription.Infrastructure.Database.Extensions
+﻿namespace Prescription.Infrastructure.Database.Extensions
 {
     internal class InitialData
     {
@@ -158,79 +154,45 @@ namespace Prescription.Infrastructure.Database.Extensions
                 {
                     return new List<Patient>
                     {
+                        // Create p1
                         Patient.Create(
-                            id: patientId,
-                            patientName: "Patient 1",
-                            dateOfbirth: new DateTime(1990, 5, 15),
-                            gender: Domain.Enums.Gender.Male,
-                            height: 175,
-                            weight: 70,
-                            register: new Register
-                            {
-                                familymedicalhistory = new List<RiskFactor>
-                                {
-                                    new RiskFactor { key = "Heart Disease", value = "Yes", subRiskfactory = null },
-                                    new RiskFactor { key = "Diabetes", value = "No", subRiskfactory = null }
-                                },
-                                personalMedicalHistory = new List<RiskFactor>
-                                {
-                                    new RiskFactor { key = "Allergies", value = "Pollen", subRiskfactory = null },
-                                    new RiskFactor { key = "Asthma", value = "No", subRiskfactory = null }
-                                }
-                            },
-                            riskFactor: new RiskFactor
-                            {
-                                key = "High Blood Pressure",
-                                value = "Yes",
-                                subRiskfactory = new List<RiskFactor>
-                                {
-                                    new RiskFactor { key = "Medication", value = "Yes", subRiskfactory = null }
-                                }
-                            },
-                            disease: new RiskFactor
-                            {
-                                key = "Type 2 Diabetes",
-                                value = "No",
-                                subRiskfactory = null
-                            }
+                            patientId,
+                            "John",
+                            "Doe",
+                            new DateTime(1985, 3, 15), // Date of birth
+                            12345678, // CIN
+                            987654, // CNAM
+                            Gender.Male,
+                            178, // Height in cm
+                            75, // Weight in kg
+                            "john.doe@example.com",
+                            "123 Main St",
+                            "Apt 4B",
+                            Country.US,
+                            "CA", // State
+                            FamilyStatus.MARRIED,
+                            Children.One
                         ),
+                        // Create p1
                         Patient.Create(
-                            id: patientId2,
-                            patientName: "Patient 2",
-                            dateOfbirth: new DateTime(1985, 8, 20),
-                            gender: Domain.Enums.Gender.Female,
-                            height: 160,
-                            weight: 60,
-                            register: new Register
-                            {
-                                familymedicalhistory = new List<RiskFactor>
-                                {
-                                    new RiskFactor { key = "Heart Disease", value = "No", subRiskfactory = null },
-                                    new RiskFactor { key = "Diabetes", value = "Yes", subRiskfactory = null }
-                                },
-                                personalMedicalHistory = new List<RiskFactor>
-                                {
-                                    new RiskFactor { key = "Allergies", value = "None", subRiskfactory = null },
-                                    new RiskFactor { key = "Asthma", value = "Yes", subRiskfactory = null }
-                                }
-                            },
-                            riskFactor: new RiskFactor
-                            {
-                                key = "High Cholesterol",
-                                value = "Yes",
-                                subRiskfactory = new List<RiskFactor>
-                                {
-                                    new RiskFactor { key = "Medication", value = "No", subRiskfactory = null }
-                                }
-                            },
-                            disease: new RiskFactor
-                            {
-                                key = "Type 1 Diabetes",
-                                value = "Yes",
-                                subRiskfactory = null
-                            }
-                        )
-                    };
+                            patientId2,
+                            "Jane",
+                            "Smith",
+                            new DateTime(1990, 10, 22), // Date of birth
+                            87654321, // CIN
+                            123456, // CNAM
+                            Gender.Female,
+                            165, // Height in cm
+                            60, // Weight in kg
+                            "jane.smith@example.com",
+                            "456 Oak Ave",
+                            null, // No address2
+                            Country.TN,
+                            "ON", // State
+                            FamilyStatus.SINGLE,
+                            Children.Two
+                    )
+                };
                 }
                 catch (Exception ex)
                 {
@@ -302,11 +264,11 @@ namespace Prescription.Infrastructure.Database.Extensions
             }
         }
 
-        public static PrescriptionEntity Prescription(Patient patient, Doctor d, List<Medication> medications, List<Symptom> symptoms, List<Diagnosis> diagnosis)
+        public static PrescriptionEntity Prescription(Register register, Doctor d, List<Medication> medications, List<Symptom> symptoms, List<Diagnosis> diagnosis)
         {
             try
             {
-                var p = PrescriptionEntity.Create(patient, d);
+                var p = PrescriptionEntity.Create(register, d);
                 p.addPosology(posology(medications)[0]);
                 p.addPosology(posology(medications)[1]);
 
@@ -316,6 +278,19 @@ namespace Prescription.Infrastructure.Database.Extensions
                 p.addDiagnosis(diagnosis[8]);
                 p.addDiagnosis(diagnosis[2]);
                 return p;
+            }
+            catch (Exception ex)
+            {
+                throw new EntityCreationException(nameof(PrescriptionEntity), ex.Message);
+            }
+        }
+
+        public static Register Register(Patient patient)
+        {
+            try
+            {
+                var r = RegisterInitialData.GetRegisterInitialData(patient);
+                return r;
             }
             catch (Exception ex)
             {

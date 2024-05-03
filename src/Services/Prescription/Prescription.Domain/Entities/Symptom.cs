@@ -7,12 +7,10 @@
         public string ShortDescription { get; private set; }
         public string LongDescription { get; private set; }
 
-        public List<PrescriptionEntity> Prescriptions;
+        public List<PrescriptionEntity>? Prescriptions;
 
         private Symptom()
         { } // For EF
-
-
 
         private Symptom(Guid id, string code, string name, string shortDescription, string longDescription)
         {
@@ -25,7 +23,7 @@
 
         public static Symptom Create(string code, string name, string shortDescription, string longDescription)
         {
-            return new Symptom(new Guid(),code, name, shortDescription, longDescription);
+            return new Symptom(new Guid(), code, name, shortDescription, longDescription);
         }
 
         public static Symptom Create(Guid id, string code, string name, string shortDescription, string longDescription)

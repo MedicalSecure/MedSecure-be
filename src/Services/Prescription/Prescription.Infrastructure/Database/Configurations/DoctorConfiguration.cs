@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 
 namespace Prescription.Infrastructure.Database.Configurations
 {
-    public class CommentConfiguration : IEntityTypeConfiguration<Comment>
+    public class DctorConfiguration : IEntityTypeConfiguration<Doctor>
     {
-        public void Configure(EntityTypeBuilder<Comment> builder)
+        public void Configure(EntityTypeBuilder<Doctor> builder)
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(d => d.Label)
-            .HasMaxLength(30);
+            builder.Property(d => d.FirstName)
+            .HasMaxLength(50);
 
-            builder.Property(d => d.Content)
-                .HasMaxLength(300)
-                .IsRequired();
+            builder.Property(d => d.LastName)
+                .HasMaxLength(50);
+
+            builder.Property(d => d.Speciality)
+                .HasMaxLength(100);
 
             builder.Property(d => d.LastModifiedBy)
                 .HasMaxLength(128);

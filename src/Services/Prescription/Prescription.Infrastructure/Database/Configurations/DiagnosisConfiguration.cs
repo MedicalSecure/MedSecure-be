@@ -22,6 +22,12 @@ namespace Prescription.Infrastructure.Database.Configurations
 
             builder.Property(d => d.LongDescription)
                 .HasMaxLength(250);
+
+            builder.Property(d => d.LastModifiedBy)
+                .HasMaxLength(128);
+
+            builder.Property(d => d.CreatedBy)
+                .HasMaxLength(128);
         }
     }
 }

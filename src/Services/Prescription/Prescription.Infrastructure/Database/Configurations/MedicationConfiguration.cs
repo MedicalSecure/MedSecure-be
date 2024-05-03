@@ -41,6 +41,12 @@ namespace Prescription.Infrastructure.Database.Configurations
 
             builder.Property(m => m.ExpiredAt)
                 .IsRequired();
+
+            builder.Property(d => d.LastModifiedBy)
+                .HasMaxLength(128);
+
+            builder.Property(d => d.CreatedBy)
+                .HasMaxLength(128);
         }
     }
 }

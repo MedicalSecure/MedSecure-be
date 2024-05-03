@@ -25,6 +25,12 @@ namespace Prescription.Infrastructure.Database.Configurations
             .WithMany()
             .HasForeignKey(p => p.MedicationId)
             .IsRequired();
+
+            builder.Property(d => d.LastModifiedBy)
+                .HasMaxLength(128);
+
+            builder.Property(d => d.CreatedBy)
+                .HasMaxLength(128);
         }
     }
 }

@@ -28,18 +28,9 @@ namespace Prescription.Infrastructure.Database.Configurations
             builder.HasMany(Prescription => Prescription.Posology)
                 .WithOne(Posology => Posology.Prescription);
 
-            /*            builder.HasOne(prescription => prescription.Patient)
-                            .WithMany()
-                            .HasForeignKey(prescription => prescription.PatientId).IsRequired(); ;
-
-                        builder.HasOne(p => p.Doctor)
-                            .WithMany()
-                            .HasForeignKey(prescription => prescription.DoctorId).IsRequired(); ;*/
-            builder.HasOne(prescription => prescription.Patient)
-        .WithMany(patient => patient.Prescriptions)
-        .HasForeignKey(prescription => prescription.PatientId)
-        .IsRequired()
-        .OnDelete(DeleteBehavior.Restrict); // Specify the desired delete behavior
+            builder.HasOne(p => p.Doctor)
+                .WithMany()
+                .HasForeignKey(prescription => prescription.DoctorId).IsRequired();
 
             builder.HasOne(prescription => prescription.Doctor)
                 .WithMany(doctor => doctor.Prescriptions)
@@ -47,9 +38,14 @@ namespace Prescription.Infrastructure.Database.Configurations
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict); // Specify the desired delete behavior
 
+            builder.Property(d => d.LastModifiedBy)
+                .HasMaxLength(128);
+
+            builder.Property(d => d.CreatedBy)
+                .HasMaxLength(128);
             // Ignore the circular reference
-            builder.Navigation(p => p.Patient).AutoInclude(false);
-            builder.Navigation(p => p.Doctor).AutoInclude(false);
+            //builder.Navigation(p => p.Register).AutoInclude(false);
+            //builder.Navigation(p => p.Doctor).AutoInclude(false);
         }
     }
 }
