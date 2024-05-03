@@ -35,5 +35,12 @@ if (app.Environment.IsDevelopment())
     // Initialize the database asynchronously with mock data 
     await app.InitialiseDatabaseAsync();
 }
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+app.UseAuthorization();
+app.UseAuthentication();
 
 app.Run();
