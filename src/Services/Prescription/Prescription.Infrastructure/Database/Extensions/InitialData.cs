@@ -268,7 +268,7 @@
         {
             try
             {
-                var p = PrescriptionEntity.Create(register, d);
+                var p = PrescriptionEntity.Create(register.Id, d);
                 p.addPosology(posology(medications)[0]);
                 p.addPosology(posology(medications)[1]);
 

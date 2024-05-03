@@ -17,7 +17,7 @@ namespace Prescription.Infrastructure.Database.Extensions
             {
                 new RiskFactor
                 {
-                    Key = "FamilyHistory1",
+                    Key = "FamilyHistory1 (lvl0-1-1child)",
                     Value = "Heart Disease",
                     Code = "FH001",
                     Description = "Family history of heart disease",
@@ -26,17 +26,41 @@ namespace Prescription.Infrastructure.Database.Extensions
                     Icon = "heart-icon.png",
                     SubRiskFactor = new List<RiskFactor>
                     {
-                        new RiskFactor
-                        {
-                            Key = "FamilySubHistory1",
-                            Value = "High Blood Pressure",
-                            Code = "FHS001",
-                            Description = "Family history of high blood pressure",
-                            IsSelected = false,
-                            Type = "Cardiovascular",
-                            Icon = "blood-pressure-icon.png",
-                            SubRiskFactor = new List<RiskFactor>()
-                        }
+                            new RiskFactor
+                            {
+                                Key = "Heart Diseases (lvl1-1-2child)",
+                                Value = "Heart Disease",
+                                Code = "HD001",
+                                Description = "Family history of heart disease",
+                                IsSelected = false,
+                                Type = "Cardiovascular",
+                                Icon = "heart-icon.png",
+                                SubRiskFactor = new List<RiskFactor>
+                                {
+                                    new RiskFactor
+                                    {
+                                        Key = "ParentalHeartDisease (lvl2-1-0child)",
+                                        Value = "Heart Disease (Parental)",
+                                        Code = "HD001-P",
+                                        Description = "Parental history of heart disease",
+                                        IsSelected = false,
+                                        Type = "Cardiovascular",
+                                        Icon = "heart-icon.png",
+                                        SubRiskFactor = new List<RiskFactor>()
+                                    },
+                                    new RiskFactor
+                                    {
+                                        Key = "SiblingHeartDisease (lvl2-2-0child)",
+                                        Value = "Heart Disease (Sibling)",
+                                        Code = "HD001-S",
+                                        Description = "Sibling history of heart disease",
+                                        IsSelected = false,
+                                        Type = "Cardiovascular",
+                                        Icon = "heart-icon.png",
+                                        SubRiskFactor = new List<RiskFactor>()
+                                    }
+                                }
+                            }
                     }
                 },
                 new RiskFactor
