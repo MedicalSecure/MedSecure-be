@@ -1,4 +1,4 @@
-﻿namespace Prescription.Domain.Entities.Prescription
+﻿namespace Prescription.Domain.Entities.PrescriptionRoot
 {
     public class Posology : Entity<Guid>
     {
@@ -6,7 +6,7 @@
         private readonly List<Dispense> _dispenses = new List<Dispense>();
 
         public Guid PrescriptionId { get; private set; }
-        public PrescriptionEntity Prescription { get; set; }
+        public Prescription Prescription { get; set; }
         public Guid MedicationId { get; set; }
         public Medication Medication { get; private set; }
         public DateTime StartDate { get; private set; }

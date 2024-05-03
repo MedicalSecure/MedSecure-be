@@ -7,7 +7,7 @@
         public string ShortDescription { get; private set; }
         public string LongDescription { get; private set; }
 
-        public List<PrescriptionEntity>? Prescriptions;
+        public List<PrescriptionRoot.Prescription>? Prescriptions;
 
         public Diagnosis()
         {

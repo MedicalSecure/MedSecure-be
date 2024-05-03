@@ -1,8 +1,6 @@
-﻿using System.Numerics;
-
-namespace Prescription.Domain.Entities.Prescription
+﻿namespace Prescription.Domain.Entities.PrescriptionRoot
 {
-    public class PrescriptionEntity : Aggregate<Guid>
+    public class Prescription : Aggregate<Guid>
     {
         private readonly List<Posology> _posology = new();
         private readonly List<Diagnosis> _diagnosis = new();
@@ -14,22 +12,19 @@ namespace Prescription.Domain.Entities.Prescription
         public Register? Register { get; private set; }
         public Guid DoctorId { get; private set; }
 
-        public Doctor? Doctor { get; private set; }
-
-        private PrescriptionEntity()
+        private Prescription()
         { }// for EF
 
-        private PrescriptionEntity(Guid id, Guid registerId, Doctor? D, Guid doctorId, DateTime createdAt = default)
+        private Prescription(Guid id, Guid registerId, Guid doctorId, DateTime createdAt = default)
         {
             Id = id;
             RegisterId = registerId;
-            Doctor = D;
             DoctorId = doctorId;
             CreatedBy = doctorId.ToString();
             CreatedAt = createdAt == default ? DateTime.Now : createdAt;
         }
 
-        public static PrescriptionEntity Create(Guid RegisterId, Doctor doctor, DateTime createdAt = default)
+        public static Prescription Create(Guid RegisterId, Guid doctorId, DateTime createdAt = default)
         {
             //validations here
             //..
@@ -37,15 +32,15 @@ namespace Prescription.Domain.Entities.Prescription
 
             // Newly created prescription
             Guid PrescriptionId = new Guid();
-            return new PrescriptionEntity(PrescriptionId, RegisterId, doctor, doctor.Id, createdAt);
+            return new Prescription(PrescriptionId, RegisterId, doctorId, createdAt);
         }
 
-        public static PrescriptionEntity Create(Guid PrescriptionId, Guid registerId, Doctor doctor, DateTime createdAt = default)
+        public static Prescription Create(Guid PrescriptionId, Guid registerId, Guid doctorId, DateTime createdAt = default)
         {
             //validations here
             //..
             //..
-            return new PrescriptionEntity(PrescriptionId, registerId, doctor, doctor.Id, createdAt);
+            return new Prescription(PrescriptionId, registerId, doctorId, createdAt);
         }
 
         public bool addPosology(Posology posology)

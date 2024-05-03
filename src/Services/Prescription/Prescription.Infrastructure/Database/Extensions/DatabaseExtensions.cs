@@ -19,7 +19,6 @@ public static class DatabaseExtensions
 
         await SeedMedicationsAsync(context);
         await SeedPatientsAsync(context);
-        await SeedDoctorsAsync(context);
         await SeedSymptomsAsync(context);
         await SeedDiagnosisAsync(context);
 
@@ -39,7 +38,6 @@ public static class DatabaseExtensions
         context.Dispenses.RemoveRange(context.Dispenses);
         context.Medications.RemoveRange(context.Medications);
         context.Patients.RemoveRange(context.Patients);
-        context.Doctors.RemoveRange(context.Doctors);
 
         context.Diagnosis.RemoveRange(context.Diagnosis);
         context.Symptoms.RemoveRange(context.Symptoms);
@@ -66,34 +64,23 @@ public static class DatabaseExtensions
         }
     }
 
-    private static async Task SeedDoctorsAsync(ApplicationDbContext context)
-    {
-        if (!await context.Doctors.AnyAsync())
-        {
-            await context.Doctors.AddRangeAsync(InitialData.Doctors);
-            await context.SaveChangesAsync();
-        }
-    }
-
     private static async Task SeedPrescriptionsAsync(ApplicationDbContext context)
     {
         try
         {
-            var doctors = await context.Doctors.ToListAsync();
             var medications = await context.Medications.ToListAsync();
             var symptoms = await context.Symptoms.ToListAsync();
             var diagnosis = await context.Diagnosis.ToListAsync();
             List<Register> registers = await context.Register.ToListAsync();
 
             // Check if there are any patients and doctors
-            if (registers.Count > 0 && doctors.Count > 0)
+            if (registers.Count > 0)
             {
                 var register = registers.First();
-                var doctor = doctors.First();
 
                 if (!await context.Prescriptions.AnyAsync())
                 {
-                    var newPrescription = InitialData.Prescription(register, doctor, medications, symptoms, diagnosis);
+                    var newPrescription = InitialData.Prescription(register, medications, symptoms, diagnosis);
 
                     await context.Prescriptions.AddAsync(newPrescription);
                     await context.SaveChangesAsync();

@@ -1,25 +1,17 @@
-﻿using Prescription.Application.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Prescription.Application.Extensions
+﻿namespace Prescription.Application.Extensions
 {
     public static class PrescriptionExtension
     {
-        public static IEnumerable<PrescriptionDto> ToPrescriptionsDto(this IEnumerable<PrescriptionEntity> prescriptions)
+        public static IEnumerable<PrescriptionDto> ToPrescriptionsDto(this IEnumerable<Domain.Entities.PrescriptionRoot.Prescription> prescriptions)
         {
             return prescriptions.Select(p => p.ToPrescriptionDto());
         }
 
-        public static PrescriptionDto ToPrescriptionDto(this PrescriptionEntity pres)
+        public static PrescriptionDto ToPrescriptionDto(this Domain.Entities.PrescriptionRoot.Prescription pres)
         {
             var x = new PrescriptionDto(
                 Id: pres.Id,
                 RegisterId: pres.RegisterId,
-                Doctor: pres.Doctor?.ToDoctorDto(),
                 DoctorId: pres.DoctorId,
                 Symptoms: pres.Symptoms.ToSymptomsDto(),
                 Diagnoses: pres.Diagnosis.ToDiagnosisDto(),

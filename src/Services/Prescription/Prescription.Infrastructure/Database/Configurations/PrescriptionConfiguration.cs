@@ -9,13 +9,13 @@ namespace Prescription.Infrastructure.Database.Configurations
 {
     //called from : ApplicationDbContext :
     //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    public class PrescriptionConfiguration : IEntityTypeConfiguration<PrescriptionEntity>
+    public class PrescriptionConfiguration : IEntityTypeConfiguration<Domain.Entities.PrescriptionRoot.Prescription>
     {
         public PrescriptionConfiguration()
         {
         }
 
-        public void Configure(EntityTypeBuilder<PrescriptionEntity> builder)
+        public void Configure(EntityTypeBuilder<Domain.Entities.PrescriptionRoot.Prescription> builder)
         {
             builder.HasKey(p => p.Id);
 
@@ -27,16 +27,6 @@ namespace Prescription.Infrastructure.Database.Configurations
 
             builder.HasMany(Prescription => Prescription.Posology)
                 .WithOne(Posology => Posology.Prescription);
-
-            builder.HasOne(p => p.Doctor)
-                .WithMany()
-                .HasForeignKey(prescription => prescription.DoctorId).IsRequired();
-
-            builder.HasOne(prescription => prescription.Doctor)
-                .WithMany(doctor => doctor.Prescriptions)
-                .HasForeignKey(prescription => prescription.DoctorId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict); // Specify the desired delete behavior
 
             builder.Property(d => d.LastModifiedBy)
                 .HasMaxLength(128);

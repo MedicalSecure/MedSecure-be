@@ -10,14 +10,13 @@ namespace Prescription.Application.Contracts
 {
     public interface IApplicationDbContext
     {
-        DbSet<PrescriptionEntity> Prescriptions { get; }
+        DbSet<Domain.Entities.PrescriptionRoot.Prescription> Prescriptions { get; }
         public DbSet<Symptom> Symptoms { get; }
         public DbSet<Diagnosis> Diagnosis { get; }
         public DbSet<Dispense> Dispenses { get; }
         public DbSet<Posology> Posology { get; }
         public DbSet<Comment> Comments { get; }
         public DbSet<Patient> Patients { get; }
-        public DbSet<Doctor> Doctors { get; }
         public DbSet<Register> Register { get; }
 
         public DbSet<Medication> Medications { get; }

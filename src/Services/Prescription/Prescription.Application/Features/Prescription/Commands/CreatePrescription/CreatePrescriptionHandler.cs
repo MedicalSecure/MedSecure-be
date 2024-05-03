@@ -1,12 +1,4 @@
 ﻿using Prescription.Application.Contracts;
-using Prescription;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Prescription.Application.DTOs;
-using System.Threading;
 
 namespace Prescription.Application.Features.Prescription.Commands.CreatePrescription
 {
@@ -34,10 +26,10 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
             return new CreatePrescriptionResult(prescription.Id);
         }
 
-        private Task<PrescriptionEntity>? CreateNewPrescription(PrescriptionDto prescriptionDto, CancellationToken cancellationToken)
+        private Task<Domain.Entities.PrescriptionRoot.Prescription>? CreateNewPrescription(PrescriptionDto prescriptionDto, CancellationToken cancellationToken)
         {
             //var newPrescription = PrescriptionEntity.Create(patient.Adapt<Patient>(_mapsterConfig), doctor.Adapt<Doctor>(_mapsterConfig));
-            var newPrescription = prescriptionDto.Adapt<PrescriptionEntity>(_mapsterConfig);
+            var newPrescription = prescriptionDto.Adapt<Domain.Entities.PrescriptionRoot.Prescription>(_mapsterConfig);
 
             var diagnosisEntities = prescriptionDto.Diagnoses
                 .Select(dto => dto.Adapt<Domain.Entities.Diagnosis>(_mapsterConfig))

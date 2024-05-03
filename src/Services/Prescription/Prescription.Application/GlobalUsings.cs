@@ -1,4 +1,4 @@
-﻿global using Prescription.Domain.Entities.Prescription;
+﻿global using Prescription.Domain.Entities.PrescriptionRoot;
 global using Prescription.Domain.Entities;
 global using System;
 global using System.Collections.Generic;

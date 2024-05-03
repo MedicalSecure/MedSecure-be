@@ -57,37 +57,6 @@
             }
         }
 
-        public static IEnumerable<Doctor> Doctors
-        {
-            get
-            {
-                try
-                {
-                    return new List<Doctor>
-                    {
-                        Doctor.Create(
-                            id: doctorId,
-                            firstName: "John",
-                            lastName: "Doe",
-                            speciality: "Cardiology",
-                            dateOfBirth: new DateTime(1975, 10, 25)
-                        ),
-                        Doctor.Create(
-                            id: doctorId2,
-                            firstName: "Jane",
-                            lastName: "Smith",
-                            speciality: "Pediatrics",
-                            dateOfBirth: new DateTime(1980, 7, 15)
-                        )
-                    };
-                }
-                catch (Exception ex)
-                {
-                    throw new EntityCreationException(nameof(Doctor), ex.Message);
-                }
-            }
-        }
-
         /// <summary>
         /// Retrieves a collection of medications with their details.
         /// </summary>
@@ -264,11 +233,11 @@
             }
         }
 
-        public static PrescriptionEntity Prescription(Register register, Doctor d, List<Medication> medications, List<Symptom> symptoms, List<Diagnosis> diagnosis)
+        public static Domain.Entities.PrescriptionRoot.Prescription Prescription(Register register, List<Medication> medications, List<Symptom> symptoms, List<Diagnosis> diagnosis)
         {
             try
             {
-                var p = PrescriptionEntity.Create(register.Id, d);
+                var p = Domain.Entities.PrescriptionRoot.Prescription.Create(register.Id, doctorId);
                 p.addPosology(posology(medications)[0]);
                 p.addPosology(posology(medications)[1]);
 
@@ -281,7 +250,7 @@
             }
             catch (Exception ex)
             {
-                throw new EntityCreationException(nameof(PrescriptionEntity), ex.Message);
+                throw new EntityCreationException(nameof(Domain.Entities.PrescriptionRoot.Prescription), ex.Message);
             }
         }
 
@@ -294,7 +263,7 @@
             }
             catch (Exception ex)
             {
-                throw new EntityCreationException(nameof(PrescriptionEntity), ex.Message);
+                throw new EntityCreationException(nameof(Domain.Entities.PrescriptionRoot.Prescription), ex.Message);
             }
         }
 

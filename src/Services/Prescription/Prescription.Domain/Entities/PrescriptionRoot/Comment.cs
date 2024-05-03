@@ -1,4 +1,4 @@
-﻿namespace Prescription.Domain.Entities.Prescription
+﻿namespace Prescription.Domain.Entities.PrescriptionRoot
 {
     public class Comment : Entity<Guid>
     {

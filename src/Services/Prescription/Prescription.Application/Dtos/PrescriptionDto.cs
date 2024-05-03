@@ -11,7 +11,6 @@ namespace Prescription.Application.DTOs
     public record PrescriptionDto(
     Guid Id,
     Guid RegisterId,
-    DoctorDto Doctor,
     Guid DoctorId,
     ICollection<SymptomDto> Symptoms,
     ICollection<DiagnosisDto> Diagnoses,

@@ -14,9 +14,9 @@
         public List<History> History { get; private set; } = default!;
         public List<Test>? Test { get; private set; } = default!;
 
-        public List<PrescriptionEntity>? Prescriptions { get; private set; } = default!;
+        public List<PrescriptionRoot.Prescription>? Prescriptions { get; private set; } = default!;
 
-        public static Register Create(Guid id, Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<PrescriptionEntity>? prescriptions, List<Test>? test)
+        public static Register Create(Guid id, Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<PrescriptionRoot.Prescription>? prescriptions, List<Test>? test)
         {
             var register = new Register
             {
@@ -35,7 +35,7 @@
             return register;
         }
 
-        public void Update(Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<PrescriptionEntity>? prescriptions, List<Test>? test)
+        public void Update(Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<PrescriptionRoot.Prescription>? prescriptions, List<Test>? test)
         {
             Patient = patient;
             PatientId = patient.Id;

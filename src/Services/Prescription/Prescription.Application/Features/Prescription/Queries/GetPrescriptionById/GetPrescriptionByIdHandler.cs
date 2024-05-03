@@ -34,7 +34,6 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
                     .Include(p => p.Symptoms)
                     .Include(p => p.Diagnosis)
                     .Include(p => p.Register)
-                    .Include(p => p.Doctor)
                     .Include(p => p.Posology)
                     .ThenInclude(posology => posology.Comments)
                     .Include(p => p.Posology)
@@ -53,7 +52,6 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             PrescriptionDto result = new PrescriptionDto(
                 p.Id,
                 p.RegisterId,
-                p.Doctor.ToDoctorDto(),
                 p.DoctorId,
                 p.Symptoms.ToSymptomsDto(),
                 p.Diagnosis.ToDiagnosisDto(),

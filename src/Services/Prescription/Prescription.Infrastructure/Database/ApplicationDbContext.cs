@@ -15,14 +15,13 @@ namespace Prescription.Infrastructure.Database
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         { }
 
-        public DbSet<PrescriptionEntity> Prescriptions { get; set; }
+        public DbSet<Domain.Entities.PrescriptionRoot.Prescription> Prescriptions { get; set; }
         public DbSet<Symptom> Symptoms { get; set; }
         public DbSet<Diagnosis> Diagnosis { get; set; }
         public DbSet<Dispense> Dispenses { get; set; }
         public DbSet<Posology> Posology { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Patient> Patients { get; set; }
-        public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Register> Register { get; set; }
 
         public DbSet<Medication> Medications { get; set; }

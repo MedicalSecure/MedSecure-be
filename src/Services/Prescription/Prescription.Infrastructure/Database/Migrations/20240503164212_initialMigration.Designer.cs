@@ -12,8 +12,8 @@ using Prescription.Infrastructure.Database;
 namespace Prescription.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240503111110_initialMigrationWithRegister")]
-    partial class initialMigrationWithRegister
+    [Migration("20240503164212_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Prescription.Infrastructure.Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DiagnosisPrescriptionEntity", b =>
+            modelBuilder.Entity("DiagnosisPrescription", b =>
                 {
                     b.Property<Guid>("DiagnosisId")
                         .HasColumnType("uniqueidentifier");
@@ -37,7 +37,7 @@ namespace Prescription.Infrastructure.Database.Migrations
 
                     b.HasIndex("PrescriptionsId");
 
-                    b.ToTable("DiagnosisPrescriptionEntity");
+                    b.ToTable("DiagnosisPrescription");
                 });
 
             modelBuilder.Entity("Prescription.Domain.Entities.Diagnosis", b =>
@@ -83,49 +83,6 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Diagnosis");
-                });
-
-            modelBuilder.Entity("Prescription.Domain.Entities.Doctor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Speciality")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Doctors");
                 });
 
             modelBuilder.Entity("Prescription.Domain.Entities.Medication", b =>
@@ -206,7 +163,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.ToTable("Medications");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.Prescription.Comment", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -246,7 +203,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.Prescription.Dispense", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Dispense", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -283,7 +240,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.ToTable("Dispenses");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.Prescription.Posology", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Posology", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -327,7 +284,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.ToTable("Posology");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.Prescription.PrescriptionEntity", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Prescription", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -354,8 +311,6 @@ namespace Prescription.Infrastructure.Database.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
 
                     b.HasIndex("RegisterId");
 
@@ -673,7 +628,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.ToTable("Symptoms");
                 });
 
-            modelBuilder.Entity("PrescriptionEntitySymptom", b =>
+            modelBuilder.Entity("PrescriptionSymptom", b =>
                 {
                     b.Property<Guid>("PrescriptionsId")
                         .HasColumnType("uniqueidentifier");
@@ -685,7 +640,7 @@ namespace Prescription.Infrastructure.Database.Migrations
 
                     b.HasIndex("SymptomsId");
 
-                    b.ToTable("PrescriptionEntitySymptom");
+                    b.ToTable("PrescriptionSymptom");
                 });
 
             modelBuilder.Entity("RegisterRiskFactor", b =>
@@ -703,7 +658,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.ToTable("RegisterRiskFactor");
                 });
 
-            modelBuilder.Entity("DiagnosisPrescriptionEntity", b =>
+            modelBuilder.Entity("DiagnosisPrescription", b =>
                 {
                     b.HasOne("Prescription.Domain.Entities.Diagnosis", null)
                         .WithMany()
@@ -711,16 +666,16 @@ namespace Prescription.Infrastructure.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Prescription.Domain.Entities.Prescription.PrescriptionEntity", null)
+                    b.HasOne("Prescription.Domain.Entities.PrescriptionRoot.Prescription", null)
                         .WithMany()
                         .HasForeignKey("PrescriptionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.Prescription.Comment", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Comment", b =>
                 {
-                    b.HasOne("Prescription.Domain.Entities.Prescription.Posology", "posology")
+                    b.HasOne("Prescription.Domain.Entities.PrescriptionRoot.Posology", "posology")
                         .WithMany("Comments")
                         .HasForeignKey("PosologyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -729,9 +684,9 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.Navigation("posology");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.Prescription.Dispense", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Dispense", b =>
                 {
-                    b.HasOne("Prescription.Domain.Entities.Prescription.Posology", "posology")
+                    b.HasOne("Prescription.Domain.Entities.PrescriptionRoot.Posology", "posology")
                         .WithMany("Dispenses")
                         .HasForeignKey("PosologyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -740,7 +695,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.Navigation("posology");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.Prescription.Posology", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Posology", b =>
                 {
                     b.HasOne("Prescription.Domain.Entities.Medication", "Medication")
                         .WithMany()
@@ -748,7 +703,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Prescription.Domain.Entities.Prescription.PrescriptionEntity", "Prescription")
+                    b.HasOne("Prescription.Domain.Entities.PrescriptionRoot.Prescription", "Prescription")
                         .WithMany("Posology")
                         .HasForeignKey("PrescriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -759,21 +714,13 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.Navigation("Prescription");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.Prescription.PrescriptionEntity", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Prescription", b =>
                 {
-                    b.HasOne("Prescription.Domain.Entities.Doctor", "Doctor")
-                        .WithMany("Prescriptions")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Prescription.Domain.Entities.RegisterRoot.Register", "Register")
                         .WithMany("Prescriptions")
                         .HasForeignKey("RegisterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Doctor");
 
                     b.Navigation("Register");
                 });
@@ -817,9 +764,9 @@ namespace Prescription.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PrescriptionEntitySymptom", b =>
+            modelBuilder.Entity("PrescriptionSymptom", b =>
                 {
-                    b.HasOne("Prescription.Domain.Entities.Prescription.PrescriptionEntity", null)
+                    b.HasOne("Prescription.Domain.Entities.PrescriptionRoot.Prescription", null)
                         .WithMany()
                         .HasForeignKey("PrescriptionsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -847,19 +794,14 @@ namespace Prescription.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.Doctor", b =>
-                {
-                    b.Navigation("Prescriptions");
-                });
-
-            modelBuilder.Entity("Prescription.Domain.Entities.Prescription.Posology", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Posology", b =>
                 {
                     b.Navigation("Comments");
 
                     b.Navigation("Dispenses");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.Prescription.PrescriptionEntity", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Prescription", b =>
                 {
                     b.Navigation("Posology");
                 });
