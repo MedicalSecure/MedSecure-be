@@ -34,25 +34,29 @@ namespace Registration.Domain.Models
 
 
 
-        public static Patient Create(string firstName,string lastName, DateTime dateOfbirth,int cin,int cnam, Gender gender, int height, int weight,
-            string email, string address1,string address2,Country country,string state ,FamilyStatus familyStatus,Children children)
+        public static Patient Create(PatientId Id,string firstName,string lastName, DateTime dateOfbirth,int cin,int cnam, string assurance, Gender gender, int height, int weight, Boolean addressIsRegisteraions, Boolean saveForNextTime,
+            string email, string address1, string address2, Country country, string state, int zipCode, FamilyStatus familyStatus, Children children)
         {
             var patient = new Patient
             {
-                
+                Id= Id, 
                 FirstName = firstName,
                 LastName = lastName,
                 DateOfBirth = dateOfbirth,
                 CIN = cin,
                 CNAM = cnam,
+                Assurance = assurance,
                 Gender = gender,
                 Height = height,
                 Weight = weight,
+                AddressIsRegisterations = addressIsRegisteraions,
+                SaveForNextTime = saveForNextTime,
                 Email = email,
                 Address1 = address1,
                 Address2 = address2,
                 Country = country,
                 State = state,
+                ZipCode = zipCode,
                 FamilyStatus = familyStatus,
                 Children = children
 

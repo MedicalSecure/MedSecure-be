@@ -32,7 +32,7 @@
             riskFactor.AddDomainEvent(new RiskFactorCreatedEvent(riskFactor));
             return riskFactor;
         }
-        public void Update(string key, string value, string description, Boolean isSelected, string type, string icon, List<RiskFactor> subRiskFactor)
+        public void Update(string key, string value, string description, string description1, Boolean isSelected, string type, string icon, List<RiskFactor> subRiskFactor)
         {
             Key = key;
             Value = value;

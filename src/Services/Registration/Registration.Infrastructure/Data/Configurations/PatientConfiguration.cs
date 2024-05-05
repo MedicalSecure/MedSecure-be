@@ -1,13 +1,4 @@
-﻿using Registration.Domain.Enums;
-using Registration.Domain.Models;
-using Registration.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Registration.Infrastructure.Data.Configurations
+﻿namespace Registration.Infrastructure.Data.Configurations
 {
     public class PatientConfiguration : IEntityTypeConfiguration<Patient>
     {

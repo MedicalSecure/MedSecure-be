@@ -19,30 +19,35 @@
         {
             var newRegister = Domain.Models.Register.Create(
                 id: RegisterId.Of(Guid.NewGuid()),
-                
-                patient:Patient.Create(
-                    
-                    registerDto.patient.firstName,
-                    registerDto.patient.lastName,
-                    registerDto.patient.dateOfbirth,
-                    registerDto.patient.cin,
-                    registerDto.patient.cnam,
-                    registerDto.patient.gender,
-                    registerDto.patient.height,
-                    registerDto.patient.weight,
-                    registerDto.patient.email,
-                    registerDto.patient.address1,
-                    registerDto.patient.address2,
-                    registerDto.patient.country,
-                    registerDto.patient.state,
-                    registerDto.patient.familyStatus,
-                    registerDto.patient.children
 
-                    ),
+                  patient: Patient.Create(
+                      Id: PatientId.Of(Guid.NewGuid()),
+                    firstName: registerDto.patient.firstName,
+                    lastName: registerDto.patient.lastName,
+                    dateOfbirth: registerDto.patient.dateOfBirth,
+                    cin: registerDto.patient.cin,
+                    cnam: registerDto.patient.cnam,
+                    assurance: registerDto.patient.assurance,
+                    gender: registerDto.patient.gender,
+                    height: registerDto.patient.height,
+                    weight: registerDto.patient.weight,
+                    addressIsRegisteraions: registerDto.patient.addressIsRegisteraions,
+                    saveForNextTime: registerDto.patient.saveForNextTime,
+                    email: registerDto.patient.email,
+                    address1: registerDto.patient.address1,
+                    address2: registerDto.patient.address2,
+                    country: registerDto.patient.country,
+                    state: registerDto.patient.state,
+                    zipCode: registerDto.patient.zipCode,
+                    familyStatus: registerDto.patient.familyStatus,
+                    children: registerDto.patient.children
+                ),
                 familyHistory: registerDto.familyHistory,
                 personalHistory: registerDto.personalHistory,
                 disease:registerDto.disease,
-                allergy:registerDto.allergy
+                allergy:registerDto.allergy,
+                history:registerDto.history,
+                test:registerDto.test
                 );
 
             return newRegister;

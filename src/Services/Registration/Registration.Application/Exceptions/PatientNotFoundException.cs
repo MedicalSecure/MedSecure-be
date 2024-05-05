@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Exceptions;
-
-
+﻿
 namespace Registration.Application.Exceptions
 {
     internal class PatientNotFoundException : NotFoundException

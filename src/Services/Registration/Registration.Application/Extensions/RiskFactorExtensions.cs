@@ -13,6 +13,11 @@ namespace Registration.Application.Extensions
                 Id: p.Id.Value,
                 key: p.Key,
                 value:p.Value,
+                code: p.Code,
+                description: p.Description,
+                isSelected: p.IsSelected,
+                type: p.Type,
+                icon: p.Icon,
                 subRiskFactor:p.SubRiskfactory));
         }
     }

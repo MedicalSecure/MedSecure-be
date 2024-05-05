@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Registration.Application.Extensions
 {
-    internal class HistoryExtensions
+    public static partial class HistoryExtensions
     {
+        public static IEnumerable<HistoryDto> ToHistoryDto(this List<Domain.Models.History> histories)
+        {
+            return histories.Select(h => new HistoryDto(
+                Id: h.Id.Value,
+                date: h.Date,
+                status: h.Status,
+                patientId: h.AssociatedPatientId
+            ));
+        }
     }
 }

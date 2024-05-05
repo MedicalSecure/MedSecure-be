@@ -1,40 +1,41 @@
-﻿
-
-using Registration.Domain.Models;
+﻿using Registration.Domain.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Registration.Infrastructure.Data.Extensions
 {
     internal class InitialData
     {
-        private static readonly string patientId = "7506213d-3b5f-4498-b35c-9169a600ff10";
-
-        /// <summary>
-        /// Retrieves a collection of patients with their details.
-        /// </summary>
-
-
+        //public AssociatedPatientId patientId = "123-";
         public static IEnumerable<Register> Registers
         {
             get
             {
                 try
                 {
+                    var patients = Patients.ToList();
+                    var smokingRisk = CreateRiskFactorForSmoking();
+                    var familyHistoryRisk = CreateRiskFactorForFamilyHistory();
+                    var obesityRisk = CreateRiskFactorForObesity();
+
                     return new List<Register>
                     {
-                        // Create Patient instances
                         Register.Create(
-                             id: RegisterId.Of(Guid.NewGuid()),
-                             patient:new Patient(),
-                             familyHistory: new List<RiskFactor>(), // Empty list
-                             personalHistory: new List<RiskFactor>(), // Empty list
-                             disease: new List<RiskFactor>(),
-                             allergy: new List<RiskFactor>()
-                            ),
+                            id: RegisterId.Of(Guid.NewGuid()),
+                            patient: patients.First(),
+                            familyHistory: new List<RiskFactor> { familyHistoryRisk },
+                            personalHistory: new List<RiskFactor> { smokingRisk, obesityRisk },
+                            disease: new List<RiskFactor>(),
+                            allergy: new List<RiskFactor>(),
+                            history:new List<History>(),
+                            test:new Test()
+                        )
                     };
                 }
                 catch (Exception ex)
                 {
-                    throw new EntityCreationException(nameof(Patient), ex.Message);
+                    throw new EntityCreationException(nameof(Register), ex.Message);
                 }
             }
         }
@@ -45,26 +46,31 @@ namespace Registration.Infrastructure.Data.Extensions
             {
                 try
                 {
+                    var patientId = PatientId.Of(Guid.NewGuid());
                     return new List<Patient>
-                    { Patient.Create(
-
-
-        "John", // First name
-        "Doe", // Last name
-        new DateTime(1990, 1, 1), // Date of birth
-        123456, // CIN
-        789012, // CNAM
-        Gender.Male, // Gender
-        180, // Height
-        75, // Weight
-        "john.doe@example.com", // Email
-        "Address Line 1", // Address 1
-        "Address Line 2", // Address 2
-        "Country", // Country
-        "State", // State
-        FamilyStatus.MARRIED, // Family status
-        new Children() // Children object, assuming Children is a value object with appropriate properties
-     ),
+                    {
+                        Patient.Create(
+                            Id: patientId,
+                            firstName: "John",
+                            lastName: "Doe",
+                            dateOfbirth: new DateTime(1990, 1, 1),
+                            cin: 123456,
+                            cnam: 789012,
+                            assurance: "",
+                            gender: Gender.Male,
+                            height: 180,
+                            weight: 75,
+                            addressIsRegisteraions:true,
+                            saveForNextTime:true,
+                            email: "john.doe@example.com",
+                            address1: "Address Line 1",
+                            address2: "Address Line 2",
+                            country: Country.VN,
+                            state: "State",
+                            zipCode: 1222,
+                            familyStatus: FamilyStatus.MARRIED,
+                            children: Children.ThreeOrMore
+                        )
                     };
                 }
                 catch (Exception ex)
@@ -73,73 +79,87 @@ namespace Registration.Infrastructure.Data.Extensions
                 }
             }
         }
-        public static IEnumerable<RiskFactor> RiskFactors
-        {
-            get
-            {
-                yield return CreateRiskFactorForSmoking();
-                yield return CreateRiskFactorForFamilyHistory();
-                yield return CreateRiskFactorForObesity();
-            }
-        }
 
         private static RiskFactor CreateRiskFactorForSmoking()
         {
-            var smokingRiskFactor = RiskFactor.Create(
-              id: RiskFactorId.Of(Guid.NewGuid()),
-              key: "Smoking",
-              value: "Yes",
-              subRiskFactor: new List<RiskFactor>()
-              {
-        RiskFactor.Create(
-          id: RiskFactorId.Of(Guid.NewGuid()),
-          key: "Lung Cancer",
-          value: "Increased Risk",
-          subRiskFactor: new List<RiskFactor>() { }
-        ),
-        RiskFactor.Create(
-          id: RiskFactorId.Of(Guid.NewGuid()),
-          key: "Heart Disease",
-          value: "Increased Risk",
-          subRiskFactor: new List<RiskFactor>() { }
-        )
-              }
+            return RiskFactor.Create(
+                id: RiskFactorId.Of(Guid.NewGuid()),
+                key: "Smoking",
+                value: "Yes",
+                code: "SMK001",
+                description: "Smoking Description",
+                isSelected: true,
+                type: "Smoking Type",
+                icon: "Smoking Icon",
+                subRiskFactor: new List<RiskFactor>
+                {
+                    RiskFactor.Create(
+                        id: RiskFactorId.Of(Guid.NewGuid()),
+                        key: "Lung Cancer",
+                        value: "Increased Risk",
+                        code: "LC001",
+                        description: "Lung Cancer Description",
+                        isSelected: false,
+                        type: "Lung Cancer Type",
+                        icon: "Lung Cancer Icon",
+                        subRiskFactor: new List<RiskFactor>()
+                    ),
+                    RiskFactor.Create(
+                        id: RiskFactorId.Of(Guid.NewGuid()),
+                        key: "Heart Disease",
+                        value: "Increased Risk",
+                        code: "HD001",
+                        description: "Heart Disease Description",
+                        isSelected: false,
+                        type: "Heart Disease Type",
+                        icon: "Heart Disease Icon",
+                        subRiskFactor: new List<RiskFactor>()
+                    )
+                }
             );
-
-            return smokingRiskFactor;
         }
 
         private static RiskFactor CreateRiskFactorForFamilyHistory()
         {
-            var familyHistoryRiskFactor = RiskFactor.Create(
-              id: RiskFactorId.Of(Guid.NewGuid()),
-              key: "Family History of Heart Disease",
-              value: "Yes",
-              subRiskFactor: new List<RiskFactor>() { }
+            return RiskFactor.Create(
+                id: RiskFactorId.Of(Guid.NewGuid()),
+                key: "Family History of Heart Disease",
+                value: "Yes",
+                code: "FH001",
+                description: "Family History of Heart Disease Description",
+                isSelected: true,
+                type: "Family History Type",
+                icon: "Family History Icon",
+                subRiskFactor: new List<RiskFactor>()
             );
-
-            return familyHistoryRiskFactor;
         }
 
         private static RiskFactor CreateRiskFactorForObesity()
         {
-            var obesityRiskFactor = RiskFactor.Create(
-              id: RiskFactorId.Of(Guid.NewGuid()),
-              key: "Obesity (BMI > 30)",
-              value: "Yes",
-              subRiskFactor: new List<RiskFactor>()
-              {
-        RiskFactor.Create(
-          id: RiskFactorId.Of(Guid.NewGuid()),
-          key: "Type 2 Diabetes",
-          value: "Increased Risk",
-          subRiskFactor: new List<RiskFactor>() { }
-        )
-              }
+            return RiskFactor.Create(
+                id: RiskFactorId.Of(Guid.NewGuid()),
+                key: "Obesity (BMI > 30)",
+                value: "Yes",
+                code: "OB001",
+                description: "Obesity Description",
+                isSelected: true,
+                type: "Obesity Type",
+                icon: "Obesity Icon",
+                subRiskFactor: new List<RiskFactor>
+                {
+                    RiskFactor.Create(
+                        id: RiskFactorId.Of(Guid.NewGuid()),
+                        key: "Type 2 Diabetes",
+                        value: "Increased Risk",
+                        code: "T2D001",
+                        description: "Type 2 Diabetes Description",
+                        isSelected: false,
+                        type: "Type 2 Diabetes Type",
+                        icon: "Type 2 Diabetes Icon",
+                        subRiskFactor: new List<RiskFactor>()
+                    )
+                }
             );
-
-            return obesityRiskFactor;
         }
     }
-
 }

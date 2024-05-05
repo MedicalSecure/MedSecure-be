@@ -12,8 +12,8 @@ namespace Registration.Application.Extensions
                 Id: t.Id.Value,
                 code: t.Code,
                 description: t.Description,
-                language: t.language,
-                testType: t.type
+                language: t.Language,
+                testType: t.Type
             ));
         }
     }

@@ -14,7 +14,7 @@ namespace Registration.Application.RiskFactors.Commands.UpdateRiskFactor
     {
         public UpdateRiskFactorCommandValidator()
         {
-            RuleFor(x => x.RiskFactor.Id).NotEmpty().WithMessage("PatientId is required");
+            RuleFor(x => x.RiskFactor.Id).NotEmpty().WithMessage("AssociatedPatientId is required");
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Registration.Domain.ValueObjects
             ArgumentNullException.ThrowIfNull(value);
             if (value == Guid.Empty)
             {
-                throw new DomainException("PatientId cannot be empty!");
+                throw new DomainException("AssociatedPatientId cannot be empty!");
             }
             return new PatientId(value);
         }

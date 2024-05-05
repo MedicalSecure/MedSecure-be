@@ -16,3 +16,4 @@ namespace Registration.Application.Registers.EventHandlers.Domain
 
     }
 }
+    

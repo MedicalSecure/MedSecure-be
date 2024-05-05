@@ -122,7 +122,7 @@ namespace Registration.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Registers_PatientId",
                 table: "Registers",
-                column: "PatientId");
+                column: "AssociatedPatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Registers_PatientId1",

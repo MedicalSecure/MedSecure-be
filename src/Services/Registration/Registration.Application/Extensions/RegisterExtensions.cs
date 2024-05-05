@@ -11,14 +11,14 @@ namespace Registration.Application.Extensions
                     Id : p.Patient.Id.Value,
                 firstName : p.Patient.FirstName,
                 lastName : p.Patient.LastName,
-                dateOfbirth : p.Patient.DateOfBirth,
+                dateOfBirth : p.Patient.DateOfBirth,
                 cin : p.Patient.CIN,
                 cnam : p.Patient.CNAM,
                 assurance :p.Patient.Assurance,
                 gender: p.Patient.Gender,
                 height : p.Patient.Height,
                 weight : p.Patient.Weight,
-                addressIsRegistion: p.Patient.AddressIsRegisterations,
+                addressIsRegisteraions: p.Patient.AddressIsRegisterations,
                 saveForNextTime: p.Patient.SaveForNextTime,
                 email : p.Patient.Email,
                 address1 : p.Patient.Address1,
@@ -33,7 +33,8 @@ namespace Registration.Application.Extensions
                 personalHistory:p.PersonalMedicalHistory,
                 disease:p.Disease,
                 allergy:p.Allergy,
-                history:p.History
+                history:p.History,
+                test:p.Test
                 ));
         }
     }

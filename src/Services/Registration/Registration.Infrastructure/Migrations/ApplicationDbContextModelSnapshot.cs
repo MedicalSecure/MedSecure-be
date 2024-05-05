@@ -128,7 +128,7 @@ namespace Registration.Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PatientId")
+                    b.Property<Guid>("AssociatedPatientId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("PatientId1")
@@ -136,7 +136,7 @@ namespace Registration.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PatientId");
+                    b.HasIndex("AssociatedPatientId");
 
                     b.HasIndex("PatientId1");
 
@@ -202,7 +202,7 @@ namespace Registration.Infrastructure.Migrations
                 {
                     b.HasOne("Registration.Domain.Models.Patient", null)
                         .WithMany()
-                        .HasForeignKey("PatientId")
+                        .HasForeignKey("AssociatedPatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

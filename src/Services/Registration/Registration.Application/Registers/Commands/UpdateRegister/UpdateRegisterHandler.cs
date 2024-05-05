@@ -28,7 +28,7 @@
             // Update the properties of the existing register with the data from the new DTO
             existingRegister.Patient.FirstName = newRegisterDto.patient.firstName;
             existingRegister.Patient.LastName = newRegisterDto.patient.lastName;
-            existingRegister.Patient.DateOfBirth = newRegisterDto.patient.dateOfbirth;
+            existingRegister.Patient.DateOfBirth = newRegisterDto.patient.dateOfBirth;
             existingRegister.Patient.CIN = newRegisterDto.patient.cin;
             existingRegister.Patient.CNAM = newRegisterDto.patient.cnam;
             existingRegister.Patient.Gender = newRegisterDto.patient.gender;
