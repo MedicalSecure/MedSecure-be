@@ -7,14 +7,13 @@
 
         public Guid PatientId { get; private set; } = default!;
 
-        public List<RiskFactor>? FamilyMedicalHistory { get; private set; } = default!;
-        public List<RiskFactor>? PersonalMedicalHistory { get; private set; } = default!;
-        public List<RiskFactor>? Diseases { get; private set; } = default!;
-        public List<RiskFactor>? Allergies { get; private set; } = default!;
-        public List<History> History { get; private set; } = default!;
-        public List<Test>? Test { get; private set; } = default!;
-
-        public List<PrescriptionRoot.Prescription>? Prescriptions { get; private set; } = default!;
+        public List<RiskFactor> FamilyMedicalHistory { get; private set; } = new();
+        public List<RiskFactor> PersonalMedicalHistory { get; private set; } = new();
+        public List<RiskFactor> Diseases { get; private set; } = new();
+        public List<RiskFactor> Allergies { get; private set; } = new();
+        public List<History> History { get; private set; } = new();
+        public List<Test> Test { get; private set; } = new();
+        public List<PrescriptionRoot.Prescription> Prescriptions { get; private set; } = new();
 
         public static Register Create(Guid id, Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<PrescriptionRoot.Prescription>? prescriptions, List<Test>? test)
         {
@@ -28,8 +27,9 @@
                 Diseases = disease,
                 Allergies = allergy,
                 History = history,
-                Prescriptions = prescriptions,
-                Test = test
+                Prescriptions = prescriptions!=null ? prescriptions : new List<PrescriptionRoot.Prescription>(),
+                Test = test != null ? test : new List<Test>(),
+
             };
             register.AddDomainEvent(new RegisterCreatedEvent(register));
             return register;
@@ -44,8 +44,8 @@
             Diseases = disease;
             Allergies = allergy;
             History = history;
-            Prescriptions = prescriptions;
-            Test = test;
+            if (prescriptions != null) Prescriptions = prescriptions;
+            if (test != null) Test = test;
 
             AddDomainEvent(new RegisterUpdatedEvent(this));
         }

@@ -6,7 +6,10 @@
         public Status Status { get; private set; } = Status.Resident;
         public Guid RegisterId { get; private set; } = default!;
 
-        private History()
+  /*      private History()
+        { }*/
+
+        public History()
         { }
 
         private History(Guid id, DateTime date, Status status, Guid registerId)

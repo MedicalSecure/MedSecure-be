@@ -8,9 +8,7 @@
         public TestType Type { get; private set; }
         public Guid RegisterId { get; private set; }
 
-        private Test()
-        { } // Required by EF Core for entity types
-
+        public Test() { }
         private Test(Guid id, Guid registerId, string code, string description, Language language, TestType type)
         {
             Id = id;

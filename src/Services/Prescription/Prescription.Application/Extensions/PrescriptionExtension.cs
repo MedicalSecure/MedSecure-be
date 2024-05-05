@@ -2,26 +2,46 @@
 {
     public static class PrescriptionExtension
     {
-        public static IEnumerable<PrescriptionDto> ToPrescriptionsDto(this IEnumerable<Domain.Entities.PrescriptionRoot.Prescription> prescriptions)
+        public static IEnumerable<PrescriptionDto> ToPrescriptionsDto(this IEnumerable<Domain.Entities.PrescriptionRoot.Prescription> prescriptions, bool includeRegister = true)
         {
-            return prescriptions.Select(p => p.ToPrescriptionDto());
+            return prescriptions.Select(p => p.ToPrescriptionDto(includeRegister));
         }
 
-        public static PrescriptionDto ToPrescriptionDto(this Domain.Entities.PrescriptionRoot.Prescription pres)
+        public static PrescriptionDto ToPrescriptionDto(this Domain.Entities.PrescriptionRoot.Prescription pres, bool includeRegister = false)
         {
-            var x = new PrescriptionDto(
-                Id: pres.Id,
-                RegisterId: pres.RegisterId,
-                DoctorId: pres.DoctorId,
-                Symptoms: pres.Symptoms.ToSymptomsDto(),
-                Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
-                Posologies: pres.Posology.ToPosologiesDto(),
-                CreatedAt: pres.CreatedAt,
-                LastModified: pres.LastModified,
-                CreatedBy: pres.CreatedBy,
-                LastModifiedBy: pres.LastModifiedBy
-            );
-            return x;
+            if (includeRegister)
+            {
+                var x = new PrescriptionDto(
+                    Id: pres.Id,
+                    RegisterId: pres.RegisterId,
+                    DoctorId: pres.DoctorId,
+                    Symptoms: pres.Symptoms.ToSymptomsDto(),
+                    Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
+                    Posologies: pres.Posology.ToPosologiesDto(),
+                    Register: pres.Register?.ToRegisterDto(),
+                    CreatedAt: pres.CreatedAt,
+                    LastModified: pres.LastModified,
+                    CreatedBy: pres.CreatedBy,
+                    LastModifiedBy: pres.LastModifiedBy
+                );
+                return x;
+            }
+            else
+            {
+                var x = new PrescriptionDto(
+                    Id: pres.Id,
+                    RegisterId: pres.RegisterId,
+                    DoctorId: pres.DoctorId,
+                    Symptoms: pres.Symptoms.ToSymptomsDto(),
+                    Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
+                    Posologies: pres.Posology.ToPosologiesDto(),
+                    CreatedAt: pres.CreatedAt,
+                    LastModified: pres.LastModified,
+                    CreatedBy: pres.CreatedBy,
+                    LastModifiedBy: pres.LastModifiedBy
+                );
+                return x;
+            }
         }
 
         public static IEnumerable<DispensesDto> ToDispensesDto(this IEnumerable<Dispense> dispenses)

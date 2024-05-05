@@ -15,6 +15,7 @@ namespace Prescription.Application.DTOs
     ICollection<SymptomDto> Symptoms,
     ICollection<DiagnosisDto> Diagnoses,
     ICollection<PosologyDto> Posologies,
+    RegisterDto? Register = null,
     DateTime? CreatedAt = null,
     DateTime? LastModified = null,
     string? CreatedBy = null,

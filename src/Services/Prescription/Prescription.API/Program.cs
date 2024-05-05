@@ -1,3 +1,4 @@
+using Microsoft.OpenApi.Models;
 using Prescription.Application;
 using Prescription.Infrastructure;
 using Prescription.Infrastructure.Database.Extensions;
@@ -15,7 +16,6 @@ namespace Prescription.API
             builder.Services.AddApplicationServices(builder.Configuration);  // Add application services layer
             builder.Services.AddApiServices(builder.Configuration);  // Add API services layer
 
-
             //allow cross origin TODO REMOVE from here and place it in my API GATEWAY!!
             var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
             builder.Services.AddCors(options =>
@@ -26,7 +26,6 @@ namespace Prescription.API
                                       policy.WithOrigins("http://localhost:4200")
                                        .AllowAnyHeader()
                                        .AllowAnyMethod();
-
                                   });
             });
             //build app
@@ -46,7 +45,7 @@ namespace Prescription.API
                 });
 
                 // Initialize the database asynchronously with mock data
-                app.InitialiseDatabaseAsync();
+                //app.InitialiseDatabaseAsync();
             }
 
             app.UseHttpsRedirection();

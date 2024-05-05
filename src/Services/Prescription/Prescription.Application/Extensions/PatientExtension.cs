@@ -9,30 +9,42 @@ namespace Prescription.Application.Extensions
 {
     public static class PatientExtension
     {
-        public static PatientDto ToPatientDto(this Patient d)
+        public static PatientDto? ToPatientDto(this Patient? d)
         {
+            if (d == null) return null;
             return new PatientDto(
                 Id: d.Id,
-                firstName: d.FirstName,
-                lastName: d.LastName,
-                dateOfbirth: d.DateOfBirth,
-                cin: d.CIN,
-                cnam: d.CNAM,
-                gender: d.Gender,
-                height: d.Height,
-                weight: d.Weight,
-                email: d.Email,
-                address1: d.Address1,
-                address2: d.Address2,
-                country: d.Country,
-                state: d.State,
-                familyStatus: d.FamilyStatus,
-                children: d.Children);
+                FirstName: d.FirstName,
+                LastName: d.LastName,
+                DateOfBirth: d.DateOfBirth,
+                CIN: d.CIN,
+                CNAM: d.CNAM,
+                Gender: d.Gender,
+                Height: d.Height,
+                Weight: d.Weight,
+                AddressIsRegisterations: d.AddressIsRegisterations,
+                SaveForNextTime: d.SaveForNextTime,
+                Email: d.Email,
+                Address1: d.Address1,
+                Address2: d.Address2,
+                ActivityStatus: d.ActivityStatus,
+                Country: d.Country,
+                State: d.State,
+                ZipCode: d.ZipCode,
+                FamilyStatus: d.FamilyStatus,
+                Children: d.Children
+            );
         }
 
-        public static ICollection<PatientDto> ToPatientDto(this IReadOnlyList<Patient> patients)
+        public static ICollection<PatientDto> ToPatientDto(this IReadOnlyList<Patient?> patients)
         {
-            return patients.Select(d => d.ToPatientDto()).ToList();
+            if (patients == null)
+                return new List<PatientDto>();
+
+            return patients.Where(p => p != null)
+                           .Select(p => p.ToPatientDto())
+                           .Where(dto => dto != null)
+                           .ToList();
         }
     }
 }
