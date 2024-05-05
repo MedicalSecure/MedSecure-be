@@ -17,7 +17,19 @@ public static class DatabaseExtentions
         // Clear existing data
         await ClearDataAsync(context);
 
+        await SeedDosageAsync(context);
+
         await SeedMedicationAsync(context);
+
+    }
+
+    private static async Task SeedDosageAsync(ApplicationDbContext context)
+    {
+        if (!await context.Dosages.AnyAsync())
+        {
+            await context.Dosages.AddRangeAsync(InitialData.Dosages);
+            await context.SaveChangesAsync();
+        }
     }
 
     private static async Task SeedMedicationAsync(ApplicationDbContext context)
@@ -33,6 +45,8 @@ public static class DatabaseExtentions
     {
         // Clear all data from tables
         context.Medications.RemoveRange(context.Medications);
+
+        context.Dosages.RemoveRange(context.Dosages);
 
         // Save changes to the database
         await context.SaveChangesAsync();

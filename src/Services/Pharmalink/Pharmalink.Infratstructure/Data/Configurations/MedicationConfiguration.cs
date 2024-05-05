@@ -61,9 +61,12 @@ public class MedicationConfiguration : IEntityTypeConfiguration<Medication>
         builder.Property(m => m.SafetyStock)
             .IsRequired();
 
+        builder.Property(m => m.AvailableStock) 
+            .IsRequired()
+            .HasComputedColumnSql("[Stock] - [ReservedStock]");
+
         builder.Property(m => m.ReservedStock)
             .IsRequired();
-
 
         builder.Property(m => m.Price)
             .HasColumnType("decimal(18,2)")

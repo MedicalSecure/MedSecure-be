@@ -1,37 +1,32 @@
-﻿using Mapster;
-using MediatR;
-using Pharmalink.Application.Dtos;
-using Pharmalink.Application.Medications.Commands.CreateMedication;
-
-namespace Pharmalink.API.Endpoints.Medication;
+﻿namespace Pharmalink.API.Endpoints.Medication;
 
 
 //- Accepts a CreateMedicationRequest object.
 //- Maps the request to a CreateMedicationCommand.
 //- Uses MediatR to send the command for processing.
-//- Returns a response with the created food's ID.
+//- Returns a response with the created medication's ID.
 
-public record CreateMedicationRequest(MedicationDto Food);
-public record CreateMedicationResponse(Guid Id);
+public record CreateMedicationRequest(List<MedicationDto> Medications);
+public record CreateMedicationResponse(List<Guid> IDs);
 
 public class CreateMedication : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/foods", async (CreateMedicationRequest request, ISender sender) =>
+        app.MapPost("/api/v1/medications", async (CreateMedicationRequest request, ISender sender) =>
         {
             var command = request.Adapt<CreateMedicationCommand>();
-
+           
             var result = await sender.Send(command);
 
             var response = result.Adapt<CreateMedicationResponse>();
 
-            return Results.Created($"/medications/{response.Id}", response);
+            return Results.Created($"/api/v1/medications/{response.IDs}", response);
         })
-        .WithName("CreateMedication")
+        .WithName("CreateMedicationList")
         .Produces<CreateMedicationResponse>(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status400BadRequest)
-        .WithSummary("Create Medication")
-        .WithDescription("Create Medication");
+        .WithSummary("Create Medication List")
+        .WithDescription("Create Medication List");
     }
 }

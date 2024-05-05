@@ -1,6 +1,5 @@
 ﻿namespace Pharmalink.Application.Dtos;
 
-
 public record MedicationDto(
     Guid Id,
     string Name,
@@ -16,7 +15,8 @@ public record MedicationDto(
     int MinStock,
     int SafetyStock, 
     int ReservedStock,
-    decimal Price);
+    decimal Price
+    );
 
 
 

@@ -3,7 +3,8 @@
 {
     public interface IApplicationDbContext
     {
-        DbSet<Domain.Models.Medication> Medications { get; }
+        DbSet<Medication> Medications { get; }
+        DbSet<Dosage> Dosages { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

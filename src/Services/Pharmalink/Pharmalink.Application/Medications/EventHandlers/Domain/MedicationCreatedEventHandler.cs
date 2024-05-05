@@ -1,8 +1,5 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using Pharmalink.Domain.Events;
+﻿namespace Pharmalink.Application.Medications.EventHandlers.Domain;
 
-namespace Pharmalink.Application.Medications.EventHandlers.Domain;
 public class MedicationCreatedEventHandler(ILogger<MedicationCreatedEventHandler> logger)
     : INotificationHandler<MedicationCreatedEvent>
 {

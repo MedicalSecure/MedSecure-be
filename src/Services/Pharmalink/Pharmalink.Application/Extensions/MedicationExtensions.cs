@@ -1,7 +1,4 @@
-﻿using Pharmalink.Application.Dtos;
-using Pharmalink.Domain.Models;
-
-namespace Pharmalink.Application.Extensions;
+﻿namespace Pharmalink.Application.Extensions;
 
 public static partial class MedicationExtensions
 {
