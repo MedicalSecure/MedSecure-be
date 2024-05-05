@@ -515,9 +515,6 @@ namespace Prescription.Infrastructure.Database.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<Guid?>("RiskFactorId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("RiskFactorParentId")
                         .HasColumnType("uniqueidentifier");
 

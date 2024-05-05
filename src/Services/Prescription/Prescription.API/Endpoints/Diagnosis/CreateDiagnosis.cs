@@ -9,7 +9,7 @@ namespace Prescription.API.Endpoints.Diagnosis
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost("/api/diagnosis", async (CreateDiagnosisRequest request, ISender sender) =>
+            app.MapPost("/api/v1/Prescription/Diagnosis", async (CreateDiagnosisRequest request, ISender sender) =>
             {
                 var command = request.Adapt<CreateDiagnosisCommand>();
 
@@ -17,7 +17,7 @@ namespace Prescription.API.Endpoints.Diagnosis
 
                 var response = result.Adapt<CreateDiagnosisResponse>();
 
-                return Results.Created($"/diagnosis/{response.Id}", response);
+                return Results.Created($"/Diagnosis/{response.Id}", response);
             })
             .WithName($"Create {nameof(Diagnosis)}")
             .Produces<CreateDiagnosisResponse>(StatusCodes.Status201Created)

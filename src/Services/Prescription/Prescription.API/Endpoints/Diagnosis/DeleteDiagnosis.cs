@@ -13,7 +13,7 @@ namespace Prescription.API.Endpoints.Diagnosis
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapDelete("/api/diagnosis", async ([FromBody] DeleteDiagnosisRequest request, ISender sender) =>
+            app.MapDelete("/api/v1/Prescription/Diagnosis", async ([FromBody] DeleteDiagnosisRequest request, ISender sender) =>
             {
                 var command = request.Adapt<DeleteDiagnosisCommand>();
 

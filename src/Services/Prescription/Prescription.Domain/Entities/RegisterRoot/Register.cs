@@ -27,9 +27,8 @@
                 Diseases = disease,
                 Allergies = allergy,
                 History = history,
-                Prescriptions = prescriptions!=null ? prescriptions : new List<PrescriptionRoot.Prescription>(),
+                Prescriptions = prescriptions != null ? prescriptions : new List<PrescriptionRoot.Prescription>(),
                 Test = test != null ? test : new List<Test>(),
-
             };
             register.AddDomainEvent(new RegisterCreatedEvent(register));
             return register;

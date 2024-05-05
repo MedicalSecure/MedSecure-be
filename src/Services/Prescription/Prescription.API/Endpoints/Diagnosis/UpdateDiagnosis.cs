@@ -11,7 +11,7 @@ namespace Prescription.API.Endpoints.Diagnosis
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPut("/api/diagnosis", async (UpdateDiagnosisRequest request, ISender sender) =>
+            app.MapPut("/api/v1/Prescription/Diagnosis", async (UpdateDiagnosisRequest request, ISender sender) =>
             {
                 var command = request.Adapt<UpdateDiagnosisCommand>();
 

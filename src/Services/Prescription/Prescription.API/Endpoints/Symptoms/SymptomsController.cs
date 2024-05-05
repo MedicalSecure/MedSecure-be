@@ -9,7 +9,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Prescription.API.Endpoints.Symptoms
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/Prescription/[controller]")]
     [ApiController]
     public class SymptomsController : ControllerBase
     {

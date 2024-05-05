@@ -43,9 +43,21 @@ namespace Prescription.Application.Features.Diagnosis.Queries.GetDiagnosis
                                         .ThenInclude(p => p.Medication)
 
                                 .Include(r => r.FamilyMedicalHistory)
+                                    .ThenInclude(f => f.SubRiskFactor)
+                                    .ThenInclude(f => f.SubRiskFactor)
+
                                 .Include(r => r.PersonalMedicalHistory)
+                                 .ThenInclude(f => f.SubRiskFactor)
+                                 .ThenInclude(f => f.SubRiskFactor)
+
                                 .Include(r => r.Diseases)
+                                .ThenInclude(f => f.SubRiskFactor)
+                                .ThenInclude(f => f.SubRiskFactor)
+
                                 .Include(r => r.Allergies)
+                                 .ThenInclude(f => f.SubRiskFactor)
+                                 .ThenInclude(f => f.SubRiskFactor)
+
                                 .Include(r => r.History)
                                 .Include(r => r.Test)
                                 .OrderBy(o => o.CreatedAt)

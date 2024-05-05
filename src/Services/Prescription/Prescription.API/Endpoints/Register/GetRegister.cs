@@ -10,7 +10,7 @@ namespace Prescription.API.Endpoints.Diagnosis
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/api/register", async ([AsParameters] PaginationRequest paginationRequest, ISender sender) =>
+            app.MapGet("/api/v1/Prescription/Registration", async ([AsParameters] PaginationRequest paginationRequest, ISender sender) =>
             {
                 var result = await sender.Send(new GetRegisterQuery(paginationRequest));
 

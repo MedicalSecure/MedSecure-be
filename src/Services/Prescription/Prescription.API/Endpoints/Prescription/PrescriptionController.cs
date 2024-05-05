@@ -9,7 +9,7 @@ using static Prescription.API.Endpoints.Prescription.Records;
 
 namespace Prescription.API.Endpoints.Prescription
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class PrescriptionController : ControllerBase
     {

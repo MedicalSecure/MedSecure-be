@@ -12,7 +12,7 @@ using Prescription.Infrastructure.Database;
 namespace Prescription.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240503164212_initialMigration")]
+    [Migration("20240505142317_initialMigration")]
     partial class initialMigration
     {
         /// <inheritdoc />
@@ -517,9 +517,6 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
-
-                    b.Property<Guid?>("RiskFactorId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("RiskFactorParentId")
                         .HasColumnType("uniqueidentifier");

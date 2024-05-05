@@ -9,9 +9,6 @@
 
         public Guid? RiskFactorParentId { get; set; } = default!;
 
-        public Guid? RiskFactorId { get; set; } = default!;
-
-        // public Guid? RegisterId { get; set; } = default!;
         public string Key { get; set; } = default!;
 
         public string Value { get; set; } = default!;
@@ -25,6 +22,7 @@
         {
             var riskFactor = new RiskFactor
             {
+                Id = id,
                 Key = key,
                 Value = value,
                 Code = code,

@@ -45,7 +45,7 @@ namespace Prescription.API
                 });
 
                 // Initialize the database asynchronously with mock data
-                //app.InitialiseDatabaseAsync();
+                app.InitialiseDatabaseAsync();
             }
 
             app.UseHttpsRedirection();
