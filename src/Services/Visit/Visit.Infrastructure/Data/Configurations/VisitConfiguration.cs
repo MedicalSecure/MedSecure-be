@@ -26,15 +26,77 @@ namespace Visit.Infrastructure.Data.Configurations
                       .IsRequired();
 
                 patient.Property(wi => wi.LastName).HasMaxLength(50)
-                    .IsRequired();
+                    .IsRequired(false);
 
                 patient.Property(wi => wi.DateOfBirth)
-                    .IsRequired();
+                    .IsRequired(false);
 
                 patient.Property(mi => mi.Gender).HasDefaultValue(Gender.Other).
                     HasConversion(
                     mi => mi.ToString(),
                     gender => (Gender)Enum.Parse(typeof(Gender), gender));
+
+                patient.Property(wi => wi.CIN)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.CNAM)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.Assurance)
+                    .HasMaxLength(100)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.Gender)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.Height)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.Weight)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.AddressIsRegisterations)
+                    .IsRequired(false);
+
+                patient.Property(wi =>  wi.SaveForNextTime)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.Email)
+                    .HasMaxLength(100)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.Address1)
+                    .HasMaxLength(200)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.Address2)
+                    .HasMaxLength(200)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.ActivityStatus)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.Country)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.State)
+                    .HasMaxLength(50)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.ZipCode)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.FamilyStatus)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.Children)
+                    .IsRequired(false);
+
+                patient.Property(wi => wi.LastModifiedBy)
+                    .HasMaxLength(128);
+
+                patient.Property(wi => wi.CreatedBy)
+                    .HasMaxLength(128);
 
             });
             // Configuration for the DoctorId property

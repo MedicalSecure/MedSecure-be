@@ -30,8 +30,20 @@ public class CreatePatientHandler(IApplicationDbContext dbContext) : ICommandHan
             id: PatientId.Of(Guid.NewGuid()),
             firstName: patientDto.FirstName,
             lastName: patientDto.LastName,
-            dateOfBirth: patientDto.DateOfBirth,
-            gender: patientDto.Gender );
+            dateOfbirth: patientDto.DateOfBirth,
+            cin: patientDto.CIN,
+            cnam: patientDto.CNAM,
+            gender: patientDto.Gender,
+            height: patientDto.Height,
+            weight: patientDto.Weight,
+            email: patientDto.Email,
+            address1:patientDto.Address1,
+            address2: patientDto.Address2,
+            country:patientDto.Country,
+            state: patientDto.State,
+            familyStatus: patientDto.FamilyStatus,
+            children: patientDto.Children
+            );
 
         return newPatient;
     }

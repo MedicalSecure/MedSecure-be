@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Visit.Infrastructure.Data;
 
 #nullable disable
 
-namespace Visit.Infrastructure.Migrations
+namespace Visit.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240505134849_InitialIdentityModel-v1")]
+    partial class InitialIdentityModelv1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,14 +85,52 @@ namespace Visit.Infrastructure.Migrations
                             b1.Property<Guid>("VisitId")
                                 .HasColumnType("uniqueidentifier");
 
+                            b1.Property<int?>("ActivityStatus")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Address1")
+                                .HasMaxLength(200)
+                                .HasColumnType("nvarchar(200)");
+
+                            b1.Property<string>("Address2")
+                                .HasMaxLength(200)
+                                .HasColumnType("nvarchar(200)");
+
+                            b1.Property<bool?>("AddressIsRegisterations")
+                                .HasColumnType("bit");
+
+                            b1.Property<string>("Assurance")
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
+
+                            b1.Property<int?>("CIN")
+                                .HasColumnType("int");
+
+                            b1.Property<int?>("CNAM")
+                                .HasColumnType("int");
+
+                            b1.Property<int?>("Children")
+                                .HasColumnType("int");
+
+                            b1.Property<int?>("Country")
+                                .HasColumnType("int");
+
                             b1.Property<DateTime?>("CreatedAt")
                                 .HasColumnType("datetime2");
 
                             b1.Property<string>("CreatedBy")
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
 
-                            b1.Property<DateTime>("DateOfBirth")
+                            b1.Property<DateTime?>("DateOfBirth")
                                 .HasColumnType("datetime2");
+
+                            b1.Property<string>("Email")
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
+
+                            b1.Property<int?>("FamilyStatus")
+                                .HasColumnType("int");
 
                             b1.Property<string>("FirstName")
                                 .IsRequired()
@@ -97,10 +138,12 @@ namespace Visit.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(50)");
 
                             b1.Property<string>("Gender")
-                                .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("nvarchar(max)")
                                 .HasDefaultValue("Other");
+
+                            b1.Property<int?>("Height")
+                                .HasColumnType("int");
 
                             b1.Property<Guid?>("Id")
                                 .HasColumnType("uniqueidentifier");
@@ -109,12 +152,25 @@ namespace Visit.Infrastructure.Migrations
                                 .HasColumnType("datetime2");
 
                             b1.Property<string>("LastModifiedBy")
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("LastName")
-                                .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)");
+
+                            b1.Property<bool?>("SaveForNextTime")
+                                .HasColumnType("bit");
+
+                            b1.Property<string>("State")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)");
+
+                            b1.Property<int?>("Weight")
+                                .HasColumnType("int");
+
+                            b1.Property<int?>("ZipCode")
+                                .HasColumnType("int");
 
                             b1.HasKey("VisitId");
 

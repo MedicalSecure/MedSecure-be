@@ -33,6 +33,23 @@ public class UpdatePatientHandler(IApplicationDbContext dbContext) : ICommandHan
 
     private static void UpdatePatientWithNewValues(Patient patient, PatientDto patientDto)
     {
-        patient.Update(patientDto.FirstName, patientDto.LastName, patientDto.DateOfBirth, patientDto.Gender);
+        patient.Update(
+            patientDto.FirstName,
+            patientDto.LastName,
+            patientDto.DateOfBirth,
+            patientDto.CIN,
+            patientDto.CNAM,
+            patientDto.Gender,
+            patientDto.Height,
+            patientDto.Weight,
+            patientDto.Email,
+            patientDto.Address1,
+            patientDto.Address2,
+            patientDto.Country,
+            patientDto.State,
+            patientDto.FamilyStatus,
+            patientDto.Children
+
+            );
     }
 }

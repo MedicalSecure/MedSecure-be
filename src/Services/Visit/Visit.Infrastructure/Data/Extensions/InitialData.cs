@@ -19,17 +19,31 @@ internal class InitialData
             try
             {
                 {
+                    //creer des instance patient
+                    var patient = Patient.Create(
+                       id: PatientId.Of(new Guid(patientId)),
+                       firstName: "Joury",
+                       lastName: "Jamel",
+                       dateOfbirth: new DateTime(2002, 02, 22),
+                       cin: 12345, // Your desired values for CIN and CNAM
+                       cnam: 67890,
+                       gender: Gender.Female,
+                       height: 170, // Sample height and weight
+                       weight: 60,
+                       email: "joury@example.com",
+                       address1: "Address Line 1",
+                       address2: "Address Line 2",
+                       country: Country.US, // Sample country
+                       state: "Sample State",
+                       familyStatus: FamilyStatus.MARRIED, // Sample family status
+                       children: Children.None // Sample children status
+                   );
                     // Créer des instances de visite
                     var visit = Domain.Models.Visit.CreateVisit(
                           id: VisitId.Of(Guid.NewGuid()),
                           startDate: DateTime.Now,
                           endDate: DateTime.Now.AddHours(1),
-                          patient: Patient.Create(
-                          id: PatientId.Of(new Guid(patientId)),
-                          firstName: "Joury",
-                          lastName: "Jamel",
-                          dateOfBirth: new DateTime(2002, 02, 22),
-                          gender: Gender.Female),
+                          patient: patient,
                           doctorId: DoctorId.Of(new Guid(doctorId)),
                           title: "Visite de suivi",
                           typeVisit: TypeVisit.FollowUp,
