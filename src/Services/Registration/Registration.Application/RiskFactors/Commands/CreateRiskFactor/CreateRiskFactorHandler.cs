@@ -38,8 +38,7 @@ namespace Registration.Application.RiskFactors.Commands.CreateRiskFactor
                 description:riskFactorDto.description,
                 isSelected:riskFactorDto.isSelected,
                 type:riskFactorDto.type,
-                icon:riskFactorDto.icon,
-                subRiskFactor: riskFactorDto.subRiskFactor
+                icon:riskFactorDto.icon
                 );
 
             return newRiskFactor;

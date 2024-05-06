@@ -9,7 +9,7 @@ namespace Registration.Application.Extensions
                 Id: h.Id.Value,
                 date: h.Date,
                 status: h.Status,
-                patientId: h.AssociatedPatientId
+                registerId: h.RegisterId
             ));
         }
     }

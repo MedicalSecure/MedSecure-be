@@ -27,13 +27,7 @@ namespace Registration.Application.Extensions
                 state : p.Patient.State,
                 zipCode: p.Patient.ZipCode,
                 familyStatus : p.Patient.FamilyStatus,
-                children : p.Patient.Children
-                    ),
-                familyHistory:p.FamilyMedicalHistory,
-                personalHistory:p.PersonalMedicalHistory,
-                disease:p.Disease,
-                allergy:p.Allergy,
-                history:p.History,
+                children : p.Patient.Children),
                 test:p.Test
                 ));
         }

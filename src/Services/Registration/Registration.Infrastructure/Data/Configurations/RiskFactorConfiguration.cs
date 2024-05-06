@@ -25,19 +25,16 @@ namespace Registration.Infrastructure.Data.Configurations
 
             builder.HasOne<Register>()
                    .WithMany(d => d.Allergy)
-                   .HasForeignKey(w => w.RegisterId).IsRequired(); ;
+                   .HasForeignKey(w => w.RegisterId).IsRequired(); 
 
             builder.HasOne<Register>()
                    .WithMany(d => d.FamilyMedicalHistory)
-                   .HasForeignKey(w => w.RegisterId).IsRequired(); ;
+                   .HasForeignKey(w => w.RegisterId).IsRequired(); 
 
             builder.HasOne<Register>()
                    .WithMany(d => d.PersonalMedicalHistory)
-                   .HasForeignKey(w => w.RegisterId).IsRequired(); ;
+                   .HasForeignKey(w => w.RegisterId).IsRequired(); 
 
-            builder.HasOne<RiskFactor>()
-                   .WithMany(d => d.SubRiskfactory)
-                   .HasForeignKey(w => w.RiskFactorId).IsRequired(); ;
 
             builder.Property(wi => wi.Key)
                    .IsRequired();

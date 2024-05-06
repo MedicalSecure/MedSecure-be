@@ -6,7 +6,7 @@
     {
         public CreateRegisterValidatior()
         {
-            RuleFor(x => x.Register.personalHistory).NotEmpty();
+            //RuleFor(x => x.Register.personalHistory).NotEmpty();
         }
     }
 }

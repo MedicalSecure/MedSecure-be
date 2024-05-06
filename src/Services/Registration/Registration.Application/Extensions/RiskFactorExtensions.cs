@@ -17,8 +17,7 @@ namespace Registration.Application.Extensions
                 description: p.Description,
                 isSelected: p.IsSelected,
                 type: p.Type,
-                icon: p.Icon,
-                subRiskFactor:p.SubRiskfactory));
+                icon: p.Icon));
         }
     }
 }

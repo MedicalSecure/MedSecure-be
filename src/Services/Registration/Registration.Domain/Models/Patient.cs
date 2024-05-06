@@ -16,9 +16,8 @@ namespace Registration.Domain.Models
         public Gender Gender { get; set; } = default!;
         public int Height { get; set; } = default!;
         public int Weight { get; set; } = default!;
-        //2 checkbox de type boolean
-        public Boolean AddressIsRegisterations { get; set; } = default!;
-        public Boolean SaveForNextTime { get; set; } = default!;
+        public bool AddressIsRegisterations { get; set; } = default!;
+        public bool SaveForNextTime { get; set; } = default!;
         public string Email { get; set; } = default!;
         public string Address1 { get; set; } = default!;
         public string Address2 { get; set; } = default!;

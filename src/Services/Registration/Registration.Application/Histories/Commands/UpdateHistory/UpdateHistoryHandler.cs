@@ -27,7 +27,7 @@
             var newHistory = History.Create(
                 date: historyDto.date,
                 status: historyDto.status,
-                patientId: historyDto.patientId
+                registerId: historyDto.registerId
             );
 
             return newHistory;

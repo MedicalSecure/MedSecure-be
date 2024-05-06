@@ -10,6 +10,8 @@ namespace Registration.Infrastructure.Data
         public DbSet<History> Histories => Set<History>();
         public DbSet<RiskFactor> RiskFactors => Set<RiskFactor>();
 
+        public DbSet<SubRiskFactor> SubRiskFactors => Set<SubRiskFactor>();
+
         public DbSet<Register> Registers => Set<Register>();
 
         public DbSet<Patient> Patients => Set<Patient>();
@@ -17,13 +19,13 @@ namespace Registration.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            //base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new HistoryConfiguration());
-            modelBuilder.ApplyConfiguration(new PatientConfiguration());
-            modelBuilder.ApplyConfiguration(new RegisterConfiguration());
-            modelBuilder.ApplyConfiguration(new RiskFactorConfiguration());
-            modelBuilder.ApplyConfiguration(new TestConfiguration());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            base.OnModelCreating(modelBuilder);
+            //modelBuilder.ApplyConfiguration(new HistoryConfiguration());
+            //modelBuilder.ApplyConfiguration(new PatientConfiguration());
+            //modelBuilder.ApplyConfiguration(new RegisterConfiguration());
+            //modelBuilder.ApplyConfiguration(new RiskFactorConfiguration());
+            //modelBuilder.ApplyConfiguration(new TestConfiguration());
             
         }
     }

@@ -24,11 +24,7 @@ namespace Registration.Infrastructure.Data.Extensions
                         Register.Create(
                             id: RegisterId.Of(Guid.NewGuid()),
                             patient: patients.First(),
-                            familyHistory: new List<RiskFactor> { familyHistoryRisk },
-                            personalHistory: new List<RiskFactor> { smokingRisk, obesityRisk },
-                            disease: new List<RiskFactor>(),
-                            allergy: new List<RiskFactor>(),
-                            history:new List<History>(),
+                          
                             test:new Test()
                         )
                     };
@@ -82,7 +78,7 @@ namespace Registration.Infrastructure.Data.Extensions
 
         private static RiskFactor CreateRiskFactorForSmoking()
         {
-            return RiskFactor.Create(
+            var cc = RiskFactor.Create(
                 id: RiskFactorId.Of(Guid.NewGuid()),
                 key: "Smoking",
                 value: "Yes",
@@ -90,33 +86,37 @@ namespace Registration.Infrastructure.Data.Extensions
                 description: "Smoking Description",
                 isSelected: true,
                 type: "Smoking Type",
-                icon: "Smoking Icon",
-                subRiskFactor: new List<RiskFactor>
-                {
-                    RiskFactor.Create(
-                        id: RiskFactorId.Of(Guid.NewGuid()),
-                        key: "Lung Cancer",
-                        value: "Increased Risk",
-                        code: "LC001",
-                        description: "Lung Cancer Description",
-                        isSelected: false,
-                        type: "Lung Cancer Type",
-                        icon: "Lung Cancer Icon",
-                        subRiskFactor: new List<RiskFactor>()
-                    ),
-                    RiskFactor.Create(
-                        id: RiskFactorId.Of(Guid.NewGuid()),
-                        key: "Heart Disease",
-                        value: "Increased Risk",
-                        code: "HD001",
-                        description: "Heart Disease Description",
-                        isSelected: false,
-                        type: "Heart Disease Type",
-                        icon: "Heart Disease Icon",
-                        subRiskFactor: new List<RiskFactor>()
-                    )
-                }
-            );
+                icon: "Smoking Icon");
+
+            //cc.SubRiskfactor.cre = RiskFactor.Create()
+            //    subRiskFactor: new List<RiskFactor>
+            //    {
+            //        RiskFactor.Create(
+            //            id: RiskFactorId.Of(Guid.NewGuid()),
+            //            key: "Lung Cancer",
+            //            value: "Increased Risk",
+            //            code: "LC001",
+            //            description: "Lung Cancer Description",
+            //            isSelected: false,
+            //            type: "Lung Cancer Type",
+            //            icon: "Lung Cancer Icon"
+
+            //        ),
+            //        RiskFactor.Create(
+            //            id: RiskFactorId.Of(Guid.NewGuid()),
+            //            key: "Heart Disease",
+            //            value: "Increased Risk",
+            //            code: "HD001",
+            //            description: "Heart Disease Description",
+            //            isSelected: false,
+            //            type: "Heart Disease Type",
+            //            icon: "Heart Disease Icon"
+
+            //        )
+            //    }
+
+                return cc;
+            
         }
 
         private static RiskFactor CreateRiskFactorForFamilyHistory()
@@ -129,8 +129,8 @@ namespace Registration.Infrastructure.Data.Extensions
                 description: "Family History of Heart Disease Description",
                 isSelected: true,
                 type: "Family History Type",
-                icon: "Family History Icon",
-                subRiskFactor: new List<RiskFactor>()
+                icon: "Family History Icon"
+                
             );
         }
 
@@ -144,21 +144,21 @@ namespace Registration.Infrastructure.Data.Extensions
                 description: "Obesity Description",
                 isSelected: true,
                 type: "Obesity Type",
-                icon: "Obesity Icon",
-                subRiskFactor: new List<RiskFactor>
-                {
-                    RiskFactor.Create(
-                        id: RiskFactorId.Of(Guid.NewGuid()),
-                        key: "Type 2 Diabetes",
-                        value: "Increased Risk",
-                        code: "T2D001",
-                        description: "Type 2 Diabetes Description",
-                        isSelected: false,
-                        type: "Type 2 Diabetes Type",
-                        icon: "Type 2 Diabetes Icon",
-                        subRiskFactor: new List<RiskFactor>()
-                    )
-                }
+                icon: "Obesity Icon"
+                //subRiskFactor: new List<RiskFactor>
+                //{
+                //    RiskFactor.Create(
+                //        id: RiskFactorId.Of(Guid.NewGuid()),
+                //        key: "Type 2 Diabetes",
+                //        value: "Increased Risk",
+                //        code: "T2D001",
+                //        description: "Type 2 Diabetes Description",
+                //        isSelected: false,
+                //        type: "Type 2 Diabetes Type",
+                //        icon: "Type 2 Diabetes Icon",
+                //        subRiskFactor: new List<RiskFactor>()
+                //    )
+                //}
             );
         }
     }

@@ -22,7 +22,7 @@ namespace Registration.Application.Histories.Queries.GetHistories
             var totalCount = await dbContext.Registers.LongCountAsync(cancellationToken);
 
             var histories = await dbContext.Histories
-                           .OrderBy(o => o.AssociatedPatientId)
+                           .OrderBy(o => o.RegisterId)
                            .Skip(pageSize * pageIndex)
                            .Take(pageSize)
                            .ToListAsync(cancellationToken);
