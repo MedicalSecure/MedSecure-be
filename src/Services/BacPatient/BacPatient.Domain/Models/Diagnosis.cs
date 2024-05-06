@@ -1,5 +1,4 @@
-﻿using BacPatient.Domain.Models.Prescription;
-
+﻿
 namespace BacPatient.Domain.Models
 {
     public class Diagnosis : Aggregate<Guid>
@@ -9,7 +8,7 @@ namespace BacPatient.Domain.Models
         public string ShortDescription { get; private set; }
         public string LongDescription { get; private set; }
 
-        public List<PrescriptionEntity>? Prescriptions;
+        public List<Prescription>? Prescriptions;
 
         public Diagnosis()
         {

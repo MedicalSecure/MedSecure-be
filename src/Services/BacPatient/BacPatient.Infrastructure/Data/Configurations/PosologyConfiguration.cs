@@ -1,5 +1,4 @@
-﻿using BacPatient.Domain.Models.Prescription;
-namespace BacPatient.Infrastructure.Database.Configurations
+﻿namespace BacPatient.Infrastructure.Database.Configurations
 {
     internal class PosologyConfiguration : IEntityTypeConfiguration<Posology>
     {

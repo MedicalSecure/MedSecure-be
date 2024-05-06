@@ -46,7 +46,7 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<Guid>("NurseId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("RegisterId")
+                    b.Property<Guid>("PrescriptionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Served")
@@ -59,16 +59,51 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<int>("ToServe")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UnitCareId")
+                    b.HasKey("Id");
+
+                    b.HasIndex("PrescriptionId");
+
+                    b.ToTable("BacPatients");
+                });
+
+            modelBuilder.Entity("BacPatient.Domain.Models.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<Guid>("PosologyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RegisterId");
+                    b.HasIndex("PosologyId");
 
-                    b.HasIndex("UnitCareId");
-
-                    b.ToTable("BacPatients");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Diagnosis", b =>
@@ -116,7 +151,7 @@ namespace BacPatient.Infrastructure.Migrations
                     b.ToTable("Diagnosis");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Doctor", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.Dispense", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -126,37 +161,31 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Hour")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid>("PosologyId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Speciality")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int?>("QuantityAE")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QuantityBE")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Doctors");
+                    b.HasIndex("PosologyId");
+
+                    b.ToTable("Dispenses");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Equipment", b =>
@@ -312,84 +341,7 @@ namespace BacPatient.Infrastructure.Migrations
                     b.ToTable("Personnel");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Comment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<Guid>("PosologyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PosologyId");
-
-                    b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Dispense", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Hour")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("PosologyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("QuantityAE")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("QuantityBE")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PosologyId");
-
-                    b.ToTable("Dispenses");
-                });
-
-            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Posology", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.Posology", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -433,7 +385,7 @@ namespace BacPatient.Infrastructure.Migrations
                     b.ToTable("Posology");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.PrescriptionEntity", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.Prescription", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -460,8 +412,6 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
 
                     b.HasIndex("RegisterId");
 
@@ -592,7 +542,7 @@ namespace BacPatient.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Patient");
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Register", b =>
@@ -615,7 +565,8 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<Guid>("PatientId")
+                    b.Property<Guid?>("PatientId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -623,7 +574,7 @@ namespace BacPatient.Infrastructure.Migrations
                     b.HasIndex("PatientId")
                         .IsUnique();
 
-                    b.ToTable("Register");
+                    b.ToTable("Registers");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.RiskFactor", b =>
@@ -765,7 +716,7 @@ namespace BacPatient.Infrastructure.Migrations
 
                     b.HasIndex("UnitCareId");
 
-                    b.ToTable("Room");
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Symptom", b =>
@@ -847,7 +798,7 @@ namespace BacPatient.Infrastructure.Migrations
                     b.ToTable("UnitCares");
                 });
 
-            modelBuilder.Entity("DiagnosisPrescriptionEntity", b =>
+            modelBuilder.Entity("DiagnosisPrescription", b =>
                 {
                     b.Property<Guid>("DiagnosisId")
                         .HasColumnType("uniqueidentifier");
@@ -859,10 +810,10 @@ namespace BacPatient.Infrastructure.Migrations
 
                     b.HasIndex("PrescriptionsId");
 
-                    b.ToTable("DiagnosisPrescriptionEntity");
+                    b.ToTable("DiagnosisPrescription");
                 });
 
-            modelBuilder.Entity("PrescriptionEntitySymptom", b =>
+            modelBuilder.Entity("PrescriptionSymptom", b =>
                 {
                     b.Property<Guid>("PrescriptionsId")
                         .HasColumnType("uniqueidentifier");
@@ -874,7 +825,7 @@ namespace BacPatient.Infrastructure.Migrations
 
                     b.HasIndex("SymptomsId");
 
-                    b.ToTable("PrescriptionEntitySymptom");
+                    b.ToTable("PrescriptionSymptom");
                 });
 
             modelBuilder.Entity("RegisterRiskFactor", b =>
@@ -894,21 +845,35 @@ namespace BacPatient.Infrastructure.Migrations
 
             modelBuilder.Entity("BacPatient.Domain.Models.BacPatient", b =>
                 {
-                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.Register", "Register")
+                    b.HasOne("BacPatient.Domain.Models.Prescription", "Prescription")
                         .WithMany()
-                        .HasForeignKey("RegisterId")
+                        .HasForeignKey("PrescriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BacPatient.Domain.Models.UnitCare", "UnitCare")
-                        .WithMany()
-                        .HasForeignKey("UnitCareId")
+                    b.Navigation("Prescription");
+                });
+
+            modelBuilder.Entity("BacPatient.Domain.Models.Comment", b =>
+                {
+                    b.HasOne("BacPatient.Domain.Models.Posology", "posology")
+                        .WithMany("Comments")
+                        .HasForeignKey("PosologyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Register");
+                    b.Navigation("posology");
+                });
 
-                    b.Navigation("UnitCare");
+            modelBuilder.Entity("BacPatient.Domain.Models.Dispense", b =>
+                {
+                    b.HasOne("BacPatient.Domain.Models.Posology", "posology")
+                        .WithMany("Dispenses")
+                        .HasForeignKey("PosologyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("posology");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Equipment", b =>
@@ -929,29 +894,7 @@ namespace BacPatient.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Comment", b =>
-                {
-                    b.HasOne("BacPatient.Domain.Models.Prescription.Posology", "posology")
-                        .WithMany("Comments")
-                        .HasForeignKey("PosologyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("posology");
-                });
-
-            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Dispense", b =>
-                {
-                    b.HasOne("BacPatient.Domain.Models.Prescription.Posology", "posology")
-                        .WithMany("Dispenses")
-                        .HasForeignKey("PosologyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("posology");
-                });
-
-            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Posology", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.Posology", b =>
                 {
                     b.HasOne("BacPatient.Domain.Models.Medication", "Medication")
                         .WithMany()
@@ -959,7 +902,7 @@ namespace BacPatient.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BacPatient.Domain.Models.Prescription.PrescriptionEntity", "Prescription")
+                    b.HasOne("BacPatient.Domain.Models.Prescription", "Prescription")
                         .WithMany("Posology")
                         .HasForeignKey("PrescriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -970,21 +913,13 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Navigation("Prescription");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.PrescriptionEntity", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.Prescription", b =>
                 {
-                    b.HasOne("BacPatient.Domain.Models.Doctor", "Doctor")
-                        .WithMany("Prescriptions")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("BacPatient.Domain.Models.RegisterRoot.Register", "Register")
                         .WithMany("Prescriptions")
                         .HasForeignKey("RegisterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Doctor");
 
                     b.Navigation("Register");
                 });
@@ -1037,7 +972,7 @@ namespace BacPatient.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DiagnosisPrescriptionEntity", b =>
+            modelBuilder.Entity("DiagnosisPrescription", b =>
                 {
                     b.HasOne("BacPatient.Domain.Models.Diagnosis", null)
                         .WithMany()
@@ -1045,16 +980,16 @@ namespace BacPatient.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BacPatient.Domain.Models.Prescription.PrescriptionEntity", null)
+                    b.HasOne("BacPatient.Domain.Models.Prescription", null)
                         .WithMany()
                         .HasForeignKey("PrescriptionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PrescriptionEntitySymptom", b =>
+            modelBuilder.Entity("PrescriptionSymptom", b =>
                 {
-                    b.HasOne("BacPatient.Domain.Models.Prescription.PrescriptionEntity", null)
+                    b.HasOne("BacPatient.Domain.Models.Prescription", null)
                         .WithMany()
                         .HasForeignKey("PrescriptionsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1082,19 +1017,14 @@ namespace BacPatient.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Doctor", b =>
-                {
-                    b.Navigation("Prescriptions");
-                });
-
-            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.Posology", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.Posology", b =>
                 {
                     b.Navigation("Comments");
 
                     b.Navigation("Dispenses");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.Prescription.PrescriptionEntity", b =>
+            modelBuilder.Entity("BacPatient.Domain.Models.Prescription", b =>
                 {
                     b.Navigation("Posology");
                 });

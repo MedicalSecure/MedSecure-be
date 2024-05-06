@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BacPatient.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,25 +28,6 @@ namespace BacPatient.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Diagnosis", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Doctors",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Speciality = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Doctors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,7 +60,7 @@ namespace BacPatient.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Patient",
+                name: "Patients",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -110,7 +91,7 @@ namespace BacPatient.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Patient", x => x.Id);
+                    table.PrimaryKey("PK_Patients", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -181,7 +162,7 @@ namespace BacPatient.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Register",
+                name: "Registers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -193,11 +174,11 @@ namespace BacPatient.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Register", x => x.Id);
+                    table.PrimaryKey("PK_Registers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Register_Patient_PatientId",
+                        name: "FK_Registers_Patients_PatientId",
                         column: x => x.PatientId,
-                        principalTable: "Patient",
+                        principalTable: "Patients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -228,7 +209,7 @@ namespace BacPatient.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Room",
+                name: "Rooms",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -242,43 +223,9 @@ namespace BacPatient.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Room", x => x.Id);
+                    table.PrimaryKey("PK_Rooms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Room_UnitCares_UnitCareId",
-                        column: x => x.UnitCareId,
-                        principalTable: "UnitCares",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BacPatients",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RegisterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UnitCareId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Bed = table.Column<int>(type: "int", nullable: false),
-                    NurseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Served = table.Column<int>(type: "int", nullable: false),
-                    ToServe = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BacPatients", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BacPatients_Register_RegisterId",
-                        column: x => x.RegisterId,
-                        principalTable: "Register",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BacPatients_UnitCares_UnitCareId",
+                        name: "FK_Rooms_UnitCares_UnitCareId",
                         column: x => x.UnitCareId,
                         principalTable: "UnitCares",
                         principalColumn: "Id",
@@ -302,9 +249,9 @@ namespace BacPatient.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_History", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_History_Register_RegisterId",
+                        name: "FK_History_Registers_RegisterId",
                         column: x => x.RegisterId,
-                        principalTable: "Register",
+                        principalTable: "Registers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -325,15 +272,9 @@ namespace BacPatient.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Prescriptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Prescriptions_Doctors_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "Doctors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Prescriptions_Register_RegisterId",
+                        name: "FK_Prescriptions_Registers_RegisterId",
                         column: x => x.RegisterId,
-                        principalTable: "Register",
+                        principalTable: "Registers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -349,9 +290,9 @@ namespace BacPatient.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_RegisterRiskFactor", x => new { x.RegisterId, x.RiskFactorId });
                     table.ForeignKey(
-                        name: "FK_RegisterRiskFactor_Register_RegisterId",
+                        name: "FK_RegisterRiskFactor_Registers_RegisterId",
                         column: x => x.RegisterId,
-                        principalTable: "Register",
+                        principalTable: "Registers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -381,9 +322,9 @@ namespace BacPatient.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Test", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Test_Register_RegisterId",
+                        name: "FK_Test_Registers_RegisterId",
                         column: x => x.RegisterId,
-                        principalTable: "Register",
+                        principalTable: "Registers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -405,15 +346,42 @@ namespace BacPatient.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Equipment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Equipment_Room_RoomId",
+                        name: "FK_Equipment_Rooms_RoomId",
                         column: x => x.RoomId,
-                        principalTable: "Room",
+                        principalTable: "Rooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DiagnosisPrescriptionEntity",
+                name: "BacPatients",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PrescriptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Bed = table.Column<int>(type: "int", nullable: false),
+                    NurseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Served = table.Column<int>(type: "int", nullable: false),
+                    ToServe = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BacPatients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BacPatients_Prescriptions_PrescriptionId",
+                        column: x => x.PrescriptionId,
+                        principalTable: "Prescriptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DiagnosisPrescription",
                 columns: table => new
                 {
                     DiagnosisId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -421,15 +389,15 @@ namespace BacPatient.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DiagnosisPrescriptionEntity", x => new { x.DiagnosisId, x.PrescriptionsId });
+                    table.PrimaryKey("PK_DiagnosisPrescription", x => new { x.DiagnosisId, x.PrescriptionsId });
                     table.ForeignKey(
-                        name: "FK_DiagnosisPrescriptionEntity_Diagnosis_DiagnosisId",
+                        name: "FK_DiagnosisPrescription_Diagnosis_DiagnosisId",
                         column: x => x.DiagnosisId,
                         principalTable: "Diagnosis",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DiagnosisPrescriptionEntity_Prescriptions_PrescriptionsId",
+                        name: "FK_DiagnosisPrescription_Prescriptions_PrescriptionsId",
                         column: x => x.PrescriptionsId,
                         principalTable: "Prescriptions",
                         principalColumn: "Id",
@@ -469,7 +437,7 @@ namespace BacPatient.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PrescriptionEntitySymptom",
+                name: "PrescriptionSymptom",
                 columns: table => new
                 {
                     PrescriptionsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -477,15 +445,15 @@ namespace BacPatient.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrescriptionEntitySymptom", x => new { x.PrescriptionsId, x.SymptomsId });
+                    table.PrimaryKey("PK_PrescriptionSymptom", x => new { x.PrescriptionsId, x.SymptomsId });
                     table.ForeignKey(
-                        name: "FK_PrescriptionEntitySymptom_Prescriptions_PrescriptionsId",
+                        name: "FK_PrescriptionSymptom_Prescriptions_PrescriptionsId",
                         column: x => x.PrescriptionsId,
                         principalTable: "Prescriptions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PrescriptionEntitySymptom_Symptoms_SymptomsId",
+                        name: "FK_PrescriptionSymptom_Symptoms_SymptomsId",
                         column: x => x.SymptomsId,
                         principalTable: "Symptoms",
                         principalColumn: "Id",
@@ -542,14 +510,9 @@ namespace BacPatient.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BacPatients_RegisterId",
+                name: "IX_BacPatients_PrescriptionId",
                 table: "BacPatients",
-                column: "RegisterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BacPatients_UnitCareId",
-                table: "BacPatients",
-                column: "UnitCareId");
+                column: "PrescriptionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PosologyId",
@@ -557,8 +520,8 @@ namespace BacPatient.Infrastructure.Migrations
                 column: "PosologyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiagnosisPrescriptionEntity_PrescriptionsId",
-                table: "DiagnosisPrescriptionEntity",
+                name: "IX_DiagnosisPrescription_PrescriptionsId",
+                table: "DiagnosisPrescription",
                 column: "PrescriptionsId");
 
             migrationBuilder.CreateIndex(
@@ -592,25 +555,14 @@ namespace BacPatient.Infrastructure.Migrations
                 column: "PrescriptionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrescriptionEntitySymptom_SymptomsId",
-                table: "PrescriptionEntitySymptom",
-                column: "SymptomsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Prescriptions_DoctorId",
-                table: "Prescriptions",
-                column: "DoctorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Prescriptions_RegisterId",
                 table: "Prescriptions",
                 column: "RegisterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Register_PatientId",
-                table: "Register",
-                column: "PatientId",
-                unique: true);
+                name: "IX_PrescriptionSymptom_SymptomsId",
+                table: "PrescriptionSymptom",
+                column: "SymptomsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RegisterRiskFactor_RiskFactorId",
@@ -618,13 +570,19 @@ namespace BacPatient.Infrastructure.Migrations
                 column: "RiskFactorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Registers_PatientId",
+                table: "Registers",
+                column: "PatientId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RiskFactor_RiskFactorParentId",
                 table: "RiskFactor",
                 column: "RiskFactorParentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Room_UnitCareId",
-                table: "Room",
+                name: "IX_Rooms_UnitCareId",
+                table: "Rooms",
                 column: "UnitCareId");
 
             migrationBuilder.CreateIndex(
@@ -643,7 +601,7 @@ namespace BacPatient.Infrastructure.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "DiagnosisPrescriptionEntity");
+                name: "DiagnosisPrescription");
 
             migrationBuilder.DropTable(
                 name: "Dispenses");
@@ -658,7 +616,7 @@ namespace BacPatient.Infrastructure.Migrations
                 name: "Personnel");
 
             migrationBuilder.DropTable(
-                name: "PrescriptionEntitySymptom");
+                name: "PrescriptionSymptom");
 
             migrationBuilder.DropTable(
                 name: "RegisterRiskFactor");
@@ -673,7 +631,7 @@ namespace BacPatient.Infrastructure.Migrations
                 name: "Posology");
 
             migrationBuilder.DropTable(
-                name: "Room");
+                name: "Rooms");
 
             migrationBuilder.DropTable(
                 name: "Symptoms");
@@ -691,13 +649,10 @@ namespace BacPatient.Infrastructure.Migrations
                 name: "UnitCares");
 
             migrationBuilder.DropTable(
-                name: "Doctors");
+                name: "Registers");
 
             migrationBuilder.DropTable(
-                name: "Register");
-
-            migrationBuilder.DropTable(
-                name: "Patient");
+                name: "Patients");
         }
     }
 }

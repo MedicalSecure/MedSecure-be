@@ -34,5 +34,63 @@ namespace BacPatient.Application.Extensions
         {
             return patients.Select(d => d.ToPatientDto()).ToList();
         }
+        public static RiskFactorDto ToRiskFactorDto(this RiskFactor riskFactor)
+        {
+            return new RiskFactorDto
+            {
+                SubRiskFactor = riskFactor.SubRiskFactor.Select(rf => rf.ToRiskFactorDto()).ToList(),
+                RiskFactorParent = riskFactor.RiskFactorParent?.ToRiskFactorDto(),
+                RiskFactorParentId = riskFactor.RiskFactorParentId,
+                RiskFactorId = riskFactor.RiskFactorId,
+                Key = riskFactor.Key,
+                Value = riskFactor.Value,
+                Code = riskFactor.Code,
+                Description = riskFactor.Description,
+                IsSelected = riskFactor.IsSelected,
+                Type = riskFactor.Type,
+                Icon = riskFactor.Icon
+            };
+        }
+
+        public static List<RiskFactorDto> ToRiskFactorsDto(this IEnumerable<RiskFactor> riskFactors)
+        {
+            return riskFactors.Select(rf => rf.ToRiskFactorDto()).ToList();
+        }
+
+
+        public static HistoryDto ToHistoryDto(this History history)
+        {
+            return new HistoryDto
+            {
+                Date = history.Date,
+                Status = history.Status,
+                RegisterId = history.RegisterId
+            };
+        }
+
+       
+
+        public static TestDto ToTestDto(this Test test)
+        {
+            return new TestDto
+            {
+                Code = test.Code,
+                Description = test.Description,
+                Language = test.Language,
+                Type = test.Type,
+                RegisterId = test.RegisterId
+            };
+        }
+
+        public static List<HistoryDto> ToHistoriesDto(this IEnumerable<History> histories)
+        {
+            return histories.Select(history => history.ToHistoryDto()).ToList();
+        }
+
+        public static List<TestDto> ToTestsDto(this IEnumerable<Test> tests)
+        {
+            return tests.Select(test => test.ToTestDto()).ToList();
+        }
+
     }
 }

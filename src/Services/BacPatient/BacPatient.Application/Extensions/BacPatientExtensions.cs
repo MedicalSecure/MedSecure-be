@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using BacPatient.Application.Extensions.SimpleBacPatientExtension;
+using System.Linq;
 
 namespace BacPatient.Application.Extensions
 {
@@ -8,8 +9,7 @@ namespace BacPatient.Application.Extensions
         {
             return bacPatients.Select(d => new BacPatientDto(
                 Id : d.Id,
-                Register : d.Register.ToRegisterDto(),
-                UnitCare:d.UnitCare.ToUnitCareDto(),
+                Prescription: d.Prescription.ToSimplePrescriptionDto(),
                 Bed : d.Bed ,
                 NurseId : d.NurseId , 
                 Served : d.Served ,

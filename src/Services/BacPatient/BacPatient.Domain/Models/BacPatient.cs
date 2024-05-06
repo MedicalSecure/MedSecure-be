@@ -6,8 +6,7 @@ namespace BacPatient.Domain.Models
 {
     public class BacPatient : Aggregate<Guid>
     {
-        public Register Register { get; set; } = default!;
-        public UnitCare UnitCare { get; private set; } = default!;
+        public Prescription Prescription { get; set; } = default!;
         public int Bed { get; private set; } = default!;
         public Guid NurseId { get; private set; } = default!;
         public int Served { get; private set; } = default!;
@@ -17,7 +16,7 @@ namespace BacPatient.Domain.Models
 
     public static BacPatient Create(
             Guid Id,
-            Register Register,
+            Prescription Prescription  ,
           
             Guid NurseId ,
             int Bed,
@@ -29,7 +28,7 @@ namespace BacPatient.Domain.Models
             var bacpatient = new BacPatient()
             {
                 Id = Id,
-                Register = Register ,
+                 Prescription = Prescription ,
                         NurseId = NurseId , 
                         Bed = Bed,
                         Served = Served,

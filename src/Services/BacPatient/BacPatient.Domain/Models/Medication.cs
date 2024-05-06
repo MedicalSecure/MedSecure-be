@@ -20,6 +20,19 @@
         private Medication()
         { } // For EF
 
+        private Medication  ( Guid id ,string name , string forme , string description )
+        {
+            Id = id;
+            Name = name;
+            Form = forme;
+            Description = description;
+           
+        }
+        public static Medication Create(string name, string forme, string description)
+        {
+            Guid id = new Guid();
+            return new Medication(id, name, forme, description);
+        }
         public static Medication Create(Guid id, string name, string dosage, string form, string unit, string description, string code, DateTime expiredAt,
                                         int stock, int alertStock, int avrgStock, int minStock, int safetyStock, int reservedStock, decimal price)
         {

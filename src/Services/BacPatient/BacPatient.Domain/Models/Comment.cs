@@ -1,4 +1,4 @@
-﻿namespace BacPatient.Domain.Models.Prescription
+﻿namespace BacPatient.Domain.Models
 {
     public class Comment : Entity<Guid>
     {

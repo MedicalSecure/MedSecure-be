@@ -1,32 +1,28 @@
-﻿using BacPatient.Application.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+
+using BacPatient.Domain.Models.RegisterRoot;
 
 namespace BacPatient.Application.Extensions
 {
     public static class PrescriptionExtension
     {
-        public static IEnumerable<PrescriptionDto> ToPrescriptionsDto(this IEnumerable<PrescriptionEntity> prescriptions)
+        public static IEnumerable<PrescriptionDto> ToPrescriptionsDto(this IEnumerable<Prescription> prescriptions)
         {
             return prescriptions.Select(p => p.ToPrescriptionDto());
         }
-        public static IEnumerable<PrescriptionEntity> ToPrescriptionsEntities(this IEnumerable<PrescriptionDto> prescriptions)
+      /*  public static IEnumerable<Prescription> ToPrescriptionsEntities(this IEnumerable<PrescriptionDto> prescriptions)
         {
-            return prescriptions.Select(p => p.ToPrescriptionEntity());
+            return prescriptions.Select(p => p.ToPrescription());
         }
-
-        public static PrescriptionDto ToPrescriptionDto(this PrescriptionEntity pres)
+  */
+        public static PrescriptionDto ToPrescriptionDto(this Prescription pres)
         {
             var x = new PrescriptionDto(
                 Id: pres.Id,
                 RegisterId: pres.RegisterId,
-                Doctor: pres.Doctor?.ToDoctorDto(),
-                DoctorId: pres.DoctorId,
                 Symptoms: pres.Symptoms.ToSymptomsDto(),
                 Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
+                DoctorId: pres.DoctorId,
                 Posologies: pres.Posology.ToPosologiesDto(),
                 CreatedAt: pres.CreatedAt,
                 LastModified: pres.LastModified,
@@ -35,20 +31,7 @@ namespace BacPatient.Application.Extensions
             );
             return x;
         }
-        public static PrescriptionEntity ToPrescriptionEntity(this PrescriptionDto presDto)
-        {
-            var prescriptionEntity = new PrescriptionEntity(
-                prescriptionId : presDto.Id,
-                registerId : presDto.RegisterId,
-                doctorId : presDto.DoctorId,
-                createdAt : presDto.CreatedAt
-
-
-                );
-
-
-            return prescriptionEntity;
-        }
+   
 
 
         public static IEnumerable<DispensesDto> ToDispensesDto(this IEnumerable<Dispense> dispenses)

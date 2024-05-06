@@ -84,6 +84,21 @@ namespace BacPatient.Domain.Models.RegisterRoot
 
             return patient;
         }
+        private Patient()
+        {
+
+        }
+        private Patient (string firstName, string? lastName, DateTime? dateOfbirth)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            DateOfBirth = dateOfbirth;
+        }
+        public static Patient Create(string firstName, string? lastName, DateTime? dateOfbirth)
+        {
+            Guid id = Guid.NewGuid();
+           return new Patient(firstName , lastName , dateOfbirth);
+        }
 
         public void Update(string firstName, string lastName, DateTime dateOfbirth, int cin, int cnam, Gender gender, int height, int weight,
             string email, string address1, string address2, Country country, string state, FamilyStatus familyStatus, Children children)

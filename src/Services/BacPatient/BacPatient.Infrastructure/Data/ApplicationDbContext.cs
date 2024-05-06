@@ -1,5 +1,4 @@
 ﻿
-using BacPatient.Domain.Models.Prescription;
 
 namespace BacPatient.Infrastructure.Data;
 
@@ -12,7 +11,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Room> Rooms => Set<Room>();
     public DbSet<UnitCare> UnitCares => Set<UnitCare>();
 
-    public DbSet<PrescriptionEntity> Prescriptions => Set<PrescriptionEntity>();
+    public DbSet<Prescription> Prescriptions => Set<Prescription>();
 
     public DbSet<Symptom> Symptoms => Set<Symptom>();
 
@@ -24,10 +23,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Comment> Comments => Set<Comment>();
 
-    public DbSet<Room> Patients => Set<Room>();
+    public DbSet<Patient> Patients => Set<Patient>();
 
-    public DbSet<Doctor> Doctors => Set<Doctor>();
-
+    public DbSet<Register> Registers => Set<Register>();
     public DbSet<Medication> Medications => Set<Medication>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

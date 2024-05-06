@@ -24,5 +24,7 @@ global using Microsoft.FeatureManagement;
 global using System.Reflection;
 global using  BacPatient.Domain.Models.RegisterRoot;
 global using BacPatient.Application.DTOs;
-global using BacPatient.Domain.Models.Prescription;
+global using BacPatient.Application.Dtos.BacPatientSimpleDto;
+
+
 

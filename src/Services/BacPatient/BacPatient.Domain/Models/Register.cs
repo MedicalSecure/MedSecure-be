@@ -1,5 +1,4 @@
 ﻿using BacPatient.Domain.Events.RegisterEvents;
-using BacPatient.Domain.Models.Prescription;
 
 namespace BacPatient.Domain.Models.RegisterRoot
 {
@@ -8,7 +7,7 @@ namespace BacPatient.Domain.Models.RegisterRoot
         //rename register medical record
         public Patient Patient { get; private set; } = default!;
 
-        public Guid PatientId { get; private set; } = default!;
+        public Guid? PatientId { get; private set; } = default!;
 
         public List<RiskFactor>? FamilyMedicalHistory { get; private set; } = default!;
         public List<RiskFactor>? PersonalMedicalHistory { get; private set; } = default!;
@@ -17,10 +16,24 @@ namespace BacPatient.Domain.Models.RegisterRoot
         public List<History> History { get; private set; } = default!;
         public List<Test>? Test { get; private set; } = default!;
 
-        public List<PrescriptionEntity>? Prescriptions { get; private set; } = default!;
+        public List<Prescription>? Prescriptions { get; private set; } = default!;
 
+        public Register() 
+        {
+        }
 
-        public static Register Create(Guid id, Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<PrescriptionEntity>? prescriptions, List<Test>? test)
+        public Register(Guid id, Patient patient, List<Prescription>? prescriptions)
+        {
+            Id = id;
+            Patient = patient;
+            Prescriptions = prescriptions;
+        }
+        public static Register Create( Patient patient , List<Prescription>? prescriptions)
+        {
+            Guid id = new Guid();
+            return new Register(id, patient , prescriptions) ;
+        }
+        public static Register Create(Guid id, Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<Prescription>? prescriptions, List<Test>? test)
         {
             var register = new Register
             {
@@ -38,8 +51,8 @@ namespace BacPatient.Domain.Models.RegisterRoot
             register.AddDomainEvent(new RegisterCreatedEvent(register));
             return register;
         }
-
-        public void Update(Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<PrescriptionEntity>? prescriptions, List<Test>? test)
+      
+        public void Update(Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<Prescription>? prescriptions, List<Test>? test)
         {
             Patient = patient;
             PatientId = patient.Id;
@@ -53,5 +66,7 @@ namespace BacPatient.Domain.Models.RegisterRoot
 
             AddDomainEvent(new RegisterUpdatedEvent(this));
         }
+
+       
     }
 }

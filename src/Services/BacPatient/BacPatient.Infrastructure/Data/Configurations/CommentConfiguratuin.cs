@@ -1,5 +1,4 @@
 ﻿using BacPatient.Domain.Models;
-using BacPatient.Domain.Models.Prescription;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,22 +1,16 @@
-﻿using BacPatient.Domain.Models;
-using BacPatient.Domain.Models.Prescription;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace BacPatient.Infrastructure.Database.Configurations
 {
     //called from : ApplicationDbContext :
     //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    public class PrescriptionConfiguration : IEntityTypeConfiguration<PrescriptionEntity>
+    public class PrescriptionConfiguration : IEntityTypeConfiguration<Prescription>
     {
         public PrescriptionConfiguration()
         {
         }
 
-        public void Configure(EntityTypeBuilder<PrescriptionEntity> builder)
+        public void Configure(EntityTypeBuilder<Prescription> builder)
         {
             builder.HasKey(p => p.Id);
 
@@ -29,24 +23,11 @@ namespace BacPatient.Infrastructure.Database.Configurations
             builder.HasMany(Prescription => Prescription.Posology)
                 .WithOne(Posology => Posology.Prescription);
 
-            builder.HasOne(p => p.Doctor)
-                .WithMany()
-                .HasForeignKey(prescription => prescription.DoctorId).IsRequired();
-
-            builder.HasOne(prescription => prescription.Doctor)
-                .WithMany(doctor => doctor.Prescriptions)
-                .HasForeignKey(prescription => prescription.DoctorId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict); // Specify the desired delete behavior
-
             builder.Property(d => d.LastModifiedBy)
                 .HasMaxLength(128);
 
             builder.Property(d => d.CreatedBy)
                 .HasMaxLength(128);
-            // Ignore the circular reference
-            //builder.Navigation(p => p.Register).AutoInclude(false);
-            //builder.Navigation(p => p.Doctor).AutoInclude(false);
         }
     }
 }
