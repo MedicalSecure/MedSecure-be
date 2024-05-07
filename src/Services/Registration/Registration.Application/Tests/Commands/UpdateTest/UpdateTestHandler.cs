@@ -29,11 +29,8 @@
 
         private static void UpdateTest(Domain.Models.Test existingTest, TestDto newTestDto)
         {
-            // Update the properties of the existing test with the data from the new DTO
-            existingTest.Code = newTestDto.code;
-            existingTest.Description = newTestDto.description;
-            existingTest.Language = newTestDto.language;
-            existingTest.Type = newTestDto.testType;
+            // existingTest.Update( .. );
+            // to do
         }
     }
 }

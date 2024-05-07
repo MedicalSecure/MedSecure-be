@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Registration.Domain.ValueObjects
 {
-    public class SubRiskFactorId
+    public record SubRiskFactorId
     {
         public Guid Value { get; }
 

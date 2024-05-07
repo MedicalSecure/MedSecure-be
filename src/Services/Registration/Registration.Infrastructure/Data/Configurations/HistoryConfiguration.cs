@@ -4,22 +4,29 @@
     {
         public void Configure(EntityTypeBuilder<History> builder)
         {
-            //   builder.HasKey(h => h.Id);
-            builder.Ignore(h => h.Id);
+            builder.HasKey(p => p.Id);
 
+            // Configure primary key to use Value property of HistoryId
+            builder.Property(p => p.Id)
+                   .HasConversion(historyId => historyId.Value,
+                                  dbId => HistoryId.Of(dbId));
+
+            // Configure the Date property
             builder.Property(h => h.Date)
                    .IsRequired();
 
-            // Assuming Status is an enum
-            builder.Property(h => h.Status)
-                   .IsRequired()
-                   .HasConversion<int>();
+            // Configure Status property
+            builder.Property(t => t.Status).HasDefaultValue(Status.Resident)
+                   .HasConversion(
+                       v => v.ToString(), // Convert enum to string
+                       status => (Status)Enum.Parse(typeof(Status), status) // Convert string to enum
+                   );
 
-          
-            // Relationships
+            // Configure the relationship with Register
             builder.HasOne<Register>()
                    .WithMany(d => d.History)
-                   .HasForeignKey(w => w.RegisterId).IsRequired();
+                   .HasForeignKey(w => w.RegisterId)
+                   .IsRequired();
         }
     }
 }

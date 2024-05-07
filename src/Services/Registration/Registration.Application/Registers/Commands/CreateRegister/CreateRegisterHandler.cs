@@ -20,17 +20,17 @@
             var newRegister = Domain.Models.Register.Create(
                 id: RegisterId.Of(Guid.NewGuid()),
                   patient: Patient.Create(
-                    Id: PatientId.Of(Guid.NewGuid()),
+                    id: PatientId.Of(Guid.NewGuid()),
                     firstName: registerDto.patient.firstName,
                     lastName: registerDto.patient.lastName,
-                    dateOfbirth: registerDto.patient.dateOfBirth,
+                    dateOfBirth: registerDto.patient.dateOfBirth,
                     cin: registerDto.patient.cin,
                     cnam: registerDto.patient.cnam,
                     assurance: registerDto.patient.assurance,
                     gender: registerDto.patient.gender,
                     height: registerDto.patient.height,
                     weight: registerDto.patient.weight,
-                    addressIsRegisteraions: registerDto.patient.addressIsRegisteraions,
+                    addressIsRegisterations: registerDto.patient.addressIsRegisteraions,
                     saveForNextTime: registerDto.patient.saveForNextTime,
                     email: registerDto.patient.email,
                     address1: registerDto.patient.address1,
@@ -39,8 +39,7 @@
                     state: registerDto.patient.state,
                     zipCode: registerDto.patient.zipCode,
                     familyStatus: registerDto.patient.familyStatus,
-                    children: registerDto.patient.children),
-                test:registerDto.test
+                    children: registerDto.patient.children)
                 );
 
             return newRegister;

@@ -1,28 +1,41 @@
-﻿namespace Registration.Infrastructure.Data.Configurations
+﻿namespace Registration.Infrastructure.Data.Configurations;
+
+public class TestConfiguration : IEntityTypeConfiguration<Test>
 {
-    public class TestConfiguration : IEntityTypeConfiguration<Test>
+    public void Configure(EntityTypeBuilder<Test> builder)
     {
-        public void Configure(EntityTypeBuilder<Test> builder)
-        {
-            builder.HasKey(t => t.Id);
+        builder.HasKey(t => t.Id);
 
-            builder.Property(t => t.Code)
-                   .IsRequired()
-                   .HasMaxLength(100); // Adjust the maximum length as needed
+        // Configure primary key to use Value property of TestId
+        builder.Property(w => w.Id)
+               .HasConversion(testId => testId.Value,
+                              dbId => TestId.Of(dbId));
 
-            builder.Property(t => t.Description)
-                   .IsRequired()
-                   .HasMaxLength(255); // Adjust the maximum length as needed
+        builder.Property(t => t.Code)
+               .IsRequired()
+               .HasMaxLength(100);
 
-            // Assuming Language is an enum
-            builder.Property(t => t.Language)
-                   .IsRequired()
-                   .HasConversion<int>();
+        builder.Property(t => t.Description)
+               .IsRequired()
+               .HasMaxLength(255);
 
-            // Assuming TestType is an enum
-            builder.Property(t => t.Type)
-                   .IsRequired()
-                   .HasConversion<int>();
-        }
+        // Configure Language property
+        builder.Property(t => t.Language).HasDefaultValue(Language.English)
+                .HasConversion(
+                l => l.ToString(),  // Convert enum to string
+                language => (Language)Enum.Parse(typeof(Language), language));  // Convert string to enum
+
+        // Configure TestType property
+        builder.Property(t => t.Type).HasDefaultValue(TestType.Other)
+               .HasConversion(
+                   v => v.ToString(), // Convert enum to string
+                   testType => (TestType)Enum.Parse(typeof(TestType), testType) // Convert string to enum
+               );
+
+        // Configure many-to-one relationship with Register for Test
+        builder.HasOne<Register>()
+                  .WithMany(r => r.Tests)
+                  .HasForeignKey(rf => rf.RegisterId)
+                  .IsRequired();
     }
 }

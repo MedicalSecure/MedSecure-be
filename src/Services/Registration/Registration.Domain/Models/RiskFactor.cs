@@ -1,48 +1,95 @@
-﻿
-namespace Registration.Domain.Models
+﻿namespace Registration.Domain.Models;
+
+public class RiskFactor : Aggregate<RiskFactorId>
 {
-    public class RiskFactor : Aggregate<RiskFactorId>
+    // Properties
+    public string Key { get; private set; } = default!;
+    public string Value { get; private set; } = default!;
+    public string Code { get; private set; } = default!;
+    public string Description { get; private set; } = default!;
+    public bool IsSelected { get; private set; } = false;
+    public string Type { get; private set; } = default!;
+    public string Icon { get; private set; } = default!;
+    public IReadOnlyList<SubRiskFactor> SubRiskFactors => _subRiskFactors.AsReadOnly();
+
+    // Foreign key for Disease relationship
+    public RegisterId RegisterIdForDisease { get; private set; } = default!;
+
+    // Foreign key for Allergy relationship
+    public RegisterId RegisterIdForAllergy { get; private set; } = default!;
+
+    // Foreign key for FamilyMedicalHistory relationship
+    public RegisterId RegisterIdForFamilyMedicalHistory { get; private set; } = default!;
+
+    // Foreign key for PersonalMedicalHistory relationship
+    public RegisterId RegisterIdForPersonalMedicalHistory { get; private set; } = default!;
+
+    // Fields
+    private readonly List<SubRiskFactor> _subRiskFactors = new();
+
+    // Constructor (private to enforce creation through factory method)
+    private RiskFactor() { }
+
+    // Factory method
+    public static RiskFactor Create(
+        RiskFactorId id,
+        string key,
+        string value,
+        string code,
+        string description,
+        bool isSelected,
+        string type,
+        string icon)
     {
-        public string Key { get; set; } = default!;
-        public string Value { get; set; } = default!;
-        public string Code { get; set; } = default!;
-        public string Description { get; set; } = default!;
-        public Boolean IsSelected { get; set; } = false;
-        public string Type { get; set; } = default!;
-        public string Icon { get; set; } = default!;
+        if (string.IsNullOrWhiteSpace(key))
+            throw new ArgumentException("Key cannot be null or empty.", nameof(key));
 
-        private readonly List<SubRiskFactor> _subRiskfactor = new();
-        public IReadOnlyList<SubRiskFactor> SubRiskfactor => _subRiskfactor.AsReadOnly();
-
-        public RegisterId RegisterId { get; set; } = default!;
-
-
-        public static RiskFactor Create(RiskFactorId id,string key, string value,string code,string description,Boolean isSelected,string type,string icon)
+        var riskFactor = new RiskFactor
         {
-            var riskFactor = new RiskFactor
-            {
-                Key = key,
-                Value = value,
-                Code = code,
-                Description = description,
-                IsSelected = isSelected,
-                Type = type,
-                Icon = icon,
-            };
-            riskFactor.AddDomainEvent(new RiskFactorCreatedEvent(riskFactor));
-            return riskFactor;
-        }
-        public void Update(string key, string value, string description, string description1, Boolean isSelected, string type, string icon)
-        {
-            Key = key;
-            Value = value;
-            Description = description;
-            IsSelected = isSelected;
-            Type = type;
-            Icon = icon;
+            Id = id,
+            Key = key,
+            Value = value ?? string.Empty,
+            Code = code ?? string.Empty,
+            Description = description ?? string.Empty,
+            IsSelected = isSelected,
+            Type = type ?? string.Empty,
+            Icon = icon ?? string.Empty
+        };
 
-            AddDomainEvent(new RiskFactorUpdatedEvent(this));
-        }
+        riskFactor.AddDomainEvent(new RiskFactorCreatedEvent(riskFactor));
+        return riskFactor;
+    }
 
+    // Method to update the risk factor
+    public void Update(
+        string key,
+        string value,
+        string code,
+        string description,
+        bool isSelected,
+        string type,
+        string icon)
+    {
+        if (string.IsNullOrWhiteSpace(key))
+            throw new ArgumentException("Key cannot be null or empty.", nameof(key));
+
+        Key = key;
+        Value = value ?? string.Empty;
+        Code = code ?? string.Empty;
+        Description = description ?? string.Empty;
+        IsSelected = isSelected;
+        Type = type ?? string.Empty;
+        Icon = icon ?? string.Empty;
+
+        AddDomainEvent(new RiskFactorUpdatedEvent(this));
+    }
+
+    // Method to add sub risk factors
+    public void AddSubRiskFactor(SubRiskFactor subRiskFactor)
+    {
+        if (subRiskFactor == null)
+            throw new ArgumentNullException(nameof(subRiskFactor));
+
+        _subRiskFactors.Add(subRiskFactor);
     }
 }

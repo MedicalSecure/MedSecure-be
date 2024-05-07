@@ -1,7 +1,7 @@
 ﻿
 namespace Registration.Domain.ValueObjects
 {
-    public class HistoryId
+    public record HistoryId
     {
         public Guid Value { get; }
 

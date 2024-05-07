@@ -1,71 +1,87 @@
-﻿
-namespace Registration.Domain.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Registration.Domain.Models;
+
+public class Register : Aggregate<RegisterId>
 {
-    public class Register : Aggregate<RegisterId>
+    // Properties
+    public Patient Patient { get; private set; } = default!;
+    public PatientId PatientId { get; private set; } = default!;
+
+    public IReadOnlyList<Test> Tests => _tests.AsReadOnly();
+    public IReadOnlyList<RiskFactor> FamilyMedicalHistory => _familyMedicalHistory.AsReadOnly();
+    public IReadOnlyList<RiskFactor> PersonalMedicalHistory => _personalMedicalHistory.AsReadOnly();
+    public IReadOnlyList<RiskFactor> Disease => _disease.AsReadOnly();
+    public IReadOnlyList<RiskFactor> Allergy => _allergy.AsReadOnly();
+    public IReadOnlyList<History> History => _history.AsReadOnly();
+
+    // Fields
+    private readonly List<Test> _tests = new();
+    private readonly List<RiskFactor> _familyMedicalHistory = new();
+    private readonly List<RiskFactor> _personalMedicalHistory = new();
+    private readonly List<RiskFactor> _disease = new();
+    private readonly List<RiskFactor> _allergy = new();
+    private readonly List<History> _history = new();
+
+    // Constructor
+    private Register() { } // Ensure creation through factory method
+
+    // Factory method
+    public static Register Create(RegisterId id, Patient patient)
     {
-        //rename register medical record
-        public Patient Patient { get; set; } = default!;
-
-        private readonly List<RiskFactor> _familyMedicalHistory = new();
-        public IReadOnlyList<RiskFactor> FamilyMedicalHistory => _familyMedicalHistory.AsReadOnly();
+        if (patient == null)
+            throw new ArgumentNullException(nameof(patient));
         
-        private readonly List<RiskFactor> _personalMedicalHistory = new();
-        public IReadOnlyList<RiskFactor> PersonalMedicalHistory => _personalMedicalHistory.AsReadOnly();
-        private readonly List<RiskFactor> _disease = new();
-        public IReadOnlyList<RiskFactor> Disease => _disease.AsReadOnly();
-
-        private readonly List<RiskFactor> _allergy= new();
-        public IReadOnlyList<RiskFactor> Allergy => _allergy.AsReadOnly();
-
-        private readonly List<History> _history = new();
-        public IReadOnlyList<History> History => _history.AsReadOnly();
-        
-        public Test Test { get; set; } = default!;
-
-        public static Register Create(RegisterId id,Patient patient,Test test)
+        var register = new Register
         {
-            var register = new Register
-            {               
-                Patient = patient,
-                Test = test
-            };
-            register.AddDomainEvent(new RegisterCreatedEvent(register));
-            return register;
-        }
-        public void AddFMH(RiskFactor fmh)
-        {
-            if (fmh == null)
-                throw new ArgumentNullException(nameof(fmh));
+            Id = id,
+            Patient = patient
+        };
+        register.AddDomainEvent(new RegisterCreatedEvent(register));
+        return register;
+    }
 
-            _familyMedicalHistory.Add(fmh);
-        }  public void AddPMH(RiskFactor pmh)
-        {
-            if (pmh == null)
-                throw new ArgumentNullException(nameof(pmh));
+    // Methods to add medical history, disease, allergy
+    public void AddFamilyMedicalHistory(RiskFactor riskFactor)
+    {
+        if (riskFactor == null)
+            throw new ArgumentNullException(nameof(riskFactor));
 
-            _personalMedicalHistory.Add(pmh);
-        }  
-        public void AddDisease(RiskFactor d)
-        {
-            if (d == null)
-                throw new ArgumentNullException(nameof(d));
+        _familyMedicalHistory.Add(riskFactor);
+    }
 
-            _disease.Add(d);
-        } 
-        public void AddAllergy(RiskFactor A)
-        {
-            if (A == null)
-                throw new ArgumentNullException(nameof(A));
+    public void AddPersonalMedicalHistory(RiskFactor riskFactor)
+    {
+        if (riskFactor == null)
+            throw new ArgumentNullException(nameof(riskFactor));
 
-            _allergy.Add(A);
-        }
-        public void Update(Patient patient, Test test)
-        {
-            
-            Patient = patient;
-            Test = test;
+        _personalMedicalHistory.Add(riskFactor);
+    }
 
-            AddDomainEvent(new RegisterUpdatedEvent(this));
-        }
+    public void AddDisease(RiskFactor riskFactor)
+    {
+        if (riskFactor == null)
+            throw new ArgumentNullException(nameof(riskFactor));
+
+        _disease.Add(riskFactor);
+    }
+
+    public void AddAllergy(RiskFactor riskFactor)
+    {
+        if (riskFactor == null)
+            throw new ArgumentNullException(nameof(riskFactor));
+
+        _allergy.Add(riskFactor);
+    }
+
+    // Method to update patient and test
+    public void Update(Patient patient)
+    {
+        if (patient == null)
+            throw new ArgumentNullException(nameof(patient));
+
+        Patient = patient;
+
+        AddDomainEvent(new RegisterUpdatedEvent(this));
     }
 }

@@ -1,25 +1,27 @@
-﻿namespace Registration.Infrastructure.Data.Configurations
+﻿namespace Registration.Infrastructure.Data.Configurations;
+
+public class SubRiskFactorConfiguration : IEntityTypeConfiguration<SubRiskFactor>
 {
-    public class SubRiskFactorConfiguration : IEntityTypeConfiguration<SubRiskFactor>
+    public void Configure(EntityTypeBuilder<SubRiskFactor> builder)
     {
-        public void Configure(EntityTypeBuilder<SubRiskFactor> builder)
-        {
+        builder.HasKey(sr => sr.Id);
 
-            builder.HasKey(r => r.Id);
+        // Configure primary key to use Value property of SubRiskFactorId
+        builder.Property(sr => sr.Id)
+               .HasConversion(subRiskFactorId => subRiskFactorId.Value,
+                              dbId => SubRiskFactorId.Of(dbId));
 
-            builder.Property(d => d.Id)
-                   .HasConversion(subRiskFactorId => subRiskFactorId.Value,
-                                  dbId => SubRiskFactorId.Of(dbId));
+        // Configure many-to-one relationship with RiskFactor
+        builder.HasOne<RiskFactor>()
+               .WithMany(r => r.SubRiskFactors) 
+               .HasForeignKey(sr => sr.RiskFactorId)
+               .IsRequired();
 
-            builder.HasOne<RiskFactor>()
-             .WithMany(d => d.SubRiskfactor)
-                   .HasForeignKey(w => w.RiskFactorId).IsRequired();
+        // Configure Key and Value properties to be required
+        builder.Property(sr => sr.Key)
+               .IsRequired();
 
-            builder.Property(wi => wi.Key)
-                   .IsRequired();
-
-            builder.Property(wi => wi.Value)
-                   .IsRequired();
-        }
+        builder.Property(sr => sr.Value)
+               .IsRequired();
     }
 }

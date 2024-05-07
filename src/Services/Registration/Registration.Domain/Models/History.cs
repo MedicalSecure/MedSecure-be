@@ -1,38 +1,37 @@
-﻿
-using Registration.Domain.ValueObjects;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 
-namespace Registration.Domain.Models
+namespace Registration.Domain.Models;
+
+public class History : Aggregate<HistoryId>
 {
-    public class History:Aggregate<HistoryId>
-    {
-        public DateTime Date { get; set; }
-        public Status Status { get; set; } = Enums.Status.Resident;
-        public RegisterId RegisterId { get; set; } = default!;
+    // Properties
+    public DateTime Date { get; private set; }
+    public Status Status { get; private set; } = Enums.Status.Resident;
+    public RegisterId RegisterId { get; private set; } = default!;
 
-        public static History Create(DateTime date,Status status, RegisterId registerId)
+    // Constructor (private to enforce creation through factory method)
+    private History() { }
+
+    // Factory method
+    public static History Create(DateTime date, Status status, RegisterId registerId)
     {
         var history = new History
         {
-
             Date = date,
-            Status= status,
-            RegisterId= registerId,
-          
+            Status = status,
+            RegisterId = registerId
         };
         history.AddDomainEvent(new HistoryCreatedEvent(history));
         return history;
     }
-    public void Update(DateTime date,Status status, RegisterId registerId)
-    {
 
+    // Method to update the history
+    public void Update(DateTime date, Status status, RegisterId registerId)
+    {
         Date = date;
         Status = status;
-            RegisterId = registerId;
+        RegisterId = registerId;
 
         AddDomainEvent(new HistoryUpdatedEvent(this));
     }
-  }
 }
-
-

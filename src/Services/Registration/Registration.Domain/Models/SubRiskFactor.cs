@@ -1,46 +1,76 @@
-﻿
-namespace Registration.Domain.Models
+﻿namespace Registration.Domain.Models;
+
+public class SubRiskFactor : Aggregate<SubRiskFactorId>
 {
-    public class SubRiskFactor : Aggregate<SubRiskFactorId>
+    // Properties
+    public string Key { get; private set; } = default!;
+    public string Value { get; private set; } = default!;
+    public string Code { get; private set; } = default!;
+    public string Description { get; private set; } = default!;
+    public bool IsSelected { get; private set; } = false;
+    public string Type { get; private set; } = default!;
+    public string Icon { get; private set; } = default!;
+    public RiskFactorId RiskFactorId { get; private set; } = default!;
+
+    // Constructor (private to enforce creation through factory method)
+    private SubRiskFactor() { }
+
+    // Factory method
+    public static SubRiskFactor Create(
+        SubRiskFactorId id,
+        string key,
+        string value,
+        string code,
+        string description,
+        bool isSelected,
+        string type,
+        string icon,
+        RiskFactorId riskFactorId)
     {
-        public string Key { get; set; } = default!;
-        public string Value { get; set; } = default!;
-        public string Code { get; set; } = default!;
-        public string Description { get; set; } = default!;
-        public bool IsSelected { get; set; } = false;
-        public string Type { get; set; } = default!;
-        public string Icon { get; set; } = default!;
+        if (string.IsNullOrWhiteSpace(key))
+            throw new ArgumentException("Key cannot be null or empty.", nameof(key));
 
-        public RiskFactorId RiskFactorId { get; set; } = default!;
-
-
-        public static RiskFactor Create(RiskFactorId id, string key, string value, string code, string description, Boolean isSelected, string type, string icon)
+        var subRiskFactor = new SubRiskFactor
         {
-            var riskFactor = new RiskFactor
-            {
-                Key = key,
-                Value = value,
-                Code = code,
-                Description = description,
-                IsSelected = isSelected,
-                Type = type,
-                Icon = icon
-            };
-            riskFactor.AddDomainEvent(new RiskFactorCreatedEvent(riskFactor));
-            return riskFactor;
-        }
-        public void Update(string key, string value, string description, string description1, Boolean isSelected, string type, string icon)
-        {
-            Key = key;
-            Value = value;
-            Description = description;
-            IsSelected = isSelected;
-            Type = type;
-            Icon = icon;
+            Id = id,
+            Key = key,
+            Value = value ?? string.Empty,
+            Code = code ?? string.Empty,
+            Description = description ?? string.Empty,
+            IsSelected = isSelected,
+            Type = type ?? string.Empty,
+            Icon = icon ?? string.Empty,
+            RiskFactorId = riskFactorId
+        };
 
+        // You can optionally add a domain event here if needed
+        // subRiskFactor.AddDomainEvent(new SubRiskFactorCreatedEvent(subRiskFactor));
 
-            //AddDomainEvent(new SubRiskFactorUpdatedEvent(this));
-        }
+        return subRiskFactor;
+    }
 
+    // Method to update the sub risk factor
+    public void Update(
+        string key,
+        string value,
+        string code,
+        string description,
+        bool isSelected,
+        string type,
+        string icon)
+    {
+        if (string.IsNullOrWhiteSpace(key))
+            throw new ArgumentException("Key cannot be null or empty.", nameof(key));
+
+        Key = key;
+        Value = value ?? string.Empty;
+        Code = code ?? string.Empty;
+        Description = description ?? string.Empty;
+        IsSelected = isSelected;
+        Type = type ?? string.Empty;
+        Icon = icon ?? string.Empty;
+
+        // You can optionally add a domain event here if needed
+        // AddDomainEvent(new SubRiskFactorUpdatedEvent(this));
     }
 }

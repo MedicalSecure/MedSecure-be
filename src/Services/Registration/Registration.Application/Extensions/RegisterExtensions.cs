@@ -27,8 +27,7 @@ namespace Registration.Application.Extensions
                 state : p.Patient.State,
                 zipCode: p.Patient.ZipCode,
                 familyStatus : p.Patient.FamilyStatus,
-                children : p.Patient.Children),
-                test:p.Test
+                children : p.Patient.Children)
                 ));
         }
     }

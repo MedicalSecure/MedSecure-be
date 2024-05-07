@@ -23,9 +23,7 @@ namespace Registration.Infrastructure.Data.Extensions
                     {
                         Register.Create(
                             id: RegisterId.Of(Guid.NewGuid()),
-                            patient: patients.First(),
-                          
-                            test:new Test()
+                            patient: patients.First()
                         )
                     };
                 }
@@ -46,17 +44,17 @@ namespace Registration.Infrastructure.Data.Extensions
                     return new List<Patient>
                     {
                         Patient.Create(
-                            Id: patientId,
+                            id: patientId,
                             firstName: "John",
                             lastName: "Doe",
-                            dateOfbirth: new DateTime(1990, 1, 1),
+                            dateOfBirth: new DateTime(1990, 1, 1),
                             cin: 123456,
                             cnam: 789012,
                             assurance: "",
                             gender: Gender.Male,
                             height: 180,
                             weight: 75,
-                            addressIsRegisteraions:true,
+                            addressIsRegisterations:true,
                             saveForNextTime:true,
                             email: "john.doe@example.com",
                             address1: "Address Line 1",

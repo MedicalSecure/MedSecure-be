@@ -1,4 +1,6 @@
-﻿namespace Registration.Application.Registers.Commands.UpdateRegister
+﻿using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
+namespace Registration.Application.Registers.Commands.UpdateRegister
 {
     public class UpdateRegisterHandler(IApplicationDbContext dbContext) : ICommandHandler<UpdateRegisterCommand, UpdateRegisterResult>
     {
@@ -25,22 +27,8 @@
 
         private static void UpdateRegister(Domain.Models.Register existingRegister, RegisterDto newRegisterDto)
         {
-            // Update the properties of the existing register with the data from the new DTO
-            existingRegister.Patient.FirstName = newRegisterDto.patient.firstName;
-            existingRegister.Patient.LastName = newRegisterDto.patient.lastName;
-            existingRegister.Patient.DateOfBirth = newRegisterDto.patient.dateOfBirth;
-            existingRegister.Patient.CIN = newRegisterDto.patient.cin;
-            existingRegister.Patient.CNAM = newRegisterDto.patient.cnam;
-            existingRegister.Patient.Gender = newRegisterDto.patient.gender;
-            existingRegister.Patient.Height = newRegisterDto.patient.height;
-            existingRegister.Patient.Weight = newRegisterDto.patient.weight;
-            existingRegister.Patient.Email = newRegisterDto.patient.email;
-            existingRegister.Patient.Address1 = newRegisterDto.patient.address1;
-            existingRegister.Patient.Address2 = newRegisterDto.patient.address2;
-            existingRegister.Patient.Country = newRegisterDto.patient.country;
-            existingRegister.Patient.State = newRegisterDto.patient.state;
-            existingRegister.Patient.FamilyStatus = newRegisterDto.patient.familyStatus;
-            existingRegister.Patient.Children = newRegisterDto.patient.children;
+           // existingRegister.Update( .. );
+            // To do
         }
     }
 
