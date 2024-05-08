@@ -38,7 +38,8 @@ namespace Registration.Application.RiskFactors.Commands.CreateRiskFactor
                 description:riskFactorDto.description,
                 isSelected:riskFactorDto.isSelected,
                 type:riskFactorDto.type,
-                icon:riskFactorDto.icon
+                icon:riskFactorDto.icon,
+                registerId: RegisterId.Of(Guid.NewGuid())
                 );
 
             return newRiskFactor;

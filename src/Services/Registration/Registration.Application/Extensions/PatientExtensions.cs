@@ -13,7 +13,7 @@ namespace Registration.Application.Extensions
                firstName: p.FirstName,
                 lastName: p.LastName,
                 dateOfBirth: p.DateOfBirth,
-                cin: p.CIN,
+                identity: p.Identity,
                 cnam: p.CNAM,
                 assurance:p.Assurance,
                 gender: p.Gender,

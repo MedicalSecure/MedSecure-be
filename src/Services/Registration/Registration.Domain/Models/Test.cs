@@ -15,7 +15,7 @@ public class Test : Aggregate<TestId>
     public Test() { }
 
     // Factory method
-    public static Test Create(string code, string description, Language language, TestType type)
+    public static Test Create(TestId id,string code, string description, Language language, TestType type, RegisterId registerId)
     {
         if (string.IsNullOrWhiteSpace(code))
             throw new ArgumentException("Code cannot be null or empty.", nameof(code));
@@ -24,25 +24,28 @@ public class Test : Aggregate<TestId>
 
         var test = new Test
         {
+            Id = id,
             Code = code,
             Description = description,
             Language = language,
             Type = type,
+            RegisterId = registerId
         };
         return test;
     }
 
     // Method to update the test
-    public void Update(string code, string description, Language language, TestType type)
+    public void Update(TestId id, string code, string description, Language language, TestType type,RegisterId registerId)
     {
         if (string.IsNullOrWhiteSpace(code))
             throw new ArgumentException("Code cannot be null or empty.", nameof(code));
         if (string.IsNullOrWhiteSpace(description))
             throw new ArgumentException("Description cannot be null or empty.", nameof(description));
-
+        Id = id;
         Code = code;
         Description = description;
         Language = language;
         Type = type;
+        RegisterId = registerId;
     }
 }

@@ -13,7 +13,8 @@ namespace Registration.Application.Extensions
                 code: t.Code,
                 description: t.Description,
                 language: t.Language,
-                testType: t.Type
+                testType: t.Type,
+                registerId:t.RegisterId
             ));
         }
     }

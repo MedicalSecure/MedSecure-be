@@ -24,7 +24,7 @@
                     firstName: registerDto.patient.firstName,
                     lastName: registerDto.patient.lastName,
                     dateOfBirth: registerDto.patient.dateOfBirth,
-                    cin: registerDto.patient.cin,
+                    identity: registerDto.patient.identity,
                     cnam: registerDto.patient.cnam,
                     assurance: registerDto.patient.assurance,
                     gender: registerDto.patient.gender,

@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Registration.Infrastructure.Data.Migrations
+namespace Registration.Infrastructure.Migrations.Data
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialM : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,9 +19,9 @@ namespace Registration.Infrastructure.Data.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CIN = table.Column<int>(type: "int", maxLength: 8, nullable: false),
+                    Identity = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     CNAM = table.Column<int>(type: "int", maxLength: 20, nullable: false),
-                    Assurance = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Assurance = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "Other"),
                     Height = table.Column<int>(type: "int", nullable: false),
                     Weight = table.Column<int>(type: "int", nullable: false),
@@ -121,25 +121,25 @@ namespace Registration.Infrastructure.Data.Migrations
                         column: x => x.RegisterIdForAllergy,
                         principalTable: "Registers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_RiskFactors_Registers_RegisterIdForDisease",
                         column: x => x.RegisterIdForDisease,
                         principalTable: "Registers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_RiskFactors_Registers_RegisterIdForFamilyMedicalHistory",
                         column: x => x.RegisterIdForFamilyMedicalHistory,
                         principalTable: "Registers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_RiskFactors_Registers_RegisterIdForPersonalMedicalHistory",
                         column: x => x.RegisterIdForPersonalMedicalHistory,
                         principalTable: "Registers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

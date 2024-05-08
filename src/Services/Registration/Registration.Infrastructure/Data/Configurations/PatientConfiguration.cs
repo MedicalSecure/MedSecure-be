@@ -25,14 +25,15 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
         builder.Property(p => p.DateOfBirth)
                .IsRequired();
 
-        builder.Property(p => p.CIN)
+        builder.Property(p => p.Identity)
                .HasMaxLength(8)
                .IsRequired();
 
         builder.Property(p => p.CNAM)
-               .HasMaxLength(20)
-               .IsRequired();
+               .HasMaxLength(20);
 
+        builder.Property(p => p.Assurance)
+               .HasMaxLength(20);
 
         builder.Property(p => p.Email)
                    .HasMaxLength(100) // Update to appropriate max length

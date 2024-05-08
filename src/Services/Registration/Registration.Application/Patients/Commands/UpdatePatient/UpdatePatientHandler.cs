@@ -38,7 +38,7 @@ namespace Registration.Application.Patients.Commands.UpdatePatient
                 patientDto.firstName,
                 patientDto.lastName,
                 patientDto.dateOfBirth,
-                patientDto.cin,
+                patientDto.identity,
                 patientDto.cnam,
                 patientDto.gender,
                 patientDto.height,

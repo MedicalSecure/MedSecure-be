@@ -15,25 +15,25 @@
             builder.HasOne<Register>()
                    .WithMany(r => r.Disease)
                    .HasForeignKey(rf => rf.RegisterIdForDisease)
-                   .IsRequired();
+                   .OnDelete(DeleteBehavior.Restrict); // Specify NO ACTION on delete
 
             // Configure many-to-one relationship with Register for Allergy
             builder.HasOne<Register>()
                    .WithMany(r => r.Allergy)
                    .HasForeignKey(rf => rf.RegisterIdForAllergy)
-                   .IsRequired();
+                   .OnDelete(DeleteBehavior.Restrict); // Specify NO ACTION on delete
 
             // Configure many-to-one relationship with Register for FamilyMedicalHistory
             builder.HasOne<Register>()
                    .WithMany(r => r.FamilyMedicalHistory)
                    .HasForeignKey(rf => rf.RegisterIdForFamilyMedicalHistory)
-                   .IsRequired();
+                   .OnDelete(DeleteBehavior.Restrict); // Specify NO ACTION on delete
 
             // Configure many-to-one relationship with Register for PersonalMedicalHistory
             builder.HasOne<Register>()
                    .WithMany(r => r.PersonalMedicalHistory)
                    .HasForeignKey(rf => rf.RegisterIdForPersonalMedicalHistory)
-                   .IsRequired();
+                   .OnDelete(DeleteBehavior.Restrict); // Specify NO ACTION on delete
 
             // Configure Key and Value properties to be required
             builder.Property(rf => rf.Key)

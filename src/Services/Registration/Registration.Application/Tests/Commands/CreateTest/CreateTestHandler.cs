@@ -27,10 +27,12 @@ namespace Registration.Application.Registers.Commands.CreateRegister
         private static Test CreateNewTest(TestDto testDto)
         {
             var newTest = Test.Create(
+                id:TestId.Of(Guid.NewGuid()),
                 code: testDto.code,
                 description: testDto.description,
                 language: testDto.language,
-                type: testDto.testType
+                type: testDto.testType,
+                registerId:testDto.registerId
             );
 
             return newTest;

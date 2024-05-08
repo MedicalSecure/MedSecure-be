@@ -34,7 +34,8 @@ namespace Registration.Application.Tests.Queries.GetTests
                           t.Code,
                           t.Description,
                           t.Language,
-                          t.Type
+                          t.Type,
+                          t.RegisterId
                       )).ToList()
                   )
               );

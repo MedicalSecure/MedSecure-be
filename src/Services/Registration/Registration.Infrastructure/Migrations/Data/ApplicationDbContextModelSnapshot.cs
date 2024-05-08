@@ -8,7 +8,7 @@ using Registration.Infrastructure.Data;
 
 #nullable disable
 
-namespace Registration.Infrastructure.Data.Migrations
+namespace Registration.Infrastructure.Migrations.Data
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -84,11 +84,8 @@ namespace Registration.Infrastructure.Data.Migrations
 
                     b.Property<string>("Assurance")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CIN")
-                        .HasMaxLength(8)
-                        .HasColumnType("int");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("CNAM")
                         .HasMaxLength(20)
@@ -140,6 +137,11 @@ namespace Registration.Infrastructure.Data.Migrations
 
                     b.Property<int>("Height")
                         .HasColumnType("int");
+
+                    b.Property<string>("Identity")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
@@ -394,25 +396,25 @@ namespace Registration.Infrastructure.Data.Migrations
                     b.HasOne("Registration.Domain.Models.Register", null)
                         .WithMany("Allergy")
                         .HasForeignKey("RegisterIdForAllergy")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Registration.Domain.Models.Register", null)
                         .WithMany("Disease")
                         .HasForeignKey("RegisterIdForDisease")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Registration.Domain.Models.Register", null)
                         .WithMany("FamilyMedicalHistory")
                         .HasForeignKey("RegisterIdForFamilyMedicalHistory")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Registration.Domain.Models.Register", null)
                         .WithMany("PersonalMedicalHistory")
                         .HasForeignKey("RegisterIdForPersonalMedicalHistory")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

@@ -14,7 +14,8 @@
             // Configure one-to-many relationship with Patient
             builder.HasOne(r => r.Patient)
                    .WithMany()
-                   .HasForeignKey(r => r.PatientId);
+                   .HasForeignKey(r => r.PatientId)
+                   .IsRequired();
         }
     }
 }

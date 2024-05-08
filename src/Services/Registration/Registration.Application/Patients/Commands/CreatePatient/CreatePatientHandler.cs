@@ -29,7 +29,7 @@ namespace Registration.Application.Patients.Commands.CreatePatient
                 firstName: patientDto.firstName,
                 lastName: patientDto.lastName,
                 dateOfBirth: patientDto.dateOfBirth,
-                cin:patientDto.cin,
+                identity: patientDto.identity,
                 cnam:patientDto.cnam,
                 assurance:patientDto.assurance,
                 gender: patientDto.gender,

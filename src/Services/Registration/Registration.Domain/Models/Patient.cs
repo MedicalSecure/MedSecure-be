@@ -6,7 +6,7 @@ public class Patient : Aggregate<PatientId>
     public string FirstName { get; private set; } = default!;
     public string LastName { get; private set; } = default!;
     public DateTime DateOfBirth { get; private set; } = default!;
-    public int CIN { get; private set; } = default!;
+    public string Identity { get; private set; } = default!;
     public int CNAM { get; private set; } = default!;
     public string Assurance { get; private set; } = default!;
     public Gender Gender { get; private set; } = default!;
@@ -33,7 +33,7 @@ public class Patient : Aggregate<PatientId>
         string firstName,
         string lastName,
         DateTime dateOfBirth,
-        int cin,
+        string identity,
         int cnam,
         string assurance,
         Gender gender,
@@ -58,7 +58,7 @@ public class Patient : Aggregate<PatientId>
             FirstName = firstName,
             LastName = lastName,
             DateOfBirth = dateOfBirth,
-            CIN = cin,
+            Identity = identity,
             CNAM = cnam,
             Assurance = assurance,
             Gender = gender,
@@ -85,7 +85,7 @@ public class Patient : Aggregate<PatientId>
         string firstName,
         string lastName,
         DateTime dateOfBirth,
-        int cin,
+        string identity,
         int cnam,
         Gender gender,
         int height,
@@ -103,7 +103,7 @@ public class Patient : Aggregate<PatientId>
         FirstName = firstName;
         LastName = lastName;
         DateOfBirth = dateOfBirth;
-        CIN = cin;
+        Identity = identity;
         CNAM = cnam;
         Gender = gender;
         Height = height;

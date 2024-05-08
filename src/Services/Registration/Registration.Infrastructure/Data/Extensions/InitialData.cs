@@ -1,4 +1,6 @@
-﻿using Registration.Domain.Models;
+﻿using Mapster.Utils;
+using Registration.Domain.Models;
+using Registration.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,25 +9,42 @@ namespace Registration.Infrastructure.Data.Extensions
 {
     internal class InitialData
     {
-        //public AssociatedPatientId patientId = "123-";
+        private static readonly string patientId1 = "7506213d-3b5f-4498-b35c-9169a600ff10";
+        private static readonly string registerId = "0f42ff42-f701-48c9-a7b5-c56ad78f55b1";
+        private static readonly string historyId = "0f42ff42-f701-48c9-a7b5-c56ad78f55b1";
+        private static readonly string testId = "0f42ff42-f701-48c9-a7b5-c56ad78f55b1";
+        //Register
         public static IEnumerable<Register> Registers
         {
             get
             {
                 try
                 {
-                    var patients = Patients.ToList();
-                    var smokingRisk = CreateRiskFactorForSmoking();
+                    var patient = CreatePatients();
                     var familyHistoryRisk = CreateRiskFactorForFamilyHistory();
-                    var obesityRisk = CreateRiskFactorForObesity();
+                    var personalMedicalHistory = CreateRiskFactorForPersonalMedicalHistroy();
+                    var disease = CreateRiskFactorForDiseases();
+                    var allergy = CreateRiskFactorForAllergies();
+                    var history = CreateHistory();
+                    var test = CreateTest();
+                    
 
-                    return new List<Register>
-                    {
-                        Register.Create(
-                            id: RegisterId.Of(Guid.NewGuid()),
-                            patient: patients.First()
-                        )
-                    };
+                    // Create a new Register instance
+                    var register = Register.Create(
+                        id: RegisterId.Of(Guid.Parse(registerId)),
+                        patient: patient
+                    );
+                
+
+                    // Add additional properties
+                    register.AddFamilyMedicalHistory(familyHistoryRisk);
+                    register.AddPersonalMedicalHistory(personalMedicalHistory); 
+                    register.AddDisease(disease); 
+                    register.AddAllergy(allergy); 
+                    register.AddHistory(history);
+                    register.AddTests(test);
+
+                    return new List<Register> { register };
                 }
                 catch (Exception ex)
                 {
@@ -34,28 +53,21 @@ namespace Registration.Infrastructure.Data.Extensions
             }
         }
 
-        public static IEnumerable<Patient> Patients
+        private static Patient CreatePatients()
         {
-            get
-            {
-                try
-                {
-                    var patientId = PatientId.Of(Guid.NewGuid());
-                    return new List<Patient>
-                    {
-                        Patient.Create(
-                            id: patientId,
+            return Patient.Create(
+                            PatientId.Of(Guid.Parse(patientId1)),
                             firstName: "John",
                             lastName: "Doe",
                             dateOfBirth: new DateTime(1990, 1, 1),
-                            cin: 123456,
+                            identity: "123456",
                             cnam: 789012,
                             assurance: "",
                             gender: Gender.Male,
                             height: 180,
                             weight: 75,
-                            addressIsRegisterations:true,
-                            saveForNextTime:true,
+                            addressIsRegisterations: true,
+                            saveForNextTime: true,
                             email: "john.doe@example.com",
                             address1: "Address Line 1",
                             address2: "Address Line 2",
@@ -64,17 +76,37 @@ namespace Registration.Infrastructure.Data.Extensions
                             zipCode: 1222,
                             familyStatus: FamilyStatus.MARRIED,
                             children: Children.ThreeOrMore
-                        )
-                    };
-                }
-                catch (Exception ex)
-                {
-                    throw new EntityCreationException(nameof(Patient), ex.Message);
-                }
-            }
+                        );
         }
 
-        private static RiskFactor CreateRiskFactorForSmoking()
+        
+
+         //History
+        private static History CreateHistory()
+        {
+            var cc = History.Create(
+               id: HistoryId.Of(Guid.Parse(historyId)),
+               date: DateTime.Now,
+               status: Status.Resident,
+               registerId: RegisterId.Of(Guid.Parse(registerId)));
+            
+            return cc;
+        }
+
+        private static Test CreateTest()
+        {
+            var cc = Test.Create(
+               id: TestId.Of(Guid.Parse(testId)),
+               code: "DateTime.Now",
+               description: "Status.Resident",
+               language: Language.English,
+               type: TestType.ClinicTest,
+               registerId: RegisterId.Of(Guid.Parse(registerId)));
+
+            return cc;
+        }
+
+        private static RiskFactor CreateRiskFactorForAllergies()
         {
             var cc = RiskFactor.Create(
                 id: RiskFactorId.Of(Guid.NewGuid()),
@@ -84,39 +116,27 @@ namespace Registration.Infrastructure.Data.Extensions
                 description: "Smoking Description",
                 isSelected: true,
                 type: "Smoking Type",
-                icon: "Smoking Icon");
+                icon: "Smoking Icon",
+                registerId : RegisterId.Of(Guid.Parse(registerId)));
 
-            //cc.SubRiskfactor.cre = RiskFactor.Create()
-            //    subRiskFactor: new List<RiskFactor>
-            //    {
-            //        RiskFactor.Create(
-            //            id: RiskFactorId.Of(Guid.NewGuid()),
-            //            key: "Lung Cancer",
-            //            value: "Increased Risk",
-            //            code: "LC001",
-            //            description: "Lung Cancer Description",
-            //            isSelected: false,
-            //            type: "Lung Cancer Type",
-            //            icon: "Lung Cancer Icon"
+            return cc;
 
-            //        ),
-            //        RiskFactor.Create(
-            //            id: RiskFactorId.Of(Guid.NewGuid()),
-            //            key: "Heart Disease",
-            //            value: "Increased Risk",
-            //            code: "HD001",
-            //            description: "Heart Disease Description",
-            //            isSelected: false,
-            //            type: "Heart Disease Type",
-            //            icon: "Heart Disease Icon"
-
-            //        )
-            //    }
-
-                return cc;
+        }
+        private static RiskFactor CreateRiskFactorForDiseases()
+        {
+            var cc = RiskFactor.Create(
+                id: RiskFactorId.Of(Guid.NewGuid()),
+                key: "Smoking",
+                value: "Yes",
+                code: "SMK001",
+                description: "Smoking Description",
+                isSelected: true,
+                type: "Smoking Type",
+                icon: "Smoking Icon",
+                registerId: RegisterId.Of(Guid.Parse(registerId)));
+            return cc;
             
         }
-
         private static RiskFactor CreateRiskFactorForFamilyHistory()
         {
             return RiskFactor.Create(
@@ -127,12 +147,12 @@ namespace Registration.Infrastructure.Data.Extensions
                 description: "Family History of Heart Disease Description",
                 isSelected: true,
                 type: "Family History Type",
-                icon: "Family History Icon"
-                
-            );
+                icon: "Family History Icon",
+                registerId: RegisterId.Of(Guid.Parse(registerId))
+            ) ;
         }
-
-        private static RiskFactor CreateRiskFactorForObesity()
+        
+        private static RiskFactor CreateRiskFactorForPersonalMedicalHistroy()
         {
             return RiskFactor.Create(
                 id: RiskFactorId.Of(Guid.NewGuid()),
@@ -142,22 +162,10 @@ namespace Registration.Infrastructure.Data.Extensions
                 description: "Obesity Description",
                 isSelected: true,
                 type: "Obesity Type",
-                icon: "Obesity Icon"
-                //subRiskFactor: new List<RiskFactor>
-                //{
-                //    RiskFactor.Create(
-                //        id: RiskFactorId.Of(Guid.NewGuid()),
-                //        key: "Type 2 Diabetes",
-                //        value: "Increased Risk",
-                //        code: "T2D001",
-                //        description: "Type 2 Diabetes Description",
-                //        isSelected: false,
-                //        type: "Type 2 Diabetes Type",
-                //        icon: "Type 2 Diabetes Icon",
-                //        subRiskFactor: new List<RiskFactor>()
-                //    )
-                //}
+                icon: "Obesity Icon",
+                registerId: RegisterId.Of(Guid.Parse(registerId))
             );
         }
+        
     }
 }

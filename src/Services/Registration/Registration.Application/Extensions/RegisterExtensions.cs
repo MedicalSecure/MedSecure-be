@@ -9,26 +9,26 @@ namespace Registration.Application.Extensions
                 Id : p.Id.Value,
                 patient:new PatientDto(
                     Id : p.Patient.Id.Value,
-                firstName : p.Patient.FirstName,
-                lastName : p.Patient.LastName,
-                dateOfBirth : p.Patient.DateOfBirth,
-                cin : p.Patient.CIN,
-                cnam : p.Patient.CNAM,
-                assurance :p.Patient.Assurance,
-                gender: p.Patient.Gender,
-                height : p.Patient.Height,
-                weight : p.Patient.Weight,
-                addressIsRegisteraions: p.Patient.AddressIsRegisterations,
-                saveForNextTime: p.Patient.SaveForNextTime,
-                email : p.Patient.Email,
-                address1 : p.Patient.Address1,
-                address2 : p.Patient.Address2,
-                country : p.Patient.Country,
-                state : p.Patient.State,
-                zipCode: p.Patient.ZipCode,
-                familyStatus : p.Patient.FamilyStatus,
-                children : p.Patient.Children)
-                ));
+                    firstName : p.Patient.FirstName,
+                    lastName : p.Patient.LastName,
+                    dateOfBirth : p.Patient.DateOfBirth,
+                    identity: p.Patient.Identity,
+                    cnam : p.Patient.CNAM,
+                    assurance :p.Patient.Assurance,
+                    gender: p.Patient.Gender,
+                    height : p.Patient.Height,
+                    weight : p.Patient.Weight,
+                    addressIsRegisteraions: p.Patient.AddressIsRegisterations,
+                    saveForNextTime: p.Patient.SaveForNextTime,
+                    email : p.Patient.Email,
+                    address1 : p.Patient.Address1,
+                    address2 : p.Patient.Address2,
+                    country : p.Patient.Country,
+                    state : p.Patient.State,
+                    zipCode: p.Patient.ZipCode,
+                    familyStatus : p.Patient.FamilyStatus,
+                    children : p.Patient.Children)
+                    ));
         }
     }
 }

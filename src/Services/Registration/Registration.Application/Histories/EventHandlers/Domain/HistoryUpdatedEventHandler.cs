@@ -17,6 +17,7 @@ namespace Registration.Application.Registers.Commands.CreateRegister
         private static History CreateNewHistory(HistoryDto historyDto)
         {
             var newHistory = History.Create(
+                id: HistoryId.Of(Guid.NewGuid()),
                 date: historyDto.date,
                 status: historyDto.status,
                 registerId: historyDto.registerId

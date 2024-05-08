@@ -73,6 +73,20 @@ public class Register : Aggregate<RegisterId>
 
         _allergy.Add(riskFactor);
     }
+    public void AddTests(Test test)
+    {
+        if (test == null)
+            throw new ArgumentNullException(nameof(test));
+
+        _tests.Add(test);
+    }
+    public void AddHistory(History history)
+    {
+        if (history == null)
+            throw new ArgumentNullException(nameof(history));
+
+        _history.Add(history);
+    }
 
     // Method to update patient and test
     public void Update(Patient patient)
