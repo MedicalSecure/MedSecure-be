@@ -1,4 +1,6 @@
-﻿namespace Prescription.Application.Extensions
+﻿using Prescription.Domain.Entities.PrescriptionRoot;
+
+namespace Prescription.Application.Extensions
 {
     public static class PrescriptionExtension
     {
@@ -12,34 +14,39 @@
             if (includeRegister)
             {
                 var x = new PrescriptionDto(
-                    Id: pres.Id,
-                    RegisterId: pres.RegisterId,
-                    DoctorId: pres.DoctorId,
-                    Symptoms: pres.Symptoms.ToSymptomsDto(),
-                    Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
-                    Posologies: pres.Posology.ToPosologiesDto(),
-                    Register: pres.Register?.ToRegisterDto(),
-                    CreatedAt: pres.CreatedAt,
-                    LastModified: pres.LastModified,
-                    CreatedBy: pres.CreatedBy,
-                    LastModifiedBy: pres.LastModifiedBy
+                    id: pres.Id,
+                    registerId: pres.RegisterId,
+                    doctorId: pres.DoctorId,
+                    symptoms: pres.Symptoms.ToSymptomsDto(),
+                    diagnoses: pres.Diagnosis.ToDiagnosisDto(),
+                    posologies: pres.Posology.ToPosologiesDto(),
+                    unitCareId: pres.UnitCareId,
+                    dietId: pres.DietId,
+                    register: pres.Register?.ToRegisterDto(),
+                    createdAt: pres.CreatedAt,
+                    lastModified: pres.LastModified,
+                    createdBy: pres.CreatedBy,
+                    lastModifiedBy: pres.LastModifiedBy
                 );
                 return x;
             }
             else
             {
                 var x = new PrescriptionDto(
-                    Id: pres.Id,
-                    RegisterId: pres.RegisterId,
-                    DoctorId: pres.DoctorId,
-                    Symptoms: pres.Symptoms.ToSymptomsDto(),
-                    Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
-                    Posologies: pres.Posology.ToPosologiesDto(),
-                    CreatedAt: pres.CreatedAt,
-                    LastModified: pres.LastModified,
-                    CreatedBy: pres.CreatedBy,
-                    LastModifiedBy: pres.LastModifiedBy
+                    id: pres.Id,
+                    registerId: pres.RegisterId,
+                    doctorId: pres.DoctorId,
+                    symptoms: pres.Symptoms.ToSymptomsDto(),
+                    diagnoses: pres.Diagnosis.ToDiagnosisDto(),
+                    posologies: pres.Posology.ToPosologiesDto(),
+                    unitCareId: pres.UnitCareId,
+                    dietId: pres.DietId,
+                    createdAt: pres.CreatedAt,
+                    lastModified: pres.LastModified,
+                    createdBy: pres.CreatedBy,
+                    lastModifiedBy: pres.LastModifiedBy
                 );
+
                 return x;
             }
         }
@@ -52,11 +59,11 @@
         public static DispensesDto ToDispenseDto(this Dispense dispense)
         {
             return new DispensesDto(
-                Id: dispense.Id,
-                PosologyId: dispense.PosologyId,
+                Id: dispense.Id.Value,
+                PosologyId: dispense.PosologyId.Value,
                 Hour: dispense.Hour,
-                QuantityBE: dispense.QuantityBE,
-                QuantityAE: dispense.QuantityAE
+                BeforeMeal: dispense.BeforeMeal,
+                AfterMeal: dispense.AfterMeal
             );
         }
 
@@ -68,21 +75,21 @@
         public static PosologyDto ToPosologyDto(this Posology posology)
         {
             return new PosologyDto(
-                Id: posology.Id,
-                PrescriptionId: posology.PrescriptionId,
+                Id: posology.Id.Value,
+                PrescriptionId: posology.PrescriptionId.Value,
                 Medication: posology.Medication.ToMedicationDto(),
                 Comments: posology.Comments.Select(c => new CommentsDto(
-                    Id: c.Id,
-                    PosologyId: posology.Id,
+                    Id: c.Id.Value,
+                    PosologyId: posology.Id.Value,
                     Label: c.Label,
                     Content: c.Content
                 )).ToList(),
                 Dispenses: posology.Dispenses.Select(d => new DispensesDto(
-                    Id: d.Id,
-                    PosologyId: posology.Id,
+                    Id: d.Id.Value,
+                    PosologyId: posology.Id.Value,
                     Hour: d.Hour,
-                    QuantityBE: d.QuantityBE,
-                    QuantityAE: d.QuantityAE
+                    BeforeMeal: d.BeforeMeal,
+                    AfterMeal: d.AfterMeal
                 )).ToList(),
                 IsPermanent: posology.IsPermanent,
                 StartDate: posology.StartDate,

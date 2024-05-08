@@ -1,11 +1,11 @@
 ﻿namespace Prescription.Domain.Entities.RegisterRoot
 {
-    public class Register : Aggregate<Guid>
+    public class Register : Aggregate<RegisterId>
     {
         //rename register medical record
         public Patient Patient { get; private set; } = default!;
 
-        public Guid PatientId { get; private set; } = default!;
+        public PatientId PatientId { get; private set; } = default!;
 
         public List<RiskFactor> FamilyMedicalHistory { get; private set; } = new();
         public List<RiskFactor> PersonalMedicalHistory { get; private set; } = new();
@@ -13,9 +13,9 @@
         public List<RiskFactor> Allergies { get; private set; } = new();
         public List<History> History { get; private set; } = new();
         public List<Test> Test { get; private set; } = new();
-        public List<PrescriptionRoot.Prescription> Prescriptions { get; private set; } = new();
+        public List<PrescriptionRoot.Prescription> Prescriptions { get; set; } = new();
 
-        public static Register Create(Guid id, Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<PrescriptionRoot.Prescription>? prescriptions, List<Test>? test)
+        public static Register Create(RegisterId id, Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<PrescriptionRoot.Prescription>? prescriptions, List<Test>? test)
         {
             var register = new Register
             {
@@ -47,6 +47,33 @@
             if (test != null) Test = test;
 
             AddDomainEvent(new RegisterUpdatedEvent(this));
+        }
+
+        public bool AddPrescription(PrescriptionRoot.Prescription prescription)
+        {
+            if (prescription.RegisterId == Id)
+            {
+                Prescriptions.Add(prescription);
+                return true;
+            }
+            return false;
+        }
+
+        public bool AddPrescriptions(List<PrescriptionRoot.Prescription> prescriptions)
+        {
+            bool areAllAdded = true;
+            foreach (var prescription in prescriptions)
+            {
+                if (prescription.RegisterId == Id)
+                {
+                    Prescriptions.Add(prescription);
+                }
+                else
+                {
+                    areAllAdded = false;
+                }
+            }
+            return areAllAdded;
         }
     }
 }

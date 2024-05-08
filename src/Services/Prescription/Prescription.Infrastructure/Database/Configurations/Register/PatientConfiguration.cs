@@ -1,21 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Prescription.Domain.Entities;
+
 using System.Text.Json;
 
 namespace Prescription.Infrastructure.Database.Configurations
 {
     //called from : ApplicationDbContext :
     //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    public class RiskFactorListConverter : ValueConverter<List<RiskFactor?>, string>
-    {
-        public RiskFactorListConverter() : base(
-            riskFactors => JsonSerializer.Serialize(riskFactors, new JsonSerializerOptions { /* Add any necessary options */ }),
-            json => JsonSerializer.Deserialize<List<RiskFactor>>(json, new JsonSerializerOptions { /* Add any necessary options */ })
-        )
-        {
-        }
-    }
-
     public class PatientConfiguration : IEntityTypeConfiguration<Patient>
     {
         public PatientConfiguration()
@@ -25,6 +15,10 @@ namespace Prescription.Infrastructure.Database.Configurations
         public void Configure(EntityTypeBuilder<Patient> builder)
         {
             builder.HasKey(p => p.Id);
+
+            builder.Property(p => p.Id)
+                  .HasConversion(PatientId => PatientId.Value,
+                             dbId => PatientId.Of(dbId));
 
             builder.Property(p => p.FirstName)
                 .IsRequired()

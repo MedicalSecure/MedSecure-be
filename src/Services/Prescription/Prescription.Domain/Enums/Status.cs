@@ -2,7 +2,8 @@
 {
     public enum Status
     {
-        Resident,
-        Out
+        Resident = 0,
+        Out = 1,
+        Registered = 2,
     }
 }

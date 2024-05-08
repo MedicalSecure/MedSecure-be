@@ -1,6 +1,6 @@
 ﻿namespace Prescription.Domain.Entities
 {
-    public class Medication : Aggregate<Guid>
+    public class Medication : Aggregate<MedicationId>
     {
         public string? Name { get; private set; } = default!;
         public string? Dosage { get; private set; } = default!;
@@ -20,7 +20,7 @@
         private Medication()
         { } // For EF
 
-        public static Medication Create(Guid id, string name, string dosage, string form, string unit, string description, string code, DateTime expiredAt,
+        public static Medication Create(MedicationId id, string name, string dosage, string form, string unit, string description, string code, DateTime expiredAt,
                                         int stock, int alertStock, int avrgStock, int minStock, int safetyStock, int reservedStock, decimal price)
         {
             var medication = new Medication()

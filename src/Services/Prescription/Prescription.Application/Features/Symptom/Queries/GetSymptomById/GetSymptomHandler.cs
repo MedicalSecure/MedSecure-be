@@ -23,7 +23,7 @@ namespace Prescription.Application.Features.Symptom.Queries.GetSymptom
 
             var totalCount = Symptom == null ? 0 : 1;
 
-            SymptomDto? result = Symptom == null ? null : new SymptomDto(Symptom.Id, Symptom.Code, Symptom.Name, Symptom.ShortDescription, Symptom.LongDescription);
+            SymptomDto? result = Symptom == null ? null : new SymptomDto(Symptom.Id.Value, Symptom.Code, Symptom.Name, Symptom.ShortDescription, Symptom.LongDescription);
 
             List<SymptomDto> returnList = Symptom == null ? [] : [result];
             return new GetSymptomResult(

@@ -1,12 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Prescription.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Prescription.Infrastructure.Database.Configurations
+﻿namespace Prescription.Infrastructure.Database.Configurations
 {
     //called from : ApplicationDbContext :
     //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
@@ -20,9 +12,17 @@ namespace Prescription.Infrastructure.Database.Configurations
         {
             builder.HasKey(p => p.Id);
 
+            builder.Property(p => p.Id)
+            .HasConversion(RegisterId => RegisterId.Value,
+               dbId => RegisterId.Of(dbId));
+
             builder.HasOne(r => r.Patient)
                 .WithOne(p => p.Register)
                 .HasForeignKey<Register>(r => r.PatientId);
+
+            builder.Property(p => p.PatientId)
+                  .HasConversion(PatientId => PatientId.Value,
+                             dbId => PatientId.Of(dbId));
 
             builder.Property(p => p.PatientId)
             .IsRequired();

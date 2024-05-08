@@ -16,7 +16,7 @@ namespace Prescription.Application.Extensions
         public static SymptomDto ToSymptomDto(this Symptom symptom)
         {
             return new SymptomDto(
-                Id: symptom.Id,
+                Id: symptom.Id.Value,
                 Code: symptom.Code,
                 Name: symptom.Name,
                 ShortDescription: symptom.ShortDescription,

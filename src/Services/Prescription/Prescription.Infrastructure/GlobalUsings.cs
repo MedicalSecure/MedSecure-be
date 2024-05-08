@@ -8,8 +8,9 @@ global using Prescription.Domain.Entities.PrescriptionRoot;
 global using Prescription.Domain.Entities;
 global using Prescription.Infrastructure.Database;
 global using Prescription.Domain.Abstractions;
-
+global using Prescription.Domain.ValueObjects;
 global using Prescription.Domain.Enums;
+global using Prescription.Domain.Entities.UnitCareRoot;
 
 global using Prescription.Domain.Entities.RegisterRoot;
 global using Prescription.Domain.Exceptions;

@@ -9,7 +9,7 @@ namespace Prescription.Application.Features.Diagnosis.Commands.DeleteDiagnosis
         public async Task<DeleteDiagnosisResult> Handle(DeleteDiagnosisCommand request, CancellationToken cancellationToken)
         {
             var diagnosisDto = request.Diagnosis;
-            var diagnosis = Domain.Entities.Diagnosis.Create(diagnosisDto.Id, diagnosisDto.Code, diagnosisDto.Name, diagnosisDto.ShortDescription, diagnosisDto.LongDescription);
+            var diagnosis = Domain.Entities.Diagnosis.Create(DiagnosisId.Of(diagnosisDto.Id), diagnosisDto.Code, diagnosisDto.Name, diagnosisDto.ShortDescription, diagnosisDto.LongDescription);
 
             dbContext.Diagnosis.Remove(diagnosis);
 

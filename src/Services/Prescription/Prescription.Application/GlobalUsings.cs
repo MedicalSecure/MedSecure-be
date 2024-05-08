@@ -9,7 +9,10 @@ global using Prescription.Application.DTOs;
 global using Microsoft.EntityFrameworkCore;
 global using Prescription.Domain.Enums;
 global using Prescription.Domain.Entities.RegisterRoot;
-global using Prescription.Domain.Events.RegisterEvents;
+global using Prescription.Application;
+global using Prescription.Application.Contracts;
+global using Prescription.Application.Extensions;
+global using Prescription.Domain.ValueObjects;
 
 namespace Prescription.Application
 {

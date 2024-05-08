@@ -23,7 +23,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             // Return result
-            return new CreatePrescriptionResult(prescription.Id);
+            return new CreatePrescriptionResult(prescription.Id.Value);
         }
 
         private Task<Domain.Entities.PrescriptionRoot.Prescription>? CreateNewPrescription(PrescriptionDto prescriptionDto, CancellationToken cancellationToken)

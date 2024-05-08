@@ -17,7 +17,7 @@ namespace Prescription.Application.Extensions
         public static MedicationDto ToMedicationDto(this Medication m)
         {
             return new MedicationDto(
-                Id: m.Id,
+                Id: m.Id.Value,
                 Name: m.Name,
                 Dosage: m.Dosage,
                 Form: m.Form,

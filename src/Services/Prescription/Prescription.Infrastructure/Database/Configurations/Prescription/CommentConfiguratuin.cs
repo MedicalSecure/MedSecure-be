@@ -1,4 +1,6 @@
 ﻿using Prescription.Domain.Entities;
+using Prescription.Domain.Entities.RegisterRoot;
+using Prescription.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,10 @@ namespace Prescription.Infrastructure.Database.Configurations
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
             builder.HasKey(x => x.Id);
+
+            builder.Property(p => p.Id)
+            .HasConversion(CommentId => CommentId.Value,
+                                  dbId => CommentId.Of(dbId));
 
             builder.Property(d => d.Label)
             .HasMaxLength(30);

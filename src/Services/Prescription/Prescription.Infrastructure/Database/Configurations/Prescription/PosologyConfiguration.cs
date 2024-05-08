@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Prescription.Infrastructure.Database.Configurations
+﻿namespace Prescription.Infrastructure.Database.Configurations
 {
     internal class PosologyConfiguration : IEntityTypeConfiguration<Posology>
     {
@@ -13,8 +6,16 @@ namespace Prescription.Infrastructure.Database.Configurations
         {
             builder.HasKey(p => p.Id);
 
+            builder.Property(p => p.Id)
+        .HasConversion(PosologyId => PosologyId.Value,
+                   dbId => PosologyId.Of(dbId));
+
+            builder.Property(p => p.PrescriptionId)
+        .HasConversion(prescriptionId => prescriptionId.Value,
+                   dbId => PrescriptionId.Of(dbId));
+
             builder.HasMany(p => p.Dispenses)
-                        .WithOne(dispense => dispense.posology)
+                        .WithOne(dispense => dispense.Posology)
                     .HasForeignKey(dispense => dispense.PosologyId);
 
             builder.HasMany(p => p.Comments)
@@ -22,9 +23,9 @@ namespace Prescription.Infrastructure.Database.Configurations
                     .HasForeignKey(comment => comment.PosologyId);
 
             builder.HasOne(p => p.Medication)
-            .WithMany()
-            .HasForeignKey(p => p.MedicationId)
-            .IsRequired();
+                    .WithMany()
+                    .HasForeignKey(p => p.MedicationId)
+                    .IsRequired();
 
             builder.Property(d => d.LastModifiedBy)
                 .HasMaxLength(128);

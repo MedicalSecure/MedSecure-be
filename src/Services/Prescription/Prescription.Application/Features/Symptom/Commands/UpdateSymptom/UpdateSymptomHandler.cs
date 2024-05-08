@@ -28,7 +28,7 @@ namespace Prescription.Application.Features.Symptom.Commands.UpdateSymptom
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return new UpdateSymptomResult(Symptom.Id);
+            return new UpdateSymptomResult(Symptom.Id.Value);
         }
 
         private static void UpdateSymptomWithNewValues(Domain.Entities.Symptom Symptom, SymptomDto SymptomDto)

@@ -28,7 +28,7 @@ namespace Prescription.Application.Features.Diagnosis.Commands.UpdateDiagnosis
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return new UpdateDiagnosisResult(Diagnosis.Id);
+            return new UpdateDiagnosisResult(Diagnosis.Id.Value);
         }
 
         private static void UpdateDiagnosisWithNewValues(Domain.Entities.Diagnosis diagnosis, DiagnosisDto diagnosisDto)

@@ -1,6 +1,6 @@
 ﻿namespace Prescription.Domain.Entities
 {
-    public class Diagnosis : Aggregate<Guid>
+    public class Diagnosis : Aggregate<DiagnosisId>
     {
         public string Code { get; private set; }
         public string Name { get; private set; }
@@ -15,14 +15,14 @@
 
         private Diagnosis(string code, string name, string shortDescription, string longDescription)
         {
-            Id = new Guid();
+            Id = DiagnosisId.Of(Guid.NewGuid());
             Code = code;
             Name = name;
             ShortDescription = shortDescription;
             LongDescription = longDescription;
         }
 
-        private Diagnosis(Guid id, string code, string name, string shortDescription, string longDescription)
+        private Diagnosis(DiagnosisId id, string code, string name, string shortDescription, string longDescription)
         {
             Id = id;
             Code = code;
@@ -36,7 +36,7 @@
             return new Diagnosis(code, name, shortDescription, longDescription);
         }
 
-        public static Diagnosis Create(Guid id, string code, string name, string shortDescription, string longDescription)
+        public static Diagnosis Create(DiagnosisId id, string code, string name, string shortDescription, string longDescription)
         {
             return new Diagnosis(id, code, name, shortDescription, longDescription);
         }

@@ -371,8 +371,8 @@ namespace Prescription.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Hour = table.Column<int>(type: "int", nullable: false),
-                    QuantityBE = table.Column<int>(type: "int", nullable: true),
-                    QuantityAE = table.Column<int>(type: "int", nullable: true),
+                    QuantityBM = table.Column<int>(type: "int", nullable: true),
+                    QuantityAM = table.Column<int>(type: "int", nullable: true),
                     PosologyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),

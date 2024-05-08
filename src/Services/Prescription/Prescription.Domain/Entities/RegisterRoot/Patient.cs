@@ -1,6 +1,6 @@
 ﻿namespace Prescription.Domain.Entities.RegisterRoot
 {
-    public class Patient : Aggregate<Guid>
+    public class Patient : Aggregate<PatientId>
     {
         public string FirstName { get; set; } = default!;
         public string? LastName { get; set; } = default!;
@@ -36,6 +36,7 @@
         {
             var patient = new Patient
             {
+                Id = PatientId.Of(Guid.NewGuid()),
                 FirstName = firstName,
                 LastName = lastName,
                 DateOfBirth = dateOfbirth,
@@ -57,7 +58,7 @@
             return patient;
         }
 
-        public static Patient Create(Guid id, string firstName, string lastName, DateTime dateOfbirth, int cin, int cnam, Gender gender, int height, int weight,
+        public static Patient Create(PatientId id, string firstName, string lastName, DateTime dateOfbirth, int cin, int cnam, Gender gender, int height, int weight,
                                     string email, string address1, string address2, Country country, string state, FamilyStatus familyStatus, Children children)
         {
             var patient = new Patient

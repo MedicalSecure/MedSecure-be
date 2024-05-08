@@ -1,50 +1,57 @@
 ﻿namespace Prescription.Domain.Entities.PrescriptionRoot
 {
-    public class Prescription : Aggregate<Guid>
+    public class Prescription : Aggregate<PrescriptionId>
     {
         private readonly List<Posology> _posology = new();
         private readonly List<Diagnosis> _diagnosis = new();
         private readonly List<Symptom> _symptoms = new();
+
         public IReadOnlyList<Posology> Posology => _posology.AsReadOnly();
         public IReadOnlyList<Symptom> Symptoms => _symptoms.AsReadOnly();
         public IReadOnlyList<Diagnosis> Diagnosis => _diagnosis.AsReadOnly();
-        public Guid RegisterId { get; private set; }
+
+        public UnitCareId? UnitCareId { get; private set; }
+        public DietId? DietId { get; private set; }
+        public RegisterId RegisterId { get; private set; }
         public Register? Register { get; private set; }
-        public Guid DoctorId { get; private set; }
+        public DoctorId DoctorId { get; private set; }
 
         private Prescription()
         { }// for EF
 
-        private Prescription(Guid id, Guid registerId, Guid doctorId, DateTime createdAt = default)
+        private Prescription(PrescriptionId id, RegisterId registerId, DoctorId doctorId, UnitCareId? unitCareId = null, DietId? dietId = null, DateTime createdAt = default)
         {
             Id = id;
             RegisterId = registerId;
             DoctorId = doctorId;
             CreatedBy = doctorId.ToString();
+            UnitCareId = unitCareId;
+            DietId = dietId;
             CreatedAt = createdAt == default ? DateTime.Now : createdAt;
         }
 
-        public static Prescription Create(Guid RegisterId, Guid doctorId, DateTime createdAt = default)
+        public static Prescription Create(RegisterId RegisterId, DoctorId doctorId, UnitCareId? unitCareId = null, DietId? dietId = null, DateTime createdAt = default)
         {
             //validations here
             //..
             //..
 
             // Newly created prescription
-            Guid PrescriptionId = new Guid();
-            return new Prescription(PrescriptionId, RegisterId, doctorId, createdAt);
+            PrescriptionId prescriptionId = PrescriptionId.Of(Guid.NewGuid());
+            return new Prescription(prescriptionId, RegisterId, doctorId, unitCareId, dietId, createdAt);
         }
 
-        public static Prescription Create(Guid PrescriptionId, Guid registerId, Guid doctorId, DateTime createdAt = default)
+        public static Prescription Create(PrescriptionId PrescriptionId, RegisterId registerId, DoctorId doctorId, UnitCareId? unitCareId = null, DietId? dietId = null, DateTime createdAt = default)
         {
             //validations here
             //..
             //..
-            return new Prescription(PrescriptionId, registerId, doctorId, createdAt);
+            return new Prescription(PrescriptionId, registerId, doctorId, unitCareId, dietId, createdAt);
         }
 
         public bool addPosology(Posology posology)
         {
+            //if (posology.PrescriptionId != Id) return false;
             this._posology.Add(posology);
             return true;
         }

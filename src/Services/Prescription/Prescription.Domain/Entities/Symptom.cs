@@ -1,6 +1,6 @@
 ﻿namespace Prescription.Domain.Entities
 {
-    public class Symptom : Aggregate<Guid>
+    public class Symptom : Aggregate<SymptomId>
     {
         public string Code { get; private set; }
         public string Name { get; private set; }
@@ -12,7 +12,7 @@
         private Symptom()
         { } // For EF
 
-        private Symptom(Guid id, string code, string name, string shortDescription, string longDescription)
+        private Symptom(SymptomId id, string code, string name, string shortDescription, string longDescription)
         {
             Id = id;
             Code = code;
@@ -23,10 +23,10 @@
 
         public static Symptom Create(string code, string name, string shortDescription, string longDescription)
         {
-            return new Symptom(new Guid(), code, name, shortDescription, longDescription);
+            return new Symptom(SymptomId.Of(Guid.NewGuid()), code, name, shortDescription, longDescription);
         }
 
-        public static Symptom Create(Guid id, string code, string name, string shortDescription, string longDescription)
+        public static Symptom Create(SymptomId id, string code, string name, string shortDescription, string longDescription)
         {
             return new Symptom(id, code, name, shortDescription, longDescription);
         }

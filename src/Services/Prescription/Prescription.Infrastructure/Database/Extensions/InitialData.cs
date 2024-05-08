@@ -2,21 +2,21 @@
 {
     internal class InitialData
     {
-        private static readonly Guid commentId1 = new Guid("f3c58f4e-4e49-4180-ba4c-0a2e8cddc58c");
-        private static readonly Guid commentId2 = new Guid("2b05fc3d-2e2e-4e88-8a91-2dcf3a01c3d1");
+        private static readonly CommentId commentId1 = CommentId.Of(new Guid("f3c58f4e-4e49-4180-ba4c-0a2e8cddc58c"));
+        private static readonly CommentId commentId2 = CommentId.Of(new Guid("2b05fc3d-2e2e-4e88-8a91-2dcf3a01c3d1"));
 
-        private static readonly Guid dispenseId1 = new Guid("7506213d-3b5f-4498-b35c-9169a600ff10");
-        private static readonly Guid dispenseId2 = new Guid("0f42ff42-f701-48c9-a7b5-c56ad78f55b1");
+        private static readonly DispenseId dispenseId1 = DispenseId.Of(new Guid("7506213d-3b5f-4498-b35c-9169a600ff10"));
+        private static readonly DispenseId dispenseId2 = DispenseId.Of(new Guid("0f42ff42-f701-48c9-a7b5-c56ad78f55b1"));
 
-        private static readonly Guid doctorId = new Guid("44444444-4444-4444-4444-444444444444");
-        private static readonly Guid doctorId2 = new Guid("44444444-4444-4444-4444-444444444445"); // Next sequential number for doctor
-        private static readonly Guid patientId = new Guid("22222222-2222-2222-2222-222222222222");
-        private static readonly Guid patientId2 = new Guid("22222222-2222-2222-2222-222222222223"); // Next sequential number for patient
-        private static readonly Guid medicationId = new Guid("55555555-5555-5555-5555-555555555555");
-        private static readonly Guid medicationId2 = new Guid("55555555-5555-5555-5555-555555555556");
+        private static readonly DoctorId doctorId = DoctorId.Of(new Guid("44444444-4444-4444-4444-444444444444"));
+        private static readonly DoctorId doctorId2 = DoctorId.Of(new Guid("44444444-4444-4444-4444-444444444445")); // Next sequential number for doctor
+        private static readonly PatientId patientId = PatientId.Of(new Guid("22222222-2222-2222-2222-222222222222"));
+        private static readonly PatientId patientId2 = PatientId.Of(new Guid("22222222-2222-2222-2222-222222222223")); // Next sequential number for patient
+        private static readonly MedicationId medicationId = MedicationId.Of(new Guid("55555555-5555-5555-5555-555555555555"));
+        private static readonly MedicationId medicationId2 = MedicationId.Of(new Guid("55555555-5555-5555-5555-555555555556"));
 
-        private static readonly Guid posologyId = new Guid("142f0efe-9e11-4808-a7f6-fcb564908772");
-        private static readonly Guid prescriptionId = new Guid("7506213d-3b5f-4498-b35c-9169a600ff12");
+        private static readonly PosologyId posologyId = PosologyId.Of(new Guid("142f0efe-9e11-4808-a7f6-fcb564908772"));
+        private static readonly PrescriptionId prescriptionId = PrescriptionId.Of(new Guid("7506213d-3b5f-4498-b35c-9169a600ff12"));
 
         public static IEnumerable<Comment> Comments
         {

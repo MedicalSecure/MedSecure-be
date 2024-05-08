@@ -1,9 +1,4 @@
-﻿using Prescription.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Prescription.Infrastructure.Database.Configurations
 {
@@ -12,6 +7,24 @@ namespace Prescription.Infrastructure.Database.Configurations
         public void Configure(EntityTypeBuilder<RiskFactor> builder)
         {
             builder.HasKey(x => x.Id);
+
+            // Configure primary key to use Value property of RiskFactorId
+            builder.Property(r => r.Id)
+                   .HasConversion(riskFactorId => riskFactorId.Value,
+                                  dbId => RiskFactorId.Of(dbId));
+
+            builder.Property(p => p.RiskFactorParentId)
+           .HasConversion(
+               new ValueConverter<RiskFactorId?, Guid?>(
+                   modelRiskFactorId => modelRiskFactorId == null ? null : modelRiskFactorId.Value,
+                   dbRiskFactorId => dbRiskFactorId.HasValue ? RiskFactorId.OfNullable(dbRiskFactorId.Value) : null
+               ),
+               new ValueComparer<RiskFactorId?>(
+                   (RiskFactorId1, RiskFactorId2) => RiskFactorId1 == null && RiskFactorId2 == null || RiskFactorId1 != null && RiskFactorId2 != null && RiskFactorId1.Value == RiskFactorId2.Value,
+                   RiskFactorId => RiskFactorId == null ? 0 : RiskFactorId.Value.GetHashCode(),
+                   RiskFactorId => RiskFactorId ?? RiskFactorId.Of(Guid.Empty)
+               )
+           );
 
             builder.HasMany(d => d.SubRiskFactor)
                     .WithOne(r => r.RiskFactorParent)

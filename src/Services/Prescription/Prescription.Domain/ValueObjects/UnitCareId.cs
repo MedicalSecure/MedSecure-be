@@ -15,5 +15,19 @@
             }
             return new UnitCareId(value);
         }
+        public static UnitCareId? OfNullable(Guid? value)
+        {
+            if (!value.HasValue)
+            {
+                return null;
+            }
+
+            if (value.Value == Guid.Empty)
+            {
+                throw new DomainException("UnitCareId cannot be empty!");
+            }
+
+            return new UnitCareId(value.Value);
+        }
     }
 }

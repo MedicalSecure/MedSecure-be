@@ -9,7 +9,7 @@ namespace Prescription.Application.Features.Symptom.Commands.DeleteSymptom
         public async Task<DeleteSymptomResult> Handle(DeleteSymptomCommand request, CancellationToken cancellationToken)
         {
             var SymptomDto = request.Symptom;
-            var Symptom = Domain.Entities.Symptom.Create(SymptomDto.Id, SymptomDto.Code, SymptomDto.Name, SymptomDto.ShortDescription, SymptomDto.LongDescription);
+            var Symptom = Domain.Entities.Symptom.Create(SymptomId.Of(SymptomDto.Id), SymptomDto.Code, SymptomDto.Name, SymptomDto.ShortDescription, SymptomDto.LongDescription);
 
             dbContext.Symptoms.Remove(Symptom);
 

@@ -20,7 +20,7 @@ namespace Prescription.Application.Features.Symptom.Commands.CreateSymptom
             dbContext.Symptoms.Add(Symptom);
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return new CreateSymptomResult(Symptom.Id);
+            return new CreateSymptomResult(Symptom.Id.Value);
         }
 
         private static Domain.Entities.Symptom CreateNewSymptom(SymptomDto SymptomDto)

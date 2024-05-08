@@ -1,13 +1,4 @@
-﻿using Prescription.Application.DTOs;
-using Prescription.Domain.Entities.RegisterRoot;
-using rescription.Application.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Prescription.Application.Extensions
+﻿namespace Prescription.Application.Extensions
 {
     public static class RegisterExtension
     {

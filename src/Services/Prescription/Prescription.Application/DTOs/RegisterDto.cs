@@ -21,8 +21,8 @@ namespace Prescription.Application.DTOs
 
         public RegisterDto() { }
         public RegisterDto(
-           Guid id,
-           Guid patientId,
+           RegisterId id,
+           PatientId patientId,
            PatientDto patient,
            List<RiskFactorDto>? familyMedicalHistory = null,
            List<RiskFactorDto>? personalMedicalHistory = null,
@@ -32,8 +32,8 @@ namespace Prescription.Application.DTOs
            List<Test>? test = null,
            List<PrescriptionDto>? prescriptions = null)
         {
-            Id = id;
-            PatientId = patientId;
+            Id = id.Value;
+            PatientId = patientId.Value;
             Patient = patient;
             FamilyMedicalHistory = familyMedicalHistory;
             PersonalMedicalHistory = personalMedicalHistory;

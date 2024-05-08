@@ -20,7 +20,7 @@ namespace Prescription.Application.Features.Diagnosis.Commands.CreateDiagnosis
             dbContext.Diagnosis.Add(Diagnosis);
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return new CreateDiagnosisResult(Diagnosis.Id);
+            return new CreateDiagnosisResult(Diagnosis.Id.Value);
         }
 
         private static Domain.Entities.Diagnosis CreateNewDiagnosis(DiagnosisDto DiagnosisDto)

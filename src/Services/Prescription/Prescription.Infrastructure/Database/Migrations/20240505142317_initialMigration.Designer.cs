@@ -227,10 +227,10 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.Property<Guid>("PosologyId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("QuantityAE")
+                    b.Property<int?>("QuantityAM")
                         .HasColumnType("int");
 
-                    b.Property<int?>("QuantityBE")
+                    b.Property<int?>("QuantityBM")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

@@ -30,7 +30,7 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             // get Prescription with single page
             // return result
 
-            var p = await _dbContext.Prescriptions.Where(p => p.Id == query.Id)
+            var p = await _dbContext.Prescriptions.Where(p => p.Id.Value == query.Id)
                     .Include(p => p.Symptoms)
                     .Include(p => p.Diagnosis)
                     .Include(p => p.Register)

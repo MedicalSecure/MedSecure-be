@@ -13,9 +13,9 @@ namespace Prescription.Application.Extensions
         public static RiskFactorDto ToRiskFactorDto(this RiskFactor riskFactor)
         {
             var dto = new RiskFactorDto(
-            Id: riskFactor.Id,
+            Id: riskFactor.Id.Value,
                 SubRiskFactor: riskFactor.SubRiskFactor?.ToRiskFactorDto().ToList(),
-                RiskFactorParentId: riskFactor.RiskFactorParentId,
+                RiskFactorParentId: riskFactor.RiskFactorParentId?.Value,
                 Key: riskFactor.Key,
                 Value: riskFactor.Value,
                 Code: riskFactor.Code,

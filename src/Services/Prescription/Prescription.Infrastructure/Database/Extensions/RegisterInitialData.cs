@@ -10,125 +10,117 @@ namespace Prescription.Infrastructure.Database.Extensions
     {
         public static Register GetRegisterInitialData(Patient patient)
         {
-            Guid RegisterId = new Guid("88888888-8888-8888-8888-888888888888");
+            RegisterId RegisterId = RegisterId.Of(new Guid("88888888-8888-8888-8888-888888888888"));
 
             // Create family medical history
             var familyHistory = new List<RiskFactor>
             {
-                new RiskFactor
-                {
-                    Key = "FamilyHistory1 (lvl0-1-1child)",
-                    Value = "Heart Disease",
-                    Code = "FH001",
-                    Description = "Family history of heart disease",
-                    IsSelected = true,
-                    Type = "Cardiovascular",
-                    Icon = "heart-icon.png",
-                    SubRiskFactor = new List<RiskFactor>
+                RiskFactor.Create(
+                    key: "FamilyHistory1 (lvl0-1-1child)",
+                    value: "Heart Disease",
+                    code: "FH001",
+                    description: "Family history of heart disease",
+                    isSelected: true,
+                    type: "Cardiovascular",
+                    icon: "heart-icon.png",
+                    subRiskFactor: new List<RiskFactor>
                     {
-                            new RiskFactor
+                        RiskFactor.Create(
+                            key: "Heart Diseases (lvl1-1-2child)",
+                            value: "Heart Disease",
+                            code: "HD001",
+                            description: "Family history of heart disease",
+                            isSelected: false,
+                            type: "Cardiovascular",
+                            icon: "heart-icon.png",
+                            subRiskFactor: new List<RiskFactor>
                             {
-                                Key = "Heart Diseases (lvl1-1-2child)",
-                                Value = "Heart Disease",
-                                Code = "HD001",
-                                Description = "Family history of heart disease",
-                                IsSelected = false,
-                                Type = "Cardiovascular",
-                                Icon = "heart-icon.png",
-                                SubRiskFactor = new List<RiskFactor>
-                                {
-                                    new RiskFactor
-                                    {
-                                        Key = "ParentalHeartDisease (lvl2-1-0child)",
-                                        Value = "Heart Disease (Parental)",
-                                        Code = "HD001-P",
-                                        Description = "Parental history of heart disease",
-                                        IsSelected = false,
-                                        Type = "Cardiovascular",
-                                        Icon = "heart-icon.png",
-                                        SubRiskFactor = new List<RiskFactor>()
-                                    },
-                                    new RiskFactor
-                                    {
-                                        Key = "SiblingHeartDisease (lvl2-2-0child)",
-                                        Value = "Heart Disease (Sibling)",
-                                        Code = "HD001-S",
-                                        Description = "Sibling history of heart disease",
-                                        IsSelected = false,
-                                        Type = "Cardiovascular",
-                                        Icon = "heart-icon.png",
-                                        SubRiskFactor = new List<RiskFactor>()
-                                    }
-                                }
+                                RiskFactor.Create(
+                                    key: "ParentalHeartDisease (lvl2-1-0child)",
+                                    value: "Heart Disease (Parental)",
+                                    code: "HD001-P",
+                                    description: "Parental history of heart disease",
+                                    isSelected: false,
+                                    type: "Cardiovascular",
+                                    icon: "heart-icon.png",
+                                    subRiskFactor: new List<RiskFactor>()
+                                ),
+                                RiskFactor.Create(
+                                    key: "SiblingHeartDisease (lvl2-2-0child)",
+                                    value: "Heart Disease (Sibling)",
+                                    code: "HD001-S",
+                                    description: "Sibling history of heart disease",
+                                    isSelected: false,
+                                    type: "Cardiovascular",
+                                    icon: "heart-icon.png",
+                                    subRiskFactor: new List<RiskFactor>()
+                                )
                             }
+                        )
                     }
-                },
-                new RiskFactor
-                {
-                    Key = "FamilyHistory2",
-                    Value = "Diabetes",
-                    Code = "FH002",
-                    Description = "Family history of diabetes",
-                    IsSelected = true,
-                    Type = "Metabolic",
-                    Icon = "diabetes-icon.png",
-                    SubRiskFactor = new List<RiskFactor>()
-                }
+                ),
+                RiskFactor.Create(
+                    key: "FamilyHistory2",
+                    value: "Diabetes",
+                    code: "FH002",
+                    description: "Family history of diabetes",
+                    isSelected: true,
+                    type: "Metabolic",
+                    icon: "diabetes-icon.png",
+                    subRiskFactor: new List<RiskFactor>()
+                )
             };
 
             // Create personal medical history
             var personalHistory = new List<RiskFactor>
             {
-                new RiskFactor
-                {
-                    Key = "PersonalHistory1",
-                    Value = "Asthma",
-                    Code = "PH001",
-                    Description = "Personal history of asthma",
-                    IsSelected = true,
-                    Type = "Respiratory",
-                    Icon = "asthma-icon.png",
-                    SubRiskFactor = new List<RiskFactor>()
-                }
+                RiskFactor.Create(
+                    key: "PersonalHistory1",
+                    value: "Asthma",
+                    code: "PH001",
+                    description: "Personal history of asthma",
+                    isSelected: true,
+                    type: "Respiratory",
+                    icon: "asthma-icon.png",
+                    subRiskFactor: new List<RiskFactor>()
+                )
             };
 
-            // Create diseases
-            var diseases = new List<RiskFactor>
+                        // Create diseases
+                        var diseases = new List<RiskFactor>
             {
-                new RiskFactor
-                {
-                    Key = "Disease1",
-                    Value = "Hypertension",
-                    Code = "D001",
-                    Description = "Diagnosed with hypertension",
-                    IsSelected = true,
-                    Type = "Cardiovascular",
-                    Icon = "hypertension-icon.png",
-                    SubRiskFactor = new List<RiskFactor>()
-                }
+                RiskFactor.Create(
+                    key: "Disease1",
+                    value: "Hypertension",
+                    code: "D001",
+                    description: "Diagnosed with hypertension",
+                    isSelected: true,
+                    type: "Cardiovascular",
+                    icon: "hypertension-icon.png",
+                    subRiskFactor: new List<RiskFactor>()
+                )
             };
 
-            // Create allergies
-            var allergies = new List<RiskFactor>
+                        // Create allergies
+                        var allergies = new List<RiskFactor>
             {
-                new RiskFactor
-                {
-                    Key = "Allergy1",
-                    Value = "Peanut Allergy",
-                    Code = "A001",
-                    Description = "Allergic to peanuts",
-                    IsSelected = true,
-                    Type = "Food",
-                    Icon = "peanut-icon.png",
-                    SubRiskFactor = new List<RiskFactor>()
-                }
+                RiskFactor.Create(
+                    key: "Allergy1",
+                    value: "Peanut Allergy",
+                    code: "A001",
+                    description: "Allergic to peanuts",
+                    isSelected: true,
+                    type: "Food",
+                    icon: "peanut-icon.png",
+                    subRiskFactor: new List<RiskFactor>()
+                )
             };
 
             // Create history
             var historyList = new List<History>
             {
-                History.Create(new DateTime(2022, 5, 15), Status.Resident, patient.Id),
-                History.Create(new DateTime(2023, 2, 1), Status.Out, patient.Id)
+                History.Create(new DateTime(2022, 5, 15), Status.Resident,RegisterId),
+                History.Create(new DateTime(2023, 2, 1), Status.Out, RegisterId)
             };
 
             var testList = new List<Test>

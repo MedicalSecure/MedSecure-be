@@ -4,7 +4,7 @@ using Prescription.Application.Features.Diagnosis.Queries.GetDiagnosis;
 
 namespace Prescription.API.Endpoints.Diagnosis
 {
-    public record GetRegisterResponse(PaginatedResult<RegisterDto> Register);
+    public record GetRegisterResponse(PaginatedResult<RegisterDto> Registrations);
 
     public class GetRegister : ICarterModule
     {

@@ -13,7 +13,7 @@ namespace Prescription.Application.Extensions
         {
             if (d == null) return null;
             return new PatientDto(
-                Id: d.Id,
+                Id: d.Id.Value,
                 FirstName: d.FirstName,
                 LastName: d.LastName,
                 DateOfBirth: d.DateOfBirth,

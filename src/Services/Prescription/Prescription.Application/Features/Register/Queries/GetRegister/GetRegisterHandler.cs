@@ -1,16 +1,4 @@
-﻿using BuildingBlocks.CQRS;
-using BuildingBlocks.Pagination;
-using Microsoft.EntityFrameworkCore;
-using Prescription.Application.Contracts;
-using Prescription.Application.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-
-namespace Prescription.Application.Features.Diagnosis.Queries.GetDiagnosis
+﻿namespace Prescription.Application.Features.Diagnosis.Queries.GetDiagnosis
 {
     public class GetRegisterHandler(IApplicationDbContext dbContext) : IQueryHandler<GetRegisterQuery, GetRegisterResult>
     {
@@ -24,39 +12,32 @@ namespace Prescription.Application.Features.Diagnosis.Queries.GetDiagnosis
 
             var totalCount = await dbContext.Register.LongCountAsync(cancellationToken);
 
+            //var riskFactor = await dbContext.RiskFactor.ToListAsync(cancellationToken);
+
+            var prescriptions = await dbContext.Prescriptions
+                          .Include(p => p.Symptoms)
+                          .Include(p => p.Diagnosis)
+                          .Include(p => p.Register)
+                          .Include(p => p.Posology)
+                          .ThenInclude(posology => posology.Comments)
+                          .Include(p => p.Posology)
+                          .ThenInclude(posology => posology.Dispenses)
+                          .Include(p => p.Posology)
+                          .ThenInclude(posology => posology.Medication)
+                          .OrderBy(o => o.CreatedAt)
+                          .Skip(pageSize * pageIndex)
+                          .Take(pageSize)
+                          .ToListAsync(cancellationToken);
+
             var registers = await dbContext.Register
                                 .Include(r => r.Patient)
-                                .Include(r => r.Prescriptions)
-                                    .ThenInclude(p => p.Symptoms)
-                                .Include(r => r.Prescriptions)
-                                    .ThenInclude(p => p.Diagnosis)
-                                .Include(r => r.Prescriptions)
-                                    .ThenInclude(p => p.Posology)
-                                .Include(r => r.Prescriptions)
-                                    .ThenInclude(p => p.Posology)
-                                        .ThenInclude(p => p.Comments)
-                                .Include(r => r.Prescriptions)
-                                    .ThenInclude(p => p.Posology)
-                                        .ThenInclude(p => p.Dispenses)
-                                .Include(r => r.Prescriptions)
-                                    .ThenInclude(p => p.Posology)
-                                        .ThenInclude(p => p.Medication)
-
                                 .Include(r => r.FamilyMedicalHistory)
-                                    .ThenInclude(f => f.SubRiskFactor)
-                                    .ThenInclude(f => f.SubRiskFactor)
 
                                 .Include(r => r.PersonalMedicalHistory)
-                                 .ThenInclude(f => f.SubRiskFactor)
-                                 .ThenInclude(f => f.SubRiskFactor)
 
                                 .Include(r => r.Diseases)
-                                .ThenInclude(f => f.SubRiskFactor)
-                                .ThenInclude(f => f.SubRiskFactor)
 
                                 .Include(r => r.Allergies)
-                                 .ThenInclude(f => f.SubRiskFactor)
-                                 .ThenInclude(f => f.SubRiskFactor)
 
                                 .Include(r => r.History)
                                 .Include(r => r.Test)
@@ -65,6 +46,21 @@ namespace Prescription.Application.Features.Diagnosis.Queries.GetDiagnosis
                                 .Take(pageSize)
                                 .ToListAsync(cancellationToken);
 
+            /*      var prescriptionsWithRegisters = prescriptions.Join(
+                          registers,
+                          prescription => prescription.RegisterId,
+                          register => register.Id,
+                          (prescription, register) => register.Prescriptions.Add(prescription))
+                          .ToList();*/
+            /*            var prescriptionsGroupedByRegister = prescriptions.GroupBy(p => p.RegisterId);
+
+                        foreach (var register in registers)
+                        {
+                            register.AddPrescriptions(prescriptionsGroupedByRegister
+                                .Where(g => g.Key == register.Id)
+                                .SelectMany(g => g)
+                                .ToList());
+                        }*/
             var x = new GetRegisterResult(
                 new PaginatedResult<RegisterDto>(
                     pageIndex,
