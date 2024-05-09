@@ -17,6 +17,7 @@ namespace Registration.Application.Registers.Queries.GetRegisters
             var totalCount = await dbContext.Registers.LongCountAsync(cancellationToken);
 
             var registers = await dbContext.Registers
+                           .Include(t =>t.Patient)
                            .Include(t=>t.Allergy).ThenInclude(k => k.SubRiskFactors)
                            .Include(t=>t.FamilyMedicalHistory).ThenInclude(k=>k.SubRiskFactors)
                            .Include(t=>t.PersonalMedicalHistory).ThenInclude(k => k.SubRiskFactors)
