@@ -19,10 +19,10 @@ namespace BacPatient.Application.Extensions
                 Patient = register.Patient.ToPatientDto(), // Assuming a ToDTO() extension method exists for the Patient entity
                 FamilyMedicalHistory = register.FamilyMedicalHistory.ToRiskFactorsDto(), // Assuming a ToDTO() extension method exists for the RiskFactor entity
                 PersonalMedicalHistory = register.PersonalMedicalHistory.ToRiskFactorsDto(),
-                Diseases = register.Diseases.ToRiskFactorsDto(),
-                Allergies = register.Allergies.ToRiskFactorsDto(),
+                Diseases = register.Disease.ToRiskFactorsDto(),
+                Allergies = register.Allergy.ToRiskFactorsDto(),
                 History = register.History.ToHistoriesDto(), // Assuming a ToDTO() extension method exists for the History entity
-                Test = register.Test.ToTestsDto(), // Assuming a ToDTO() extension method exists for the Test entity
+                Test = register.Tests.ToTestsDto(), // Assuming a ToDTO() extension method exists for the Test entity
                 Prescriptions = register.Prescriptions?.ToPrescriptionsDto().ToList() // Assuming a ToDTO() extension method exists for the Prescription entity
             };
         }

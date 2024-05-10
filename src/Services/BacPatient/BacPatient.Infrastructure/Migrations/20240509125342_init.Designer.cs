@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BacPatient.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240506135405_init")]
+    [Migration("20240509125342_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -28,7 +28,6 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.BacPatient", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Bed")
@@ -52,6 +51,9 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<Guid>("PrescriptionId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("RoomId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Served")
                         .HasColumnType("int");
 
@@ -66,13 +68,14 @@ namespace BacPatient.Infrastructure.Migrations
 
                     b.HasIndex("PrescriptionId");
 
+                    b.HasIndex("RoomId");
+
                     b.ToTable("BacPatients");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Comment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
@@ -112,7 +115,6 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.Diagnosis", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -157,7 +159,6 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.Dispense", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -231,17 +232,15 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.Medication", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("AlertStock")
+                    b.Property<int?>("AlertStock")
                         .HasColumnType("int");
 
-                    b.Property<int>("AvrgStock")
+                    b.Property<int?>("AvrgStock")
                         .HasColumnType("int");
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -253,19 +252,16 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Dosage")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("ExpiredAt")
+                    b.Property<DateTime?>("ExpiredAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Form")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -276,7 +272,7 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<int>("MinStock")
+                    b.Property<int?>("MinStock")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -284,20 +280,19 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,4)");
 
-                    b.Property<int>("ReservedStock")
+                    b.Property<int?>("ReservedStock")
                         .HasColumnType("int");
 
-                    b.Property<int>("SafetyStock")
+                    b.Property<int?>("SafetyStock")
                         .HasColumnType("int");
 
-                    b.Property<int>("Stock")
+                    b.Property<int?>("Stock")
                         .HasColumnType("int");
 
                     b.Property<string>("Unit")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -347,7 +342,6 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.Posology", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -391,7 +385,6 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.Prescription", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -400,9 +393,6 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
-
-                    b.Property<Guid>("DoctorId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
@@ -414,9 +404,14 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<Guid>("RegisterId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("UnitCareId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RegisterId");
+
+                    b.HasIndex("UnitCareId");
 
                     b.ToTable("Prescriptions");
                 });
@@ -424,7 +419,6 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.History", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -445,8 +439,9 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<Guid>("RegisterId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -458,63 +453,72 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Patient", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("ActivityStatus")
-                        .HasColumnType("int");
+                    b.Property<string>("ActivityStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("HIGH");
 
                     b.Property<string>("Address1")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Address2")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool?>("AddressIsRegisterations")
                         .HasColumnType("bit");
 
                     b.Property<string>("Assurance")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CIN")
+                        .HasMaxLength(8)
                         .HasColumnType("int");
 
                     b.Property<int?>("CNAM")
+                        .HasMaxLength(20)
                         .HasColumnType("int");
 
-                    b.Property<int?>("Children")
-                        .HasColumnType("int");
+                    b.Property<string>("Children")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("None");
 
-                    b.Property<int?>("Country")
-                        .HasColumnType("int");
+                    b.Property<string>("Country")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("TN");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasAnnotation("RegularExpression", "^[\\w.-]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
-                    b.Property<int?>("FamilyStatus")
-                        .HasColumnType("int");
+                    b.Property<string>("FamilyStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("SINGLE");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("Gender")
-                        .HasColumnType("int");
+                    b.Property<string>("Gender")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("Other");
 
                     b.Property<int?>("Height")
                         .HasColumnType("int");
@@ -523,8 +527,7 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .HasMaxLength(50)
@@ -534,8 +537,7 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("State")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Weight")
                         .HasColumnType("int");
@@ -558,24 +560,20 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("PatientId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PatientId")
-                        .IsUnique();
+                    b.HasIndex("PatientId");
 
                     b.ToTable("Registers");
                 });
@@ -583,7 +581,6 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.RiskFactor", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -623,7 +620,16 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<Guid?>("RiskFactorId")
+                    b.Property<Guid?>("RegisterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("RegisterId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("RegisterId2")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("RegisterId3")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("RiskFactorParentId")
@@ -641,6 +647,14 @@ namespace BacPatient.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RegisterId");
+
+                    b.HasIndex("RegisterId1");
+
+                    b.HasIndex("RegisterId2");
+
+                    b.HasIndex("RegisterId3");
+
                     b.HasIndex("RiskFactorParentId");
 
                     b.ToTable("RiskFactor");
@@ -649,12 +663,12 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Test", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -664,10 +678,14 @@ namespace BacPatient.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("Language")
-                        .HasColumnType("int");
+                    b.Property<string>("Language")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("English");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
@@ -678,8 +696,11 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<Guid>("RegisterId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("Other");
 
                     b.HasKey("Id");
 
@@ -705,14 +726,14 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("RoomNumber")
+                    b.Property<decimal?>("RoomNumber")
+                        .IsRequired()
                         .HasColumnType("decimal(10, 2)");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UnitCareId")
+                    b.Property<Guid?>("UnitCareId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -725,7 +746,6 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.Symptom", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -779,7 +799,6 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastModified")
@@ -789,11 +808,9 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -831,21 +848,6 @@ namespace BacPatient.Infrastructure.Migrations
                     b.ToTable("PrescriptionSymptom");
                 });
 
-            modelBuilder.Entity("RegisterRiskFactor", b =>
-                {
-                    b.Property<Guid>("RegisterId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RiskFactorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("RegisterId", "RiskFactorId");
-
-                    b.HasIndex("RiskFactorId");
-
-                    b.ToTable("RegisterRiskFactor");
-                });
-
             modelBuilder.Entity("BacPatient.Domain.Models.BacPatient", b =>
                 {
                     b.HasOne("BacPatient.Domain.Models.Prescription", "Prescription")
@@ -854,7 +856,13 @@ namespace BacPatient.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BacPatient.Domain.Models.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId");
+
                     b.Navigation("Prescription");
+
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Comment", b =>
@@ -924,7 +932,13 @@ namespace BacPatient.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BacPatient.Domain.Models.UnitCare", "UnitCare")
+                        .WithMany()
+                        .HasForeignKey("UnitCareId");
+
                     b.Navigation("Register");
+
+                    b.Navigation("UnitCare");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.History", b =>
@@ -939,16 +953,30 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Register", b =>
                 {
                     b.HasOne("BacPatient.Domain.Models.RegisterRoot.Patient", "Patient")
-                        .WithOne("Register")
-                        .HasForeignKey("BacPatient.Domain.Models.RegisterRoot.Register", "PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("PatientId");
 
                     b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.RiskFactor", b =>
                 {
+                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.Register", null)
+                        .WithMany("Allergy")
+                        .HasForeignKey("RegisterId");
+
+                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.Register", null)
+                        .WithMany("Disease")
+                        .HasForeignKey("RegisterId1");
+
+                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.Register", null)
+                        .WithMany("FamilyMedicalHistory")
+                        .HasForeignKey("RegisterId2");
+
+                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.Register", null)
+                        .WithMany("PersonalMedicalHistory")
+                        .HasForeignKey("RegisterId3");
+
                     b.HasOne("BacPatient.Domain.Models.RegisterRoot.RiskFactor", "RiskFactorParent")
                         .WithMany("SubRiskFactor")
                         .HasForeignKey("RiskFactorParentId")
@@ -960,7 +988,7 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Test", b =>
                 {
                     b.HasOne("BacPatient.Domain.Models.RegisterRoot.Register", null)
-                        .WithMany("Test")
+                        .WithMany("Tests")
                         .HasForeignKey("RegisterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -970,9 +998,7 @@ namespace BacPatient.Infrastructure.Migrations
                 {
                     b.HasOne("BacPatient.Domain.Models.UnitCare", null)
                         .WithMany("Rooms")
-                        .HasForeignKey("UnitCareId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UnitCareId");
                 });
 
             modelBuilder.Entity("DiagnosisPrescription", b =>
@@ -1005,21 +1031,6 @@ namespace BacPatient.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RegisterRiskFactor", b =>
-                {
-                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.Register", null)
-                        .WithMany()
-                        .HasForeignKey("RegisterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BacPatient.Domain.Models.RegisterRoot.RiskFactor", null)
-                        .WithMany()
-                        .HasForeignKey("RiskFactorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("BacPatient.Domain.Models.Posology", b =>
                 {
                     b.Navigation("Comments");
@@ -1032,18 +1043,21 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Navigation("Posology");
                 });
 
-            modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Patient", b =>
-                {
-                    b.Navigation("Register");
-                });
-
             modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.Register", b =>
                 {
+                    b.Navigation("Allergy");
+
+                    b.Navigation("Disease");
+
+                    b.Navigation("FamilyMedicalHistory");
+
                     b.Navigation("History");
+
+                    b.Navigation("PersonalMedicalHistory");
 
                     b.Navigation("Prescriptions");
 
-                    b.Navigation("Test");
+                    b.Navigation("Tests");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.RegisterRoot.RiskFactor", b =>

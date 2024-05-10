@@ -12,7 +12,9 @@ namespace BacPatient.Infrastructure.Database.Configurations
         public void Configure(EntityTypeBuilder<Symptom> builder)
         {
             builder.HasKey(x => x.Id);
-
+            builder.Property(p => p.Id)
+          .HasConversion(personnelId => personnelId.Value,
+                         dbId => SymptomId.Of(dbId));
             builder.Property(d => d.Code)
             .HasMaxLength(50);
 

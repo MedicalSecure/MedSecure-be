@@ -12,6 +12,9 @@ namespace BacPatient.Infrastructure.Database.Configurations
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(p => p.Id)
+           .HasConversion(personnelId => personnelId.Value,
+                          dbId => CommentId.Of(dbId));
 
             builder.Property(d => d.Label)
             .HasMaxLength(30);

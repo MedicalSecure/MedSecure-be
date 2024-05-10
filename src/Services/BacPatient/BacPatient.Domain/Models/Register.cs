@@ -4,69 +4,97 @@ namespace BacPatient.Domain.Models.RegisterRoot
 {
     public class Register : Aggregate<Guid>
     {
-        //rename register medical record
-        public Patient Patient { get; private set; } = default!;
+        // Properties
+        public Patient? Patient { get; private set; } = default!;
+        public PatientId? PatientId { get; private set; } = default!;
 
-        public Guid? PatientId { get; private set; } = default!;
-
-        public List<RiskFactor>? FamilyMedicalHistory { get; private set; } = default!;
-        public List<RiskFactor>? PersonalMedicalHistory { get; private set; } = default!;
-        public List<RiskFactor>? Diseases { get; private set; } = default!;
-        public List<RiskFactor>? Allergies { get; private set; } = default!;
-        public List<History> History { get; private set; } = default!;
-        public List<Test>? Test { get; private set; } = default!;
-
+        public IReadOnlyList<Test>? Tests => _tests.AsReadOnly();
+        public IReadOnlyList<RiskFactor>? FamilyMedicalHistory => _familyMedicalHistory.AsReadOnly();
+        public IReadOnlyList<RiskFactor>? PersonalMedicalHistory => _personalMedicalHistory.AsReadOnly();
+        public IReadOnlyList<RiskFactor>? Disease => _disease.AsReadOnly();
+        public IReadOnlyList<RiskFactor>? Allergy => _allergy.AsReadOnly();
+        public IReadOnlyList<History>? History => _history.AsReadOnly();
         public List<Prescription>? Prescriptions { get; private set; } = default!;
 
-        public Register() 
+        // Fields
+        private readonly List<Test>? _tests = new();
+        private readonly List<RiskFactor>? _familyMedicalHistory = new();
+        private readonly List<RiskFactor>? _personalMedicalHistory = new();
+        private readonly List<RiskFactor>? _disease = new();
+        private readonly List<RiskFactor>? _allergy = new();
+        private readonly List<History>? _history = new();
+
+        // Constructor
+        private Register() { } // Ensure creation through factory method
+
+        // Factory method
+        public static Register Create(Guid id, Patient patient)
         {
+            if (patient == null)
+                throw new ArgumentNullException(nameof(patient));
+
+            var register = new Register
+            {
+                Id = id,
+                Patient = patient
+            };
+            register.AddDomainEvent(new RegisterCreatedEvent(register));
+            return register;
         }
 
+        // Methods to add medical history, disease, allergy
+        public void AddFamilyMedicalHistory(RiskFactor riskFactor)
+        {
+            if (riskFactor == null)
+                throw new ArgumentNullException(nameof(riskFactor));
+
+            _familyMedicalHistory.Add(riskFactor);
+        }
+
+        public void AddPersonalMedicalHistory(RiskFactor riskFactor)
+        {
+            if (riskFactor == null)
+                throw new ArgumentNullException(nameof(riskFactor));
+
+            _personalMedicalHistory.Add(riskFactor);
+        }
+
+        public void AddDisease(RiskFactor riskFactor)
+        {
+            if (riskFactor == null)
+                throw new ArgumentNullException(nameof(riskFactor));
+
+            _disease.Add(riskFactor);
+        }
         public Register(Guid id, Patient patient, List<Prescription>? prescriptions)
         {
             Id = id;
             Patient = patient;
             Prescriptions = prescriptions;
         }
-        public static Register Create( Patient patient , List<Prescription>? prescriptions)
+        public static Register Create(Patient patient, List<Prescription>? prescriptions)
         {
-            Guid id = new Guid();
-            return new Register(id, patient , prescriptions) ;
+            Guid id =new Guid();
+
+            return new Register(id, patient, prescriptions);
         }
-        public static Register Create(Guid id, Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<Prescription>? prescriptions, List<Test>? test)
+        public void AddAllergy(RiskFactor riskFactor)
         {
-            var register = new Register
-            {
-                Id = id,
-                PatientId = patient.Id,
-                Patient = patient,
-                FamilyMedicalHistory = familyHistory,
-                PersonalMedicalHistory = personalHistory,
-                Diseases = disease,
-                Allergies = allergy,
-                History = history,
-                Prescriptions = prescriptions,
-                Test = test
-            };
-            register.AddDomainEvent(new RegisterCreatedEvent(register));
-            return register;
+            if (riskFactor == null)
+                throw new ArgumentNullException(nameof(riskFactor));
+
+            _allergy.Add(riskFactor);
         }
-      
-        public void Update(Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<Prescription>? prescriptions, List<Test>? test)
+
+        // Method to update patient and test
+        public void Update(Patient patient)
         {
+            if (patient == null)
+                throw new ArgumentNullException(nameof(patient));
+
             Patient = patient;
-            PatientId = patient.Id;
-            FamilyMedicalHistory = familyHistory;
-            PersonalMedicalHistory = personalHistory;
-            Diseases = disease;
-            Allergies = allergy;
-            History = history;
-            Prescriptions = prescriptions;
-            Test = test;
 
             AddDomainEvent(new RegisterUpdatedEvent(this));
         }
-
-       
     }
 }

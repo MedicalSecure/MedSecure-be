@@ -1,6 +1,6 @@
 ﻿namespace BacPatient.Domain.Models.RegisterRoot
 {
-    public class Test : Entity<Guid>
+    public class Test : Entity<TestId>
     {
         public string Code { get; private set; }
         public string Description { get; private set; }
@@ -11,7 +11,7 @@
         private Test()
         { } // Required by EF Core for entity types
 
-        private Test(Guid id, Guid registerId, string code, string description, Language language, TestType type)
+        private Test(TestId id, Guid registerId, string code, string description, Language language, TestType type)
         {
             Id = id;
             Code = code;
@@ -23,10 +23,10 @@
 
         public static Test Create(Guid registerId, string code, string description, Language language, TestType type)
         {
-            return new Test(Guid.NewGuid(), registerId, code, description, language, type);
+            return new Test(TestId.Of(Guid.NewGuid()), registerId, code, description, language, type);
         }
 
-        public static Test Create(Guid id, Guid registerId, string code, string description, Language language, TestType type)
+        public static Test Create(TestId id, Guid registerId, string code, string description, Language language, TestType type)
         {
             return new Test(id, registerId, code, description, language, type);
         }

@@ -16,11 +16,13 @@ public class GetBacPatient : ICarterModule
     {
         app.MapGet("/v1/bacPatient", async ([AsParameters] PaginationRequest request, ISender sender) =>
         {
-           
+
 
             var result = await sender.Send(new GetBacPatientQuery(request));
 
-            var response = result.Adapt<GetBacPatientResult>();
+            // Assuming GetBacPatientQuery returns GetBacPatientResult containing PaginatedResult<BacPatientDto>
+            var response = new GetBPResponse(result.BacPatients);
+
             return Results.Ok(response);
         })
         .WithName("GetBacPatient")

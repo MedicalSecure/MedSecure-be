@@ -6,14 +6,11 @@ namespace BacPatient.Infrastructure.Database.Configurations
     //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     public class PrescriptionConfiguration : IEntityTypeConfiguration<Prescription>
     {
-        public PrescriptionConfiguration()
-        {
-        }
-
         public void Configure(EntityTypeBuilder<Prescription> builder)
-        {
+        {   
             builder.HasKey(p => p.Id);
-
+            builder.Property(p => p.Id).HasConversion(prescriptionId => prescriptionId.Value, id => PrescriptionId.Of(id));
+           
             builder.HasMany(Prescription => Prescription.Symptoms)
                 .WithMany(Sym => Sym.Prescriptions);
 

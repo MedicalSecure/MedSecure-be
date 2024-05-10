@@ -12,7 +12,7 @@ namespace BacPatient.Application.Extensions
         public static PatientDto ToPatientDto(this Patient d)
         {
             return new PatientDto(
-                Id: d.Id,
+                Id: d.Id.Value,
                 firstName: d.FirstName,
                 lastName: d.LastName,
                 dateOfbirth: d.DateOfBirth,
@@ -40,8 +40,8 @@ namespace BacPatient.Application.Extensions
             {
                 SubRiskFactor = riskFactor.SubRiskFactor.Select(rf => rf.ToRiskFactorDto()).ToList(),
                 RiskFactorParent = riskFactor.RiskFactorParent?.ToRiskFactorDto(),
-                RiskFactorParentId = riskFactor.RiskFactorParentId,
-                RiskFactorId = riskFactor.RiskFactorId,
+                RiskFactorParentId = riskFactor.RiskFactorParentId.Value,
+                RiskFactorId = riskFactor.RiskFactorParentId.Value,
                 Key = riskFactor.Key,
                 Value = riskFactor.Value,
                 Code = riskFactor.Code,

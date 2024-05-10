@@ -18,11 +18,11 @@ namespace BacPatient.Application.Extensions
         public static PrescriptionDto ToPrescriptionDto(this Prescription pres)
         {
             var x = new PrescriptionDto(
-                Id: pres.Id,
+                Id: pres.Id.Value,
                 RegisterId: pres.RegisterId,
                 Symptoms: pres.Symptoms.ToSymptomsDto(),
                 Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
-                DoctorId: pres.DoctorId,
+             
                 Posologies: pres.Posology.ToPosologiesDto(),
                 CreatedAt: pres.CreatedAt,
                 LastModified: pres.LastModified,
@@ -42,8 +42,8 @@ namespace BacPatient.Application.Extensions
         public static DispensesDto ToDispenseDto(this Dispense dispense)
         {
             return new DispensesDto(
-                Id: dispense.Id,
-                PosologyId: dispense.PosologyId,
+                Id: dispense.Id.Value,
+                PosologyId: dispense.PosologyId.Value,
                 Hour: dispense.Hour,
                 QuantityBE: dispense.QuantityBE,
                 QuantityAE: dispense.QuantityAE
@@ -58,18 +58,18 @@ namespace BacPatient.Application.Extensions
         public static PosologyDto ToPosologyDto(this Posology posology)
         {
             return new PosologyDto(
-                Id: posology.Id,
-                PrescriptionId: posology.PrescriptionId,
+                Id: posology.Id.Value,
+                PrescriptionId: posology.PrescriptionId.Value,
                 Medication: posology.Medication.ToMedicationDto(),
                 Comments: posology.Comments.Select(c => new CommentsDto(
-                    Id: c.Id,
-                    PosologyId: posology.Id,
+                    Id: c.Id.Value,
+                    PosologyId: posology.Id.Value,
                     Label: c.Label,
                     Content: c.Content
                 )).ToList(),
                 Dispenses: posology.Dispenses.Select(d => new DispensesDto(
-                    Id: d.Id,
-                    PosologyId: posology.Id,
+                    Id: d.Id.Value,
+                    PosologyId: posology.Id.Value,
                     Hour: d.Hour,
                     QuantityBE: d.QuantityBE,
                     QuantityAE: d.QuantityAE
@@ -77,7 +77,7 @@ namespace BacPatient.Application.Extensions
                 IsPermanent: posology.IsPermanent,
                 StartDate: posology.StartDate,
                 EndDate: posology.EndDate
-            );
+            )  ;
         }
     }
 }

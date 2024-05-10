@@ -16,7 +16,7 @@ namespace BacPatient.Application.Extensions
         public static DiagnosisDto ToDiagnosisDto(this Diagnosis diagnosis)
         {
             return new DiagnosisDto(
-                Id: diagnosis.Id,
+                Id: diagnosis.Id.Value,
                 Code: diagnosis.Code,
                 Name: diagnosis.Name,
                 ShortDescription: diagnosis.ShortDescription,

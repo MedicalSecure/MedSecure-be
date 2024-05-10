@@ -9,5 +9,6 @@ public record BacPatientDto(
     ,Guid NurseId,
     int Served , 
     int ToServe ,
-    StatusBP Status 
+    StatusBP Status  , 
+    SimpleRoomDto Room 
     );

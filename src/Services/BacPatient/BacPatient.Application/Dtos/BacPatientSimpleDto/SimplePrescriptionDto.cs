@@ -6,33 +6,44 @@ namespace BacPatient.Application.Dtos.BacPatientSimpleDto
    
         public record SimplePrescriptionDto(
    Guid Id,
-   SimpleRegisterDto Register
-  );
+   SimpleRegisterDto Register,
+            DateTime? CreatedAt ,
+            ICollection<SimplePosologyDto> Posologies , 
+            SimpleUnitCareDto UnitCare);
         public record GetPrescriptionsResult(PaginatedResult<PrescriptionDto> Prescriptions);
-
         public record SimplePosologyDto(Guid Id,
             Guid PrescriptionId,
             SimpleMedicationDto Medication,
             DateTime StartDate,
             DateTime? EndDate,
             bool IsPermanent,
-            ICollection<CommentsDto> Comments,
-            ICollection<DispensesDto> Dispenses);
-
+            ICollection<SimpleCommentsDto> Comments,
+            ICollection<SimpleDispensesDto> Dispenses);
         public record SimpleCommentsDto(Guid Id,
             Guid PosologyId,
             string Label,
             string Content);
-
         public record SimpleDispensesDto(Guid Id,
             Guid PosologyId,
             int Hour,
             int? QuantityBE,
             int? QuantityAE);
-    public record SimpleMedicationDto(Guid Id,
-    string Name,
-    string Dosage,
-    string Form,
-    string Description);
+    public record SimpleMedicationDto(
+                    Guid Id,
+                    string Name,
+                    string Dosage,
+                    string Form,
+                    string Description
+                                        );
+    public record SimpleUnitCareDto (
+           Guid Id,
+            string Title,
+            string Description
+        );
+    public record SimpleRoomDto (
+        Guid Id , 
+            decimal? RoomNumber ,
+     Status? Status 
+        );
 }
 

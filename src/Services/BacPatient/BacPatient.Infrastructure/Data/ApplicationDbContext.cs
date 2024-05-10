@@ -6,7 +6,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-    public DbSet<Domain.Models.BacPatient> BacPatients => Set<BacPatient.Domain.Models.BacPatient>();
+    public DbSet<Domain.Models.BacPatient> BacPatients => Set<Domain.Models.BacPatient>();
 
     public DbSet<Room> Rooms => Set<Room>();
     public DbSet<UnitCare> UnitCares => Set<UnitCare>();
@@ -32,5 +32,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
+
     }
 }

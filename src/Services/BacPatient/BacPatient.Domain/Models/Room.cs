@@ -3,11 +3,11 @@ namespace BacPatient.Domain.Models
 {
     public class Room : Aggregate<ValueObjects.RoomId>
     {
-        private readonly List<Equipment> _equipments= new();
-        public IReadOnlyList<Equipment> Equipments => _equipments.AsReadOnly();
-        public UnitCareId UnitCareId { get; set; } = default!;
-        public decimal RoomNumber { get; set; } = default!;
-        public Status Status { get; set; } = Status.available;
+        private readonly List<Equipment?> _equipments= new();
+        public IReadOnlyList<Equipment?> Equipments => _equipments.AsReadOnly();
+        public UnitCareId? UnitCareId { get; set; } = default!;
+        public decimal? RoomNumber { get; set; } = default!;
+        public Status? Status { get; set; }
 
         public static Room Create(
             RoomId id,
@@ -19,6 +19,24 @@ namespace BacPatient.Domain.Models
             {
                 Id = id,
                 UnitCareId = unitCareId,
+                RoomNumber = roomNumber,
+                Status = status,
+            };
+
+            room.AddDomainEvent(new RoomCreatedEvent(room));
+
+            return room;
+        }
+        // lil bac patient 
+        public static Room Create(
+      RoomId? id,
+
+      decimal? roomNumber,
+      Status? status)
+        {
+            var room = new Room()
+            {
+                Id = id,
                 RoomNumber = roomNumber,
                 Status = status,
             };

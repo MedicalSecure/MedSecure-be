@@ -4,21 +4,22 @@ namespace BacPatient.Domain.Models
 {
     public class UnitCare : Aggregate<UnitCareId>
     {
-        private readonly List<Room> _rooms = new();
-        public IReadOnlyList<Room> Rooms => _rooms.AsReadOnly();
+        private readonly List<Room?> _rooms = new();
+        public IReadOnlyList<Room?> Rooms => _rooms.AsReadOnly();
 
-        private readonly List<Personnel> _personnels = new();
-        public IReadOnlyList<Personnel> Personnels => _personnels.AsReadOnly();
-        public string Title { get; private set; } = default!;
-        public string Description { get; private set; } = default!;
-        public string Type { get; private set; } = default!;
+        private readonly List<Personnel?> _personnels = new();
+        public IReadOnlyList<Personnel?> Personnels => _personnels.AsReadOnly();
+        public string? Title { get; private set; } = default!;
+        public string? Description { get; private set; } = default!;
+        public string? Type { get; private set; } = default!;
       
 
         public static UnitCare Create(
             UnitCareId id,
             string title,
             string description,
-            string type)
+            string type , 
+            Room room)
         {
             var unitCare = new UnitCare()
             {
@@ -26,6 +27,24 @@ namespace BacPatient.Domain.Models
                 Title = title,
                 Description = description,
                 Type = type,
+             
+            };
+
+            unitCare.AddDomainEvent(new UnitCareCreatedEvent(unitCare));
+
+            return unitCare;
+        }
+        // lil bac patient 
+        public static UnitCare Create(
+         UnitCareId id,
+         string title,
+         string description)
+        {
+            var unitCare = new UnitCare()
+            {
+                Id = id,
+                Title = title,
+                Description = description
             };
 
             unitCare.AddDomainEvent(new UnitCareCreatedEvent(unitCare));

@@ -8,10 +8,9 @@ public class BacPatientConfiguration : IEntityTypeConfiguration<Domain.Models.Ba
     {
         builder.HasKey(b => b.Id);
        
-        builder.Property(b => b.Id)
-               .HasConversion(bpModelid => bpModelid,
-                              dbId => dbId);
-    
+        builder.Property(p => p.Id)
+              .HasConversion(personnelId => personnelId.Value,
+                             dbId => BacPatienId.Of(dbId));
 
         builder.Property(d => d.Status).
             HasConversion(

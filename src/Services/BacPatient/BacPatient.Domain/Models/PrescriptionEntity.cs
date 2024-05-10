@@ -1,9 +1,11 @@
 ﻿
 
+using System.Collections.Generic;
+
 namespace BacPatient.Domain.Models
 {
 
-    public class Prescription : Aggregate<Guid>
+    public class Prescription : Aggregate<PrescriptionId>
     {
         private readonly List<Posology> _posology = new();
         private readonly List<Diagnosis> _diagnosis = new();
@@ -13,49 +15,39 @@ namespace BacPatient.Domain.Models
         public IReadOnlyList<Diagnosis> Diagnosis => _diagnosis.AsReadOnly();
         public Guid RegisterId { get; private set; }
         public Register? Register { get; private set; }
-        public Guid DoctorId { get; private set; }
+        public UnitCare? UnitCare { get; private set; }
 
+         
         public Prescription()
         { }// for EF
 
-        private Prescription(Guid id, Guid registerId, Guid doctorId, DateTime createdAt = default)
+        private Prescription(PrescriptionId id, Guid registerId, DateTime? createdAt = default)
         {
             Id = id;
             RegisterId = registerId;
-            DoctorId = doctorId;
-            CreatedBy = doctorId.ToString();
             CreatedAt = createdAt == default ? DateTime.Now : createdAt;
         }
-
-        public static Prescription Create(Guid RegisterId, Guid doctorId, DateTime createdAt = default)
-        {
-            //validations here
-            //..
-            //..
-
-            // Newly created prescription
-            Guid PrescriptionId = new Guid();
-            return new Prescription(PrescriptionId, RegisterId, doctorId, createdAt);
-        }
-
-        public static Prescription Create(Guid PrescriptionId, Guid registerId, Guid doctorId, DateTime createdAt = default)
-        {
-            //validations here
-            //..
-            //..
-            return new Prescription(PrescriptionId, registerId, doctorId, createdAt);
-        }
-        private Prescription(Guid id, Register register)
+        // lil bacPatient
+        private Prescription(PrescriptionId id, Register register,  UnitCare unitCare,DateTime? createdAt = default )
         {
             Id = id;
             Register = register;
-
+            UnitCare = unitCare;
+            CreatedAt = createdAt == default ? DateTime.Now : createdAt;
         }
-        public static Prescription Create(Register Register)
+        public static Prescription Create(Guid RegisterId,DateTime? createdAt = default)
         {
-            Guid PrescriptionId = new Guid();
-            return new Prescription(PrescriptionId, Register);
+            PrescriptionId id = PrescriptionId.Of(Guid.NewGuid());
+            return new Prescription(id, RegisterId, createdAt);
         }
+
+        public static Prescription Create(PrescriptionId PrescriptionId, Guid registerId, DateTime createdAt = default)
+        {
+           
+            return new Prescription(PrescriptionId, registerId, createdAt);
+        }
+     
+      
         public bool addPosology(Posology posology)
         {
             this._posology.Add(posology);
@@ -86,6 +78,14 @@ namespace BacPatient.Domain.Models
             foreach (Symptom symptom in symptoms)
                 this._symptoms.Add(symptom);
             return true;
+        }
+  
+        //lil bac patient
+        public static Prescription Create(Register Register, UnitCare UnitCare , DateTime? CreatedAt  )
+        {
+            PrescriptionId id = PrescriptionId.Of(Guid.NewGuid());
+
+            return new Prescription(id, Register , UnitCare, CreatedAt );
         }
     }
 }

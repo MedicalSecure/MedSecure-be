@@ -1,7 +1,6 @@
 ﻿using BacPatient.Application.BPModels.Commands.CreateBacPatient;
-using BacPatient.Application.Dtos;
-using BacPatient.Application.DTOs;
-using BacPatient.Domain.Models.RegisterRoot;
+using BacPatient.Application.Extensions.SimpleBacPatientExtension;
+
 
 namespace BacPatient.Application.BacPatient.Commands.CreateBPModel;
 
@@ -14,53 +13,60 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
         dbContext.BacPatients.Add(bacPatients);
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        if (await featureManager.IsEnabledAsync("DietPlanSharedFulfillment"))
+        if (await featureManager.IsEnabledAsync("BacPatientSharedFulfillment"))
         {
             var eventMessage = command.BacPatients.Adapt<BacPatientSharedEvent>();
             await publishEndpoint.Publish(eventMessage, cancellationToken);
         }
 
-        return new CreateBacPatientResult(bacPatients.Id);
+        return new CreateBacPatientResult(bacPatients.Id.Value);
     }
-
-
     private static Domain.Models.BacPatient CreateNewBP(BacPatientDto bacPatients)
     {
         var newBPModel = Domain.Models.BacPatient.Create(
-            Id: new Guid(),
-            Prescription : Prescription.Create(
+            Id: BacPatienId.Of(Guid.NewGuid()),
+            Prescription: Prescription.Create(
                 Register: Register.Create(
+                    id: bacPatients.Prescription.Register.Id,
                      patient: Patient.Create(
-                    bacPatients.Prescription.Register.Patient.FirstName ,
+                    bacPatients.Prescription.Register.Patient.FirstName,
                     bacPatients.Prescription.Register.Patient.LastName,
-                    bacPatients.Prescription.Register.Patient.DateOfbirth),
-                     prescriptions: new List<Prescription>()
+                    bacPatients.Prescription.Register.Patient.DateOfbirth)
 
-                     )),
+                     ),
+                UnitCare: UnitCare.Create(
+                                            id : UnitCareId.Of(bacPatients.Prescription.UnitCare.Id),
+                                            title: bacPatients.Prescription.UnitCare.Title,
+                                            description: bacPatients.Prescription.UnitCare.Description
+                ),
+                CreatedAt: bacPatients.Prescription.CreatedAt
+                ),
 
                 Bed: bacPatients.Bed,
                 NurseId: bacPatients.NurseId,
                 Served: bacPatients.Served,
                 ToServe: bacPatients.ToServe,
-                Status: bacPatients.Status
-        );
-
-            var pres = new Prescription();
-
-            foreach (var pos in pres.Posology)
+                Status: bacPatients.Status,
+                Room: Room.Create(id:RoomId.Of( bacPatients.Room.Id),
+                                    roomNumber : bacPatients.Room.RoomNumber ,
+                                    status : bacPatients.Room.Status
+                )
+        ); ;
+        foreach (var posology in bacPatients.Prescription.Posologies)
+        {
+            var newPos = Posology.Create(PrescriptionId.Of(posology.PrescriptionId), posology.Medication.ToSimpleMedicineEntity(), posology.StartDate, posology.EndDate, posology.IsPermanent);
+            newBPModel.Prescription.addPosology(newPos); 
+            foreach (var comment in posology.Comments)
             {
-                var posology = Posology.Create(
-                    prescriptionId : pres.Id ,
-                medication : pos.Medication , 
-                startDate : pos.StartDate ,
-                endDate:pos.EndDate ,
-                isPermanent : pos.IsPermanent ) ;
-
-                pres.addPosology(pos);
+                var newComment = Comment.Create(PosologyId.Of(comment.PosologyId), comment.Label, comment.Content);
+                newPos.AddComment(newComment); 
             }
-
-
-
-        return newBPModel;
+            foreach (var dispense in posology.Dispenses)
+            {
+                var newDispense = Dispense.Create( PosologyId.Of(dispense.PosologyId), dispense.Hour, dispense.QuantityBE, dispense.QuantityAE);
+                newPos.AddDispense(newDispense); 
+            }
+        }
+                return newBPModel;
         }
     }

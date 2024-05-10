@@ -1,9 +1,4 @@
-﻿using BacPatient.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace BacPatient.Infrastructure.Database.Configurations
 {
@@ -12,7 +7,9 @@ namespace BacPatient.Infrastructure.Database.Configurations
         public void Configure(EntityTypeBuilder<RiskFactor> builder)
         {
             builder.HasKey(x => x.Id);
-
+            builder.Property(p => p.Id)
+          .HasConversion(personnelId => personnelId.Value,
+                         dbId => RiskFactorId.Of(dbId));
             builder.HasMany(d => d.SubRiskFactor)
                     .WithOne(r => r.RiskFactorParent)
                     .HasForeignKey(sub => sub.RiskFactorParentId)

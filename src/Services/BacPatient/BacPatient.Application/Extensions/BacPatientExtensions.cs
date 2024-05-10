@@ -8,13 +8,14 @@ namespace BacPatient.Application.Extensions
         public static IEnumerable<BacPatientDto> ToBacPatientDtos(this IEnumerable<Domain.Models.BacPatient> bacPatients)
         {
             return bacPatients.Select(d => new BacPatientDto(
-                Id : d.Id,
+                Id : d.Id.Value,
                 Prescription: d.Prescription.ToSimplePrescriptionDto(),
                 Bed : d.Bed ,
                 NurseId : d.NurseId , 
                 Served : d.Served ,
                 ToServe : d.ToServe , 
-                Status : d.Status 
+                Status : d.Status  , 
+                Room : d.Room.ToSimpleRoomDto()
                 ));
           
         }

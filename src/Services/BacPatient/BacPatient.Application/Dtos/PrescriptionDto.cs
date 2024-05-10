@@ -5,8 +5,6 @@ namespace BacPatient.Application.DTOs
     public record PrescriptionDto(
     Guid Id,
     Guid RegisterId,
- 
-    Guid DoctorId,
     ICollection<SymptomDto> Symptoms,
     ICollection<DiagnosisDto> Diagnoses,
     ICollection<PosologyDto> Posologies,
@@ -32,7 +30,7 @@ namespace BacPatient.Application.DTOs
 
     public record DispensesDto(Guid Id,
         Guid PosologyId,
-        int Hour,
+        int? Hour,
         int? QuantityBE,
         int? QuantityAE);
 }

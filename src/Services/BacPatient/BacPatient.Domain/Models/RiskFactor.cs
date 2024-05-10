@@ -2,16 +2,16 @@
 
 namespace BacPatient.Domain.Models.RegisterRoot
 {
-    public class RiskFactor : Aggregate<Guid>
+    public class RiskFactor : Aggregate<RiskFactorId>
     {
         public List<RiskFactor> SubRiskFactor { get; set; } = default!;
 
         //Navigation property can be null
         public RiskFactor? RiskFactorParent { get; set; } = default!;
 
-        public Guid? RiskFactorParentId { get; set; } = default!;
+        public RiskFactorId? RiskFactorParentId { get; set; } = default!;
+  //      public RegisterId? registerId { get; set; }
 
-        public Guid? RiskFactorId { get; set; } = default!;
 
         // public Guid? RegisterId { get; set; } = default!;
         public string Key { get; set; } = default!;
@@ -23,7 +23,7 @@ namespace BacPatient.Domain.Models.RegisterRoot
         public string Type { get; set; } = default!;
         public string Icon { get; set; } = default!;
 
-        public static RiskFactor Create(Guid id, string key, string value, string code, string description, Boolean isSelected, string type, string icon, List<RiskFactor> subRiskFactor)
+        public static RiskFactor Create(RiskFactorId id, string key, string value, string code, string description, Boolean isSelected, string type, string icon, List<RiskFactor> subRiskFactor)
         {
             var riskFactor = new RiskFactor
             {
