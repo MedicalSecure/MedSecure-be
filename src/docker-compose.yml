@@ -28,9 +28,9 @@ services:
       dockerfile: ApiGateways/YarpApiGateway/Dockerfile
 
 
-  pharmalink.api:
-    image: ${DOCKER_REGISTRY-}pharmalinkapi
+  medication.api:
+    image: ${DOCKER_REGISTRY-}medicationapi
     build:
       context: .
-      dockerfile: Services/Pharmalink/Pharmalink.API/Dockerfile
+      dockerfile: Services/Medication/Medication.API/Dockerfile
 
