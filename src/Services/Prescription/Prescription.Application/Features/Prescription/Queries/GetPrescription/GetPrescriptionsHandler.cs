@@ -45,7 +45,7 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
                            .Skip(pageSize * pageIndex)
                            .Take(pageSize)
                            .ToListAsync(cancellationToken);
-            var prescriptionDtos = prescriptions.ToPrescriptionsDto();
+            var prescriptionDtos = prescriptions.ToPrescriptionsDto(false);
 
             // await prescriptionDtos.Select<PrescriptionDto>(p => p);
 

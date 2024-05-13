@@ -13,9 +13,9 @@
         public List<RiskFactor> Allergies { get; private set; } = new();
         public List<History> History { get; private set; } = new();
         public List<Test> Test { get; private set; } = new();
-        public List<PrescriptionRoot.Prescription> Prescriptions { get; set; } = new();
+        public List<Prescription> Prescriptions { get; set; } = new();
 
-        public static Register Create(RegisterId id, Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<PrescriptionRoot.Prescription>? prescriptions, List<Test>? test)
+        public static Register Create(RegisterId id, Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<Prescription>? prescriptions, List<Test>? test)
         {
             var register = new Register
             {
@@ -27,14 +27,14 @@
                 Diseases = disease,
                 Allergies = allergy,
                 History = history,
-                Prescriptions = prescriptions != null ? prescriptions : new List<PrescriptionRoot.Prescription>(),
+                Prescriptions = prescriptions != null ? prescriptions : new List<Prescription>(),
                 Test = test != null ? test : new List<Test>(),
             };
             register.AddDomainEvent(new RegisterCreatedEvent(register));
             return register;
         }
 
-        public void Update(Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<PrescriptionRoot.Prescription>? prescriptions, List<Test>? test)
+        public void Update(Patient patient, List<RiskFactor> familyHistory, List<RiskFactor> personalHistory, List<RiskFactor> disease, List<RiskFactor> allergy, List<History> history, List<Prescription>? prescriptions, List<Test>? test)
         {
             Patient = patient;
             PatientId = patient.Id;
@@ -49,7 +49,7 @@
             AddDomainEvent(new RegisterUpdatedEvent(this));
         }
 
-        public bool AddPrescription(PrescriptionRoot.Prescription prescription)
+        public bool AddPrescription(Prescription prescription)
         {
             if (prescription.RegisterId == Id)
             {
@@ -59,7 +59,7 @@
             return false;
         }
 
-        public bool AddPrescriptions(List<PrescriptionRoot.Prescription> prescriptions)
+        public bool AddPrescriptions(List<Prescription> prescriptions)
         {
             bool areAllAdded = true;
             foreach (var prescription in prescriptions)

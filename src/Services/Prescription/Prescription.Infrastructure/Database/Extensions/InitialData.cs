@@ -11,7 +11,7 @@
         private static readonly DoctorId doctorId = DoctorId.Of(new Guid("44444444-4444-4444-4444-444444444444"));
         private static readonly DoctorId doctorId2 = DoctorId.Of(new Guid("44444444-4444-4444-4444-444444444445")); // Next sequential number for doctor
         private static readonly PatientId patientId = PatientId.Of(new Guid("22222222-2222-2222-2222-222222222222"));
-        private static readonly PatientId patientId2 = PatientId.Of(new Guid("22222222-2222-2222-2222-222222222223")); // Next sequential number for patient
+      
         private static readonly MedicationId medicationId = MedicationId.Of(new Guid("55555555-5555-5555-5555-555555555555"));
         private static readonly MedicationId medicationId2 = MedicationId.Of(new Guid("55555555-5555-5555-5555-555555555556"));
 
@@ -26,8 +26,8 @@
                 {
                     return new List<Comment>
                     {
-                        Comment.Create(posologyId,"comment","Comment 1"),
-                        Comment.Create(posologyId,"caution","Comment 2"),
+                        Comment.Create(posologyId,"comment","Comment 1",doctorId.ToString()),
+                        Comment.Create(posologyId,"caution","Comment 2",doctorId.ToString()),
                     };
                 }
                 catch (Exception ex)
@@ -45,9 +45,9 @@
                 {
                     return new List<Dispense>
                     {
-                        Dispense.Create(posologyId,4,3,5),
-                        Dispense.Create(posologyId,5,4,8),
-                        Dispense.Create(posologyId,6,5,9),
+                        Dispense.Create(posologyId,4,3,5,doctorId.ToString()),
+                        Dispense.Create(posologyId,5,4,8, doctorId.ToString()),
+                        Dispense.Create(posologyId,6,5,9, doctorId.ToString()),
                     };
                 }
                 catch (Exception ex)
@@ -142,25 +142,6 @@
                             FamilyStatus.MARRIED,
                             Children.One
                         ),
-                        // Create p1
-                        Patient.Create(
-                            patientId2,
-                            "Jane",
-                            "Smith",
-                            new DateTime(1990, 10, 22), // Date of birth
-                            87654321, // CIN
-                            123456, // CNAM
-                            Gender.Female,
-                            165, // Height in cm
-                            60, // Weight in kg
-                            "jane.smith@example.com",
-                            "456 Oak Ave",
-                            null, // No address2
-                            Country.TN,
-                            "ON", // State
-                            FamilyStatus.SINGLE,
-                            Children.Two
-                    )
                 };
                 }
                 catch (Exception ex)
@@ -175,8 +156,8 @@
             if (medications.Count < 1) return null!;
             try
             {
-                Posology posology1 = Posology.Create(prescriptionId, medications[0], new DateTime(), null, true);
-                Posology posology2 = Posology.Create(prescriptionId, medications[1], new DateTime(), null, true);
+                Posology posology1 = Posology.Create(prescriptionId, medications[0].Id, new DateTime(), null, true, doctorId.ToString());
+                Posology posology2 = Posology.Create(prescriptionId, medications[1].Id, new DateTime(), null, true, doctorId.ToString());
                 posology1.AddDispense(Dispenses.ToArray()[0]);
                 posology1.AddDispense(Dispenses.ToArray()[1]);
                 posology2.AddDispense(Dispenses.ToArray()[2]);
@@ -233,11 +214,11 @@
             }
         }
 
-        public static Domain.Entities.PrescriptionRoot.Prescription Prescription(Register register, List<Medication> medications, List<Symptom> symptoms, List<Diagnosis> diagnosis)
+        public static Domain.Entities.Prescription Prescription(Register register, List<Medication> medications, List<Symptom> symptoms, List<Diagnosis> diagnosis)
         {
             try
             {
-                var p = Domain.Entities.PrescriptionRoot.Prescription.Create(register.Id, doctorId);
+                var p = Domain.Entities.Prescription.Create(register.Id, doctorId);
                 p.addPosology(posology(medications)[0]);
                 p.addPosology(posology(medications)[1]);
 
@@ -250,7 +231,7 @@
             }
             catch (Exception ex)
             {
-                throw new EntityCreationException(nameof(Domain.Entities.PrescriptionRoot.Prescription), ex.Message);
+                throw new EntityCreationException(nameof(Domain.Entities.Prescription), ex.Message);
             }
         }
 
@@ -263,7 +244,7 @@
             }
             catch (Exception ex)
             {
-                throw new EntityCreationException(nameof(Domain.Entities.PrescriptionRoot.Prescription), ex.Message);
+                throw new EntityCreationException(nameof(Domain.Entities.Prescription), ex.Message);
             }
         }
 

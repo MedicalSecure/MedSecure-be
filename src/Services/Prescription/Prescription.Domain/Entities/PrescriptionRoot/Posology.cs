@@ -1,4 +1,4 @@
-﻿namespace Prescription.Domain.Entities.PrescriptionRoot
+﻿namespace Prescription.Domain.Entities
 {
     public class Posology : Entity<PosologyId>
     {
@@ -8,7 +8,7 @@
         public PrescriptionId PrescriptionId { get; private set; }
         public Prescription Prescription { get; set; }
         public MedicationId MedicationId { get; set; }
-        public Medication Medication { get; private set; }
+        public Medication? Medication { get; private set; }
         public DateTime StartDate { get; private set; }
 
         public DateTime? EndDate { get; private set; }
@@ -22,7 +22,7 @@
         {
         }
 
-        private Posology(PosologyId id, PrescriptionId prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
+        private Posology(PosologyId id, PrescriptionId prescriptionId, MedicationId medicationId, Medication? medication, DateTime startDate, DateTime? endDate, bool isPermanent, string createdBy, DateTime createdAt)
         {
             Id = id;
             PrescriptionId = prescriptionId;
@@ -30,22 +30,31 @@
             EndDate = endDate;
             IsPermanent = isPermanent;
             Medication = medication;
-            MedicationId = medication.Id;
+            MedicationId = medicationId;
+            CreatedAt = createdAt;
+            CreatedBy = createdBy;
         }
 
-        public static Posology Create(PrescriptionId prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
+        /*        public static Posology Create(PrescriptionId prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
+                {
+                    if (isPermanent == false && endDate == null) throw new ArgumentNullException("test");
+                    return new Posology(PosologyId.Of(Guid.NewGuid()), prescriptionId, medication, startDate, endDate, isPermanent);
+                }*/
+
+        public static Posology Create(PrescriptionId prescriptionId, MedicationId medicationId, DateTime startDate, DateTime? endDate, bool isPermanent,string createdBy, DateTime createdAt = default)
         {
             if (isPermanent == false && endDate == null) throw new ArgumentNullException("test");
-            if (medication == null) throw new ArgumentNullException("test");
-            return new Posology(PosologyId.Of(Guid.NewGuid()), prescriptionId, medication, startDate, endDate, isPermanent);
+            
+            var CreatedAt = createdAt == default ? DateTime.Now : createdAt;
+            return new Posology(PosologyId.Of(Guid.NewGuid()), prescriptionId, medicationId, null, startDate, endDate, isPermanent, createdBy, CreatedAt);
         }
 
-        public static Posology Create(PosologyId id, PrescriptionId prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
-        {
-            if (isPermanent == false && endDate == null) throw new ArgumentNullException("test");
-            if (medication == null) throw new ArgumentNullException("test");
-            return new Posology(id, prescriptionId, medication, startDate, endDate, isPermanent);
-        }
+        /*        public static Posology Create(PosologyId id, PrescriptionId prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
+                {
+                    if (isPermanent == false && endDate == null) throw new ArgumentNullException("test");
+                    if (medication == null) throw new ArgumentNullException("test");
+                    return new Posology(id, prescriptionId, medication, startDate, endDate, isPermanent);
+                }*/
 
         public void AddDispense(Dispense dispense)
         {

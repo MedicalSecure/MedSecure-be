@@ -163,7 +163,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.ToTable("Medications");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Comment", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -203,7 +203,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Dispense", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.Dispense", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -240,7 +240,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.ToTable("Dispenses");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Posology", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.Posology", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -284,7 +284,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.ToTable("Posology");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Prescription", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.Prescription", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -663,16 +663,16 @@ namespace Prescription.Infrastructure.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Prescription.Domain.Entities.PrescriptionRoot.Prescription", null)
+                    b.HasOne("Prescription.Domain.Entities.Prescription", null)
                         .WithMany()
                         .HasForeignKey("PrescriptionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Comment", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.Comment", b =>
                 {
-                    b.HasOne("Prescription.Domain.Entities.PrescriptionRoot.Posology", "posology")
+                    b.HasOne("Prescription.Domain.Entities.Posology", "posology")
                         .WithMany("Comments")
                         .HasForeignKey("PosologyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -681,9 +681,9 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.Navigation("posology");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Dispense", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.Dispense", b =>
                 {
-                    b.HasOne("Prescription.Domain.Entities.PrescriptionRoot.Posology", "posology")
+                    b.HasOne("Prescription.Domain.Entities.Posology", "posology")
                         .WithMany("Dispenses")
                         .HasForeignKey("PosologyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -692,7 +692,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.Navigation("posology");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Posology", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.Posology", b =>
                 {
                     b.HasOne("Prescription.Domain.Entities.Medication", "Medication")
                         .WithMany()
@@ -700,7 +700,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Prescription.Domain.Entities.PrescriptionRoot.Prescription", "Prescription")
+                    b.HasOne("Prescription.Domain.Entities.Prescription", "Prescription")
                         .WithMany("Posology")
                         .HasForeignKey("PrescriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -711,7 +711,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.Navigation("Prescription");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Prescription", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.Prescription", b =>
                 {
                     b.HasOne("Prescription.Domain.Entities.RegisterRoot.Register", "Register")
                         .WithMany("Prescriptions")
@@ -763,7 +763,7 @@ namespace Prescription.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("PrescriptionSymptom", b =>
                 {
-                    b.HasOne("Prescription.Domain.Entities.PrescriptionRoot.Prescription", null)
+                    b.HasOne("Prescription.Domain.Entities.Prescription", null)
                         .WithMany()
                         .HasForeignKey("PrescriptionsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -791,14 +791,14 @@ namespace Prescription.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Posology", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.Posology", b =>
                 {
                     b.Navigation("Comments");
 
                     b.Navigation("Dispenses");
                 });
 
-            modelBuilder.Entity("Prescription.Domain.Entities.PrescriptionRoot.Prescription", b =>
+            modelBuilder.Entity("Prescription.Domain.Entities.Prescription", b =>
                 {
                     b.Navigation("Posology");
                 });

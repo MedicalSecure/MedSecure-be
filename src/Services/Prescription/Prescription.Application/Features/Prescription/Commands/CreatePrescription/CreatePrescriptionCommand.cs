@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Prescription.Application.Features.Prescription.Commands.CreatePrescription
 {
-    public record CreatePrescriptionCommand(PrescriptionDto Prescription) : ICommand<CreatePrescriptionResult>;
+    public record CreatePrescriptionCommand(PrescriptionCreateDto Prescription) : ICommand<CreatePrescriptionResult>;
 
     public record CreatePrescriptionResult(Guid Id);
 

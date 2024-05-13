@@ -1,4 +1,4 @@
-﻿namespace Prescription.Domain.Entities.PrescriptionRoot
+﻿namespace Prescription.Domain.Entities
 {
     public class Prescription : Aggregate<PrescriptionId>
     {

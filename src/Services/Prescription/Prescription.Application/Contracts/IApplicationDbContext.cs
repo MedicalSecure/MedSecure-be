@@ -10,7 +10,7 @@ namespace Prescription.Application.Contracts
 {
     public interface IApplicationDbContext
     {
-        DbSet<Domain.Entities.PrescriptionRoot.Prescription> Prescriptions { get; }
+        DbSet<Domain.Entities.Prescription> Prescriptions { get; }
         public DbSet<Symptom> Symptoms { get; }
         public DbSet<Diagnosis> Diagnosis { get; }
         public DbSet<Dispense> Dispenses { get; }
@@ -24,5 +24,7 @@ namespace Prescription.Application.Contracts
         public DbSet<Medication> Medications { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+
+        public void AttachEntity<TEntity>(TEntity entity) where TEntity : class;
     }
 }

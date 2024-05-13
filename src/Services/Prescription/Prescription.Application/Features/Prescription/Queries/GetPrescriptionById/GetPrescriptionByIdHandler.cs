@@ -30,15 +30,15 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             // get Prescription with single page
             // return result
 
-            var p = await _dbContext.Prescriptions.Where(p => p.Id.Value == query.Id)
-                    .Include(p => p.Symptoms)
-                    .Include(p => p.Diagnosis)
-                    .Include(p => p.Register)
-                    .Include(p => p.Posology)
-                    .ThenInclude(posology => posology.Comments)
-                    .Include(p => p.Posology)
-                    .ThenInclude(posology => posology.Dispenses)
-                    .FirstOrDefaultAsync(cancellationToken);
+            var p = await _dbContext.Prescriptions.Where(p => p.Id == PrescriptionId.Of(query.Id))
+                   .Include(p => p.Symptoms)
+                   .Include(p => p.Diagnosis)
+                   .Include(p => p.Register)
+                   .Include(p => p.Posology)
+                   .ThenInclude(posology => posology.Comments)
+                   .Include(p => p.Posology)
+                   .ThenInclude(posology => posology.Dispenses)
+                   .FirstOrDefaultAsync(cancellationToken);
 
             var totalCount = p == null ? 0 : 1;
 
@@ -50,12 +50,20 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
 
             /*TODO fix this*/
             PrescriptionDto result = new PrescriptionDto(
-                p.Id,
-                p.RegisterId,
-                p.DoctorId,
-                p.Symptoms.ToSymptomsDto(),
-                p.Diagnosis.ToDiagnosisDto(),
-                p.Posology.ToPosologiesDto());
+                Id: p.Id.Value,
+                RegisterId: p.RegisterId.Value,
+                DoctorId: p.DoctorId.Value,
+                Symptoms: p.Symptoms.ToSymptomsDto(),
+                Diagnoses: p.Diagnosis.ToDiagnosisDto(),
+                Posologies: p.Posology.ToPosologiesDto(),
+                CreatedAt: p.CreatedAt ?? DateTime.UtcNow, // Assuming you want to set the current UTC time
+                UnitCareId: p.UnitCareId?.Value,
+                DietId: p.DietId?.Value,
+                Register: null,
+                LastModified: p.LastModified,
+                CreatedBy: p.CreatedBy,
+                LastModifiedBy: p.LastModifiedBy
+            );
 
             List<PrescriptionDto> returnList = p == null ? [] : [result];
             return new GetPrescriptionsResult(

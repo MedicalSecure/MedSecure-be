@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-//using Microsoft.EntityFrameworkCore.Proxies;
+using Microsoft.EntityFrameworkCore.Proxies;
 
 namespace Prescription.Infrastructure.Database
 {
@@ -18,7 +18,7 @@ namespace Prescription.Infrastructure.Database
         {
         }
 
-        public DbSet<Domain.Entities.PrescriptionRoot.Prescription> Prescriptions { get; set; }
+        public DbSet<Domain.Entities.Prescription> Prescriptions { get; set; }
         public DbSet<Symptom> Symptoms { get; set; }
         public DbSet<Diagnosis> Diagnosis { get; set; }
         public DbSet<Dispense> Dispenses { get; set; }
@@ -46,6 +46,11 @@ namespace Prescription.Infrastructure.Database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseLazyLoadingProxies();
+        }
+
+        public void AttachEntity<TEntity>(TEntity entity) where TEntity : class
+        {
+            Attach(entity);
         }
     }
 }

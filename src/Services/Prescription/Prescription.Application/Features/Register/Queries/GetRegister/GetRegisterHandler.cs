@@ -12,34 +12,34 @@
 
             var totalCount = await dbContext.Register.LongCountAsync(cancellationToken);
 
-            //var riskFactor = await dbContext.RiskFactor.ToListAsync(cancellationToken);
-
-            var prescriptions = await dbContext.Prescriptions
-                          .Include(p => p.Symptoms)
-                          .Include(p => p.Diagnosis)
-                          .Include(p => p.Register)
-                          .Include(p => p.Posology)
-                          .ThenInclude(posology => posology.Comments)
-                          .Include(p => p.Posology)
-                          .ThenInclude(posology => posology.Dispenses)
-                          .Include(p => p.Posology)
-                          .ThenInclude(posology => posology.Medication)
-                          .OrderBy(o => o.CreatedAt)
-                          .Skip(pageSize * pageIndex)
-                          .Take(pageSize)
-                          .ToListAsync(cancellationToken);
+            var riskFactor = await dbContext.RiskFactor.ToListAsync(cancellationToken);
+            /*
+                        var prescriptions = await dbContext.Prescriptions
+                                      .Include(p => p.Symptoms)
+                                      .Include(p => p.Diagnosis)
+                                      .Include(p => p.Register)
+                                      .Include(p => p.Posology)
+                                      .ThenInclude(posology => posology.Comments)
+                                      .Include(p => p.Posology)
+                                      .ThenInclude(posology => posology.Dispenses)
+                                      .Include(p => p.Posology)
+                                      .ThenInclude(posology => posology.Medication)
+                                      .OrderBy(o => o.CreatedAt)
+                                      .Skip(pageSize * pageIndex)
+                                      .Take(pageSize)
+                                      .ToListAsync(cancellationToken);*/
 
             var registers = await dbContext.Register
                                 .Include(r => r.Patient)
-                                .Include(r => r.FamilyMedicalHistory)
+                                /*                                .Include(r => r.FamilyMedicalHistory)
 
-                                .Include(r => r.PersonalMedicalHistory)
+                                                                .Include(r => r.PersonalMedicalHistory)
 
-                                .Include(r => r.Diseases)
+                                                                .Include(r => r.Diseases)
 
-                                .Include(r => r.Allergies)
+                                                                .Include(r => r.Allergies)
 
-                                .Include(r => r.History)
+                                                                .Include(r => r.History)*/
                                 .Include(r => r.Test)
                                 .OrderBy(o => o.CreatedAt)
                                 .Skip(pageSize * pageIndex)

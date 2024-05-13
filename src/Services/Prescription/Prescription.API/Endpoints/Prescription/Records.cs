@@ -5,8 +5,13 @@
         //Get
         public record GetPrescriptionResponse(PaginatedResult<PrescriptionDto> Prescriptions);
 
+        //Get By register Id List
+
+        public record GetPrescriptionsByRegisterIdRequest(List<Guid> registerIds);
+        public record GetPrescriptionsByRegisterIdResponse(Dictionary<Guid, List<PrescriptionDto>> PrescriptionsByRegisterId);
+
         // Post
-        public record CreatePrescriptionRequest(PrescriptionDto Prescription);
+        public record CreatePrescriptionRequest(PrescriptionCreateDto Prescription);
         public record CreatePrescriptionResponse(Guid Id);
 
         // Put

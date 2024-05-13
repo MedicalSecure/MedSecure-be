@@ -1,4 +1,4 @@
-﻿namespace Prescription.Domain.Entities.PrescriptionRoot
+﻿namespace Prescription.Domain.Entities
 {
     public class Dispense : Entity<DispenseId>
     {
@@ -12,7 +12,7 @@
         private Dispense()
         { } // Required for EF Core
 
-        private Dispense(DispenseId id, PosologyId posologyId, int hour, int? QuantityBM, int? QuantityAM)
+        private Dispense(DispenseId id, PosologyId posologyId, int hour, int? QuantityBM, int? QuantityAM, string createdBy, DateTime createdAt)
         {
             Validator.isHourValid(hour, nameof(hour));
 
@@ -34,20 +34,32 @@
                 BeforeMeal = new Dose(QuantityBM ?? 0);
                 AfterMeal = new Dose(QuantityAM ?? 0);
             }
-
+            CreatedAt = createdAt;
+            CreatedBy = createdBy;
             Id = id;
             PosologyId = posologyId;
             Hour = hour;
         }
 
-        public static Dispense Create(PosologyId posologyId, int hour, int? QuantityBM, int? QuantityAM)
+        /*
+                private Dispense(DispenseId id, PosologyId posologyId, int hour, Dose BeforeMeal, Dose AfterMeal)
+                {
+                    Validator.isHourValid(hour, nameof(hour));
+                    //TODO Here
+                }*/
+
+        public static Dispense Create(PosologyId posologyId, int hour, int? QuantityBM, int? QuantityAM, string createdBy, DateTime createdAt = default)
         {
-            return new Dispense(DispenseId.Of(Guid.NewGuid()), posologyId, hour, QuantityBM, QuantityAM);
+            var CreatedAt = createdAt == default ? DateTime.Now : createdAt;
+
+            return new Dispense(DispenseId.Of(Guid.NewGuid()), posologyId, hour, QuantityBM, QuantityAM, createdBy, CreatedAt);
         }
 
-        public static Dispense Create(DispenseId Id, PosologyId posologyId, int hour, int? QuantityBM, int? QuantityAM)
+        public static Dispense Create(DispenseId Id, PosologyId posologyId, int hour, int? QuantityBM, int? QuantityAM, string createdBy, DateTime createdAt = default)
         {
-            return new Dispense(Id, posologyId, hour, QuantityBM, QuantityAM);
+            var CreatedAt = createdAt == default ? DateTime.Now : createdAt;
+
+            return new Dispense(Id, posologyId, hour, QuantityBM, QuantityAM, createdBy, CreatedAt);
         }
     }
 }

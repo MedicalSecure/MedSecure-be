@@ -8,7 +8,7 @@ public static class DatabaseExtensions
     {
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        //await context.Database.MigrateAsync();
+        await context.Database.MigrateAsync();
         await SeedAsync(context);
     }
 
@@ -99,14 +99,12 @@ public static class DatabaseExtensions
         try
         {
             var patients = await context.Patients.ToListAsync();
-
+            var patient = patients.First();
             List<Register> register = await context.Register.ToListAsync();
 
             // Check if there are any patients and doctors
             if (patients.Count > 0)
             {
-                var patient = patients.First();
-
                 if (!await context.Register.AnyAsync())
                 {
                     var newRegister = InitialData.Register(patient);

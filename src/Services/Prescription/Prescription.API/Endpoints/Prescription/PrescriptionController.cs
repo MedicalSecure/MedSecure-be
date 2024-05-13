@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Prescription.API.Endpoints.Prescription;
-using Prescription.Application.Features.Prescription.Commands.CreatePrescription;
-
-using Prescription.Application.Features.Prescription.Commands.UpdatePrescription;
-using Prescription.Application.Features.Prescription.Queries.GetPrescription;
-using static Prescription.API.Endpoints.Prescription.Records;
+﻿using static Prescription.API.Endpoints.Prescription.Records;
 
 namespace Prescription.API.Endpoints.Prescription
 {
@@ -72,5 +65,35 @@ namespace Prescription.API.Endpoints.Prescription
             var response = result.Adapt<UpdatePrescriptionResponse>();
             return Ok(response);
         }*/
+
+        [HttpGet("Register/{id}")]
+        public async Task<IActionResult> GetPrescriptionsByRegisterId(Guid id)
+        {
+            var command = new GetPrescriptionByRegisterIdQuery(id);
+            var result = await _sender.Send(command);
+            GetPrescriptionResponse response = result.Adapt<GetPrescriptionResponse>();
+
+            // If the Prescription is not found, return a 404 Not Found response
+            if (response == null || response.Prescriptions.Data.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            // Return an appropriate HTTP response with the adapted response object
+            return Ok(response);
+        }
+
+        [HttpGet("Register")]
+        public async Task<IActionResult> GetPrescriptionsByRegisterIdList([FromQuery] GetPrescriptionsByRegisterIdRequest request)
+        {
+            var query = new GetPrescriptionsByRegisterIdsQuery(request.registerIds);
+            //var query = request.Adapt<GetPrescriptionsByRegisterIdsQuery>();
+
+            var result = await _sender.Send(query);
+            var response = result.Adapt<GetPrescriptionsByRegisterIdResponse>();
+
+            // Return an appropriate HTTP response with the adapted response object
+            return Ok(response);
+        }
     }
 }

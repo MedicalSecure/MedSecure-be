@@ -4,13 +4,13 @@ namespace Prescription.Infrastructure.Database.Configurations
 {
     //called from : ApplicationDbContext :
     //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    public class PrescriptionConfiguration : IEntityTypeConfiguration<Domain.Entities.PrescriptionRoot.Prescription>
+    public class PrescriptionConfiguration : IEntityTypeConfiguration<Domain.Entities.Prescription>
     {
         public PrescriptionConfiguration()
         {
         }
 
-        public void Configure(EntityTypeBuilder<Domain.Entities.PrescriptionRoot.Prescription> builder)
+        public void Configure(EntityTypeBuilder<Domain.Entities.Prescription> builder)
         {
             builder.HasKey(p => p.Id);
 
