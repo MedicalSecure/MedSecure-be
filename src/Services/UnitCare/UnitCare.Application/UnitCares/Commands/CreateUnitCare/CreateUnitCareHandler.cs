@@ -42,7 +42,7 @@ public class CreateUnitCareHandler(IPublishEndpoint publishEndpoint, IApplicatio
 
             foreach (var equipment in room.Equipments)
             {
-                var newEquipment= Equipment.Create(EquipmentId.Of(equipment.Id), RoomId.Of(equipment.RoomId), equipment.Name, equipment.Reference, equipment.EqStatus);
+                var newEquipment= Equipment.Create(EquipmentId.Of(equipment.Id), RoomId.Of(equipment.RoomId), equipment.Name, equipment.Reference, equipment.EqStatus, equipment.EqType);
 
                 newRoom.AddEquipment(newEquipment);
 

@@ -26,6 +26,6 @@ public class UpdateEquipmentHandler(IApplicationDbContext dbContext) : ICommandH
 
     private static void UpdateEquipmentWithNewValues(Equipment equipment, EquipmentDto equipmentDto)
     {
-        equipment.Update(equipmentDto.Name, RoomId.Of(equipmentDto.RoomId), equipmentDto.Reference, equipmentDto.EqStatus);
+        equipment.Update(equipmentDto.Name, RoomId.Of(equipmentDto.RoomId), equipmentDto.Reference, equipmentDto.EqStatus,equipmentDto.EqType);
     }
 }

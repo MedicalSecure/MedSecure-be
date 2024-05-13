@@ -37,6 +37,9 @@ namespace UnitCare.Infrastructure.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("int");
 
+                    b.Property<int>("EqType")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 

@@ -23,7 +23,8 @@ public class CreateEquipmentHandler(IApplicationDbContext dbContext) : ICommandH
             roomId: RoomId.Of(equipmentDto.RoomId),
             name: equipmentDto.Name,
             reference: equipmentDto.Reference,
-            eqStatus: equipmentDto.EqStatus
+            eqStatus: equipmentDto.EqStatus,
+            eqType:equipmentDto.EqType
 
             );
 

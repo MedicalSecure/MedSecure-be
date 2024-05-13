@@ -4,7 +4,7 @@
     {
         pending = 1,
         activated =2,
-        desactivated=3
+        deactivated=3
         
     }
    

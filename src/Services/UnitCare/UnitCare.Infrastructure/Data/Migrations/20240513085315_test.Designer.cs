@@ -12,7 +12,7 @@ using UnitCare.Infrastructure.Data;
 namespace UnitCare.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240503150503_test")]
+    [Migration("20240513085315_test")]
     partial class test
     {
         /// <inheritdoc />
@@ -38,6 +38,9 @@ namespace UnitCare.Infrastructure.Data.Migrations
 
                     b.Property<int>("EqStatus")
                         .HasMaxLength(500)
+                        .HasColumnType("int");
+
+                    b.Property<int>("EqType")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastModified")
