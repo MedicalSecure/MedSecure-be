@@ -6,7 +6,6 @@
         {
             return new RegisterDto(
                 register.Id,
-                register.PatientId,
                 register.Patient.ToPatientDto(),
                 register.FamilyMedicalHistory.ToRiskFactorDto().ToList(),
                 register.PersonalMedicalHistory.ToRiskFactorDto().ToList(),

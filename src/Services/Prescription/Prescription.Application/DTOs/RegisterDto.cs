@@ -9,7 +9,7 @@ namespace Prescription.Application.DTOs
     public record RegisterDto
     {
         public Guid Id { get; init; }
-        public Guid PatientId { get; init; }
+        //public Guid PatientId { get; init; }
         public PatientDto Patient { get; init; }
         public List<RiskFactorDto>? FamilyMedicalHistory { get; init; }
         public List<RiskFactorDto>? PersonalMedicalHistory { get; init; }
@@ -22,7 +22,6 @@ namespace Prescription.Application.DTOs
         public RegisterDto() { }
         public RegisterDto(
            RegisterId id,
-           PatientId patientId,
            PatientDto patient,
            List<RiskFactorDto>? familyMedicalHistory = null,
            List<RiskFactorDto>? personalMedicalHistory = null,
@@ -33,7 +32,6 @@ namespace Prescription.Application.DTOs
            List<PrescriptionDto>? prescriptions = null)
         {
             Id = id.Value;
-            PatientId = patientId.Value;
             Patient = patient;
             FamilyMedicalHistory = familyMedicalHistory;
             PersonalMedicalHistory = personalMedicalHistory;
