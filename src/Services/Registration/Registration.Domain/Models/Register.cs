@@ -16,12 +16,12 @@ public class Register : Aggregate<RegisterId>
     public IReadOnlyList<History> History => _history.AsReadOnly();
 
     // Fields
-    private readonly List<Test> _tests = new();
-    private readonly List<RiskFactor> _familyMedicalHistory = new();
-    private readonly List<RiskFactor> _personalMedicalHistory = new();
-    private readonly List<RiskFactor> _disease = new();
-    private readonly List<RiskFactor> _allergy = new();
-    private readonly List<History> _history = new();
+    private readonly List<Test> _tests = new List<Test>();
+    private readonly List<RiskFactor> _familyMedicalHistory = new List<RiskFactor>();
+    private readonly List<RiskFactor> _personalMedicalHistory = new List<RiskFactor>();
+    private readonly List<RiskFactor> _disease = new List<RiskFactor>();
+    private readonly List<RiskFactor> _allergy = new List<RiskFactor>();
+    private readonly List<History> _history = new List<History>();
 
     // Constructor
     public Register() { }

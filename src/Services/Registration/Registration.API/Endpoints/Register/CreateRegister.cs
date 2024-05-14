@@ -6,7 +6,7 @@ using Registration.Application.Registers.Commands.CreateRegister;
 
 namespace Registration.Api.Endpoints.Register
 {
-    public record CreateRegisterRequest(RegisterDto Register);
+    public record CreateRegisterRequest(RegisterDto register);
     public record CreateRegisterResponse(string Id);
     public class CreateRegister : ICarterModule
     {
@@ -14,13 +14,19 @@ namespace Registration.Api.Endpoints.Register
         {
             app.MapPost("/registers", async (CreateRegisterRequest request, ISender sender) =>
             {
-                var command = request.Adapt<CreateRegisterCommand>();
+                if (request != null)
+                {
+                    //    var command = request.Adapt<CreateRegisterCommand>();
+                    CreateRegisterCommand command = new CreateRegisterCommand(request.register);
+                    var result = await sender.Send(command);
 
-                var result = await sender.Send(command);
+                    var response = result.Adapt<CreateRegisterResponse>();
+                    return Results.Created($"/registers/{response.Id}", response);
+                }
+                else {
+                    return Results.BadRequest("Request object is null.");
+                }
 
-                var response = result.Adapt<CreateRegisterResponse>();
-
-                return Results.Created($"/registers/{response.Id}", response);
             })
             .WithName("CreateRegister")
             .Produces<CreateRegisterResponse>(StatusCodes.Status201Created)

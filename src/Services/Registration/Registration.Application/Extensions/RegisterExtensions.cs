@@ -4,12 +4,6 @@
     {
         public static RegisterDto ToRegisterDto(this Domain.Models.Register? register)
         {
-            if (register == null)
-            {
-                
-                throw new ArgumentNullException(nameof(register), "Cannot convert null register to RegisterDto.");
-            }
-
             return DtoFromRegister(register);
         }
 
