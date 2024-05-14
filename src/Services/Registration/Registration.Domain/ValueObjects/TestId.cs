@@ -5,7 +5,7 @@ namespace Registration.Domain.ValueObjects
     {
         public Guid Value { get; }
 
-        private TestId(Guid value) => Value = value;
+        public TestId(Guid value) => Value = value;
 
         public static TestId Of(Guid value)
         {

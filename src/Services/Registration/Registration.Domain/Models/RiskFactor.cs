@@ -68,12 +68,12 @@
     // Method to update the risk factor
     public void Update(
         string key,
-        string value,
-        string code,
-        string description,
+        string? value,
+        string? code,
+        string? description,
         bool isSelected,
-        string type,
-        string icon)
+        string? type,
+        string? icon)
     {
         if (string.IsNullOrWhiteSpace(key))
             throw new ArgumentException("Key cannot be null or empty.", nameof(key));

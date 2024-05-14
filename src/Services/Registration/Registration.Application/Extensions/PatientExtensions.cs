@@ -9,7 +9,7 @@ namespace Registration.Application.Extensions
         public static IEnumerable<PatientDto> ToPatientDto(this List<Patient> patients)
         {
             return patients.Select(p => new PatientDto(
-                Id: p.Id.Value,
+                id: p.Id.Value,
                firstName: p.FirstName,
                 lastName: p.LastName,
                 dateOfBirth: p.DateOfBirth,
@@ -19,7 +19,7 @@ namespace Registration.Application.Extensions
                 gender: p.Gender,
                 height: p.Height,
                 weight: p.Weight,
-                addressIsRegisteraions: p.AddressIsRegisterations,
+                addressIsRegistrations: p.AddressIsRegisterations,
                 saveForNextTime:p.SaveForNextTime,
                 email: p.Email,
                 address1: p.Address1,

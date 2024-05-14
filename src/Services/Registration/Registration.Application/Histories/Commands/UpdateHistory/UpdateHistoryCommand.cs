@@ -7,7 +7,7 @@
     {
         public UpdateHistoryCommandValidator()
         {
-            RuleFor(x => x.History.status).NotEmpty().WithMessage("HistoryId is required");
+            RuleFor(x => x.History.Status).NotEmpty().WithMessage("HistoryId is required");
         }
     }
 }

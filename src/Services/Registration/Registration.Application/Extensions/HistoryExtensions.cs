@@ -6,10 +6,10 @@ namespace Registration.Application.Extensions
         public static IEnumerable<HistoryDto> ToHistoryDto(this List<Domain.Models.History> histories)
         {
             return histories.Select(h => new HistoryDto(
-                Id: h.Id.Value,
+                id: h.Id.Value,
                 date: h.Date,
                 status: h.Status,
-                registerId: h.RegisterId
+                registerId: h.RegisterId.Value
             ));
         }
     }

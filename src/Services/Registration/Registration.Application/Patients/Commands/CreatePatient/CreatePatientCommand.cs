@@ -12,7 +12,7 @@ public class CreatePatientCommandValidator : AbstractValidator<CreatePatientComm
 {
     public CreatePatientCommandValidator()
     {
-        RuleFor(x => x.Patient.firstName).NotEmpty().WithMessage("Patient's name is required");
-        RuleFor(x => x.Patient.gender).NotEmpty().WithMessage("Patient's gender is required");
+        RuleFor(x => x.Patient.FirstName).NotEmpty().WithMessage("Patient's name is required");
+        RuleFor(x => x.Patient.Gender).NotEmpty().WithMessage("Patient's gender is required");
     }
 }

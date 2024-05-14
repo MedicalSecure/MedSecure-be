@@ -5,7 +5,7 @@ namespace Registration.Domain.ValueObjects
     {
         public Guid Value { get; }
 
-        private RiskFactorId(Guid value) => Value = value;
+        public RiskFactorId(Guid value) => Value = value;
 
         public static RiskFactorId Of(Guid value)
         {

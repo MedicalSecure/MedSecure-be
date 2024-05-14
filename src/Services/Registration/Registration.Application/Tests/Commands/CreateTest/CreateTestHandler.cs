@@ -28,11 +28,11 @@ namespace Registration.Application.Registers.Commands.CreateRegister
         {
             var newTest = Test.Create(
                 id:TestId.Of(Guid.NewGuid()),
-                code: testDto.code,
-                description: testDto.description,
-                language: testDto.language,
-                type: testDto.testType,
-                registerId:testDto.registerId
+                code: testDto.Code,
+                description: testDto.Description,
+                language: testDto.Language,
+                type: testDto.TestType,
+                registerId: RegisterId.Of(testDto.RegisterId)
             );
 
             return newTest;

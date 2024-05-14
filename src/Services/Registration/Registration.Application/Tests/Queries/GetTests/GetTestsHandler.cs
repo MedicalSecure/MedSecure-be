@@ -30,12 +30,12 @@ namespace Registration.Application.Tests.Queries.GetTests
                       pageSize,
                       totalCount,
                       tests.Select(t => new TestDto(
-                          t.Id.Value,  // Provide the required 'Id' argument here
+                          t.Id.Value,  
                           t.Code,
                           t.Description,
                           t.Language,
                           t.Type,
-                          t.RegisterId
+                          t.RegisterId.Value
                       )).ToList()
                   )
               );

@@ -11,7 +11,7 @@ namespace Registration.Domain.ValueObjects
     {
         public Guid Value { get; }
 
-        private RegisterId(Guid value) => Value = value;
+        public RegisterId(Guid value) => Value = value;
 
         public static RegisterId Of(Guid value)
         {

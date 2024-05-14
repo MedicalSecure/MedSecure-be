@@ -24,7 +24,7 @@ public class Register : Aggregate<RegisterId>
     private readonly List<History> _history = new();
 
     // Constructor
-    private Register() { } // Ensure creation through factory method
+    public Register() { }
 
     // Factory method
     public static Register Create(RegisterId id, Patient patient)

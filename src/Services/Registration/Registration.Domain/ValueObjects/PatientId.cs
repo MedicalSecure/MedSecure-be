@@ -6,7 +6,7 @@ namespace Registration.Domain.ValueObjects
     {
         public Guid Value { get; }
 
-        private PatientId(Guid value) => Value = value;
+        public PatientId(Guid value) => Value = value;
 
         public static PatientId Of(Guid value)
         {

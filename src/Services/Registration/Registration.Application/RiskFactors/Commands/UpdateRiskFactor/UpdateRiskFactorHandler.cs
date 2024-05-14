@@ -34,7 +34,7 @@ namespace Registration.Application.RiskFactors.Commands.UpdateRiskFactor
 
         private static void UpdatePatientWithNewValues(RiskFactor riskFactor, RiskFactorDto riskFactorDto)
         {
-            riskFactor.Update(riskFactorDto.key, riskFactorDto.value,riskFactorDto.code ,riskFactorDto.description,riskFactorDto.isSelected,riskFactorDto.type,riskFactorDto.icon);
+            riskFactor.Update(riskFactorDto.Key, riskFactorDto.Value,riskFactorDto.Code ,riskFactorDto.Description,riskFactorDto.IsSelected,riskFactorDto.Type,riskFactorDto.Icon);
         }
 
     }

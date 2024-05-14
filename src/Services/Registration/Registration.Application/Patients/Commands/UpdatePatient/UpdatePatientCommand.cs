@@ -13,8 +13,8 @@ namespace Registration.Application.Patients.Commands.UpdatePatient
         public UpdatePatientCommandValidator()
         {
             RuleFor(x => x.Patient.Id).NotEmpty().WithMessage("AssociatedPatientId is required");
-            RuleFor(x => x.Patient.firstName).NotEmpty().WithMessage("Patient.name is required");
-            RuleFor(x => x.Patient.gender).NotEmpty().WithMessage("Patient.gender is required");
+            RuleFor(x => x.Patient.FirstName).NotEmpty().WithMessage("Patient.name is required");
+            RuleFor(x => x.Patient.Gender).NotEmpty().WithMessage("Patient.gender is required");
         }
     }
 }

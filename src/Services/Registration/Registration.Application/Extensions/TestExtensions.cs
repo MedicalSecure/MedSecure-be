@@ -9,12 +9,12 @@ namespace Registration.Application.Extensions
         public static IEnumerable<TestDto> ToTestDto(this List<Domain.Models.Test> tests)
         {
             return tests.Select(t => new TestDto(
-                Id: t.Id.Value,
+                id: t.Id.Value,
                 code: t.Code,
                 description: t.Description,
                 language: t.Language,
                 testType: t.Type,
-                registerId:t.RegisterId
+                registerId:t.RegisterId.Value
             ));
         }
     }

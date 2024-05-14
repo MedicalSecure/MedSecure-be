@@ -32,13 +32,13 @@ namespace Registration.Application.RiskFactors.Commands.CreateRiskFactor
         {
             var newRiskFactor = RiskFactor.Create(
                 id: RiskFactorId.Of(Guid.NewGuid()),
-                key: riskFactorDto.key,
-                value: riskFactorDto.value,
-                code:riskFactorDto.code,
-                description:riskFactorDto.description,
-                isSelected:riskFactorDto.isSelected,
-                type:riskFactorDto.type,
-                icon:riskFactorDto.icon,
+                key: riskFactorDto.Key,
+                value: riskFactorDto.Value,
+                code:riskFactorDto.Code,
+                description:riskFactorDto.Description,
+                isSelected:riskFactorDto.IsSelected,
+                type:riskFactorDto.Type,
+                icon:riskFactorDto.Icon,
                 registerId: RegisterId.Of(Guid.NewGuid())
                 );
 

@@ -9,7 +9,7 @@ namespace Registration.Application.Histories.Commands.CreateHistory
     {
         public CreateHistoryValidator()
         {
-            RuleFor(x => x.History.status).NotEmpty();
+            RuleFor(x => x.History.Status).NotEmpty();
         }
     }
 }

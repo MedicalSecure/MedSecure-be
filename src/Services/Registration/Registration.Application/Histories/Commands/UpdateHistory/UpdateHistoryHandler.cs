@@ -26,9 +26,9 @@
         {
             var newHistory = History.Create(
                 id: HistoryId.Of(Guid.NewGuid()),
-                date: historyDto.date,
-                status: historyDto.status,
-                registerId: historyDto.registerId
+                date: historyDto.Date ,
+                status: historyDto.Status,
+                registerId: RegisterId.Of(historyDto.RegisterId) 
             );
 
             return newHistory;

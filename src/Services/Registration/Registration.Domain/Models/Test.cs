@@ -5,17 +5,17 @@ namespace Registration.Domain.Models;
 public class Test : Aggregate<TestId>
 {
     // Properties
-    public string Code { get; private set; } = default!;
-    public string Description { get; private set; } = default!;
-    public Language Language { get; private set; } = default!;
-    public TestType Type { get; private set; } = default!;
+    public string? Code { get; private set; } = default!;
+    public string? Description { get; private set; } = default!;
+    public Language? Language { get; private set; } = default!;
+    public TestType? Type { get; private set; } = default!;
     public RegisterId RegisterId { get; private set; } = default!;
 
     // Constructor (private to enforce creation through factory method)
     public Test() { }
 
     // Factory method
-    public static Test Create(TestId id,string code, string description, Language language, TestType type, RegisterId registerId)
+    public static Test Create(TestId id,string? code, string? description, Language? language, TestType? type, RegisterId registerId)
     {
         if (string.IsNullOrWhiteSpace(code))
             throw new ArgumentException("Code cannot be null or empty.", nameof(code));

@@ -1,23 +1,18 @@
-﻿
-using BuildingBlocks.CQRS;
-using Registration.Application.Data;
-using Registration.Application.Dtos;
-using Registration.Application.Exceptions;
-using Registration.Domain.Models;
-using Registration.Domain.ValueObjects;
-
-namespace Registration.Application.Patients.Commands.UpdatePatient
+﻿namespace Registration.Application.Patients.Commands.UpdatePatient
 {
-
-    public class UpdatePatientHandler(IApplicationDbContext dbContext) : ICommandHandler<UpdatePatientCommand, UpdatePatientResult>
+    public class UpdatePatientHandler : ICommandHandler<UpdatePatientCommand, UpdatePatientResult>
     {
+        private readonly IApplicationDbContext _dbContext;
+
+        public UpdatePatientHandler(IApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         public async Task<UpdatePatientResult> Handle(UpdatePatientCommand command, CancellationToken cancellationToken)
         {
-            // Update Patient entity from command object
-            // save to database
-            // return result
             var patientId = PatientId.Of(command.Patient.Id);
-            var patient = await dbContext.Patients.FindAsync([patientId], cancellationToken);
+            var patient = await _dbContext.Patients.FindAsync(new object[] { patientId }, cancellationToken);
 
             if (patient == null)
             {
@@ -26,31 +21,30 @@ namespace Registration.Application.Patients.Commands.UpdatePatient
 
             UpdatePatientWithNewValues(patient, command.Patient);
 
-            dbContext.Patients.Update(patient);
-            await dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return new UpdatePatientResult(true);
         }
 
         private static void UpdatePatientWithNewValues(Patient patient, PatientDto patientDto)
         {
+            
             patient.Update(
-                patientDto.firstName,
-                patientDto.lastName,
-                patientDto.dateOfBirth,
-                patientDto.identity,
-                patientDto.cnam,
-                patientDto.gender,
-                patientDto.height,
-                patientDto.weight,
-                patientDto.email,
-                patientDto.address1,
-                patientDto.address2,
-                patientDto.country,
-                patientDto.state,
-                patientDto.familyStatus,
-                patientDto.children);
+                patientDto.FirstName ?? patient.FirstName,
+                patientDto.LastName ?? patient.LastName,
+                patientDto.DateOfBirth,
+                patientDto.Identity ?? patient.Identity,
+                patientDto.CNAM ?? patient.CNAM,
+                patientDto.Gender ?? patient.Gender,
+                patientDto.Height ?? patient.Height,
+                patientDto.Weight ?? patient.Weight,
+                patientDto.Email ?? patient.Email,
+                patientDto.Address1 ?? patient.Address1,
+                patientDto.Address2 ?? patient.Address2,
+                patientDto.Country ?? patient.Country,
+                patientDto.State ?? patient.State,
+                patientDto.FamilyStatus ?? patient.FamilyStatus,
+                patientDto.Children ?? patient.Children);
         }
-
     }
 }

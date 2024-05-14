@@ -13,7 +13,7 @@ public class SubRiskFactor : Aggregate<SubRiskFactorId>
     public RiskFactorId RiskFactorId { get; private set; } = default!;
 
     // Constructor (private to enforce creation through factory method)
-    private SubRiskFactor() { }
+    public SubRiskFactor() { }
 
     // Factory method
     public static SubRiskFactor Create(
@@ -27,13 +27,12 @@ public class SubRiskFactor : Aggregate<SubRiskFactorId>
         string icon,
         RiskFactorId riskFactorId)
     {
-        if (string.IsNullOrWhiteSpace(key))
-            throw new ArgumentException("Key cannot be null or empty.", nameof(key));
+        
 
         var subRiskFactor = new SubRiskFactor
         {
             Id = id,
-            Key = key,
+            Key = key ?? string.Empty,
             Value = value ?? string.Empty,
             Code = code ?? string.Empty,
             Description = description ?? string.Empty,
@@ -62,7 +61,7 @@ public class SubRiskFactor : Aggregate<SubRiskFactorId>
         if (string.IsNullOrWhiteSpace(key))
             throw new ArgumentException("Key cannot be null or empty.", nameof(key));
 
-        Key = key;
+        Key = key ?? string.Empty;
         Value = value ?? string.Empty;
         Code = code ?? string.Empty;
         Description = description ?? string.Empty;

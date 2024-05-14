@@ -5,15 +5,15 @@ namespace Registration.Domain.Models;
 public class History : Aggregate<HistoryId>
 {
     // Properties
-    public DateTime Date { get; private set; }
-    public Status Status { get; private set; }
+    public DateTime? Date { get; private set; }
+    public Status? Status { get; private set; }
     public RegisterId RegisterId { get; private set; } = default!;
 
     // Constructor (private to enforce creation through factory method)
-    private History() { }
+    public History() { }
 
     // Factory method
-    public static History Create(HistoryId id,DateTime date, Status status, RegisterId registerId)
+    public static History Create(HistoryId id,DateTime? date, Status? status, RegisterId registerId)
     {
         var history = new History
         {
@@ -27,7 +27,7 @@ public class History : Aggregate<HistoryId>
     }
 
     // Method to update the history
-    public void Update(HistoryId id, DateTime date, Status status, RegisterId registerId)
+    public void Update(HistoryId id, DateTime? date, Status? status, RegisterId registerId)
     {
         Id = id;
         Date = date;

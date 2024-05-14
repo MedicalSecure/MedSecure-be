@@ -17,9 +17,9 @@
         private static RegisterDto DtoFromRegister(Domain.Models.Register register)
         {
             return new RegisterDto(
-                Id: register.Id.Value,
+                id: register.Id,
                 patient: new PatientDto(
-                    Id: register.Patient.Id.Value,
+                    id: register.Patient.Id.Value,
                     firstName: register.Patient.FirstName,
                     lastName: register.Patient.LastName,
                     dateOfBirth: register.Patient.DateOfBirth,
@@ -29,7 +29,7 @@
                     gender: register.Patient.Gender,
                     height: register.Patient.Height,
                     weight: register.Patient.Weight,
-                    addressIsRegisteraions: register.Patient.AddressIsRegisterations,
+                    addressIsRegistrations: register.Patient.AddressIsRegisterations,
                     saveForNextTime: register.Patient.SaveForNextTime,
                     email: register.Patient.Email,
                     address1: register.Patient.Address1,

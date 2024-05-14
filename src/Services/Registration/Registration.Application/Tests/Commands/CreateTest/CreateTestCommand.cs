@@ -7,9 +7,9 @@
     {
         public CreateTestValidator()
         {
-            RuleFor(x => x.Test.description).NotEmpty();
-            RuleFor(x => x.Test.language).NotEmpty();
-            RuleFor(x => x.Test.testType).NotEmpty();
+            RuleFor(x => x.Test.Description).NotEmpty();
+            RuleFor(x => x.Test.Language).NotEmpty();
+            RuleFor(x => x.Test.TestType).NotEmpty();
             // Add additional validation rules as needed
         }
     }

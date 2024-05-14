@@ -27,8 +27,7 @@ namespace Registration.Application.Registers.Commands.UpdateRegister
 
         private static void UpdateRegister(Domain.Models.Register existingRegister, RegisterDto newRegisterDto)
         {
-           // existingRegister.Update( .. );
-            // To do
+          
         }
     }
 

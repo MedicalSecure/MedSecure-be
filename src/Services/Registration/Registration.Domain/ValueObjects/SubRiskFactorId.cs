@@ -1,9 +1,11 @@
-﻿
-namespace Registration.Domain.ValueObjects
+﻿namespace Registration.Domain.ValueObjects
 {
     public record SubRiskFactorId
     {
         public Guid Value { get; }
+
+        // Public parameterless constructor
+        public SubRiskFactorId() => Value = default;
 
         private SubRiskFactorId(Guid value) => Value = value;
 
@@ -12,11 +14,9 @@ namespace Registration.Domain.ValueObjects
             ArgumentNullException.ThrowIfNull(value);
             if (value == Guid.Empty)
             {
-                throw new DomainException("RiskFactorId cannot be empty!");
+                throw new DomainException("SubRiskFactorId cannot be empty!");
             }
             return new SubRiskFactorId(value);
         }
     }
 }
-
-
