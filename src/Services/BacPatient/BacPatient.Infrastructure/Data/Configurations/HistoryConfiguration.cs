@@ -22,17 +22,19 @@ namespace BacPatient.Infrastructure.Data.Configurations
                    .IsRequired();
 
             // Configure Status property
-            builder.Property(t => t.Status)
+            builder.Property(t => t.Status).HasDefaultValue(Status.unavailable)
                    .HasConversion(
                        v => v.ToString(), // Convert enum to string
                        status => (Status)Enum.Parse(typeof(Status), status) // Convert string to enum
                    );
 
             // Configure the relationship with Register
-           /* builder.HasOne<Register>()
+            builder.HasOne<Register>()
                    .WithMany(d => d.History)
                    .HasForeignKey(w => w.RegisterId)
-                   .IsRequired();*/
+                   .IsRequired();
         }
     }
 }
+
+    

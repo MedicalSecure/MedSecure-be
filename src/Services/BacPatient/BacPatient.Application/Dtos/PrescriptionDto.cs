@@ -30,7 +30,7 @@ namespace BacPatient.Application.DTOs
 
     public record DispensesDto(Guid Id,
         Guid PosologyId,
-        int? Hour,
-        int? QuantityBE,
-        int? QuantityAE);
+        string Hour,
+        Dose BeforeMeal,
+        Dose AfterMeal);
 }

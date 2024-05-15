@@ -10,26 +10,52 @@ namespace BacPatient.Application.Extensions
 {
     public static class RegisterExtension
     {
-        public static RegisterDto ToRegisterDto(this Register register)
+         public static RegisterDto ToRegisterDto(this Register? register)
         {
-            return new RegisterDto
+            if (register == null)
             {
-                Id = register.Id,
-                PatientId = register.PatientId.Value,
-                Patient = register.Patient.ToPatientDto(), // Assuming a ToDTO() extension method exists for the Patient entity
-                FamilyMedicalHistory = register.FamilyMedicalHistory.ToRiskFactorsDto(), // Assuming a ToDTO() extension method exists for the RiskFactor entity
-                PersonalMedicalHistory = register.PersonalMedicalHistory.ToRiskFactorsDto(),
-                Diseases = register.Disease.ToRiskFactorsDto(),
-                Allergies = register.Allergy.ToRiskFactorsDto(),
-                History = register.History.ToHistoriesDto(), // Assuming a ToDTO() extension method exists for the History entity
-                Test = register.Tests.ToTestsDto(), // Assuming a ToDTO() extension method exists for the Test entity
-                Prescriptions = register.Prescriptions?.ToPrescriptionsDto().ToList() // Assuming a ToDTO() extension method exists for the Prescription entity
-            };
+                
+                throw new ArgumentNullException(nameof(register), "Cannot convert null register to RegisterDto.");
+            }
+
+            return DtoFromRegister(register);
         }
 
-        public static ICollection<RegisterDto> ToRegisterDto(this IReadOnlyList<Register> patients)
+
+        private static RegisterDto DtoFromRegister(Register register)
         {
-            return patients.Select(d => d.ToRegisterDto()).ToList();
+            return new RegisterDto(
+                id: register.Id,
+                patient: new PatientDto(
+                    id: register.Patient.Id.Value,
+                    firstName: register.Patient.FirstName,
+                    lastName: register.Patient.LastName,
+                    dateOfBirth: register.Patient.DateOfBirth,
+                    identity: register.Patient.Identity,
+                    cnam: register.Patient.CNAM,
+                    assurance: register.Patient.Assurance,
+                    gender: register.Patient.Gender,
+                    height: register.Patient.Height,
+                    weight: register.Patient.Weight,
+                    addressIsRegistrations: register.Patient.AddressIsRegisterations,
+                    saveForNextTime: register.Patient.SaveForNextTime,
+                    email: register.Patient.Email,
+                    address1: register.Patient.Address1,
+                    address2: register.Patient.Address2,
+                    country: register.Patient.Country,
+                    state: register.Patient.State,
+                    zipCode: register.Patient.ZipCode,
+                    familyStatus: register.Patient.FamilyStatus,
+                    children: register.Patient.Children
+                ));
+
+        }
+
+        public static IEnumerable<RegisterDto> ToRegisterDto(this List<Register> registers)
+        {
+            return registers.Select(r => DtoFromRegister(r)).ToList();
         }
     }
-}
+
+       
+    }

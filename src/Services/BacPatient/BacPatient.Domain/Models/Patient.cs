@@ -8,7 +8,7 @@ namespace BacPatient.Domain.Models.RegisterRoot
         public string? FirstName { get; private set; } = default!;
         public string? LastName { get; private set; } = default!;
         public DateTime? DateOfBirth { get; private set; } = default!;
-        public int? CIN { get; private set; } = default!;
+        public string? Identity { get; private set; } = default!;
         public int? CNAM { get; private set; } = default!;
         public string? Assurance { get; private set; } = default!;
         public Gender? Gender { get; private set; } = default!;
@@ -47,7 +47,7 @@ namespace BacPatient.Domain.Models.RegisterRoot
             string firstName,
             string lastName,
             DateTime dateOfBirth,
-            int cin,
+            string cin,
             int cnam,
             string assurance,
             Gender gender,
@@ -72,7 +72,7 @@ namespace BacPatient.Domain.Models.RegisterRoot
                 FirstName = firstName,
                 LastName = lastName,
                 DateOfBirth = dateOfBirth,
-                CIN = cin,
+                Identity = cin,
                 CNAM = cnam,
                 Assurance = assurance,
                 Gender = gender,
@@ -99,7 +99,7 @@ namespace BacPatient.Domain.Models.RegisterRoot
             string firstName,
             string lastName,
             DateTime dateOfBirth,
-            int cin,
+            string cin,
             int cnam,
             Gender gender,
             int height,
@@ -117,7 +117,7 @@ namespace BacPatient.Domain.Models.RegisterRoot
             FirstName = firstName;
             LastName = lastName;
             DateOfBirth = dateOfBirth;
-            CIN = cin;
+            Identity = cin;
             CNAM = cnam;
             Gender = gender;
             Height = height;

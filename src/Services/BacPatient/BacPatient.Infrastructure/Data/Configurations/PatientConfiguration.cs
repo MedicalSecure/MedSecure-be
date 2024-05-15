@@ -24,6 +24,7 @@ namespace BacPatient.Infrastructure.Database.Configurations
         }
 
         public void Configure(EntityTypeBuilder<Patient> builder)
+    
         {
             builder.HasKey(p => p.Id);
 
@@ -40,7 +41,7 @@ namespace BacPatient.Infrastructure.Database.Configurations
 
             builder.Property(p => p.DateOfBirth);
 
-            builder.Property(p => p.CIN)
+            builder.Property(p => p.Identity)
                    .HasMaxLength(8);
 
             builder.Property(p => p.CNAM)

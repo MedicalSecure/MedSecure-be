@@ -14,9 +14,9 @@ namespace BacPatient.Domain.Shared
             return null;
         }
 
-        public static string? isHourValid(int value, string paramName, bool throwError = true)
+        public static string? isHourValid(string value, string paramName, bool throwError = true)
         {
-            if (value > 23 || value < 0)
+            if (int.Parse(value) > 23 || int.Parse(value) < 0)
             {
                 if (throwError == false)
                 {

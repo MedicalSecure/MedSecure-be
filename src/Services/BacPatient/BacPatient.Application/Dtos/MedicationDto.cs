@@ -9,7 +9,7 @@ namespace rescription.Application.DTOs
     public record MedicationDto(Guid Id,
         string? Name,
         string? Dosage,
-        string? Form,
+        Route? Form,
         string? Code,
         string? Unit,
         string? Description,

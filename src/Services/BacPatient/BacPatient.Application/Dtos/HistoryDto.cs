@@ -8,11 +8,11 @@ namespace BacPatient.Application.Dtos
 {
     public class HistoryDto
     {
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
-        public Status Status { get; set; }
+        public Status? Status { get; set; }
 
-        public Guid RegisterId { get; set; }
+        public Guid? RegisterId { get; set; }
     }
 
 }

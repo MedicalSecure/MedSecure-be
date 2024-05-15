@@ -1,4 +1,7 @@
-﻿namespace BacPatient.Application.Extensions.SimpleBacPatientExtension
+﻿using BacPatient.Domain.Models;
+using System.Reflection.Emit;
+
+namespace BacPatient.Application.Extensions.SimpleBacPatientExtension
 {
     public static class SimplePrescriptionExtension
     {
@@ -13,6 +16,8 @@
             );
             return x;
         }
+   
+     
         public static SimpleRoomDto ToSimpleRoomDto(this Room Room)
         {
             var x = new SimpleRoomDto(
@@ -59,15 +64,17 @@
                 Id: dispense.Id.Value,
                 PosologyId: dispense.PosologyId.Value,
                 Hour: dispense.Hour,
-                QuantityBE: dispense.QuantityBE,
-                QuantityAE: dispense.QuantityAE
+                BeforeMeal : dispense.BeforeMeal ,
+                AfterMeal : dispense.AfterMeal
+
+              
             )).ToList();
         }
         public static SimpleRegisterDto ToSimpleRegisterDto(this Register Register)
         {
             return new SimpleRegisterDto
             {
-                Id = Register.Id,
+                Id = Register.Id.Value,
               
                 Patient = Register.Patient.ToSimplePatientDto(),
                    };
@@ -104,5 +111,123 @@
                 Gender: patient.Gender
             );
         }
+        public static Prescription ToPrescriptionEntity(this SimplePrescriptionDto simplePrescription)
+        {
+            return Prescription.Create(
+
+                simplePrescription.Register.ToRegisterEntity(),
+                simplePrescription.UnitCare.ToUnitCareEntity(),
+               
+                simplePrescription.CreatedAt
+            );
+        }
+
+        public static Room ToRoomEntity(this SimpleRoomDto simpleRoom)
+        {
+            return Room.Create(
+                simpleRoom.RoomNumber ?? 0, // Assuming default value of 0 if null
+                simpleRoom.Status ?? Status.unavailable // Assuming default value of Unknown if null
+            );
+        }
+
+        public static UnitCare ToUnitCareEntity(this SimpleUnitCareDto simpleUnitCare)
+        {
+            return UnitCare.Create(
+                simpleUnitCare.Title ?? "", // Assuming default value of empty string if null
+                simpleUnitCare.Description ?? "" // Assuming default value of empty string if null
+            );
+        }
+
+        public static ICollection<Posology> ToPosologyEntities(this IEnumerable<SimplePosologyDto> simplePosologies, PrescriptionId prescriptionId)
+        {
+            var posologies = new List<Posology>();
+            foreach (var simplePosology in simplePosologies)
+            {
+                posologies.Add(simplePosology.ToPosologyEntity(prescriptionId));
+            }
+            return posologies;
+        }
+
+        public static Posology ToPosologyEntity(this SimplePosologyDto simplePosology, PrescriptionId prescriptionId)
+        {
+            return Posology.Create(
+                prescriptionId,
+                simplePosology.Medication.ToMedicationEntity(),
+            
+                simplePosology.StartDate,
+                simplePosology.EndDate,
+                simplePosology.IsPermanent
+            );
+        }
+
+        public static ICollection<Comment> ToCommentEntities(this IEnumerable<SimpleCommentsDto> simpleComments)
+        {
+            var comments = new List<Comment>();
+            foreach (var simpleComment in simpleComments)
+            {
+                comments.Add(simpleComment.ToCommentEntity());
+            }
+            return comments;
+        }
+
+        public static Comment ToCommentEntity(this SimpleCommentsDto simpleComment)
+        {
+            return Comment.Create(
+                PosologyId.Of(simpleComment.PosologyId),
+                simpleComment.Label ?? "",
+              simpleComment.Content ?? ""
+                ) ;
+            
+                
+           
+        }
+
+        public static ICollection<Dispense> ToDispenseEntities(this IEnumerable<SimpleDispensesDto> simpleDispenses)
+        {
+            var dispenses = new List<Dispense>();
+            foreach (var simpleDispense in simpleDispenses)
+            {
+                dispenses.Add(simpleDispense.ToDispenseEntity());
+            }
+            return dispenses;
+        }
+
+        public static Dispense ToDispenseEntity(this SimpleDispensesDto simpleDispense)
+        {
+            return  Dispense.Create(
+            
+                PosologyId.Of(simpleDispense.PosologyId),
+                simpleDispense.Hour,
+          simpleDispense.BeforeMeal,
+                simpleDispense.AfterMeal
+            );
+        }
+
+        public static Register ToRegisterEntity(this SimpleRegisterDto simpleRegister)
+        {
+            return Register.Create(
+               simpleRegister.Patient.ToPatientEntity() ?? throw new ArgumentNullException(nameof(simpleRegister.Patient))
+            );
+        }
+
+        public static Medication ToMedicationEntity(this SimpleMedicationDto simpleMedication)
+        {
+            return  Medication.Create(
+            
+               simpleMedication.Name ?? "", 
+               simpleMedication.Form ?? Route.Spray,
+              simpleMedication.Description ?? "" 
+            );
+        }
+
+        public static Patient ToPatientEntity(this SimplePatientDto simplePatient)
+        {
+            return  Patient.Create(
+                simplePatient.FirstName ?? "", 
+                simplePatient.LastName ?? "",
+               simplePatient.DateOfbirth
+            );
+        }
     }
+
 }

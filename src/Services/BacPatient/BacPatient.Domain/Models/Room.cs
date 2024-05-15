@@ -45,7 +45,22 @@ namespace BacPatient.Domain.Models
 
             return room;
         }
+        public static Room Create(
+decimal? roomNumber,
+Status? status)
+        {
+            var room = new Room()
+            {
+                Id = RoomId.Of(Guid.NewGuid()),
+                RoomNumber = roomNumber,
+                Status = status,
+            };
 
+            room.AddDomainEvent(new RoomCreatedEvent(room));
+
+            return room;
+        }
+        //bac patient 
         public void Update(
             UnitCareId unitCareId,
             decimal roomNumber,

@@ -1,5 +1,6 @@
 ﻿using BacPatient.Application.BPModels.Commands.CreateBacPatient;
 using BacPatient.Application.Extensions.SimpleBacPatientExtension;
+using BacPatient.Domain.Models;
 
 
 namespace BacPatient.Application.BacPatient.Commands.CreateBPModel;
@@ -27,7 +28,7 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
             Id: BacPatienId.Of(Guid.NewGuid()),
             Prescription: Prescription.Create(
                 Register: Register.Create(
-                    id: bacPatients.Prescription.Register.Id,
+                    id: RegisterId.Of(bacPatients.Prescription.Register.Id),
                      patient: Patient.Create(
                     bacPatients.Prescription.Register.Patient.FirstName,
                     bacPatients.Prescription.Register.Patient.LastName,
@@ -63,7 +64,7 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
             }
             foreach (var dispense in posology.Dispenses)
             {
-                var newDispense = Dispense.Create( PosologyId.Of(dispense.PosologyId), dispense.Hour, dispense.QuantityBE, dispense.QuantityAE);
+                var newDispense = Dispense.Create(PosologyId.Of(dispense.PosologyId) ,dispense.Hour , dispense.BeforeMeal , dispense.AfterMeal);
                 newPos.AddDispense(newDispense); 
             }
         }

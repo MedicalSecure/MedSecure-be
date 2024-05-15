@@ -4,7 +4,7 @@
     {
         public string? Name { get; private set; } = default!;
         public string? Dosage { get; private set; } = default!;
-        public string? Form { get; private set; } = default!;
+        public Route? Form { get; private set; } = default!;
         public string? Unit { get; private set; } = default!;
         public string? Description { get; private set; } = default!;
         public string? Code { get; private set; } = default!;
@@ -20,7 +20,7 @@
         private Medication()
         { } // For EF
 
-        private Medication  ( MedicationId id ,string name , string forme , string description )
+        private Medication  ( MedicationId id ,string name , Route forme , string description )
         {
             Id = id;
             Name = name;
@@ -29,7 +29,7 @@
            
         }
 
-        public Medication(MedicationId Id, string Name, string Dosage, string Form, string Description)
+        public Medication(MedicationId Id, string Name, string Dosage, Route? Form, string Description)
         {
             this.Id = Id;
             this.Name = Name;
@@ -38,13 +38,13 @@
             this.Description = Description;
         }
 
-        public static Medication Create(string name, string forme, string description)
+        public static Medication Create(string name, Route forme, string description)
         {
             MedicationId id = MedicationId.Of(Guid.NewGuid());
 
             return new Medication(id, name, forme, description);
         }
-        public static Medication Create(MedicationId id, string name, string dosage, string form, string unit, string description, string code, DateTime expiredAt,
+        public static Medication Create(MedicationId id, string name, string dosage, Route form, string unit, string description, string code, DateTime expiredAt,
                                         int stock, int alertStock, int avrgStock, int minStock, int safetyStock, int reservedStock, decimal price)
         {
             var medication = new Medication()

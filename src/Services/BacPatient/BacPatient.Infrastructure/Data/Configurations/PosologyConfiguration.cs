@@ -9,7 +9,7 @@
           .HasConversion(personnelId => personnelId.Value,
                          dbId => PosologyId.Of(dbId));
             builder.HasMany(p => p.Dispenses)
-                        .WithOne(dispense => dispense.posology)
+                        .WithOne(dispense => dispense.Posology)
                     .HasForeignKey(dispense => dispense.PosologyId);
 
             builder.HasMany(p => p.Comments)

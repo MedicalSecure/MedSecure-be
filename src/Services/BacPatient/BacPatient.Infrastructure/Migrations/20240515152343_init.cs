@@ -37,7 +37,7 @@ namespace BacPatient.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Dosage = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Form = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Form = table.Column<int>(type: "int", maxLength: 50, nullable: true),
                     Unit = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
@@ -67,7 +67,7 @@ namespace BacPatient.Infrastructure.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CIN = table.Column<int>(type: "int", maxLength: 8, nullable: true),
+                    Identity = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: true),
                     CNAM = table.Column<int>(type: "int", maxLength: 20, nullable: true),
                     Assurance = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "Other"),
@@ -136,7 +136,7 @@ namespace BacPatient.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -149,7 +149,8 @@ namespace BacPatient.Infrastructure.Migrations
                         name: "FK_Registers_Patients_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Patients",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -206,7 +207,7 @@ namespace BacPatient.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "unavailable"),
                     RegisterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -230,6 +231,7 @@ namespace BacPatient.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RegisterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RegisterId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UnitCareId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
@@ -240,11 +242,10 @@ namespace BacPatient.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Prescriptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Prescriptions_Registers_RegisterId",
-                        column: x => x.RegisterId,
+                        name: "FK_Prescriptions_Registers_RegisterId1",
+                        column: x => x.RegisterId1,
                         principalTable: "Registers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Prescriptions_UnitCares_UnitCareId",
                         column: x => x.UnitCareId,
@@ -257,50 +258,47 @@ namespace BacPatient.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RiskFactorParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Key = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsSelected = table.Column<bool>(type: "bit", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Icon = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    RegisterId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    RegisterId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    RegisterId2 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    RegisterId3 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RegisterIdForDisease = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RegisterIdForAllergy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RegisterIdForFamilyMedicalHistory = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RegisterIdForPersonalMedicalHistory = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true)
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RiskFactor", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RiskFactor_Registers_RegisterId",
-                        column: x => x.RegisterId,
+                        name: "FK_RiskFactor_Registers_RegisterIdForAllergy",
+                        column: x => x.RegisterIdForAllergy,
                         principalTable: "Registers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RiskFactor_Registers_RegisterId1",
-                        column: x => x.RegisterId1,
+                        name: "FK_RiskFactor_Registers_RegisterIdForDisease",
+                        column: x => x.RegisterIdForDisease,
                         principalTable: "Registers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RiskFactor_Registers_RegisterId2",
-                        column: x => x.RegisterId2,
+                        name: "FK_RiskFactor_Registers_RegisterIdForFamilyMedicalHistory",
+                        column: x => x.RegisterIdForFamilyMedicalHistory,
                         principalTable: "Registers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RiskFactor_Registers_RegisterId3",
-                        column: x => x.RegisterId3,
+                        name: "FK_RiskFactor_Registers_RegisterIdForPersonalMedicalHistory",
+                        column: x => x.RegisterIdForPersonalMedicalHistory,
                         principalTable: "Registers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_RiskFactor_RiskFactor_RiskFactorParentId",
-                        column: x => x.RiskFactorParentId,
-                        principalTable: "RiskFactor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -312,8 +310,8 @@ namespace BacPatient.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Language = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "English"),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "Other"),
+                    Language = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "English"),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "Other"),
                     RegisterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -469,6 +467,35 @@ namespace BacPatient.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SubRiskFactor",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsSelected = table.Column<bool>(type: "bit", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RiskFactorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubRiskFactor", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SubRiskFactor_RiskFactor_RiskFactorId",
+                        column: x => x.RiskFactorId,
+                        principalTable: "RiskFactor",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
@@ -497,9 +524,13 @@ namespace BacPatient.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Hour = table.Column<int>(type: "int", nullable: false),
-                    QuantityBE = table.Column<int>(type: "int", nullable: true),
-                    QuantityAE = table.Column<int>(type: "int", nullable: true),
+                    Hour = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BeforeMeal_Quantity = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BeforeMeal_isValid = table.Column<bool>(type: "bit", nullable: false),
+                    BeforeMeal_isPostValid = table.Column<bool>(type: "bit", nullable: false),
+                    AfterMeal_Quantity = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AfterMeal_isValid = table.Column<bool>(type: "bit", nullable: false),
+                    AfterMeal_isPostValid = table.Column<bool>(type: "bit", nullable: false),
                     PosologyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -568,9 +599,9 @@ namespace BacPatient.Infrastructure.Migrations
                 column: "PrescriptionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Prescriptions_RegisterId",
+                name: "IX_Prescriptions_RegisterId1",
                 table: "Prescriptions",
-                column: "RegisterId");
+                column: "RegisterId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Prescriptions_UnitCareId",
@@ -588,34 +619,34 @@ namespace BacPatient.Infrastructure.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RiskFactor_RegisterId",
+                name: "IX_RiskFactor_RegisterIdForAllergy",
                 table: "RiskFactor",
-                column: "RegisterId");
+                column: "RegisterIdForAllergy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RiskFactor_RegisterId1",
+                name: "IX_RiskFactor_RegisterIdForDisease",
                 table: "RiskFactor",
-                column: "RegisterId1");
+                column: "RegisterIdForDisease");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RiskFactor_RegisterId2",
+                name: "IX_RiskFactor_RegisterIdForFamilyMedicalHistory",
                 table: "RiskFactor",
-                column: "RegisterId2");
+                column: "RegisterIdForFamilyMedicalHistory");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RiskFactor_RegisterId3",
+                name: "IX_RiskFactor_RegisterIdForPersonalMedicalHistory",
                 table: "RiskFactor",
-                column: "RegisterId3");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RiskFactor_RiskFactorParentId",
-                table: "RiskFactor",
-                column: "RiskFactorParentId");
+                column: "RegisterIdForPersonalMedicalHistory");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_UnitCareId",
                 table: "Rooms",
                 column: "UnitCareId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubRiskFactor_RiskFactorId",
+                table: "SubRiskFactor",
+                column: "RiskFactorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Test_RegisterId",
@@ -651,7 +682,7 @@ namespace BacPatient.Infrastructure.Migrations
                 name: "PrescriptionSymptom");
 
             migrationBuilder.DropTable(
-                name: "RiskFactor");
+                name: "SubRiskFactor");
 
             migrationBuilder.DropTable(
                 name: "Test");
@@ -667,6 +698,9 @@ namespace BacPatient.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Symptoms");
+
+            migrationBuilder.DropTable(
+                name: "RiskFactor");
 
             migrationBuilder.DropTable(
                 name: "Medications");

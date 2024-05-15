@@ -8,29 +8,38 @@ namespace BacPatient.Application.Dtos
 {
 
 
-    public class RiskFactorDto
+    public record RiskFactorDto
     {
-        public List<RiskFactorDto> SubRiskFactor { get; set; } = new List<RiskFactorDto>();
-
-        public RiskFactorDto? RiskFactorParent { get; set; }
-
-        public Guid? RiskFactorParentId { get; set; }
-
-        public Guid? RiskFactorId { get; set; }
-
-        public string Key { get; set; }
-
-        public string Value { get; set; }
-
-        public string Code { get; set; }
-
-        public string Description { get; set; }
-
-        public bool IsSelected { get; set; }
-
-        public string Type { get; set; }
-
-        public string Icon { get; set; }
-
+        public Guid Id { get; init; }
+        public string? Key { get; init; }
+        public string? Value { get; init; }
+        public string? Code { get; init; }
+        public string? Description { get; init; }
+        public bool IsSelected { get; init; }
+        public string? Type { get; init; }
+        public string? Icon { get; init; }
+        public List<SubRiskFactor>? SubRiskFactors { get; init; }
+        public RiskFactorDto() { }
+        public RiskFactorDto(
+            Guid id,
+            string? key,
+            string? value,
+            string? code,
+            string? description,
+            bool? isSelected,
+            string? type,
+            string? icon,
+            List<SubRiskFactor>? subRiskFactors)
+        {
+            Id = id;
+            Key = key;
+            Value = value;
+            Code = code;
+            Description = description;
+            IsSelected = isSelected.HasValue;
+            Type = type;
+            Icon = icon;
+            SubRiskFactors = subRiskFactors;
+        }
     }
 }

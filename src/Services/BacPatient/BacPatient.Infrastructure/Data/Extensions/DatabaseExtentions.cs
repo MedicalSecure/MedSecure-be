@@ -22,8 +22,6 @@ public static class DatabaseExtentions
 
     }
 
-
-
     private static async Task SeedBacPatientAsync(ApplicationDbContext context)
     {
         if (!context.BacPatients.Any())

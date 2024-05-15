@@ -23,16 +23,20 @@ namespace BacPatient.Application.Dtos.BacPatientSimpleDto
             Guid PosologyId,
             string Label,
             string Content);
-        public record SimpleDispensesDto(Guid Id,
-            Guid PosologyId,
-            int Hour,
-            int? QuantityBE,
-            int? QuantityAE);
+        public record SimpleDispensesDto(
+           Guid Id,
+        Guid PosologyId,
+        string Hour,
+        Dose? BeforeMeal,
+        Dose? AfterMeal)
+    {
+     
+    };
     public record SimpleMedicationDto(
                     Guid Id,
                     string Name,
                     string Dosage,
-                    string Form,
+                    Route? Form,
                     string Description
                                         );
     public record SimpleUnitCareDto (

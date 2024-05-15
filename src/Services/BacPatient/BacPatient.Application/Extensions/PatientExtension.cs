@@ -1,4 +1,8 @@
-﻿using rescription.Application.DTOs;
+﻿using BacPatient.Domain.Enums;
+using BacPatient.Domain.Models;
+using BacPatient.Domain.ValueObjects;
+using MassTransit.Internals.GraphValidation;
+using rescription.Application.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +16,11 @@ namespace BacPatient.Application.Extensions
         public static PatientDto ToPatientDto(this Patient d)
         {
             return new PatientDto(
-                Id: d.Id.Value,
+                id: d.Id.Value,
                 firstName: d.FirstName,
                 lastName: d.LastName,
-                dateOfbirth: d.DateOfBirth,
-                cin: d.CIN,
+                dateOfBirth: d.DateOfBirth,
+                identity: d.FirstName,
                 cnam: d.CNAM,
                 gender: d.Gender,
                 height: d.Height,
@@ -27,69 +31,60 @@ namespace BacPatient.Application.Extensions
                 country: d.Country,
                 state: d.State,
                 familyStatus: d.FamilyStatus,
-                children: d.Children);
+                children: d.Children,
+                assurance: d.Assurance,
+                addressIsRegistrations : d.AddressIsRegisterations,
+                saveForNextTime : d.AddressIsRegisterations,
+                zipCode:d.ZipCode 
+                );
         }
 
-        public static ICollection<PatientDto> ToPatientDto(this IReadOnlyList<Patient> patients)
+        public static IEnumerable<RiskFactorDto> ToRiskFactorDto(this IEnumerable<RiskFactor> riskFactors)
         {
-            return patients.Select(d => d.ToPatientDto()).ToList();
+            return riskFactors.Select(p => new RiskFactorDto(
+                id: p.Id.Value,
+                key: p.Key,
+                value: p.Value,
+                code: p.Code,
+                description: p.Description,
+                isSelected: p.IsSelected,
+                type: p.Type,
+                icon: p.Icon,
+                subRiskFactors: p.SubRiskFactors?.ToList()
+                ));
         }
-        public static RiskFactorDto ToRiskFactorDto(this RiskFactor riskFactor)
-        {
-            return new RiskFactorDto
-            {
-                SubRiskFactor = riskFactor.SubRiskFactor.Select(rf => rf.ToRiskFactorDto()).ToList(),
-                RiskFactorParent = riskFactor.RiskFactorParent?.ToRiskFactorDto(),
-                RiskFactorParentId = riskFactor.RiskFactorParentId.Value,
-                RiskFactorId = riskFactor.RiskFactorParentId.Value,
-                Key = riskFactor.Key,
-                Value = riskFactor.Value,
-                Code = riskFactor.Code,
-                Description = riskFactor.Description,
-                IsSelected = riskFactor.IsSelected,
-                Type = riskFactor.Type,
-                Icon = riskFactor.Icon
-            };
-        }
-
-        public static List<RiskFactorDto> ToRiskFactorsDto(this IEnumerable<RiskFactor> riskFactors)
-        {
-            return riskFactors.Select(rf => rf.ToRiskFactorDto()).ToList();
-        }
+    
 
 
-        public static HistoryDto ToHistoryDto(this History history)
+    public static HistoryDto ToHistoryDto(this History history)
         {
             return new HistoryDto
             {
                 Date = history.Date,
                 Status = history.Status,
-                RegisterId = history.RegisterId
+                RegisterId = history.RegisterId.Value
             };
         }
 
        
 
-        public static TestDto ToTestDto(this Test test)
-        {
-            return new TestDto
-            {
-                Code = test.Code,
-                Description = test.Description,
-                Language = test.Language,
-                Type = test.Type,
-                RegisterId = test.RegisterId
-            };
-        }
+      
 
         public static List<HistoryDto> ToHistoriesDto(this IEnumerable<History> histories)
         {
             return histories.Select(history => history.ToHistoryDto()).ToList();
         }
 
-        public static List<TestDto> ToTestsDto(this IEnumerable<Test> tests)
+        public static IEnumerable<TestDto> ToTestDto(this List<Test> tests)
         {
-            return tests.Select(test => test.ToTestDto()).ToList();
+            return tests.Select(t => new TestDto(
+                id: t.Id.Value,
+                code: t.Code,
+                description: t.Description,
+                language: t.Language,
+                testType: t.Type,
+                registerId: t.RegisterId.Value
+            ));
         }
 
     }

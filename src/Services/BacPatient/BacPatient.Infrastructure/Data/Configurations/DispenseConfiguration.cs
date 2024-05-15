@@ -18,6 +18,18 @@ namespace BacPatient.Infrastructure.Data.Configurations
             builder.Property(p => p.Id)
                   .HasConversion(personnelId => personnelId.Value,
                                  dbId => DispenseId.Of(dbId));
+            builder.OwnsOne(p => p.BeforeMeal, dose =>
+            {
+                dose.Property(d => d.Quantity);
+                dose.Property(d => d.isValid);
+                dose.Property(d => d.isPostValid);
+            });
+            builder.OwnsOne(p => p.AfterMeal, dose =>
+            {
+                dose.Property(d => d.Quantity);
+                dose.Property(d => d.isValid);
+                dose.Property(d => d.isPostValid);
+            });
         }
     }
         }

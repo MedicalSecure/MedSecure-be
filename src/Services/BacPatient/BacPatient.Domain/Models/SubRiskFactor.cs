@@ -1,8 +1,12 @@
-﻿using BacPatient.Domain.Events.RegisterEvents;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace BacPatient.Domain.Models.RegisterRoot
+namespace BacPatient.Domain.Models
 {
-    public class RiskFactor : Aggregate<RiskFactorId>
+    public class SubRiskFactor : Aggregate<SubRiskFactorId>
     {
         // Properties
         public string Key { get; private set; } = default!;
@@ -12,29 +16,14 @@ namespace BacPatient.Domain.Models.RegisterRoot
         public bool IsSelected { get; private set; } = false;
         public string Type { get; private set; } = default!;
         public string Icon { get; private set; } = default!;
-        public IReadOnlyList<SubRiskFactor> SubRiskFactors => _subRiskFactors.AsReadOnly();
-
-        // Foreign key for Disease relationship
-        public RegisterId RegisterIdForDisease { get; private set; } = default!;
-
-        // Foreign key for Allergy relationship
-        public RegisterId RegisterIdForAllergy { get; private set; } = default!;
-
-        // Foreign key for FamilyMedicalHistory relationship
-        public RegisterId RegisterIdForFamilyMedicalHistory { get; private set; } = default!;
-
-        // Foreign key for PersonalMedicalHistory relationship
-        public RegisterId RegisterIdForPersonalMedicalHistory { get; private set; } = default!;
-
-        // Fields
-        private readonly List<SubRiskFactor> _subRiskFactors = new();
+        public RiskFactorId RiskFactorId { get; private set; } = default!;
 
         // Constructor (private to enforce creation through factory method)
-        private RiskFactor() { }
+        private SubRiskFactor() { }
 
         // Factory method
-        public static RiskFactor Create(
-            RiskFactorId id,
+        public static SubRiskFactor Create(
+            SubRiskFactorId id,
             string key,
             string value,
             string code,
@@ -42,12 +31,12 @@ namespace BacPatient.Domain.Models.RegisterRoot
             bool isSelected,
             string type,
             string icon,
-            RegisterId registerId)
+            RiskFactorId riskFactorId)
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentException("Key cannot be null or empty.", nameof(key));
 
-            var riskFactor = new RiskFactor
+            var subRiskFactor = new SubRiskFactor
             {
                 Id = id,
                 Key = key,
@@ -57,17 +46,16 @@ namespace BacPatient.Domain.Models.RegisterRoot
                 IsSelected = isSelected,
                 Type = type ?? string.Empty,
                 Icon = icon ?? string.Empty,
-                RegisterIdForAllergy = registerId,
-                RegisterIdForDisease = registerId,
-                RegisterIdForFamilyMedicalHistory = registerId,
-                RegisterIdForPersonalMedicalHistory = registerId,
+                RiskFactorId = riskFactorId
             };
 
-            riskFactor.AddDomainEvent(new RiskFactorCreatedEvent(riskFactor));
-            return riskFactor;
+            // You can optionally add a domain event here if needed
+            // subRiskFactor.AddDomainEvent(new SubRiskFactorCreatedEvent(subRiskFactor));
+
+            return subRiskFactor;
         }
 
-        // Method to update the risk factor
+        // Method to update the sub risk factor
         public void Update(
             string key,
             string value,
@@ -88,16 +76,8 @@ namespace BacPatient.Domain.Models.RegisterRoot
             Type = type ?? string.Empty;
             Icon = icon ?? string.Empty;
 
-            AddDomainEvent(new RiskFactorUpdatedEvent(this));
-        }
-
-        // Method to add sub risk factors
-        public void AddSubRiskFactor(SubRiskFactor subRiskFactor)
-        {
-            if (subRiskFactor == null)
-                throw new ArgumentNullException(nameof(subRiskFactor));
-
-            _subRiskFactors.Add(subRiskFactor);
+            // You can optionally add a domain event here if needed
+            // AddDomainEvent(new SubRiskFactorUpdatedEvent(this));
         }
     }
 }

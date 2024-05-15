@@ -2,7 +2,7 @@
 
 namespace BacPatient.Domain.Models.RegisterRoot
 {
-    public class Register : Aggregate<Guid>
+    public class Register : Aggregate<RegisterId>
     {
         // Properties
         public Patient? Patient { get; private set; } = default!;
@@ -28,7 +28,7 @@ namespace BacPatient.Domain.Models.RegisterRoot
         private Register() { } // Ensure creation through factory method
 
         // Factory method
-        public static Register Create(Guid id, Patient patient)
+        public static Register Create(RegisterId id, Patient patient)
         {
             if (patient == null)
                 throw new ArgumentNullException(nameof(patient));
@@ -36,6 +36,21 @@ namespace BacPatient.Domain.Models.RegisterRoot
             var register = new Register
             {
                 Id = id,
+                Patient = patient
+            };
+            register.AddDomainEvent(new RegisterCreatedEvent(register));
+            return register;
+        }
+
+        //bacPatient
+        public static Register Create( Patient patient)
+        {
+            if (patient == null)
+                throw new ArgumentNullException(nameof(patient));
+
+            var register = new Register
+            {
+                Id =RegisterId.Of(Guid.NewGuid()) ,
                 Patient = patient
             };
             register.AddDomainEvent(new RegisterCreatedEvent(register));
@@ -66,7 +81,7 @@ namespace BacPatient.Domain.Models.RegisterRoot
 
             _disease.Add(riskFactor);
         }
-        public Register(Guid id, Patient patient, List<Prescription>? prescriptions)
+        public Register(RegisterId id, Patient patient, List<Prescription>? prescriptions)
         {
             Id = id;
             Patient = patient;
@@ -74,7 +89,7 @@ namespace BacPatient.Domain.Models.RegisterRoot
         }
         public static Register Create(Patient patient, List<Prescription>? prescriptions)
         {
-            Guid id =new Guid();
+            RegisterId id = RegisterId.Of(Guid.NewGuid());
 
             return new Register(id, patient, prescriptions);
         }

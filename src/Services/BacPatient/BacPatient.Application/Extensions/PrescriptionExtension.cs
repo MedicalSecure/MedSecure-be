@@ -1,5 +1,6 @@
 ﻿
 
+using BacPatient.Domain.Models;
 using BacPatient.Domain.Models.RegisterRoot;
 
 namespace BacPatient.Application.Extensions
@@ -45,8 +46,8 @@ namespace BacPatient.Application.Extensions
                 Id: dispense.Id.Value,
                 PosologyId: dispense.PosologyId.Value,
                 Hour: dispense.Hour,
-                QuantityBE: dispense.QuantityBE,
-                QuantityAE: dispense.QuantityAE
+                BeforeMeal : dispense.BeforeMeal ,
+                AfterMeal : dispense.AfterMeal
             );
         }
 
@@ -70,9 +71,10 @@ namespace BacPatient.Application.Extensions
                 Dispenses: posology.Dispenses.Select(d => new DispensesDto(
                     Id: d.Id.Value,
                     PosologyId: posology.Id.Value,
-                    Hour: d.Hour,
-                    QuantityBE: d.QuantityBE,
-                    QuantityAE: d.QuantityAE
+                Hour: d.Hour,
+                      BeforeMeal: d.BeforeMeal,
+                AfterMeal: d.AfterMeal
+
                 )).ToList(),
                 IsPermanent: posology.IsPermanent,
                 StartDate: posology.StartDate,

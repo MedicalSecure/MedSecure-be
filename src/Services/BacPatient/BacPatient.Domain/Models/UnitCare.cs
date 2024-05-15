@@ -51,7 +51,22 @@ namespace BacPatient.Domain.Models
 
             return unitCare;
         }
+        public static UnitCare Create(
+    string title,
+    string description)
+        {
+            var unitCare = new UnitCare()
+            {
+                Id = UnitCareId.Of(Guid.NewGuid()),
+                Title = title,
+                Description = description
+            };
 
+            unitCare.AddDomainEvent(new UnitCareCreatedEvent(unitCare));
+
+            return unitCare;
+        }
+        //bac patient
         public void Update(
 
             string title,

@@ -39,10 +39,10 @@ namespace BacPatient.Infrastructure.Data.Configurations
                    );
 
             // Configure many-to-one relationship with Register for Test
-      /*      builder.HasOne<Register>()
+            builder.HasOne<Register>()
                       .WithMany(r => r.Tests)
                       .HasForeignKey(rf => rf.RegisterId)
-                      .IsRequired();*/
+                      .IsRequired();
         }
     }
 }
