@@ -24,9 +24,8 @@ namespace Prescription.Infrastructure.Database
         public DbSet<Dispense> Dispenses { get; set; }
         public DbSet<Posology> Posology { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<RiskFactor> RiskFactor { get; set; }
-        public DbSet<Patient> Patients { get; set; }
-        public DbSet<Register> Register { get; set; }
+
+        public DbSet<Activity> Activities { get; set; }
 
         public DbSet<Medication> Medications { get; set; }
 

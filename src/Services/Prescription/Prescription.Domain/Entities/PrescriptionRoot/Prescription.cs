@@ -13,7 +13,6 @@
         public UnitCareId? UnitCareId { get; private set; }
         public DietId? DietId { get; private set; }
         public RegisterId RegisterId { get; private set; }
-        public Register? Register { get; private set; }
         public DoctorId DoctorId { get; private set; }
 
         private Prescription()
@@ -62,10 +61,13 @@
             return true;
         }
 
-        public bool addDiagnosis(ICollection<Diagnosis> diagnosis)
+        public bool addDiagnosis(ICollection<Diagnosis?> diagnosis)
         {
             foreach (Diagnosis diagnosisItem in diagnosis)
-                this._diagnosis.Add(diagnosisItem);
+            {
+                if (diagnosisItem != null)
+                    this._diagnosis.Add(diagnosisItem);
+            }
             return true;
         }
 
@@ -75,10 +77,13 @@
             return true;
         }
 
-        public bool addSymptoms(ICollection<Symptom> symptoms)
+        public bool addSymptoms(ICollection<Symptom?> symptoms)
         {
-            foreach (Symptom symptom in symptoms)
-                this._symptoms.Add(symptom);
+            foreach (Symptom? symptom in symptoms)
+            {
+                if (symptom != null)
+                    this._symptoms.Add(symptom);
+            }
             return true;
         }
     }

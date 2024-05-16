@@ -62,7 +62,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                     else
                     {
                         return null;
-                        //here we can enable creating new diagnosis if we want
+                        //here we can enable creating new diagnosis if we want (add diagnosis in the front must be enabled ...)
                         /*return Domain.Entities.Diagnosis.Create(
                             DiagnosisId.Of(dto.Id),
                             dto.Code,
@@ -87,7 +87,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                     else
                     {
                         return null;
-                        //here we can enable creating new symptom if we want
+                        //here we can enable creating new symptom if we want (add symptom in the front must be enabled ...)
                         /*return Domain.Entities.Symptom.Create(
                             SymptomId.Of(dto.Id),
                             dto.Code,
@@ -100,7 +100,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                 .Where(symptom => symptom != null)
                 .ToList();
 
-            var posologies = prescriptionDto.Posologies.Select((posology) =>
+            prescriptionDto.Posologies.Select((posology) =>
             {
                 var newPosology = Posology.Create(
                     prescriptionId: newPrescription.Id,
@@ -124,86 +124,21 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                     var newDispense = Dispense.Create(
                         posologyId: newPosology.Id,
                         hour: dispense.Hour,
-                        QuantityBM: dispense.BeforeMeal.Quantity,
-                        QuantityAM: dispense.AfterMeal.Quantity,
+                        QuantityBM: dispense.BeforeMeal?.Quantity,
+                        QuantityAM: dispense.AfterMeal?.Quantity,
                         createdBy: createdBy_DoctorId);
 
                     newPosology.AddDispense(newDispense);
                 }
 
-                newPrescription.addPosology(newPosology);
+                if (newPosology != null) newPrescription.addPosology(newPosology);
                 return newPosology;
             });
 
-            //TODO sometimes posology doesnt work, no errors, cant debug!! verify it with this code later
-            /*            var posology = prescriptionDto.Posologies.First();
-
-                        var newPosology = Posology.Create(
-                        prescriptionId: newPrescription.Id,
-                                medicationId: MedicationId.Of(posology.MedicationId),
-                        startDate: posology.StartDate,
-                                endDate: posology.EndDate,
-                                isPermanent: posology.IsPermanent,
-                                createdBy: createdBy_DoctorId);
-                        foreach (var comment in posology.Comments)
-                        {
-                            var newComment = Comment.Create(
-                                posologyId: newPosology.Id,
-                                label: comment.Label,
-                                content: comment.Content,
-                                createdBy: createdBy_DoctorId);
-
-                            newPosology.AddComment(newComment);
-                        }
-                        foreach (var dispense in posology.Dispenses)
-                        {
-                            var newDispense = Dispense.Create(
-                                posologyId: newPosology.Id,
-                                hour: dispense.Hour,
-                                QuantityBM: dispense.BeforeMeal.Quantity,
-                                QuantityAM: dispense.AfterMeal.Quantity,
-                                createdBy: createdBy_DoctorId);
-
-                            newPosology.AddDispense(newDispense);
-                        }
-
-                        newPrescription.addPosology(newPosology);
-            */
-
-            newPrescription.addDiagnosis(diagnosisEntities);
-            newPrescription.addSymptoms(symptomsEntities);
+            if (diagnosisEntities?.Count > 0) newPrescription.addDiagnosis(diagnosisEntities);
+            if (diagnosisEntities?.Count > 0) newPrescription.addSymptoms(symptomsEntities);
 
             return newPrescription;
         }
     }
-
-    /*public class CreatePrescriptionHandler(IApplicationDbContext dbContext, IPatientService patientService) : ICommandHandler<CreatePrescriptionCommand, CreatePrescriptionResult>
-    {
-        public async Task<CreatePrescriptionResult> Handle(CreatePrescriptionCommand command, CancellationToken cancellationToken)
-        {
-            // create Prescription entity from command object
-            // save to database
-            // return result
-            var Prescription = await CreateNewPrescription(command.Prescription, cancellationToken);
-
-            dbContext.Prescriptions.Add(Prescription);
-            await dbContext.SaveChangesAsync(cancellationToken);
-
-            return new CreatePrescriptionResult(Prescription.Id);
-        }
-
-        private static async Task<PrescriptionEntity> CreateNewPrescription(PrescriptionDto PrescriptionDto, CancellationToken cancellationToken)
-        {
-            Doctor doctor = patientService.GetPatientByIdAsync(PrescriptionDto.PatientId, cancellationToken); ;
-            Patient patient =;
-            var newPrescription = PrescriptionEntity.Create(patient, doctor);
-
-            List<Domain.Entities.Diagnosis> diagnosisEntities = PrescriptionDto
-                .Diagnoses
-                .Select(dto => dto.Adapt<Domain.Entities.Diagnosis>())
-                .ToList();
-            newPrescription.addDiagnosis(diagnosisEntities);
-            return newPrescription;
-        }
-    }*/
 }

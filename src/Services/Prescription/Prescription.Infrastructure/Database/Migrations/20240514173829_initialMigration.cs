@@ -60,30 +60,14 @@ namespace Prescription.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Patients",
+                name: "Prescriptions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CIN = table.Column<int>(type: "int", nullable: true),
-                    CNAM = table.Column<int>(type: "int", nullable: true),
-                    Assurance = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Gender = table.Column<int>(type: "int", nullable: true),
-                    Height = table.Column<int>(type: "int", nullable: true),
-                    Weight = table.Column<int>(type: "int", nullable: true),
-                    AddressIsRegisterations = table.Column<bool>(type: "bit", nullable: true),
-                    SaveForNextTime = table.Column<bool>(type: "bit", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Address1 = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Address2 = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    ActivityStatus = table.Column<int>(type: "int", nullable: true),
-                    Country = table.Column<int>(type: "int", nullable: true),
-                    State = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ZipCode = table.Column<int>(type: "int", nullable: true),
-                    FamilyStatus = table.Column<int>(type: "int", nullable: true),
-                    Children = table.Column<int>(type: "int", nullable: true),
+                    UnitCareId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DietId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    RegisterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DoctorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -91,36 +75,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Patients", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RiskFactor",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RiskFactorParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Key = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
-                    IsSelected = table.Column<bool>(type: "bit", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Icon = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RiskFactor", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RiskFactor_RiskFactor_RiskFactorParentId",
-                        column: x => x.RiskFactorParentId,
-                        principalTable: "RiskFactor",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                    table.PrimaryKey("PK_Prescriptions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -143,108 +98,13 @@ namespace Prescription.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Register",
+                name: "UnitCare",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Register", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Register_Patients_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "Patients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "History",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    RegisterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_History", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_History_Register_RegisterId",
-                        column: x => x.RegisterId,
-                        principalTable: "Register",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Prescriptions",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RegisterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DoctorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Prescriptions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Prescriptions_Register_RegisterId",
-                        column: x => x.RegisterId,
-                        principalTable: "Register",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RegisterRiskFactor",
-                columns: table => new
-                {
-                    RegisterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RiskFactorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RegisterRiskFactor", x => new { x.RegisterId, x.RiskFactorId });
-                    table.ForeignKey(
-                        name: "FK_RegisterRiskFactor_Register_RegisterId",
-                        column: x => x.RegisterId,
-                        principalTable: "Register",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RegisterRiskFactor_RiskFactor_RiskFactorId",
-                        column: x => x.RiskFactorId,
-                        principalTable: "RiskFactor",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Test",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Language = table.Column<int>(type: "int", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    RegisterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -252,13 +112,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Test", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Test_Register_RegisterId",
-                        column: x => x.RegisterId,
-                        principalTable: "Register",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_UnitCare", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -342,6 +196,55 @@ namespace Prescription.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Personnel",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UnitCareId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Shift = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Personnel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Personnel_UnitCare_UnitCareId",
+                        column: x => x.UnitCareId,
+                        principalTable: "UnitCare",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Room",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UnitCareId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoomNumber = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Room", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Room_UnitCare_UnitCareId",
+                        column: x => x.UnitCareId,
+                        principalTable: "UnitCare",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
@@ -371,8 +274,12 @@ namespace Prescription.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Hour = table.Column<int>(type: "int", nullable: false),
-                    QuantityBM = table.Column<int>(type: "int", nullable: true),
-                    QuantityAM = table.Column<int>(type: "int", nullable: true),
+                    BeforeMeal_Quantity = table.Column<int>(type: "int", nullable: false),
+                    BeforeMeal_isValid = table.Column<bool>(type: "bit", nullable: false),
+                    BeforeMeal_isPostValid = table.Column<bool>(type: "bit", nullable: false),
+                    AfterMeal_Quantity = table.Column<int>(type: "int", nullable: false),
+                    AfterMeal_isValid = table.Column<bool>(type: "bit", nullable: false),
+                    AfterMeal_isPostValid = table.Column<bool>(type: "bit", nullable: false),
                     PosologyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -386,6 +293,31 @@ namespace Prescription.Infrastructure.Database.Migrations
                         name: "FK_Dispenses_Posology_PosologyId",
                         column: x => x.PosologyId,
                         principalTable: "Posology",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Equipment",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Reference = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    EqStatus = table.Column<int>(type: "int", maxLength: 500, nullable: false),
+                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Equipment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Equipment_Room_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Room",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -406,9 +338,14 @@ namespace Prescription.Infrastructure.Database.Migrations
                 column: "PosologyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_History_RegisterId",
-                table: "History",
-                column: "RegisterId");
+                name: "IX_Equipment_RoomId",
+                table: "Equipment",
+                column: "RoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personnel_UnitCareId",
+                table: "Personnel",
+                column: "UnitCareId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posology_MedicationId",
@@ -421,35 +358,14 @@ namespace Prescription.Infrastructure.Database.Migrations
                 column: "PrescriptionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Prescriptions_RegisterId",
-                table: "Prescriptions",
-                column: "RegisterId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PrescriptionSymptom_SymptomsId",
                 table: "PrescriptionSymptom",
                 column: "SymptomsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Register_PatientId",
-                table: "Register",
-                column: "PatientId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RegisterRiskFactor_RiskFactorId",
-                table: "RegisterRiskFactor",
-                column: "RiskFactorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RiskFactor_RiskFactorParentId",
-                table: "RiskFactor",
-                column: "RiskFactorParentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Test_RegisterId",
-                table: "Test",
-                column: "RegisterId");
+                name: "IX_Room_UnitCareId",
+                table: "Room",
+                column: "UnitCareId");
         }
 
         /// <inheritdoc />
@@ -465,16 +381,13 @@ namespace Prescription.Infrastructure.Database.Migrations
                 name: "Dispenses");
 
             migrationBuilder.DropTable(
-                name: "History");
+                name: "Equipment");
+
+            migrationBuilder.DropTable(
+                name: "Personnel");
 
             migrationBuilder.DropTable(
                 name: "PrescriptionSymptom");
-
-            migrationBuilder.DropTable(
-                name: "RegisterRiskFactor");
-
-            migrationBuilder.DropTable(
-                name: "Test");
 
             migrationBuilder.DropTable(
                 name: "Diagnosis");
@@ -483,10 +396,10 @@ namespace Prescription.Infrastructure.Database.Migrations
                 name: "Posology");
 
             migrationBuilder.DropTable(
-                name: "Symptoms");
+                name: "Room");
 
             migrationBuilder.DropTable(
-                name: "RiskFactor");
+                name: "Symptoms");
 
             migrationBuilder.DropTable(
                 name: "Medications");
@@ -495,10 +408,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                 name: "Prescriptions");
 
             migrationBuilder.DropTable(
-                name: "Register");
-
-            migrationBuilder.DropTable(
-                name: "Patients");
+                name: "UnitCare");
         }
     }
 }

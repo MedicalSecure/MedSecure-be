@@ -38,7 +38,6 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
                         .Where(p => p.RegisterId == RegisterId.Of(registerId))
                         .Include(p => p.Symptoms)
                         .Include(p => p.Diagnosis)
-                        .Include(p => p.Register)
                         .Include(p => p.Posology)
                         .ThenInclude(posology => posology.Comments)
                         .Include(p => p.Posology)
@@ -55,7 +54,6 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
                         CreatedAt: p.CreatedAt ?? DateTime.UtcNow,
                         UnitCareId: p.UnitCareId?.Value,
                         DietId: p.DietId?.Value,
-                        Register: null,
                         LastModified: p.LastModified,
                         CreatedBy: p.CreatedBy,
                         LastModifiedBy: p.LastModifiedBy

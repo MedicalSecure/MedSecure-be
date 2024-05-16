@@ -23,7 +23,6 @@ namespace Prescription.Application.Extensions
                     CreatedAt: pres.CreatedAt ?? DateTime.UtcNow,
                     UnitCareId: pres.UnitCareId?.Value,
                     DietId: pres.DietId?.Value,
-                    Register: pres.Register?.ToRegisterDto(),
                     LastModified: pres.LastModified,
                     CreatedBy: pres.CreatedBy,
                     LastModifiedBy: pres.LastModifiedBy
@@ -42,7 +41,6 @@ namespace Prescription.Application.Extensions
                     CreatedAt: pres.CreatedAt ?? DateTime.UtcNow,
                     UnitCareId: pres.UnitCareId?.Value,
                     DietId: pres.DietId?.Value,
-                    Register: null,
                     LastModified: pres.LastModified,
                     CreatedBy: pres.CreatedBy,
                     LastModifiedBy: pres.LastModifiedBy

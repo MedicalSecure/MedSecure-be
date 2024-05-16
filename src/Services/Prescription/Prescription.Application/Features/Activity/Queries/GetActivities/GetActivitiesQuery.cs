@@ -1,14 +1,13 @@
 ﻿using FluentValidation;
-using Prescription.Application.Features.Diagnosis.Commands.UpdateDiagnosis;
 
-namespace Prescription.Application.Features.Diagnosis.Queries.GetDiagnosis
+namespace Prescription.Application.Features.Activity.Queries.GetActivities
 {
-    public record GetRegisterQuery(PaginationRequest PaginationRequest) : IQuery<GetRegisterResult>;
-    public record GetRegisterResult(PaginatedResult<RegisterDto> Registrations);
+    public record GetActivitiesQuery(PaginationRequest PaginationRequest) : IQuery<GetActivitiesResult>;
+    public record GetActivitiesResult(PaginatedResult<ActivityDto> Activities);
 
-    public class GetRegisterQueryValidator : AbstractValidator<GetRegisterQuery>
+    public class GetActivitiesQueryValidator : AbstractValidator<GetActivitiesQuery>
     {
-        public GetRegisterQueryValidator()
+        public GetActivitiesQueryValidator()
         {
             /*            RuleFor(x => x.PaginationRequest.PageIndex).NotEmpty().WithMessage("Page Index is required")
                             .GreaterThan(-1).WithMessage("Page Index must be positive");

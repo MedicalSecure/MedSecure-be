@@ -11,12 +11,14 @@
         private static readonly DoctorId doctorId = DoctorId.Of(new Guid("44444444-4444-4444-4444-444444444444"));
         private static readonly DoctorId doctorId2 = DoctorId.Of(new Guid("44444444-4444-4444-4444-444444444445")); // Next sequential number for doctor
         private static readonly PatientId patientId = PatientId.Of(new Guid("22222222-2222-2222-2222-222222222222"));
-      
+
         private static readonly MedicationId medicationId = MedicationId.Of(new Guid("55555555-5555-5555-5555-555555555555"));
         private static readonly MedicationId medicationId2 = MedicationId.Of(new Guid("55555555-5555-5555-5555-555555555556"));
 
         private static readonly PosologyId posologyId = PosologyId.Of(new Guid("142f0efe-9e11-4808-a7f6-fcb564908772"));
         private static readonly PrescriptionId prescriptionId = PrescriptionId.Of(new Guid("7506213d-3b5f-4498-b35c-9169a600ff12"));
+
+        private static readonly RegisterId registerId = RegisterId.Of(new Guid("77777777-7777-7777-7777-777777777777"));
 
         public static IEnumerable<Comment> Comments
         {
@@ -32,7 +34,7 @@
                 }
                 catch (Exception ex)
                 {
-                    throw new EntityCreationException(nameof(Patient), ex.Message);
+                    throw new EntityCreationException(nameof(Comment), ex.Message);
                 }
             }
         }
@@ -115,42 +117,6 @@
             }
         }
 
-        public static IEnumerable<Patient> Patients
-        {
-            get
-            {
-                try
-                {
-                    return new List<Patient>
-                    {
-                        // Create p1
-                        Patient.Create(
-                            patientId,
-                            "John",
-                            "Doe",
-                            new DateTime(1985, 3, 15), // Date of birth
-                            12345678, // CIN
-                            987654, // CNAM
-                            Gender.Male,
-                            178, // Height in cm
-                            75, // Weight in kg
-                            "john.doe@example.com",
-                            "123 Main St",
-                            "Apt 4B",
-                            Country.US,
-                            "CA", // State
-                            FamilyStatus.MARRIED,
-                            Children.One
-                        ),
-                };
-                }
-                catch (Exception ex)
-                {
-                    throw new EntityCreationException(nameof(Patient), ex.Message);
-                }
-            }
-        }
-
         public static List<Posology> posology(List<Medication> medications)
         {
             if (medications.Count < 1) return null!;
@@ -214,11 +180,11 @@
             }
         }
 
-        public static Domain.Entities.Prescription Prescription(Register register, List<Medication> medications, List<Symptom> symptoms, List<Diagnosis> diagnosis)
+        public static Domain.Entities.Prescription Prescription(List<Medication> medications, List<Symptom> symptoms, List<Diagnosis> diagnosis)
         {
             try
             {
-                var p = Domain.Entities.Prescription.Create(register.Id, doctorId);
+                var p = Domain.Entities.Prescription.Create(registerId, doctorId);
                 p.addPosology(posology(medications)[0]);
                 p.addPosology(posology(medications)[1]);
 
@@ -228,19 +194,6 @@
                 p.addDiagnosis(diagnosis[8]);
                 p.addDiagnosis(diagnosis[2]);
                 return p;
-            }
-            catch (Exception ex)
-            {
-                throw new EntityCreationException(nameof(Domain.Entities.Prescription), ex.Message);
-            }
-        }
-
-        public static Register Register(Patient patient)
-        {
-            try
-            {
-                var r = RegisterInitialData.GetRegisterInitialData(patient);
-                return r;
             }
             catch (Exception ex)
             {

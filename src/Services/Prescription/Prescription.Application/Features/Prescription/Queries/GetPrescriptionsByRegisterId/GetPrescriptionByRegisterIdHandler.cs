@@ -33,7 +33,6 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             var prescriptions = await _dbContext.Prescriptions.Where(p => p.RegisterId == RegisterId.Of(query.RegisterId))
                    .Include(p => p.Symptoms)
                    .Include(p => p.Diagnosis)
-                   .Include(p => p.Register)
                    .Include(p => p.Posology)
                    .ThenInclude(posology => posology.Comments)
                    .Include(p => p.Posology)
@@ -53,7 +52,6 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
                     CreatedAt: p.CreatedAt ?? DateTime.UtcNow, // Assuming you want to set the current UTC time
                     UnitCareId: p.UnitCareId?.Value,
                     DietId: p.DietId?.Value,
-                    Register: null,
                     LastModified: p.LastModified,
                     CreatedBy: p.CreatedBy,
                     LastModifiedBy: p.LastModifiedBy

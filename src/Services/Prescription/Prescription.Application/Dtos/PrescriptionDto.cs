@@ -11,7 +11,6 @@ namespace Prescription.Application.DTOs
         DateTime CreatedAt,
         Guid? UnitCareId = null,
         Guid? DietId = null,
-        RegisterDto? Register = null,
         DateTime? LastModified = null,
         string? CreatedBy = null,
         string? LastModifiedBy = null);

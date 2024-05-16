@@ -16,10 +16,8 @@ namespace Prescription.Application.Contracts
         public DbSet<Dispense> Dispenses { get; }
         public DbSet<Posology> Posology { get; }
         public DbSet<Comment> Comments { get; }
-        public DbSet<RiskFactor> RiskFactor { get; set; }
 
-        public DbSet<Patient> Patients { get; }
-        public DbSet<Register> Register { get; }
+        public DbSet<Activity> Activities { get; set; }
 
         public DbSet<Medication> Medications { get; }
 

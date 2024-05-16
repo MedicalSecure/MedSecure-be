@@ -1,5 +1,4 @@
 ﻿using Prescription.Domain.Entities;
-using Prescription.Domain.Entities.RegisterRoot;
 using Prescription.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;

@@ -1,10 +1,4 @@
-﻿using BuildingBlocks.Exceptions;
-using Mapster;
-using Microsoft.Extensions.Configuration;
-using Prescription.Application.Contracts;
-using Prescription.Infrastructure.Database;
-
-namespace Prescription.Infrastructure
+﻿namespace Prescription.Infrastructure
 {
     public static class DependencyInjection
     {
@@ -16,8 +10,8 @@ namespace Prescription.Infrastructure
 
             // Add services to the container.
             // Register AuditableEntityInterceptor and DispatchDomainEventsInterceptor as scoped services
-            /*services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-            services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();*/
+            services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+            services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
             // Add ApplicationDbContext to the service collection with Entity Framework Core
             services.AddDbContext<ApplicationDbContext>((sp, options) =>

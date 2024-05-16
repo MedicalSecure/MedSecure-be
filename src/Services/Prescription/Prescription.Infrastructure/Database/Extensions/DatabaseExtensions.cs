@@ -18,11 +18,8 @@ public static class DatabaseExtensions
         await ClearDataAsync(context);
 
         await SeedMedicationsAsync(context);
-        await SeedPatientsAsync(context);
         await SeedSymptomsAsync(context);
         await SeedDiagnosisAsync(context);
-
-        await SeedRegisterAsync(context);
 
         await SeedPrescriptionsAsync(context);
     }
@@ -31,13 +28,11 @@ public static class DatabaseExtensions
     {
         // Clear all data from tables
         context.Prescriptions.RemoveRange(context.Prescriptions);
-        context.Register.RemoveRange(context.Register);
 
         context.Posology.RemoveRange(context.Posology);
         context.Comments.RemoveRange(context.Comments);
         context.Dispenses.RemoveRange(context.Dispenses);
         context.Medications.RemoveRange(context.Medications);
-        context.Patients.RemoveRange(context.Patients);
 
         context.Diagnosis.RemoveRange(context.Diagnosis);
         context.Symptoms.RemoveRange(context.Symptoms);
@@ -55,15 +50,6 @@ public static class DatabaseExtensions
         }
     }
 
-    private static async Task SeedPatientsAsync(ApplicationDbContext context)
-    {
-        if (!await context.Patients.AnyAsync())
-        {
-            await context.Patients.AddRangeAsync(InitialData.Patients);
-            await context.SaveChangesAsync();
-        }
-    }
-
     private static async Task SeedPrescriptionsAsync(ApplicationDbContext context)
     {
         try
@@ -71,47 +57,13 @@ public static class DatabaseExtensions
             var medications = await context.Medications.ToListAsync();
             var symptoms = await context.Symptoms.ToListAsync();
             var diagnosis = await context.Diagnosis.ToListAsync();
-            List<Register> registers = await context.Register.ToListAsync();
 
-            // Check if there are any patients and doctors
-            if (registers.Count > 0)
+            if (!await context.Prescriptions.AnyAsync())
             {
-                var register = registers.First();
+                var newPrescription = InitialData.Prescription(medications, symptoms, diagnosis);
 
-                if (!await context.Prescriptions.AnyAsync())
-                {
-                    var newPrescription = InitialData.Prescription(register, medications, symptoms, diagnosis);
-
-                    await context.Prescriptions.AddAsync(newPrescription);
-                    await context.SaveChangesAsync();
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString());
-            throw;
-        }
-    }
-
-    private static async Task SeedRegisterAsync(ApplicationDbContext context)
-    {
-        try
-        {
-            var patients = await context.Patients.ToListAsync();
-            var patient = patients.First();
-            List<Register> register = await context.Register.ToListAsync();
-
-            // Check if there are any patients and doctors
-            if (patients.Count > 0)
-            {
-                if (!await context.Register.AnyAsync())
-                {
-                    var newRegister = InitialData.Register(patient);
-
-                    await context.Register.AddAsync(newRegister);
-                    await context.SaveChangesAsync();
-                }
+                await context.Prescriptions.AddAsync(newPrescription);
+                await context.SaveChangesAsync();
             }
         }
         catch (Exception ex)

@@ -16,8 +16,13 @@ namespace Prescription.Application.Features.Symptom.Commands.CreateSymptom
             // save to database
             // return result
             var Symptom = CreateNewSymptom(command.Symptom);
+            Guid createdBy = Guid.NewGuid();
 
             dbContext.Symptoms.Add(Symptom);
+            await dbContext.SaveChangesAsync(cancellationToken);
+
+            var newActivity = Domain.Entities.Activity.Create(createdBy, "created new symptom", "Hammadi AZ");
+            dbContext.Activities.Add(newActivity);
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return new CreateSymptomResult(Symptom.Id.Value);
