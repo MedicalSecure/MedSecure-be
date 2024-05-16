@@ -13,7 +13,16 @@ public class CreateUnitCareHandler(IPublishEndpoint publishEndpoint, IApplicatio
 
         // save to database
         dbContext.UnitCares.Add(unitCare);
+        try
+        {
         await dbContext.SaveChangesAsync(cancellationToken);
+
+        }
+        catch (Exception x)
+        {
+
+            throw x;
+        }
 
         // Check if the feature for using message broker is enabled
         if (await featureManager.IsEnabledAsync("UnitCarePlanSharedFulfillment"))
@@ -38,11 +47,11 @@ public class CreateUnitCareHandler(IPublishEndpoint publishEndpoint, IApplicatio
 
         foreach (var room in unitCareDto.Rooms)
         {
-            var newRoom = Room.Create(RoomId.Of(room.Id), UnitCareId.Of(room.UnitCareId), room.RoomNumber, room.Status);
+            var newRoom = Room.Create(RoomId.Of(Guid.NewGuid()), newUnitCare.Id, room.RoomNumber, room.Status);
 
             foreach (var equipment in room.Equipments)
             {
-                var newEquipment= Equipment.Create(EquipmentId.Of(equipment.Id), RoomId.Of(equipment.RoomId), equipment.Name, equipment.Reference, equipment.EqStatus, equipment.EqType);
+                var newEquipment= Equipment.Create(EquipmentId.Of(Guid.NewGuid()), newRoom.Id, equipment.Name, equipment.Reference, equipment.EqStatus, equipment.EqType);
 
                 newRoom.AddEquipment(newEquipment);
 
@@ -58,7 +67,7 @@ public class CreateUnitCareHandler(IPublishEndpoint publishEndpoint, IApplicatio
 
         foreach (var personnel in unitCareDto.Personnels)
         {
-            var newPersonnel = Personnel.Create(PersonnelId.Of(personnel.Id), UnitCareId.Of(personnel.UnitCareId), personnel.Name, personnel.Shift, personnel.Gender);
+            var newPersonnel = Personnel.Create(PersonnelId.Of(Guid.NewGuid()), newUnitCare.Id, personnel.Name, personnel.Shift, personnel.Gender);
             newUnitCare.AddPersonnel(newPersonnel);
 
         }

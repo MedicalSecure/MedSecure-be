@@ -12,8 +12,8 @@ using UnitCare.Infrastructure.Data;
 namespace UnitCare.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240513085315_test")]
-    partial class test
+    [Migration("20240513130715_TEST")]
+    partial class TEST
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
