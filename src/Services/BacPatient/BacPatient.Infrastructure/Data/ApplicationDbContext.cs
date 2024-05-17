@@ -27,6 +27,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Register> Registers => Set<Register>();
     public DbSet<Medication> Medications => Set<Medication>();
+    public DbSet<Domain.Models.Activity> Activities { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

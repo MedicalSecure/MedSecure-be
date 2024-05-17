@@ -13,7 +13,12 @@ namespace BacPatient.Domain.Models
         public string? Description { get; private set; } = default!;
         public string? Type { get; private set; } = default!;
       
-
+        public UnitCare() { }
+        public UnitCare(UnitCareId id ,  string? title , string? description) {
+            Id = id;
+            Title = title;
+            Description = description; 
+        }
         public static UnitCare Create(
             UnitCareId id,
             string title,

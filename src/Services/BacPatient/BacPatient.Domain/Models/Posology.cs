@@ -21,6 +21,17 @@
         private Posology()
         {
         }
+        public Posology( PosologyId id ,Medication? medicine ,DateTime startDate , DateTime? endDate , bool isPremenant )
+        {
+            Id = id;
+            Medication = medicine;
+            StartDate = startDate;
+            EndDate = endDate;
+            IsPermanent = isPremenant; 
+
+
+
+        }
 
         private Posology(PosologyId id,PrescriptionId prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
         {
@@ -51,11 +62,24 @@
             // Validate and add dispense
             _dispenses.Add(dispense);
         }
-
+        public void AddDispenses(ICollection<Dispense> dispenses)
+        {
+            foreach (var dispense in dispenses)
+            {
+                _dispenses.Add(dispense);
+            }
+        }
         public void AddComment(Comment comment)
         {
             // Validate and add comment
             _comments.Add(comment);
+        }
+        public void AddComments(ICollection<Comment> comments)
+        {
+            foreach (var comment in comments)
+            {
+                _comments.Add(comment);
+            }
         }
     }
 }

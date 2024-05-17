@@ -1,5 +1,6 @@
 ﻿
 
+using BacPatient.Domain.ValueObjects;
 using System.Collections.Generic;
 
 namespace BacPatient.Domain.Models
@@ -27,8 +28,10 @@ namespace BacPatient.Domain.Models
             RegisterId = registerId;
             CreatedAt = createdAt == default ? DateTime.Now : createdAt;
         }
+       
         // lil bacPatient
-        private Prescription(PrescriptionId id, Register register,  UnitCare unitCare,DateTime? createdAt = default )
+     
+        public Prescription( PrescriptionId id , Register register, UnitCare unitCare, DateTime? createdAt = default)
         {
             Id = id;
             Register = register;
@@ -53,6 +56,15 @@ namespace BacPatient.Domain.Models
             this._posology.Add(posology);
             return true;
         }
+        public void addPosologies(ICollection<Posology> posologies)
+        {
+            foreach(var posology in posologies)
+            {
+                this._posology.Add(posology);
+
+            }
+
+        }
 
         public bool addDiagnosis(Diagnosis diagnosis)
         {
@@ -66,6 +78,7 @@ namespace BacPatient.Domain.Models
                 this._diagnosis.Add(diagnosisItem);
             return true;
         }
+     
 
         public bool addSymptom(Symptom symptom)
         {

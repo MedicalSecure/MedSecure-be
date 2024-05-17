@@ -12,6 +12,10 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
         var bacPatients = CreateNewBP(command.BacPatients);
 
         dbContext.BacPatients.Add(bacPatients);
+        //create new activity
+        Guid createdBy = Guid.NewGuid();
+        var newActivity = Domain.Models.Activity.Create(createdBy, $"Created new {nameof(BacPatient)}", "Tiss Rahma");
+        dbContext.Activities.Add(newActivity);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         if (await featureManager.IsEnabledAsync("BacPatientSharedFulfillment"))
@@ -28,7 +32,7 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
             Id: BacPatienId.Of(Guid.NewGuid()),
             Prescription: Prescription.Create(
                 Register: Register.Create(
-                    id: RegisterId.Of(bacPatients.Prescription.Register.Id),
+                    id: RegisterId.Of(Guid.NewGuid()),
                      patient: Patient.Create(
                     bacPatients.Prescription.Register.Patient.FirstName,
                     bacPatients.Prescription.Register.Patient.LastName,
@@ -36,7 +40,7 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
 
                      ),
                 UnitCare: UnitCare.Create(
-                                            id : UnitCareId.Of(bacPatients.Prescription.UnitCare.Id),
+                                            id : UnitCareId.Of(Guid.NewGuid()),
                                             title: bacPatients.Prescription.UnitCare.Title,
                                             description: bacPatients.Prescription.UnitCare.Description
                 ),
@@ -48,7 +52,7 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
                 Served: bacPatients.Served,
                 ToServe: bacPatients.ToServe,
                 Status: bacPatients.Status,
-                Room: Room.Create(id:RoomId.Of( bacPatients.Room.Id),
+                Room: Room.Create(id:RoomId.Of(Guid.NewGuid()),
                                     roomNumber : bacPatients.Room.RoomNumber ,
                                     status : bacPatients.Room.Status
                 )

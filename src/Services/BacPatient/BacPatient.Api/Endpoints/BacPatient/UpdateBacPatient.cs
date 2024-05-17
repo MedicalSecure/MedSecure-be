@@ -1,4 +1,5 @@
 ﻿using BacPatient.Application.BacPatient.Commands.UpdateBacPatient;
+using BacPatient.Application.BPModels.Commands.CreateBacPatient;
 
 namespace BacPatient.Api.Endpoints.BacPatient
 {
@@ -12,9 +13,10 @@ namespace BacPatient.Api.Endpoints.BacPatient
         {
             app.MapPut("/v1/bacPatient", async (UpdateBacPatientRequest request, ISender sender) =>
             {
-                var command = request.Adapt<UpdateBacPatientCommand>();
+                UpdateBacPatientCommand command = new UpdateBacPatientCommand(request.BacPatient);
 
                 var result = await sender.Send(command);
+
 
                 var response = result.Adapt<UpdateBacPatientResponse>();
 

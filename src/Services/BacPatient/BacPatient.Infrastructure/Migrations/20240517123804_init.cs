@@ -12,6 +12,21 @@ namespace BacPatient.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Activities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatorName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Activities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Diagnosis",
                 columns: table => new
                 {
@@ -525,12 +540,12 @@ namespace BacPatient.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Hour = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BeforeMeal_Quantity = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BeforeMeal_isValid = table.Column<bool>(type: "bit", nullable: false),
-                    BeforeMeal_isPostValid = table.Column<bool>(type: "bit", nullable: false),
-                    AfterMeal_Quantity = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AfterMeal_isValid = table.Column<bool>(type: "bit", nullable: false),
-                    AfterMeal_isPostValid = table.Column<bool>(type: "bit", nullable: false),
+                    BeforeMeal_Quantity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BeforeMeal_isValid = table.Column<bool>(type: "bit", nullable: true),
+                    BeforeMeal_isPostValid = table.Column<bool>(type: "bit", nullable: true),
+                    AfterMeal_Quantity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AfterMeal_isValid = table.Column<bool>(type: "bit", nullable: true),
+                    AfterMeal_isPostValid = table.Column<bool>(type: "bit", nullable: true),
                     PosologyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -657,6 +672,9 @@ namespace BacPatient.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Activities");
+
             migrationBuilder.DropTable(
                 name: "BacPatients");
 

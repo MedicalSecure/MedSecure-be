@@ -17,7 +17,6 @@ namespace BacPatient.Domain.Models
         public static BacPatient Create(
             BacPatienId Id,
             Prescription Prescription,
-
             Guid NurseId,
             int Bed,
             int Served,

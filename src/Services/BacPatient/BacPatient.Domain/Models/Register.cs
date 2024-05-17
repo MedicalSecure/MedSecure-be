@@ -87,6 +87,11 @@ namespace BacPatient.Domain.Models.RegisterRoot
             Patient = patient;
             Prescriptions = prescriptions;
         }
+        public Register(RegisterId id,  Patient patient)
+        {
+            Id = id;
+            Patient = patient;
+        }
         public static Register Create(Patient patient, List<Prescription>? prescriptions)
         {
             RegisterId id = RegisterId.Of(Guid.NewGuid());

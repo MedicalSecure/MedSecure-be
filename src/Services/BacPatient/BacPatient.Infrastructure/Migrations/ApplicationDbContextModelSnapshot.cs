@@ -22,6 +22,33 @@ namespace BacPatient.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("BacPatient.Domain.Models.Activity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatorName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Activities");
+                });
+
             modelBuilder.Entity("BacPatient.Domain.Models.BacPatient", b =>
                 {
                     b.Property<Guid>("Id")
@@ -928,10 +955,10 @@ namespace BacPatient.Infrastructure.Migrations
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<bool>("isPostValid")
+                            b1.Property<bool?>("isPostValid")
                                 .HasColumnType("bit");
 
-                            b1.Property<bool>("isValid")
+                            b1.Property<bool?>("isValid")
                                 .HasColumnType("bit");
 
                             b1.HasKey("DispenseId");
@@ -951,10 +978,10 @@ namespace BacPatient.Infrastructure.Migrations
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<bool>("isPostValid")
+                            b1.Property<bool?>("isPostValid")
                                 .HasColumnType("bit");
 
-                            b1.Property<bool>("isValid")
+                            b1.Property<bool?>("isValid")
                                 .HasColumnType("bit");
 
                             b1.HasKey("DispenseId");
@@ -965,11 +992,9 @@ namespace BacPatient.Infrastructure.Migrations
                                 .HasForeignKey("DispenseId");
                         });
 
-                    b.Navigation("AfterMeal")
-                        .IsRequired();
+                    b.Navigation("AfterMeal");
 
-                    b.Navigation("BeforeMeal")
-                        .IsRequired();
+                    b.Navigation("BeforeMeal");
 
                     b.Navigation("Posology");
                 });

@@ -9,6 +9,7 @@ namespace BacPatient.Domain.Models
         public decimal? RoomNumber { get; set; } = default!;
         public Status? Status { get; set; }
 
+      private Room() { }
         public static Room Create(
             RoomId id,
             UnitCareId unitCareId,
@@ -61,6 +62,12 @@ Status? status)
             return room;
         }
         //bac patient 
+        public Room(RoomId id , decimal? roomNumber, Status? status)
+        {
+            Id = id;
+            RoomNumber = roomNumber;
+            Status = status; 
+        }
         public void Update(
             UnitCareId unitCareId,
             decimal roomNumber,

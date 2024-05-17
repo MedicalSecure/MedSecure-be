@@ -37,6 +37,13 @@
             this.Form = Form;
             this.Description = Description;
         }
+        public Medication ( MedicationId id , string? Name, Route? Form, string? Description)
+        {
+            Id= id;
+            this.Name = Name;
+            this.Form = Form;
+            this.Description = Description;
+        }
 
         public static Medication Create(string name, Route forme, string description)
         {

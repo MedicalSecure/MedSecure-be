@@ -30,13 +30,15 @@ namespace BacPatient.Domain.Models.RegisterRoot
         private Patient() { }
 
         // Factory method
-        private Patient( PatientId patientid ,string firstName, string? lastName, DateTime? dateOfbirth)
+        public Patient( PatientId patientid ,string firstName, string? lastName, DateTime? dateOfbirth)
         {
             Id = patientid;
             FirstName = firstName;
             LastName = lastName;
             DateOfBirth = dateOfbirth;
         }
+   
+
         public static Patient Create(string firstName, string? lastName, DateTime? dateOfbirth)
         {
             PatientId id = PatientId.Of(Guid.NewGuid());
