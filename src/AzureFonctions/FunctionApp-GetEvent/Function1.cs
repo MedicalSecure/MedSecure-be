@@ -22,6 +22,10 @@ namespace FunctionApp_GetEvent
             _serviceProvider = serviceProvider;
         }
 
+
+
+
+
         [Function(nameof(Function1))]
         public async Task Run([EventHubTrigger("mediot-event", Connection = "EventHubConnection")] EventData[] events)
         {
