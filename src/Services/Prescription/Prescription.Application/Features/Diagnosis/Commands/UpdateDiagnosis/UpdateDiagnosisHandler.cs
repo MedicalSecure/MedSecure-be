@@ -26,6 +26,10 @@ namespace Prescription.Application.Features.Diagnosis.Commands.UpdateDiagnosis
             UpdateDiagnosisWithNewValues(Diagnosis, command.Diagnosis);
             dbContext.Diagnosis.Update(Diagnosis);
 
+            Guid createdBy = Guid.NewGuid();
+            var newActivity = Domain.Entities.Activity.Create(createdBy, $"Updated a {nameof(Diagnosis)}", "Hammadi AZ");
+            dbContext.Activities.Add(newActivity);
+
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return new UpdateDiagnosisResult(Diagnosis.Id.Value);

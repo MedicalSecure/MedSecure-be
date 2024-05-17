@@ -13,7 +13,9 @@ namespace Prescription.Application.Features.Symptom.Commands.DeleteSymptom
 
             dbContext.Symptoms.Remove(Symptom);
 
-            await dbContext.SaveChangesAsync(cancellationToken);
+            Guid createdBy = Guid.NewGuid();
+            var newActivity = Domain.Entities.Activity.Create(createdBy, $"Removed a {nameof(Symptom)}", "Hammadi AZ");
+            dbContext.Activities.Add(newActivity);
 
             /* // Check if the feature for using message broker is enabled
              if (await featureManager.IsEnabledAsync("SymptomSharedFulfilment"))

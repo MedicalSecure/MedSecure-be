@@ -18,6 +18,10 @@ namespace Prescription.Application.Features.Diagnosis.Commands.CreateDiagnosis
             var Diagnosis = CreateNewDiagnosis(command.Diagnosis);
 
             dbContext.Diagnosis.Add(Diagnosis);
+
+            Guid createdBy = Guid.NewGuid();
+            var newActivity = Domain.Entities.Activity.Create(createdBy, $"Created new {nameof(Diagnosis)}", "Hammadi AZ");
+            dbContext.Activities.Add(newActivity);
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return new CreateDiagnosisResult(Diagnosis.Id.Value);

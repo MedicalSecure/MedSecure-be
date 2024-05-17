@@ -1,4 +1,5 @@
-﻿using Prescription.Application.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using Prescription.Application.Contracts;
 using Prescription.Domain.Entities;
 using Prescription.Domain.ValueObjects;
 
@@ -22,6 +23,10 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
 
             // Save to database
             _dbContext.Prescriptions.Add(prescription);
+
+            Guid createdBy = Guid.NewGuid();
+            var newActivity = Domain.Entities.Activity.Create(createdBy, $"Created new {nameof(Prescription)}", "Hammadi AZ");
+            _dbContext.Activities.Add(newActivity);
             try
             {
                 await _dbContext.SaveChangesAsync(cancellationToken);

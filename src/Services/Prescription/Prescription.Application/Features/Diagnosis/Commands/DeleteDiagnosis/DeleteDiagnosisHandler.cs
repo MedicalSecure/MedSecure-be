@@ -13,6 +13,10 @@ namespace Prescription.Application.Features.Diagnosis.Commands.DeleteDiagnosis
 
             dbContext.Diagnosis.Remove(diagnosis);
 
+            Guid createdBy = Guid.NewGuid();
+            var newActivity = Domain.Entities.Activity.Create(createdBy, $"Deleted a {nameof(Diagnosis)}", "Hammadi AZ");
+            dbContext.Activities.Add(newActivity);
+
             await dbContext.SaveChangesAsync(cancellationToken);
 
             /* // Check if the feature for using message broker is enabled

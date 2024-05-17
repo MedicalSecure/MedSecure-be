@@ -26,6 +26,10 @@ namespace Prescription.Application.Features.Symptom.Commands.UpdateSymptom
             UpdateSymptomWithNewValues(Symptom, command.Symptom);
             dbContext.Symptoms.Update(Symptom);
 
+            Guid updatedBy = Guid.NewGuid();
+            var newActivity = Domain.Entities.Activity.Create(updatedBy, $"Updated a {nameof(Symptom)}", "Hammadi AZ");
+            dbContext.Activities.Add(newActivity);
+
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return new UpdateSymptomResult(Symptom.Id.Value);
