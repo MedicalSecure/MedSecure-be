@@ -16,7 +16,7 @@ namespace Sensor.API.Endpoints.Sensor;
         {
             // Initialize Azure Storage connection string and container name
             _connectionString = "DefaultEndpointsProtocol=https;AccountName=iotstorage100;AccountKey=am+1epYnj/NyL5J05vAqRbEJhb41XKH2A90IRBmdScurOIoT/i+ZOLbsuMJy/z1jJ5CZah2zndkL+AStUl1ytA==;EndpointSuffix=core.windows.net";
-            _containerName = "container001";
+            _containerName = "containermediot";
         }
 
         [HttpGet("{blobName}")]

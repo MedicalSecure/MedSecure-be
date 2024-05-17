@@ -1,5 +1,9 @@
 ﻿
 
+using Microsoft.Azure.Devices.Client;
+using Microsoft.Extensions.Options;
+using System.Text;
+using System.Text.Json;
 namespace Sensor.Infrastructure.Data.Extensions;
 
 public static class DatabaseExtentions
@@ -17,7 +21,7 @@ public static class DatabaseExtentions
         await ClearDataAsync(context);
         // Add mock data
         await SeedSensorAsync(context);
-
+        await ReceiveAndSaveMessagesAsync(context);
 
     }
     private static async Task ClearDataAsync(ApplicationDbContext context)
@@ -39,6 +43,29 @@ public static class DatabaseExtentions
             await context.SaveChangesAsync();
         }
 
+    }
+
+    private static async Task ReceiveAndSaveMessagesAsync(ApplicationDbContext context)
+    {
+        var connectionString = "HostName=MedIot.azure-devices.net;DeviceId=demodevice;SharedAccessKey=V7wAavdEZ8y+r2I7EUhohPlgnfKqsLDO8AIoTFQty84=";
+        var deviceClient = DeviceClient.CreateFromConnectionString(connectionString, TransportType.Mqtt);
+
+        while (true)
+        {
+            var message = await deviceClient.ReceiveAsync();
+            if (message == null) continue;
+
+            var messageBody = Encoding.UTF8.GetString(message.GetBytes());
+            var sensorData = JsonSerializer.Deserialize<SensorData>(messageBody);
+
+
+         
+                context.SensorData.Add(sensorData);
+                await context.SaveChangesAsync();
+         
+
+            await deviceClient.CompleteAsync(message);
+        }
     }
 }
 

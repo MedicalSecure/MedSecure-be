@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "TestResourceGroup": {
+    "FunctionApp_GetData": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7205",
+      "commandLineArgs": "--port 7127",
       "launchBrowser": false
     }
   }

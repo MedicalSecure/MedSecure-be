@@ -1,23 +1,23 @@
-﻿namespace Sensor.API.Endpoints.Sensor;
+﻿//namespace Sensor.API.Endpoints.Sensor;
 
-public record GetSensorByLocationResponse(IEnumerable<SensorDto> Sensors);
-public class GetSensorByLocation : ICarterModule
-{
-    public void AddRoutes(IEndpointRouteBuilder app)
-    {
-        app.MapGet("/v1/sensors/{location}", async (Location location, ISender sender) =>
-        {
-            var result = await sender.Send(new GetSensorsByLocationQuery(location));
+//public record GetSensorByLocationResponse(IEnumerable<SensorDto> Sensors);
+//public class GetSensorByLocation : ICarterModule
+//{
+//    public void AddRoutes(IEndpointRouteBuilder app)
+//    {
+//        app.MapGet("/v1/sensors/{location}", async (Location location, ISender sender) =>
+//        {
+//            var result = await sender.Send(new GetSensorsByLocationQuery(location));
 
-            var response = result.Adapt<GetSensorByLocationResponse>();
+//            var response = result.Adapt<GetSensorByLocationResponse>();
 
-            return Results.Ok(response);
-        })
-        .WithName("GetSensorByLocation")
-        .Produces<GetSensorByLocationResponse>(StatusCodes.Status200OK)
-        .ProducesProblem(StatusCodes.Status400BadRequest)
-        .ProducesProblem(StatusCodes.Status404NotFound)
-        .WithSummary("Get Sensor By Location")
-        .WithDescription("Get Sensor By Location ");
-    }
-}
+//            return Results.Ok(response);
+//        })
+//        .WithName("GetSensorByLocation")
+//        .Produces<GetSensorByLocationResponse>(StatusCodes.Status200OK)
+//        .ProducesProblem(StatusCodes.Status400BadRequest)
+//        .ProducesProblem(StatusCodes.Status404NotFound)
+//        .WithSummary("Get Sensor By Location")
+//        .WithDescription("Get Sensor By Location ");
+//    }
+//}

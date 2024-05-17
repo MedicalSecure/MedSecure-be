@@ -1,11 +1,15 @@
+using Microsoft.Azure.Devices.Client;
 using Sensor.Application.Data;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>();
+
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -33,7 +37,7 @@ if (app.Environment.IsDevelopment())
     });
 
     // Initialize the database asynchronously with mock data 
-    await app.InitialiseDatabaseAsync();
+   // await app.InitialiseDatabaseAsync();
 }
 app.UseRouting();
 app.UseEndpoints(endpoints =>

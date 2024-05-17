@@ -8,8 +8,9 @@ namespace Sensor.Application.Data;
 
 public interface IApplicationDbContext
 {
-    DbSet<Domain.Models.Sensor> Sensors { get; }
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+   DbSet<Domain.Models.Sensor> Sensors { get; }
+
+   Task<int> SaveChangesAsync(CancellationToken cancellationToken);
    
 
 }
