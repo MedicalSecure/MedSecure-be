@@ -12,5 +12,5 @@ namespace Prescription.Application.DTOs
     Guid CreatedBy,
     string CreatorName,
     DateTime CreatedAt
-);
+    );
 }

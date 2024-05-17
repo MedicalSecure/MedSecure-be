@@ -20,7 +20,7 @@ namespace Prescription.Application.Features.Activities.Queries.GetActivities
             var totalCount = await dbContext.Activities.LongCountAsync(cancellationToken);
 
             var Activities = await dbContext.Activities
-                           .OrderBy(o => o.CreatedAt)
+                           .OrderByDescending(o => o.CreatedAt)
                            .Skip(pageSize * pageIndex)
                            .Take(pageSize)
                            .ToListAsync(cancellationToken);

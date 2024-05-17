@@ -23,5 +23,9 @@ namespace Prescription.Application.DTOs
     string? State,
     int? ZipCode,
     FamilyStatus? FamilyStatus,
-    Children? Children);
+    Children? Children,
+        DateTime CreatedAt,
+        string CreatedBy,
+        DateTime? LastModified,
+        string? LastModifiedBy);
 }
