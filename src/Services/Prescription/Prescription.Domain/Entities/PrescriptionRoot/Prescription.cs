@@ -18,18 +18,17 @@
         private Prescription()
         { }// for EF
 
-        private Prescription(PrescriptionId id, RegisterId registerId, DoctorId doctorId, UnitCareId? unitCareId = null, DietId? dietId = null, DateTime createdAt = default)
+        private Prescription(PrescriptionId id, RegisterId registerId, DoctorId doctorId, UnitCareId? unitCareId = null, DietId? dietId = null)
         {
             Id = id;
             RegisterId = registerId;
             DoctorId = doctorId;
-            CreatedBy = doctorId.ToString();
+            //CreatedBy = doctorId.ToString();
             UnitCareId = unitCareId;
             DietId = dietId;
-            CreatedAt = createdAt == default ? DateTime.Now : createdAt;
         }
 
-        public static Prescription Create(RegisterId RegisterId, DoctorId doctorId, UnitCareId? unitCareId = null, DietId? dietId = null, DateTime createdAt = default)
+        public static Prescription Create(RegisterId RegisterId, DoctorId doctorId, UnitCareId? unitCareId = null, DietId? dietId = null)
         {
             //validations here
             //..
@@ -37,15 +36,15 @@
 
             // Newly created prescription
             PrescriptionId prescriptionId = PrescriptionId.Of(Guid.NewGuid());
-            return new Prescription(prescriptionId, RegisterId, doctorId, unitCareId, dietId, createdAt);
+            return new Prescription(prescriptionId, RegisterId, doctorId, unitCareId, dietId);
         }
 
-        public static Prescription Create(PrescriptionId PrescriptionId, RegisterId registerId, DoctorId doctorId, UnitCareId? unitCareId = null, DietId? dietId = null, DateTime createdAt = default)
+        public static Prescription Create(PrescriptionId PrescriptionId, RegisterId registerId, DoctorId doctorId, UnitCareId? unitCareId = null, DietId? dietId = null)
         {
             //validations here
             //..
             //..
-            return new Prescription(PrescriptionId, registerId, doctorId, unitCareId, dietId, createdAt);
+            return new Prescription(PrescriptionId, registerId, doctorId, unitCareId, dietId);
         }
 
         public bool addPosology(Posology posology)
