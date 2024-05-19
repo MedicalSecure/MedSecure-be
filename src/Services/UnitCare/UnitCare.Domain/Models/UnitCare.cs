@@ -12,13 +12,16 @@ namespace UnitCare.Domain.Models
         public string Title { get; private set; } = default!;
         public string Description { get; private set; } = default!;
         public string Type { get; private set; } = default!;
-      
+
+        public UnitStatus UnitStatus { get; private set; } =default!;
+
 
         public static UnitCare Create(
             UnitCareId id,
             string title,
             string description,
-            string type)
+            string type,
+            UnitStatus unitStatus)
         {
             var unitCare = new UnitCare()
             {
@@ -26,6 +29,7 @@ namespace UnitCare.Domain.Models
                 Title = title,
                 Description = description,
                 Type = type,
+                UnitStatus = unitStatus
             };
 
             unitCare.AddDomainEvent(new UnitCareCreatedEvent(unitCare));
@@ -37,12 +41,15 @@ namespace UnitCare.Domain.Models
 
             string title,
             string description,
-            string type)
+            string type,
+            UnitStatus unitStatus
+         )
         {
            
             Title = title;
             Description = description;
             Type = type;
+            UnitStatus = unitStatus;
 
             AddDomainEvent(new UnitCareUpdatedEvent(this));
         }

@@ -16,7 +16,8 @@ namespace UnitCare.Infrastructure.Data.Extensions
                         id: UnitCareId.Of(Guid.NewGuid()),
                         title: "Unit1",
                         description: "this is the first unit",
-                        type: "General");
+                        type: "General",
+                        unitStatus:UnitStatus.activated);
 
 
                     // Create personnels for each unitCare

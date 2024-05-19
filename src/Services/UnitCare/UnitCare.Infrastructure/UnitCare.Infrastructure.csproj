@@ -23,4 +23,8 @@
     <ProjectReference Include="..\UnitCare.Domain\UnitCare.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
 </Project>

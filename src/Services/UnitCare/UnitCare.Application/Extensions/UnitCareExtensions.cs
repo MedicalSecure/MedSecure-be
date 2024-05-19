@@ -9,6 +9,7 @@
                             Type: u.Type,
                             Description: u.Description,
                             Title: u.Title,
+                            UnitStatus: u.UnitStatus,
                             Personnels: u.Personnels.Select(pe => new PersonnelDto(
                                 Id:pe.Id.Value,
                                 UnitCareId: pe.UnitCareId.Value,

@@ -26,6 +26,9 @@ public class UnitCareConfiguration : IEntityTypeConfiguration<Domain.Models.Unit
         builder.Property(u => u.Description)
               .IsRequired();
 
+        builder.Property(u => u.UnitStatus)
+             .IsRequired();
+
         builder.HasMany(u =>  u.Rooms)
             .WithOne()
             .HasForeignKey(t => t.UnitCareId)

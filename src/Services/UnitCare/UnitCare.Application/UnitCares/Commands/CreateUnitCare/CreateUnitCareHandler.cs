@@ -13,8 +13,10 @@ public class CreateUnitCareHandler(IPublishEndpoint publishEndpoint, IApplicatio
 
         // save to database
         dbContext.UnitCares.Add(unitCare);
+
         try
         {
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         }
@@ -42,7 +44,8 @@ public class CreateUnitCareHandler(IPublishEndpoint publishEndpoint, IApplicatio
             id: UnitCareId.Of(Guid.NewGuid()),
             title: unitCareDto.Title,
             description: unitCareDto.Description,
-            type: unitCareDto.Type
+            type: unitCareDto.Type,
+            unitStatus: unitCareDto.UnitStatus
             );
 
         foreach (var room in unitCareDto.Rooms)

@@ -13,7 +13,7 @@ namespace UnitCare.Application.UnitCares.Commands.DeleteUnitCare
         public async Task<DeleteUnitCareResult> Handle(DeleteUnitCareCommand request, CancellationToken cancellationToken)
         {
             var id = request.Id;
-            var unitcare = Domain.Models.UnitCare.Create( UnitCareId.Of(id), null,null,null);
+            var unitcare = Domain.Models.UnitCare.Create(UnitCareId.Of(id), null, null, null, 0);
 
             dbContext.UnitCares.Remove(unitcare);
 

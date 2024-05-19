@@ -12,8 +12,8 @@ using UnitCare.Infrastructure.Data;
 namespace UnitCare.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240513130715_TEST")]
-    partial class TEST
+    [Migration("20240519145100_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -169,6 +169,9 @@ namespace UnitCare.Infrastructure.Data.Migrations
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UnitStatus")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

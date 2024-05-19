@@ -32,6 +32,6 @@ public async Task<UpdateUnitCareResult> Handle(UpdateUnitCareCommand command, Ca
 
 private static void UpdateUnitCareWithNewValues(Domain.Models.UnitCare unitCare, UnitCareDto unitCareDto)
 {
-        unitCare.Update(unitCareDto.Title, unitCareDto.Description, unitCareDto.Type);
+        unitCare.Update(unitCareDto.Title, unitCareDto.Description, unitCareDto.Type,unitCareDto.UnitStatus);
 }
 }
