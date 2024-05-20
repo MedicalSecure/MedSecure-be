@@ -14,7 +14,9 @@ public class GetBacPatientHandler(IApplicationDbContext dbContext)
         var comment = await dbContext.Comments.ToArrayAsync(cancellationToken);
         var dispense = await dbContext.Dispenses.ToArrayAsync(cancellationToken);
         var unitcare = await dbContext.UnitCares.ToArrayAsync(cancellationToken);
+
         var room = await dbContext.Rooms.ToArrayAsync(cancellationToken);
+        var equipment = await dbContext.Equipments.ToArrayAsync(cancellationToken);
         var bacPatients = await dbContext.BacPatients
              .Include(bp => bp.Prescription)
              .Include(bp => bp.Prescription.Register)

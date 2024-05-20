@@ -54,9 +54,6 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Bed")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -75,9 +72,6 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<Guid>("PrescriptionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("RoomId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Served")
                         .HasColumnType("int");
 
@@ -91,8 +85,6 @@ namespace BacPatient.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PrescriptionId");
-
-                    b.HasIndex("RoomId");
 
                     b.ToTable("BacPatients");
                 });
@@ -229,12 +221,10 @@ namespace BacPatient.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Reference")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -243,9 +233,10 @@ namespace BacPatient.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomId");
+                    b.HasIndex("RoomId")
+                        .IsUnique();
 
-                    b.ToTable("Equipment");
+                    b.ToTable("Equipments");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Medication", b =>
@@ -741,12 +732,13 @@ namespace BacPatient.Infrastructure.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("UnitCareId")
+                    b.Property<Guid>("UnitCareId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UnitCareId");
+                    b.HasIndex("UnitCareId")
+                        .IsUnique();
 
                     b.ToTable("Rooms");
                 });
@@ -918,13 +910,7 @@ namespace BacPatient.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BacPatient.Domain.Models.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId");
-
                     b.Navigation("Prescription");
-
-                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.Comment", b =>
@@ -1002,8 +988,8 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.Equipment", b =>
                 {
                     b.HasOne("BacPatient.Domain.Models.Room", null)
-                        .WithMany("Equipments")
-                        .HasForeignKey("RoomId")
+                        .WithOne("Equipment")
+                        .HasForeignKey("BacPatient.Domain.Models.Equipment", "RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1110,8 +1096,10 @@ namespace BacPatient.Infrastructure.Migrations
             modelBuilder.Entity("BacPatient.Domain.Models.Room", b =>
                 {
                     b.HasOne("BacPatient.Domain.Models.UnitCare", null)
-                        .WithMany("Rooms")
-                        .HasForeignKey("UnitCareId");
+                        .WithOne("Room")
+                        .HasForeignKey("BacPatient.Domain.Models.Room", "UnitCareId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.SubRiskFactor", b =>
@@ -1189,14 +1177,16 @@ namespace BacPatient.Infrastructure.Migrations
 
             modelBuilder.Entity("BacPatient.Domain.Models.Room", b =>
                 {
-                    b.Navigation("Equipments");
+                    b.Navigation("Equipment")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BacPatient.Domain.Models.UnitCare", b =>
                 {
                     b.Navigation("Personnels");
 
-                    b.Navigation("Rooms");
+                    b.Navigation("Room")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

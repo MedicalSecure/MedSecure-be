@@ -12,14 +12,14 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
                .HasConversion(roomId => roomId.Value,
                               dbId => RoomId.Of(dbId));
 
-        builder.HasOne<Domain.Models.UnitCare>()
-               .WithMany(r => r.Rooms)
-               .HasForeignKey(u => u.UnitCareId);
+
 
         builder.Property(wi => wi.RoomNumber) 
               .IsRequired()
               .HasColumnType("decimal(10, 2)");
-
+        builder.HasOne<UnitCare>()
+                  .WithOne(d => d.Room).HasForeignKey<Room>(e => e.UnitCareId)
+                  .IsRequired();
         builder.Property(r => r.Status)
             .HasConversion(
             dt => dt.ToString(),

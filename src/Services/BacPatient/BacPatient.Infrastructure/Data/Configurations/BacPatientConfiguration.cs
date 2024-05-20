@@ -17,9 +17,7 @@ public class BacPatientConfiguration : IEntityTypeConfiguration<Domain.Models.Ba
             dt => dt.ToString(),
             status => (StatusBP)Enum.Parse(typeof(StatusBP), status));
 
-        builder.Property(wi => wi.Bed)
-               .IsRequired();
-
+      
        
 
         builder.Property(wi => wi.Served)

@@ -35,14 +35,12 @@ namespace BacPatient.Application.BacPatient.Commands.UpdateBacPatient
 
         private static void UpdateBacPatientNewValues(Domain.Models.BacPatient bacPatient, BacPatientDto bacPatientDto)
         {
-            bacPatient.Update( 
+            bacPatient.Update(
                 bacPatientDto.Prescription.ToPrescriptionEntity(),
-                bacPatientDto.NurseId ,
-                bacPatientDto.Bed ,
-                bacPatientDto.Served ,
-                bacPatientDto.ToServe , 
-                bacPatientDto.Status ,
-                bacPatientDto.Room.ToRoomEntity());
+                bacPatientDto.NurseId,
+                bacPatientDto.Served,
+                bacPatientDto.ToServe,
+                bacPatientDto.Status);
         }
     }
 }

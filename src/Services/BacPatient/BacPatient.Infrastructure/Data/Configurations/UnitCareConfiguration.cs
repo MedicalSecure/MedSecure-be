@@ -15,7 +15,6 @@ public class UnitCareConfiguration : IEntityTypeConfiguration<Domain.Models.Unit
 
         builder.Property(u => u.Type)
                     ;
-
         builder.Property(u => u.Title)
              ;
 

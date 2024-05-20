@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BacPatient.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -198,7 +198,7 @@ namespace BacPatient.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UnitCareId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UnitCareId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RoomNumber = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -213,7 +213,8 @@ namespace BacPatient.Infrastructure.Migrations
                         name: "FK_Rooms_UnitCares_UnitCareId",
                         column: x => x.UnitCareId,
                         principalTable: "UnitCares",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -345,12 +346,12 @@ namespace BacPatient.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Equipment",
+                name: "Equipments",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Reference = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Reference = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -359,9 +360,9 @@ namespace BacPatient.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Equipment", x => x.Id);
+                    table.PrimaryKey("PK_Equipments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Equipment_Rooms_RoomId",
+                        name: "FK_Equipments_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
                         principalColumn: "Id",
@@ -374,12 +375,10 @@ namespace BacPatient.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PrescriptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Bed = table.Column<int>(type: "int", nullable: false),
                     NurseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Served = table.Column<int>(type: "int", nullable: false),
                     ToServe = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -394,11 +393,6 @@ namespace BacPatient.Infrastructure.Migrations
                         principalTable: "Prescriptions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BacPatients_Rooms_RoomId",
-                        column: x => x.RoomId,
-                        principalTable: "Rooms",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -569,11 +563,6 @@ namespace BacPatient.Infrastructure.Migrations
                 column: "PrescriptionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BacPatients_RoomId",
-                table: "BacPatients",
-                column: "RoomId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Comments_PosologyId",
                 table: "Comments",
                 column: "PosologyId");
@@ -589,9 +578,10 @@ namespace BacPatient.Infrastructure.Migrations
                 column: "PosologyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Equipment_RoomId",
-                table: "Equipment",
-                column: "RoomId");
+                name: "IX_Equipments_RoomId",
+                table: "Equipments",
+                column: "RoomId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_History_RegisterId",
@@ -656,7 +646,8 @@ namespace BacPatient.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_UnitCareId",
                 table: "Rooms",
-                column: "UnitCareId");
+                column: "UnitCareId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubRiskFactor_RiskFactorId",
@@ -688,7 +679,7 @@ namespace BacPatient.Infrastructure.Migrations
                 name: "Dispenses");
 
             migrationBuilder.DropTable(
-                name: "Equipment");
+                name: "Equipments");
 
             migrationBuilder.DropTable(
                 name: "History");

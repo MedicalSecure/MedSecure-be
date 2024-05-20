@@ -3,8 +3,7 @@ namespace BacPatient.Domain.Models
 {
     public class Room : Aggregate<ValueObjects.RoomId>
     {
-        private readonly List<Equipment?> _equipments= new();
-        public IReadOnlyList<Equipment?> Equipments => _equipments.AsReadOnly();
+        public Equipment Equipment { get; set; }
         public UnitCareId? UnitCareId { get; set; } = default!;
         public decimal? RoomNumber { get; set; } = default!;
         public Status? Status { get; set; }
@@ -31,15 +30,19 @@ namespace BacPatient.Domain.Models
         // lil bac patient 
         public static Room Create(
       RoomId? id,
-
       decimal? roomNumber,
-      Status? status)
+      Status? status ,
+      Equipment equipment
+            ) 
+        
         {
             var room = new Room()
             {
                 Id = id,
                 RoomNumber = roomNumber,
                 Status = status,
+                Equipment = equipment
+
             };
 
             room.AddDomainEvent(new RoomCreatedEvent(room));
@@ -62,11 +65,12 @@ Status? status)
             return room;
         }
         //bac patient 
-        public Room(RoomId id , decimal? roomNumber, Status? status)
+        public Room(RoomId id , decimal? roomNumber, Status? status , Equipment equipment)
         {
             Id = id;
             RoomNumber = roomNumber;
-            Status = status; 
+            Status = status;
+            Equipment = equipment;
         }
         public void Update(
             UnitCareId unitCareId,
@@ -80,21 +84,5 @@ Status? status)
             AddDomainEvent(new RoomUpdatedEvent(this));
         }
 
-        public void AddEquipment(Equipment equipment)
-        {
-            if (equipment == null)
-                throw new ArgumentNullException(nameof(equipment));
-
-            _equipments.Add(equipment);
-        }
-
-        public void RemoveEquipment(EquipmentId equipmentId)
-        {
-            var roomEquipment = _equipments.FirstOrDefault(p => p.Id == equipmentId);
-            if (roomEquipment != null)
-            {
-                _equipments.Remove(roomEquipment);
-            }
-        }
     }
 }

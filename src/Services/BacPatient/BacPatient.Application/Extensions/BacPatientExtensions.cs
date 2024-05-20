@@ -10,12 +10,10 @@ namespace BacPatient.Application.Extensions
             return bacPatients.Select(d => new BacPatientDto(
                 Id : d.Id.Value,
                 Prescription: d.Prescription.ToSimplePrescriptionDto(),
-                Bed : d.Bed ,
                 NurseId : d.NurseId , 
                 Served : d.Served ,
                 ToServe : d.ToServe , 
-                Status : d.Status  , 
-                Room : d.Room.ToSimpleRoomDto()
+                Status : d.Status 
                 ));
           
         }

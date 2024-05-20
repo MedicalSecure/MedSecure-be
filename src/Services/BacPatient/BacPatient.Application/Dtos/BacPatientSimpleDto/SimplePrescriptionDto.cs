@@ -39,15 +39,23 @@ namespace BacPatient.Application.Dtos.BacPatientSimpleDto
                     Route? Form,
                     string Description
                                         );
+    public record SimpleEquipmentDto(
+        Guid Id,
+        string Reference
+        );
+
     public record SimpleUnitCareDto (
            Guid Id,
             string Title,
-            string Description
+            string Description ,
+        SimpleRoomDto Room 
         );
     public record SimpleRoomDto (
         Guid Id , 
             decimal? RoomNumber ,
-     Status? Status 
+     Status? Status  , 
+     SimpleEquipmentDto Equipment 
+     
         );
 }
 

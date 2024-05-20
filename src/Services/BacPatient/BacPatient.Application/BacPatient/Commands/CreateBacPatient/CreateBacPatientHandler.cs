@@ -1,6 +1,7 @@
 ﻿using BacPatient.Application.BPModels.Commands.CreateBacPatient;
 using BacPatient.Application.Extensions.SimpleBacPatientExtension;
 using BacPatient.Domain.Models;
+using System.Security.Cryptography.Xml;
 
 
 namespace BacPatient.Application.BacPatient.Commands.CreateBPModel;
@@ -40,23 +41,28 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
 
                      ),
                 UnitCare: UnitCare.Create(
-                                            id : UnitCareId.Of(Guid.NewGuid()),
+                                            id: UnitCareId.Of(Guid.NewGuid()),
                                             title: bacPatients.Prescription.UnitCare.Title,
-                                            description: bacPatients.Prescription.UnitCare.Description
-                ),
+                                            description: bacPatients.Prescription.UnitCare.Description , 
+                                            room: Room.Create(id : RoomId.Of(Guid.NewGuid()),
+                                           roomNumber: bacPatients.Prescription.UnitCare.Room.RoomNumber ,
+                                            status: bacPatients.Prescription.UnitCare.Room.Status ,
+                                            equipment: Equipment.Create(
+                                                id: EquipmentId.Of(Guid.NewGuid()),
+                                                reference: bacPatients.Prescription.UnitCare.Room.Equipment.Reference)
+
+                )
+                                            ),
+                                            
                 CreatedAt: bacPatients.Prescription.CreatedAt
                 ),
 
-                Bed: bacPatients.Bed,
                 NurseId: bacPatients.NurseId,
                 Served: bacPatients.Served,
                 ToServe: bacPatients.ToServe,
-                Status: bacPatients.Status,
-                Room: Room.Create(id:RoomId.Of(Guid.NewGuid()),
-                                    roomNumber : bacPatients.Room.RoomNumber ,
-                                    status : bacPatients.Room.Status
-                )
-        ); ;
+                Status: bacPatients.Status
+                
+        );
         foreach (var posology in bacPatients.Prescription.Posologies)
         {
             var newPos = Posology.Create(PrescriptionId.Of(posology.PrescriptionId), posology.Medication.ToSimpleMedicineEntity(), posology.StartDate, posology.EndDate, posology.IsPermanent);

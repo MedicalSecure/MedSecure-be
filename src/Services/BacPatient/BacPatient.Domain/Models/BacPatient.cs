@@ -7,22 +7,21 @@ namespace BacPatient.Domain.Models
     public class BacPatient : Aggregate<BacPatienId> 
     {
         public Prescription Prescription { get; set; } = default!;
-        public int Bed { get; private set; } = default!;
+        
         public Guid NurseId { get; private set; } = default!;
         public int Served { get; private set; } = default!;
         public int ToServe { get; private set; } = default!;
         public StatusBP Status { get; private set; }
-        public Room? Room { get; private set; }
+   
 
         public static BacPatient Create(
             BacPatienId Id,
             Prescription Prescription,
             Guid NurseId,
-            int Bed,
             int Served,
             int ToServe,
-            StatusBP Status,
-            Room Room
+            StatusBP Status
+          
         )
         {
             var bacpatient = new BacPatient()
@@ -30,11 +29,11 @@ namespace BacPatient.Domain.Models
                 Id = Id,
                 Prescription = Prescription,
                 NurseId = NurseId,
-                Bed = Bed,
+               
                 Served = Served,
                 ToServe = ToServe,
                 Status = Status,
-                Room = Room
+             
             };
 
             bacpatient.AddDomainEvent(new BPCreatedEvent(bacpatient));
@@ -44,20 +43,18 @@ namespace BacPatient.Domain.Models
         public void Update(
     Prescription prescription,
     Guid nurseId,
-    int bed,
     int served,
     int toServe,
-    StatusBP status,
-    Room room
+    StatusBP status
 )
         {
             Prescription = prescription;
             NurseId = nurseId;
-            Bed = bed;
+            
             Served = served;
             ToServe = toServe;
             Status = status;
-            Room = room;
+           
 
             AddDomainEvent(new BPUpdatedEvent(this));
         }

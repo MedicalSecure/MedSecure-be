@@ -1,8 +1,4 @@
-﻿using BacPatient.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Emit;
-
-namespace BacPatient.Application.Extensions.SimpleBacPatientExtension
+﻿namespace BacPatient.Application.Extensions.SimpleBacPatientExtension
 {
     public static class SimplePrescriptionExtension
     {
@@ -22,7 +18,8 @@ namespace BacPatient.Application.Extensions.SimpleBacPatientExtension
             var x = new SimpleRoomDto(
                 Id: Room.Id.Value,
                 RoomNumber: Room.RoomNumber,
-                Status: Room.Status
+                Status: Room.Status , 
+                Equipment : Room.Equipment.ToSimpleEquipmentDto()
             );
             return x;
         }
@@ -31,7 +28,8 @@ namespace BacPatient.Application.Extensions.SimpleBacPatientExtension
             var x = new SimpleUnitCareDto(
                 Id: unitCare.Id.Value,
                 Title: unitCare.Title,
-                Description: unitCare.Description
+                Description: unitCare.Description , 
+                Room : unitCare.Room.ToSimpleRoomDto()
             );
             return x;
         }
@@ -126,18 +124,20 @@ namespace BacPatient.Application.Extensions.SimpleBacPatientExtension
         public static Room ToRoomEntity(this SimpleRoomDto simpleRoom)
         {
             return new Room(
-                id : RoomId.Of(Guid.NewGuid()),
-                roomNumber :   simpleRoom.RoomNumber ?? 0, 
-             status :   simpleRoom.Status ?? Status.unavailable
-            );
+                id: RoomId.Of(Guid.NewGuid()),
+                roomNumber: simpleRoom.RoomNumber ?? 0,
+             status: simpleRoom.Status ?? Status.unavailable,
+            equipment: simpleRoom.Equipment.ToSimpleEquipmentEntity()
+            ); 
         }
         public static UnitCare ToUnitCareEntity(this SimpleUnitCareDto simpleUnitCare)
         {
-            return new UnitCare (
-         id: UnitCareId.Of(Guid.NewGuid()) ,
-                title :   simpleUnitCare.Title ?? "", // Assuming default value of empty string if null
-              description :   simpleUnitCare.Description ?? "" // Assuming default value of empty string if null
-            );
+            return new UnitCare(
+         id: UnitCareId.Of(Guid.NewGuid()),
+                title: simpleUnitCare.Title ?? "",
+              description: simpleUnitCare.Description ?? "",
+              room: simpleUnitCare.Room.ToRoomEntity() 
+            ); ;
         }
         public static ICollection<Posology> ToPosologyEntities(this IEnumerable<SimplePosologyDto> simplePosologies, PrescriptionId prescriptionId)
         {
@@ -225,6 +225,20 @@ namespace BacPatient.Application.Extensions.SimpleBacPatientExtension
             firstName :    simplePatient.FirstName ?? "", 
          lastName :       simplePatient.LastName ?? "",
          dateOfbirth :      simplePatient.DateOfbirth
+            );
+        }
+        public static SimpleEquipmentDto ToSimpleEquipmentDto(this Equipment equipment)
+        {
+            return new SimpleEquipmentDto(
+                Id: equipment.Id.Value,
+                Reference:equipment.Reference
+            );
+        }
+        public static Equipment ToSimpleEquipmentEntity(this SimpleEquipmentDto dto)
+        {
+            return new Equipment(
+                id: EquipmentId.Of(Guid.NewGuid()),
+                reference: dto.Reference
             );
         }
     }

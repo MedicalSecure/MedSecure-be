@@ -4,8 +4,7 @@ namespace BacPatient.Domain.Models
 {
     public class UnitCare : Aggregate<UnitCareId>
     {
-        private readonly List<Room?> _rooms = new();
-        public IReadOnlyList<Room?> Rooms => _rooms.AsReadOnly();
+            public Room Room { get; private set; } = default!;
 
         private readonly List<Personnel?> _personnels = new();
         public IReadOnlyList<Personnel?> Personnels => _personnels.AsReadOnly();
@@ -14,10 +13,11 @@ namespace BacPatient.Domain.Models
         public string? Type { get; private set; } = default!;
       
         public UnitCare() { }
-        public UnitCare(UnitCareId id ,  string? title , string? description) {
+        public UnitCare(UnitCareId id ,  string? title , string? description , Room room ) {
             Id = id;
             Title = title;
             Description = description; 
+            Room = room;
         }
         public static UnitCare Create(
             UnitCareId id,
@@ -43,13 +43,15 @@ namespace BacPatient.Domain.Models
         public static UnitCare Create(
          UnitCareId id,
          string title,
-         string description)
+         string description ,
+         Room room)
         {
             var unitCare = new UnitCare()
             {
                 Id = id,
                 Title = title,
-                Description = description
+                Description = description,
+                Room = room 
             };
 
             unitCare.AddDomainEvent(new UnitCareCreatedEvent(unitCare));
@@ -86,23 +88,6 @@ namespace BacPatient.Domain.Models
             AddDomainEvent(new UnitCareUpdatedEvent(this));
         }
 
-        public void AddRoom(Room room)
-        {
-            if (room == null)
-                throw new ArgumentNullException(nameof(room));
-
-            _rooms.Add(room);
-        }
-
-
-        public void RemoveRoom(RoomId roomId)
-        {
-            var roomToRemove = _rooms.FirstOrDefault(room => room.Id == roomId);
-            if (roomToRemove != null)
-            {
-                _rooms.Remove(roomToRemove);
-            }
-        }
         public void AddPersonnel(Personnel personnel)
         {
             if (personnel == null)
@@ -110,8 +95,6 @@ namespace BacPatient.Domain.Models
 
             _personnels.Add(personnel);
         }
-
-   
     }
 
 }

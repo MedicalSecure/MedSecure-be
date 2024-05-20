@@ -21,7 +21,7 @@ public interface IApplicationDbContext
     public DbSet<Medication> Medications { get; }
 
     public DbSet<Register> Registers { get; }
-
+    public DbSet<Equipment> Equipments { get; }
 
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
