@@ -44,8 +44,6 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                 // Option 2: Throw a custom exception with the error message
                 throw new CreatePrescriptionException(ex.Message, ex);
             }
-
-            
         }
 
         private async Task<Domain.Entities.Prescription?> CreateNewPrescription(PrescriptionCreateDto prescriptionDto, CancellationToken cancellationToken)
@@ -118,7 +116,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                 .Where(symptom => symptom != null)
                 .ToList();
 
-            prescriptionDto.Posologies.Select((posology) =>
+            foreach (var posology in prescriptionDto.Posologies)
             {
                 var newPosology = Posology.Create(
                     prescriptionId: newPrescription.Id,
@@ -127,6 +125,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                     endDate: posology.EndDate,
                     isPermanent: posology.IsPermanent,
                     createdBy: createdBy_DoctorId);
+
                 foreach (var comment in posology.Comments)
                 {
                     var newComment = Comment.Create(
@@ -137,6 +136,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
 
                     newPosology.AddComment(newComment);
                 }
+
                 foreach (var dispense in posology.Dispenses)
                 {
                     var newDispense = Dispense.Create(
@@ -150,8 +150,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                 }
 
                 if (newPosology != null) newPrescription.AddPosology(newPosology);
-                return newPosology;
-            });
+            }
 
             if (diagnosisEntities?.Count > 0) newPrescription.AddDiagnosis(diagnosisEntities);
             if (diagnosisEntities?.Count > 0) newPrescription.AddSymptoms(symptomsEntities);

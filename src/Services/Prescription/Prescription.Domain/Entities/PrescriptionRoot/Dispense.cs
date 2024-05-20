@@ -4,8 +4,8 @@
     {
         public int Hour { get; private set; }
 
-        public Dose BeforeMeal { get; private set; }
-        public Dose AfterMeal { get; private set; }
+        public Dose? BeforeMeal { get; private set; }
+        public Dose? AfterMeal { get; private set; }
         public PosologyId PosologyId { get; private set; }
         public Posology? Posology { get; private set; }
 
