@@ -12,15 +12,16 @@
   "extensions": {
     "http": {
       "routePrefix": "api",
-      "maxOutstandingRequests": 200,
       "maxConcurrentRequests": 100,
-      "dynamicThrottlesEnabled": false,
-      "cors": {
-        "allowedOrigins": [
-          "http://localhost:16273"
-        ],
-        "supportCredentials": true
-      }
+      "maxOutstandingRequests": 200,
+      "dynamicThrottlesEnabled": false
+    }
+  },
+  "http": {
+    "cors": {
+      "origins": [ "*" ],
+      "headers": [ "*" ],
+      "methods": [ "GET", "POST" ]
     }
   }
 }

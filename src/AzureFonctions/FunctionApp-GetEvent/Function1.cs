@@ -2,64 +2,57 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using Azure.Messaging.EventHubs;
+using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.SignalR.Management;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Microsoft.Azure.SignalR.Management;
-using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.AspNetCore.SignalR;
 
 namespace FunctionApp_GetEvent
 {
     public class Function1
     {
         private readonly ILogger<Function1> _logger;
-        private readonly IServiceProvider _serviceProvider;
+        private static readonly IServiceHubContext _hubContext;
 
-        public Function1(ILogger<Function1> logger, IServiceProvider serviceProvider)
+        static Function1()
         {
-            _logger = logger;
-            _serviceProvider = serviceProvider;
+            var serviceManager = new ServiceManagerBuilder()
+                .WithOptions(option =>
+                {
+                    option.ConnectionString = Environment.GetEnvironmentVariable("AzureSignalRConnectionString");
+                   
+                })
+                .Build();
+
+            _hubContext = serviceManager.CreateHubContextAsync("sensorHub").Result;
         }
 
+        public Function1(ILogger<Function1> logger)
+        {
+            _logger = logger;
+        }
 
-
-
+        public class SensorData
+        {
+            public double Temperature { get; set; }
+            public double Humidity { get; set; }
+            public double Electricity { get; set; }
+            public double Luminosity { get; set; }
+        }
 
         [Function(nameof(Function1))]
         public async Task Run([EventHubTrigger("mediot-event", Connection = "EventHubConnection")] EventData[] events)
         {
-            var connectionString = "Endpoint=https://medssecuresignalr.service.signalr.net;AccessKey=gPQBsWlNYqEld28/KlTgUjifIB91ciw2M+WFNz9qEFk=;Version=1.0;";
-            var serviceManager = new ServiceManagerBuilder()
-                .WithOptions(option =>
-                {
-                    option.ConnectionString = connectionString;
-                })
-                .Build();
-
-            var hubContext = await serviceManager.CreateHubContextAsync("sensorHub");
-
             foreach (EventData eventData in events)
             {
                 string messageBody = Encoding.UTF8.GetString(eventData.Body.ToArray());
-                dynamic data = JsonConvert.DeserializeObject(messageBody);
+                var data = JsonConvert.DeserializeObject<SensorData>(messageBody);
 
-                double temperature = data.temperature;
-                double humidity = data.humidity;
-                double electricity = data.electricity;
-                double luminosity = data.luminosity;
+                _logger.LogInformation($"Temperature: {data.Temperature}, Humidity: {data.Humidity}, Electricity: {data.Electricity}, Luminosity: {data.Luminosity}");
 
-                _logger.LogInformation($"Temperature: {temperature}, Humidity: {humidity}, Electricity: {electricity}, Luminosity: {luminosity}");
-
-                // Envoyer les données au client Angular via SignalR
-                await hubContext.Clients.All.SendAsync("UpdateData", new
-                {
-                    Temperature = temperature,
-                    Humidity = humidity,
-                    Electricity = electricity,
-                    Luminosity = luminosity
-                });
-
+                await _hubContext.Clients.All.SendAsync("ReceiveSensorData", data);
             }
         }
     }
