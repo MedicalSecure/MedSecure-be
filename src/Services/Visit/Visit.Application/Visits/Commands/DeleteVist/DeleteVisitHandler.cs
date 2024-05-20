@@ -18,8 +18,13 @@ public class DeleteVisitHandler(IApplicationDbContext dbContext) : ICommandHandl
         // Delete visit
         dbContext.Visits.Remove(visit);
 
+        //add activity
+        Guid createdBy = Guid.NewGuid();
+        var newActivity = Domain.Models.Activity.Create(createdBy, "delated visits", "Chadha Jamel");
+        dbContext.Activities.Add(newActivity);
         //save to database
         await dbContext.SaveChangesAsync(cancellationToken);
+
         return new DeleteVisitResult(true);
 
 

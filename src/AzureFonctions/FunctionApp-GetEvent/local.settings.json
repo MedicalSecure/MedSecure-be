@@ -1,0 +1,15 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "EventHubConnection": "Endpoint=sb://iothub-ns-mediot-58263165-b00e3ededb.servicebus.windows.net/;SharedAccessKeyName=iothubowner;SharedAccessKey=RQ7KcSbW/GKk0y0zYPHjs4txs1CRG2M7XAIoTGMm/+Y=;EntityPath=mediot",
+    "AzureSignalRConnectionString": "Endpoint=https://medssecuresignalr.service.signalr.net;AccessKey=gPQBsWlNYqEld28/KlTgUjifIB91ciw2M+WFNz9qEFk=;Version=1.0;"
+  },
+  "Host": {
+    "CORS": "*",
+    "CORS_AllowedOrigins": [
+      "http://localhost:4200"
+    ]
+  }
+}

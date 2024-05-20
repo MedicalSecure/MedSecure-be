@@ -18,8 +18,13 @@ public class UpdateVisitHandler(IApplicationDbContext dbContext) : ICommandHandl
         UpdateVisitWithNewValues(visit, command.Visit);
         dbContext.Visits.Update(visit);
 
+        //add activity
+        Guid createdBy = Guid.NewGuid();
+        var newActivity = Domain.Models.Activity.Create(createdBy, "Updated visits", "Chadha Jamel");
+        dbContext.Activities.Add(newActivity);
         //save to database
         await dbContext.SaveChangesAsync(cancellationToken);
+
         return new UpdateVisitResult(true);
     }
     private static void UpdateVisitWithNewValues(Domain.Models.Visit visit,VisitDto visitDto)

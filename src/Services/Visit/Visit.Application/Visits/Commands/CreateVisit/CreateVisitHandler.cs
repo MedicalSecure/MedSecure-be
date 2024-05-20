@@ -1,5 +1,7 @@
 ﻿
 
+using Microsoft.AspNetCore.Http.HttpResults;
+
 namespace Visit.Application.Visits.Commands.CreateVisit;
 
 public class CreateVisitHandler(IPublishEndpoint publishEndpoint,IApplicationDbContext dbContext, IFeatureManager featureManager) : ICommandHandler<CreateVisitCommand, CreateVisitResult>
@@ -8,7 +10,13 @@ public class CreateVisitHandler(IPublishEndpoint publishEndpoint,IApplicationDbC
     {
         var visit = CreateNewVisit(command.Visit);
         dbContext.Visits.Add(visit);
+
+        //add activity
+        Guid createdBy = Guid.NewGuid();
+        var newActivity = Domain.Models.Activity.Create(createdBy, "created new visits", "Chadha Jamel");
+        dbContext.Activities.Add(newActivity);
         await dbContext.SaveChangesAsync(cancellationToken);
+
         // Check if the feature for using message broker is enabled
         if (await featureManager.IsEnabledAsync("VisitPlanSharedFulfillment"))
         {
