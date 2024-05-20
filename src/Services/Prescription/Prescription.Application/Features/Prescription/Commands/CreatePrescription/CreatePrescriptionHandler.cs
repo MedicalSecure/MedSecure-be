@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Prescription.Application.Contracts;
+using Prescription.Application.Exceptions;
+using Prescription.Application.Features.UnitCare.Queries;
 using Prescription.Domain.Entities;
 using Prescription.Domain.ValueObjects;
 
@@ -18,39 +20,50 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
 
         public async Task<CreatePrescriptionResult> Handle(CreatePrescriptionCommand command, CancellationToken cancellationToken)
         {
-            // Create Prescription entity from command object
-            var prescription = CreateNewPrescription(command.Prescription, cancellationToken);
-
-            // Save to database
-            _dbContext.Prescriptions.Add(prescription);
-
-            Guid createdBy = Guid.NewGuid();
-            var newActivity = Domain.Entities.Activity.Create(createdBy, $"Created new {nameof(Prescription)}", "Hammadi AZ");
-            _dbContext.Activities.Add(newActivity);
             try
             {
+                // Create Prescription entity from command object
+                var prescription = await CreateNewPrescription(command.Prescription, cancellationToken);
+
+                // Save to database
+                _dbContext.Prescriptions.Add(prescription);
+
+                Guid createdBy = Guid.NewGuid();
+                var newActivity = Domain.Entities.Activity.Create(createdBy, $"Created new {nameof(Prescription)}", "Hammadi AZ");
+                _dbContext.Activities.Add(newActivity);
+
                 await _dbContext.SaveChangesAsync(cancellationToken);
+                // Return result
+                return new CreatePrescriptionResult(prescription.Id.Value);
             }
-            catch (Exception x)
+            catch (Exception ex)
             {
-                throw x;
+                // Option 1: Return a custom error result
+                //return new CreatePrescriptionResult(Guid.Empty);
+
+                // Option 2: Throw a custom exception with the error message
+                throw new CreatePrescriptionException(ex.Message, ex);
             }
 
-            // Return result
-            return new CreatePrescriptionResult(prescription.Id.Value);
+            
         }
 
-        private Domain.Entities.Prescription? CreateNewPrescription(PrescriptionCreateDto prescriptionDto, CancellationToken cancellationToken)
+        private async Task<Domain.Entities.Prescription?> CreateNewPrescription(PrescriptionCreateDto prescriptionDto, CancellationToken cancellationToken)
         {
-            //var newPrescription = prescriptionDto.Adapt<Domain.Entities.Prescription>(_mapsterConfig);
+            var bed = await GetAvailableRoomFromUnitCare(prescriptionDto.UnitCare, cancellationToken);
 
-            var unitCareId = prescriptionDto.UnitCareId.HasValue ? UnitCareId.Of(prescriptionDto.UnitCareId.Value) : null;
+            if (bed == null)
+            {
+                throw new Exception($"Cant find empty room for new prescription in UnitCare : {prescriptionDto.UnitCare.Title}");
+                //return null;
+            }
+
             var dietId = prescriptionDto.DietId.HasValue ? DietId.Of(prescriptionDto.DietId.Value) : null;
 
             var newPrescription = Domain.Entities.Prescription.Create(
                     RegisterId: RegisterId.Of(prescriptionDto.RegisterId),
                     doctorId: DoctorId.Of(prescriptionDto.DoctorId),
-                    unitCareId: unitCareId,
+                    bedId: EquipmentId.Of(bed.Id),
                     dietId: dietId
                 );
             string createdBy_DoctorId = newPrescription.CreatedBy!;
@@ -136,14 +149,42 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                     newPosology.AddDispense(newDispense);
                 }
 
-                if (newPosology != null) newPrescription.addPosology(newPosology);
+                if (newPosology != null) newPrescription.AddPosology(newPosology);
                 return newPosology;
             });
 
-            if (diagnosisEntities?.Count > 0) newPrescription.addDiagnosis(diagnosisEntities);
-            if (diagnosisEntities?.Count > 0) newPrescription.addSymptoms(symptomsEntities);
+            if (diagnosisEntities?.Count > 0) newPrescription.AddDiagnosis(diagnosisEntities);
+            if (diagnosisEntities?.Count > 0) newPrescription.AddSymptoms(symptomsEntities);
 
             return newPrescription;
+        }
+
+        private async Task<EquipmentDto?> GetAvailableRoomFromUnitCare(UnitCareDto unitCare, CancellationToken cancellationToken)
+        {
+            var handler = new GetOccupiedRoomsHandler(_dbContext);
+
+            var req = new GetOccupiedRoomsQuery(new PaginationRequest(0, -1));
+            var occupiedRoomsResult = await handler.Handle(req, cancellationToken);
+            var occupiedRooms = occupiedRoomsResult?.OccupiedRooms?.Data?.ToArray();
+            var allRoomsAreAvailable = occupiedRooms == null || occupiedRooms.Length == 0;
+
+            if (occupiedRooms != null)
+                foreach (var room in unitCare.Rooms)
+                {
+                    foreach (var equipment in room.Equipments)
+                    {
+                        if (equipment == null) continue;
+                        //TODO verify bed name
+
+                        if (equipment.Name == "Bed" && allRoomsAreAvailable)
+                        {
+                            return equipment;
+                        }
+                        else if (equipment.Name == "Bed" && !occupiedRooms.Contains(EquipmentId.Of(equipment.Id)))
+                            return equipment;
+                    }
+                }
+            return null;
         }
     }
 }

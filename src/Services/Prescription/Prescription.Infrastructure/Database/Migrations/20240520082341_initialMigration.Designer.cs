@@ -12,8 +12,8 @@ using Prescription.Infrastructure.Database;
 namespace Prescription.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240516171055_addActivity")]
-    partial class addActivity
+    [Migration("20240520082341_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,7 +64,7 @@ namespace Prescription.Infrastructure.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Activity");
+                    b.ToTable("Activities");
                 });
 
             modelBuilder.Entity("Prescription.Domain.Entities.Comment", b =>
@@ -305,6 +305,9 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("BedId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -328,8 +331,9 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.Property<Guid>("RegisterId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UnitCareId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

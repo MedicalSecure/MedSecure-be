@@ -9,7 +9,8 @@ namespace Prescription.Application.DTOs
         ICollection<DiagnosisDto> Diagnoses,
         ICollection<PosologyDto> Posologies,
         DateTime CreatedAt,
-        Guid? UnitCareId = null,
+        Guid BedId,
+        PrescriptionStatus Status,
         Guid? DietId = null,
         DateTime? LastModified = null,
         string? CreatedBy = null,
@@ -21,7 +22,7 @@ namespace Prescription.Application.DTOs
       ICollection<SymptomDto> Symptoms,
       ICollection<DiagnosisDto> Diagnoses,
       ICollection<PosologyDto> Posologies,
-      Guid? UnitCareId = null,
+      UnitCareDto UnitCare,
       Guid? DietId = null,
       string? CreatedBy = null);
 

@@ -44,20 +44,7 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
                         .ThenInclude(posology => posology.Dispenses)
                         .ToListAsync(cancellationToken);
 
-                    List<PrescriptionDto> prescriptionDtos = prescriptions.Select(p => new PrescriptionDto(
-                        Id: p.Id.Value,
-                        RegisterId: p.RegisterId.Value,
-                        DoctorId: p.DoctorId.Value,
-                        Symptoms: p.Symptoms.ToSymptomsDto(),
-                        Diagnoses: p.Diagnosis.ToDiagnosisDto(),
-                        Posologies: p.Posology.ToPosologiesDto(),
-                        CreatedAt: p.CreatedAt ?? DateTime.UtcNow,
-                        UnitCareId: p.UnitCareId?.Value,
-                        DietId: p.DietId?.Value,
-                        LastModified: p.LastModified,
-                        CreatedBy: p.CreatedBy,
-                        LastModifiedBy: p.LastModifiedBy
-                    )).ToList();
+                    List<PrescriptionDto> prescriptionDtos = prescriptions.Select(p => p.ToPrescriptionDto()).ToList();
 
                     prescriptionsByRegisterIds[registerId] = prescriptionDtos;
                 }

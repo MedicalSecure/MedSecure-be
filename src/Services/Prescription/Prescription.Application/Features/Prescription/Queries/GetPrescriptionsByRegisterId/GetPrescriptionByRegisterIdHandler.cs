@@ -42,20 +42,7 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             var totalCount = prescriptions.Count;
 
             /*TODO fix this*/
-            List<PrescriptionDto> prescriptionDTOs = prescriptions.Select(p => new PrescriptionDto(
-                    Id: p.Id.Value,
-                    RegisterId: p.RegisterId.Value,
-                    DoctorId: p.DoctorId.Value,
-                    Symptoms: p.Symptoms.ToSymptomsDto(),
-                    Diagnoses: p.Diagnosis.ToDiagnosisDto(),
-                    Posologies: p.Posology.ToPosologiesDto(),
-                    CreatedAt: p.CreatedAt ?? DateTime.UtcNow, // Assuming you want to set the current UTC time
-                    UnitCareId: p.UnitCareId?.Value,
-                    DietId: p.DietId?.Value,
-                    LastModified: p.LastModified,
-                    CreatedBy: p.CreatedBy,
-                    LastModifiedBy: p.LastModifiedBy
-                )).ToList();
+            List<PrescriptionDto> prescriptionDTOs = prescriptions.Select(p => p.ToPrescriptionDto()).ToList();
 
             var pageSize = totalCount;
             return new GetPrescriptionsResult(

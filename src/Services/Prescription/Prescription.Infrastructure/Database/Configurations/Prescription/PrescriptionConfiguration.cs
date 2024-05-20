@@ -35,16 +35,16 @@ namespace Prescription.Infrastructure.Database.Configurations
                 )
             );
 
-            builder.Property(p => p.UnitCareId)
+            builder.Property(p => p.BedId)
             .HasConversion(
-                new ValueConverter<UnitCareId?, Guid?>(
+                new ValueConverter<EquipmentId?, Guid?>(
                     modelDietId => modelDietId == null ? null : modelDietId.Value,
-                    dbDietId => dbDietId.HasValue ? UnitCareId.OfNullable(dbDietId.Value) : null
+                    dbEquipmentId => dbEquipmentId.HasValue ? EquipmentId.OfNullable(dbEquipmentId.Value) : null
                 ),
-                new ValueComparer<UnitCareId?>(
-                    (unitCareId1, unitCareId2) => unitCareId1 == null && unitCareId2 == null || unitCareId1 != null && unitCareId2 != null && unitCareId1.Value == unitCareId2.Value,
-                    unitCareId => unitCareId == null ? 0 : unitCareId.Value.GetHashCode(),
-                    unitCareId => unitCareId ?? UnitCareId.Of(Guid.Empty)
+                new ValueComparer<EquipmentId?>(
+                    (equipmentId1, equipmentId2) => equipmentId1 == null && equipmentId2 == null || equipmentId1 != null && equipmentId2 != null && equipmentId1.Value == equipmentId2.Value,
+                    equipmentId => equipmentId == null ? 0 : equipmentId.Value.GetHashCode(),
+                    equipmentId => equipmentId ?? EquipmentId.Of(Guid.Empty)
                 )
             );
 
@@ -70,6 +70,11 @@ namespace Prescription.Infrastructure.Database.Configurations
 
             builder.Property(d => d.CreatedBy)
                 .HasMaxLength(128);
+
+            builder.Property(r => r.Status)
+                .HasConversion(
+                dt => dt.ToString(),
+                status => (PrescriptionStatus)Enum.Parse(typeof(PrescriptionStatus), status));
             // Ignore the circular reference
             //builder.Navigation(p => p.Register).AutoInclude(false);
             //builder.Navigation(p => p.Doctor).AutoInclude(false);

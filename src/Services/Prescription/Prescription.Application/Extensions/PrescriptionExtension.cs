@@ -9,6 +9,11 @@ namespace Prescription.Application.Extensions
             return prescriptions.Select(p => p.ToPrescriptionDto(includeRegister));
         }
 
+        /*        public static Domain.Entities.Prescription ToPrescription(this PrescriptionDto p)
+                {
+                    return pres
+                }*/
+
         public static PrescriptionDto ToPrescriptionDto(this Domain.Entities.Prescription pres, bool includeRegister = false)
         {
             if (includeRegister)
@@ -21,12 +26,13 @@ namespace Prescription.Application.Extensions
                     Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
                     Posologies: pres.Posology.ToPosologiesDto(),
                     CreatedAt: pres.CreatedAt ?? DateTime.UtcNow,
-                    UnitCareId: pres.UnitCareId?.Value,
+                    BedId: pres.BedId.Value,
+                    Status: pres.Status,
                     DietId: pres.DietId?.Value,
                     LastModified: pres.LastModified,
                     CreatedBy: pres.CreatedBy,
                     LastModifiedBy: pres.LastModifiedBy
-                );
+                ); ;
                 return x;
             }
             else
@@ -39,7 +45,8 @@ namespace Prescription.Application.Extensions
                     Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
                     Posologies: pres.Posology.ToPosologiesDto(),
                     CreatedAt: pres.CreatedAt ?? DateTime.UtcNow,
-                    UnitCareId: pres.UnitCareId?.Value,
+                    BedId: pres.BedId.Value,
+                    Status: pres.Status,
                     DietId: pres.DietId?.Value,
                     LastModified: pres.LastModified,
                     CreatedBy: pres.CreatedBy,

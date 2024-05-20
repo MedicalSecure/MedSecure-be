@@ -14,4 +14,19 @@ public record EquipmentId
         }
         return new EquipmentId(value);
     }
+
+    public static EquipmentId? OfNullable(Guid? value)
+    {
+        if (!value.HasValue)
+        {
+            return null;
+        }
+
+        if (value.Value == Guid.Empty)
+        {
+            throw new DomainException("EquipmentId cannot be empty!");
+        }
+
+        return new EquipmentId(value.Value);
+    }
 }

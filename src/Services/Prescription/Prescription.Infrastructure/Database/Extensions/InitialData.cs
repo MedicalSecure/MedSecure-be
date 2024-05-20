@@ -20,6 +20,8 @@
 
         private static readonly RegisterId registerId = RegisterId.Of(new Guid("77777777-7777-7777-7777-777777777777"));
 
+        private static readonly EquipmentId bedId = EquipmentId.Of(new Guid("33333333-3333-3333-3333-333333333333"));
+
         public static IEnumerable<Comment> Comments
         {
             get
@@ -184,15 +186,15 @@
         {
             try
             {
-                var p = Domain.Entities.Prescription.Create(registerId, doctorId);
-                p.addPosology(posology(medications)[0]);
-                p.addPosology(posology(medications)[1]);
+                var p = Domain.Entities.Prescription.Create(registerId, doctorId, bedId);
+                p.AddPosology(posology(medications)[0]);
+                p.AddPosology(posology(medications)[1]);
 
-                p.addSymptom(symptoms[0]);
-                p.addSymptom(symptoms[1]);
-                p.addDiagnosis(diagnosis[0]);
-                p.addDiagnosis(diagnosis[8]);
-                p.addDiagnosis(diagnosis[2]);
+                p.AddSymptom(symptoms[0]);
+                p.AddSymptom(symptoms[1]);
+                p.AddDiagnosis(diagnosis[0]);
+                p.AddDiagnosis(diagnosis[8]);
+                p.AddDiagnosis(diagnosis[2]);
                 return p;
             }
             catch (Exception ex)

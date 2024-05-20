@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Database\Migrations\" />
+    <Folder Include="Services\UnitCare\" />
   </ItemGroup>
 
 </Project>

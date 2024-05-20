@@ -3,34 +3,24 @@ using BuildingBlocks.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Prescription.Application.Contracts;
-using Prescription.Application.DTOs;
-using Prescription.Application.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
 {
-    public class GetPrescriptionByIdHandler : IQueryHandler<GetPrescriptionByIdQuery, GetPrescriptionsResult>
+    public class GetPrescriptionByStatusHandler : IQueryHandler<GetPrescriptionByStatusQuery, GetPrescriptionsResult>
     {
         private readonly IApplicationDbContext _dbContext;
-        private readonly TypeAdapterConfig _mapsterConfig;
 
-        public GetPrescriptionByIdHandler(IApplicationDbContext dbContext, TypeAdapterConfig mapsterConfig)
+        public GetPrescriptionByStatusHandler(IApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-            _mapsterConfig = mapsterConfig;
         }
 
-        public async Task<GetPrescriptionsResult> Handle(GetPrescriptionByIdQuery query, CancellationToken cancellationToken)
+        public async Task<GetPrescriptionsResult> Handle(GetPrescriptionByStatusQuery query, CancellationToken cancellationToken)
         {
             // get Prescription with single page
             // return result
 
-            var p = await _dbContext.Prescriptions.Where(p => p.Id == PrescriptionId.Of(query.Id))
+            var p = await _dbContext.Prescriptions.Where(p => p.Status == query.Status)
                    .Include(p => p.Symptoms)
                    .Include(p => p.Diagnosis)
                    .Include(p => p.Posology)

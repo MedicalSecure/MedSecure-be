@@ -1,4 +1,5 @@
-﻿using static Prescription.API.Endpoints.Prescription.Records;
+﻿using Prescription.Application.Exceptions;
+using static Prescription.API.Endpoints.Prescription.Records;
 
 namespace Prescription.API.Endpoints.Prescription
 {
@@ -7,6 +8,7 @@ namespace Prescription.API.Endpoints.Prescription
     public class PrescriptionController : ControllerBase
     {
         private readonly ISender _sender;
+        private readonly ILogger _logger;
 
         public PrescriptionController(ISender sender)
         {
@@ -46,14 +48,41 @@ namespace Prescription.API.Endpoints.Prescription
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreatePrescriptionRequest request)
         {
-            var command = request.Adapt<CreatePrescriptionCommand>();
-            var result = await _sender.Send(command);
-            var response = result.Adapt<CreatePrescriptionResponse>();
-            return CreatedAtRoute(
-                routeName: null,
-                routeValues: new { id = response.Id },
-                value: response
-            );
+            try
+            {
+                var command = request.Adapt<CreatePrescriptionCommand>();
+                var result = await _sender.Send(command);
+                var response = result.Adapt<CreatePrescriptionResponse>();
+
+                return CreatedAtRoute(
+                    routeName: "",
+                    value: response
+                );
+            }
+            catch (CreatePrescriptionException ex)
+            {
+                // Log the exception for debugging purposes
+               // _logger.LogError(ex, "An error occurred while creating a prescription.");
+
+                // Return an appropriate error response to the client
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Error = "Failed to create prescription",
+                    Message = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                //_logger.LogError(ex, "An unexpected error occurred while creating a prescription.");
+
+                // Return a generic error response to the client
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Error = "An unexpected error occurred",
+                    Message = "An unexpected error occurred while processing your request."
+                });
+            }
         }
 
         /*// PUT api/<PrescriptionsController>
