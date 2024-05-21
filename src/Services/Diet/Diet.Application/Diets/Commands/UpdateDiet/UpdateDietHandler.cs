@@ -1,4 +1,7 @@
 ﻿
+
+
+
 namespace Diet.Application.Diets.Commands.UpdateDiet;
 
 public class UpdateDietHandler(IApplicationDbContext dbContext) : ICommandHandler<UpdateDietCommand, UpdateDietResult>
@@ -26,6 +29,6 @@ public class UpdateDietHandler(IApplicationDbContext dbContext) : ICommandHandle
 
     private static void UpdateDietWithNewValues(Domain.Models.Diet diet, DietDto dietDto)
     {
-        diet.Update(PatientId.Of(dietDto.PatientId), dietDto.StartDate, dietDto.EndDate, dietDto.DietType);
+        diet.Update(dietDto.Prescription.ToPrescriptionEntity() , dietDto.StartDate , dietDto.EndDate , dietDto.DietType , dietDto.Label);
     }
 }

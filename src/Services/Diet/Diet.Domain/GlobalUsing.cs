@@ -4,3 +4,4 @@ global using Diet.Domain.Events;
 global using Diet.Domain.Exceptions;
 global using Diet.Domain.Models;
 global using Diet.Domain.ValueObjects;
+global using Diet.Domain.Models.RegisterRoot;

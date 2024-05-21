@@ -10,11 +10,6 @@ public class DietConfiguration : IEntityTypeConfiguration<Domain.Models.Diet>
         builder.Property(d => d.Id)
                .HasConversion(dietId => dietId.Value,
                               dbId => DietId.Of(dbId));
-
-        builder.HasOne<Patient>()
-              .WithMany()
-              .HasForeignKey(w => w.PatientId);
-
         builder.Property(d => d.DietType).HasDefaultValue(DietType.Normal).
             HasConversion(
             dt => dt.ToString(),

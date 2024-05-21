@@ -7,7 +7,6 @@ global using BuildingBlocks.Pagination;
 global using Diet.Application.Data;
 global using Diet.Application.Dtos;
 global using Diet.Application.Exceptions;
-global using Diet.Application.Extensions;
 global using Diet.Domain.Enums;
 global using Diet.Domain.Events;
 global using Diet.Domain.Models;
@@ -22,3 +21,9 @@ global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.FeatureManagement;
 global using System.Reflection;
+global using Diet.Domain.Models.RegisterRoot;
+global using BacPatient.Application.Dtos.BacPatientSimpleDto;
+global using Diet.Application.Extensions;
+global using Diet.Application.Extensions.SimpleBacPatientExtension;
+
+

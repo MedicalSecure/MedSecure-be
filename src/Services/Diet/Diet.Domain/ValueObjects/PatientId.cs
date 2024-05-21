@@ -1,19 +1,20 @@
-﻿namespace Diet.Domain.ValueObjects;
-
-public record PatientId
+﻿
+namespace Diet.Domain.ValueObjects
 {
-    public Guid Value { get; }
-
-    private PatientId(Guid value) => Value = value;
-
-    public static PatientId Of(Guid value)
+    public record PatientId
     {
-        ArgumentNullException.ThrowIfNull(value);
-        if (value == Guid.Empty)
+        public Guid Value { get; }
+
+        private PatientId(Guid value) => Value = value;
+
+        public static PatientId Of(Guid value)
         {
-            throw new DomainException("PatientId cannot be empty!");
+            ArgumentNullException.ThrowIfNull(value);
+            if (value == Guid.Empty)
+            {
+                throw new DomainException("AssociatedPatientId cannot be empty!");
+            }
+            return new PatientId(value);
         }
-        return new PatientId(value);
     }
 }
-

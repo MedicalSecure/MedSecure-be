@@ -1,5 +1,4 @@
-﻿
-namespace Diet.Domain.Events;
-
-public record PatientCreatedEvent(Patient patient) : IDomainEvent;
-
+﻿namespace Diet.Domain.Events.RegisterEvents
+{
+    public record PatientCreatedEvent(Patient patient) : IDomainEvent;
+}

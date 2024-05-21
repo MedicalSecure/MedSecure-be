@@ -2,27 +2,29 @@
 namespace Diet.Domain.Models;
 public class Diet : Aggregate<DietId>
 {
-    private readonly List<Meal> _meals = new();
-    public IReadOnlyList<Meal> Meals => _meals.AsReadOnly();
-    public PatientId PatientId { get; private set; } = default!;
+    private readonly List<DailyMeal> _dailyMeals = new();
+    public IReadOnlyList<DailyMeal> DailyMeals => _dailyMeals.AsReadOnly();
+    public Prescription Prescription { get; private set; } = default!;
     public DietType DietType { get; private set; } = DietType.Normal;
     public DateTime StartDate { get; private set; } = default!;
     public DateTime EndDate { get; private set; } = default!;
-
+    public string Label { get; private set; } = default!;
     public static Diet Create(
         DietId id,
-        PatientId patientId,
+        Prescription prescription,
         DateTime startDate,
         DateTime endDate,
-        DietType dietType)
+        DietType dietType ,
+        string label )
     {
         var diet = new Diet()
         {
             Id = id,
-            PatientId = patientId,
+            Prescription = prescription,
             StartDate = startDate,
             EndDate = endDate,
             DietType = dietType,
+            Label = label 
         };
 
         diet.AddDomainEvent(new DietCreatedEvent(diet));
@@ -31,33 +33,36 @@ public class Diet : Aggregate<DietId>
     }
 
     public void Update(
-        PatientId patientId,
+        Prescription prescription ,
         DateTime startDate,
         DateTime endDate,
-        DietType dietType)
+        DietType dietType ,
+        string label
+        )
     {
-        PatientId = patientId;
+        Prescription = prescription;
         StartDate = startDate;
         EndDate = endDate;
         DietType = dietType;
+        Label = label; 
 
         AddDomainEvent(new DietUpdatedEvent(this));
     }
 
-    public void AddMeal(Meal meal)
+    public void AddMeal(DailyMeal meal)
     {
         if (meal == null)
             throw new ArgumentNullException(nameof(meal));
 
-        _meals.Add(meal);
+        _dailyMeals.Add(meal);
     }
 
-    public void RemoveMeal(MealId mealId)
+    public void RemoveMeal(DailyMealId mealId)
     {
-        var mealToRemove = _meals.FirstOrDefault(meal => meal.Id == mealId);
+        var mealToRemove = _dailyMeals.FirstOrDefault(meal => meal.Id == mealId);
         if (mealToRemove != null)
         {
-            _meals.Remove(mealToRemove);
+            _dailyMeals.Remove(mealToRemove);
         }
     }
 }

@@ -15,9 +15,9 @@ public class GetDietsHandler(IApplicationDbContext dbContext)
         var totalCount = await dbContext.Diets.LongCountAsync(cancellationToken);
 
         var diets = await dbContext.Diets
-                       .Include(o => o.Meals)
+                       .Include(o => o.DailyMeals)
+                       .ThenInclude(d => d.Meals)
                        .ThenInclude(f=> f.Foods)
-                       .OrderBy(o => o.PatientId)
                        .Skip(pageSize * pageIndex)
                        .Take(pageSize)
                        .ToListAsync(cancellationToken);

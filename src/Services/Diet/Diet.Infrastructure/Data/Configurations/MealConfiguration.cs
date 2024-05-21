@@ -11,10 +11,7 @@ public class MealConfiguration : IEntityTypeConfiguration<Meal>
                .HasConversion(mealId => mealId.Value,
                               dbId => MealId.Of(dbId));
 
-        builder.HasOne<Domain.Models.Diet>()
-               .WithMany(d => d.Meals)
-               .HasForeignKey(w => w.DietId);
-
+      
         builder.Property(wi => wi.Name).HasMaxLength(255)
               .IsRequired();
 

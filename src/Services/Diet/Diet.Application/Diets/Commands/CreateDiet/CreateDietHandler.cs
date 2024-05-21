@@ -1,6 +1,4 @@
 ﻿
-using MediatR;
-using Microsoft.FeatureManagement;
 
 namespace Diet.Application.Diets.Commands.CreateDiet;
 
@@ -31,15 +29,16 @@ public class CreateDietHandler(IPublishEndpoint publishEndpoint, IApplicationDbC
     {
         var newDiet = Domain.Models.Diet.Create(
             id: DietId.Of(Guid.NewGuid()),
-            patientId: PatientId.Of(dietDto.PatientId),
+            prescription: dietDto.Prescription.ToPrescriptionEntity(),
             startDate: dietDto.StartDate,
             endDate: dietDto.EndDate,
-            dietType: dietDto.DietType
+            dietType: dietDto.DietType,
+            label : dietDto.Label
             );
 
         foreach (var meal in dietDto.Meals)
         {
-            var newMeal = Meal.Create(MealId.Of(meal.Id), DietId.Of(meal.DietId), meal.Name, meal.MealType);
+            var newMeal = DailyMeal.Create(DailyMealId.Of(meal.Id), meal.DietDate);
             newDiet.AddMeal(newMeal);
         }
 
