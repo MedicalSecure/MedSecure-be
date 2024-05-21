@@ -34,7 +34,7 @@ public class WeatherForecastController : ControllerBase
     }
     
     [HttpGet("sahara")]
-    [Authorize]
+    //[Authorize]
     public IEnumerable<WeatherForecast> GetDesertForecast()
     {
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast

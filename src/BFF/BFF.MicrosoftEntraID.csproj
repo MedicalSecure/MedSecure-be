@@ -9,10 +9,40 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Cae\**" />
+    <Compile Remove="Models\**" />
+    <Compile Remove="Services\**" />
+    <Content Remove="Cae\**" />
+    <Content Remove="Models\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Cae\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Cae\**" />
+    <None Remove="Models\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="AccountEndpoint.cs" />
+    <Compile Remove="MsGraphService.cs" />
+    <Compile Remove="OpenIdConnectDefaults.cs" />
+    <Compile Remove="RejectSessionCookieWhenAccountNotInCacheEvents.cs" />
+    <Compile Remove="UserConEndpoint.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.11.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Identity.Web" Version="2.18.1" />
     <PackageReference Include="Microsoft.Identity.Web.GraphServiceClient" Version="2.18.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="7.5.2" />
     <PackageReference Include="OidcProxy.Net.EntraId" Version="3.2.1" />
+    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="8.0.0-preview.4.24156.9" />
   </ItemGroup>
 </Project>
