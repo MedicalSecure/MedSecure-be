@@ -1,4 +1,6 @@
-﻿namespace UnitCare.Infrastructure.Data.Interceptors
+﻿using Task = System.Threading.Tasks.Task;
+
+namespace UnitCare.Infrastructure.Data.Interceptors
 {
     public class DispatchDomainEventsInterceptor(IMediator mediator)
    : SaveChangesInterceptor

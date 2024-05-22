@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnitCare.Application.Dtos;
+using UnitCare.Domain.Models;
 
 namespace UnitCare.Application.UnitCares.Commands.DeleteUnitCare
 {
@@ -14,6 +15,10 @@ namespace UnitCare.Application.UnitCares.Commands.DeleteUnitCare
         {
             var id = request.Id;
             var unitcare = Domain.Models.UnitCare.Create(UnitCareId.Of(id), null, null, null, 0);
+
+            Guid createdBy = Guid.NewGuid();
+            var newActivity = Domain.Models.Activity.Create(createdBy, $"deleted new {nameof(unitcare)}", "Ranim.M");
+            dbContext.Activities.Add(newActivity);
 
             dbContext.UnitCares.Remove(unitcare);
 

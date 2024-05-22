@@ -2,8 +2,8 @@
 {
     public enum UnitStatus
     {
-        activated =2,
-        deactivated=3
+        activated =1,
+        deactivated=2
         
     }
 }

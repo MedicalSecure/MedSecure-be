@@ -14,6 +14,9 @@ public class CreateUnitCareHandler(IPublishEndpoint publishEndpoint, IApplicatio
         // save to database
         dbContext.UnitCares.Add(unitCare);
 
+        Guid createdBy = Guid.NewGuid();
+        var newActivity = Domain.Models.Activity.Create(createdBy, $"Created new {nameof(unitCare)}", "Ranim.M");
+        dbContext.Activities.Add(newActivity);
         try
         {
 

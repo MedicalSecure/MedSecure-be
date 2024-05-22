@@ -15,7 +15,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Equipment> Equipments => Set<Equipment>();
 
+    public DbSet<Activity> Activities => Set<Activity>();
 
+    public DbSet<Domain.Models.Task> Tasks => Set<Domain.Models.Task>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

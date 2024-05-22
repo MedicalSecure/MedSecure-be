@@ -10,6 +10,9 @@ public interface IApplicationDbContext
 
     DbSet<Equipment> Equipments { get; }
 
+    public DbSet<Domain.Models.Activity> Activities { get; }
+
+    DbSet<Domain.Models.Task> Tasks { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

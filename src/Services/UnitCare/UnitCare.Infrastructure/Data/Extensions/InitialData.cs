@@ -107,7 +107,32 @@ namespace UnitCare.Infrastructure.Data.Extensions
             }
         }
 
+        public static IEnumerable<Domain.Models.Task> Tasks
+        {
+            get
+            {
+                try
+                {
+                    // Create the task instance
+                    var task = Domain.Models.Task.Create(
+                        id: TaskId.Of(Guid.NewGuid()),
+                        content: "task number 1 ",
+                        taskAction: TaskAction.done,
+                        taskState: TaskState.pending);
 
+                    return new List<Domain.Models.Task> { task };
+                }
+                catch (Exception ex)
+                {
+                    throw new EntityCreationException(nameof(Domain.Models.Task), ex.Message);
+                }
+            }
+        }
 
     }
+
+ 
+
+
+
 }

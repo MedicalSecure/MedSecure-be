@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnitCare.Application.UnitCares.EventHandlers.Domain;
+namespace UnitCare.Application.Tasks.EventHandlers.Domain;
 
-
-public class UnitCareUpdatedEventHandler(ILogger<UnitCareUpdatedEventHandler> logger)
+public class TaskUpdatedEventHandler(ILogger<TaskUpdatedEventHandler> logger)
     : INotificationHandler<TaskUpdatedEvent>
 {
     public System.Threading.Tasks.Task Handle(TaskUpdatedEvent notification, CancellationToken cancellationToken)

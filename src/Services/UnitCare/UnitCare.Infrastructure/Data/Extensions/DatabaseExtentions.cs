@@ -2,7 +2,7 @@
 
 public static class DatabaseExtentions
 {
-    public static async Task InitialiseDatabaseAsync(this WebApplication app)
+    public static async System.Threading.Tasks.Task InitialiseDatabaseAsync(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -12,7 +12,7 @@ public static class DatabaseExtentions
         await SeedAsync(context);
     }
 
-    private static async Task SeedAsync(ApplicationDbContext context)
+    private static async System.Threading.Tasks.Task SeedAsync(ApplicationDbContext context)
     {
         // Clear existing data
         await ClearDataAsync(context);
@@ -21,7 +21,7 @@ public static class DatabaseExtentions
 
 
 
-    private static async Task SeedUnitCareWithRoomDetailsAsync(ApplicationDbContext context)
+    private static async System.Threading.Tasks.Task SeedUnitCareWithRoomDetailsAsync(ApplicationDbContext context)
     {
         if (!context.UnitCares.Any())
         {
@@ -30,12 +30,13 @@ public static class DatabaseExtentions
         }
     }
 
-    private static async Task ClearDataAsync(ApplicationDbContext context)
+    private static async System.Threading.Tasks.Task ClearDataAsync(ApplicationDbContext context)
     {
         // Clear all data from tables
         context.Equipments.RemoveRange(context.Equipments);
         context.Rooms.RemoveRange(context.Rooms);
         context.UnitCares.RemoveRange(context.UnitCares);
+        context.Tasks.RemoveRange(context.Tasks);
 
         // Save changes to the database
         await context.SaveChangesAsync();

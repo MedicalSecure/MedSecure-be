@@ -10,13 +10,13 @@ namespace UnitCare.Application.UnitCares.EventHandlers.Domain;
 public class UnitCareCreatedEventHandler(ILogger<UnitCareCreatedEventHandler> logger)
     : INotificationHandler<UnitCareCreatedEvent>
 {
-    public Task Handle(UnitCareCreatedEvent notification, CancellationToken cancellationToken)
+    public System.Threading.Tasks.Task Handle(UnitCareCreatedEvent notification, CancellationToken cancellationToken)
     {
         // Log that the domain event is being handled
         logger.LogInformation("Domain Event handled: {DomainEvent}", notification.GetType().Name);
 
         // Return a completed task since there is no further asynchronous work to be done
-        return Task.CompletedTask;
+        return System.Threading.Tasks.Task.CompletedTask;
     }
 
 }
