@@ -6,6 +6,7 @@ public class Register : Aggregate<RegisterId>
 {
     // Properties
     public Patient Patient { get; private set; } = default!;
+
     public PatientId PatientId { get; private set; } = default!;
 
     public IReadOnlyList<Test> Tests => _tests.AsReadOnly();
@@ -15,8 +16,11 @@ public class Register : Aggregate<RegisterId>
     public IReadOnlyList<RiskFactor> Allergy => _allergy.AsReadOnly();
     public IReadOnlyList<History> History => _history.AsReadOnly();
 
+    public RegisterStatus Status { get; private set; } = RegisterStatus.Active;
+
     // Fields
     private readonly List<Test> _tests = new List<Test>();
+
     private readonly List<RiskFactor> _familyMedicalHistory = new List<RiskFactor>();
     private readonly List<RiskFactor> _personalMedicalHistory = new List<RiskFactor>();
     private readonly List<RiskFactor> _disease = new List<RiskFactor>();
@@ -24,18 +28,20 @@ public class Register : Aggregate<RegisterId>
     private readonly List<History> _history = new List<History>();
 
     // Constructor
-    public Register() { }
+    public Register()
+    { }
 
     // Factory method
-    public static Register Create(RegisterId id, Patient patient)
+    public static Register Create(RegisterId id, Patient patient, RegisterStatus status = RegisterStatus.Active)
     {
         if (patient == null)
             throw new ArgumentNullException(nameof(patient));
-        
+
         var register = new Register
         {
             Id = id,
-            Patient = patient
+            Patient = patient,
+            Status = status,
         };
         register.AddDomainEvent(new RegisterCreatedEvent(register));
         return register;
@@ -73,6 +79,7 @@ public class Register : Aggregate<RegisterId>
 
         _allergy.Add(riskFactor);
     }
+
     public void AddTests(Test test)
     {
         if (test == null)
@@ -80,6 +87,7 @@ public class Register : Aggregate<RegisterId>
 
         _tests.Add(test);
     }
+
     public void AddHistory(History history)
     {
         if (history == null)
@@ -96,6 +104,14 @@ public class Register : Aggregate<RegisterId>
 
         Patient = patient;
 
+        AddDomainEvent(new RegisterUpdatedEvent(this));
+    }
+
+    public void Archive()
+    {
+        this.Status = RegisterStatus.Archived;
+        History outHistory = Domain.Models.History.Create(new DateTime(), HistoryStatus.Out, this.Id);
+        _history.Add(outHistory);
         AddDomainEvent(new RegisterUpdatedEvent(this));
     }
 }

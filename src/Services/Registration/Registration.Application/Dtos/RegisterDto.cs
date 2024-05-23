@@ -1,5 +1,4 @@
-﻿
-namespace Registration.Application.Dtos
+﻿namespace Registration.Application.Dtos
 {
     public record RegisterDto
     {
@@ -10,24 +9,30 @@ namespace Registration.Application.Dtos
         public List<RiskFactorDto>? PersonalMedicalHistory { get; init; }
         public List<RiskFactorDto>? Diseases { get; init; }
         public List<RiskFactorDto>? Allergies { get; init; }
-        public List<History>? History { get; init; }
-        public List<Test>? Test { get; init; }
+        public List<HistoryDto>? History { get; init; }
+        public List<TestDto>? Test { get; init; }
+        public RegisterStatus? Status { get; init; }
+        public DateTime? CreatedAt { get; init; }
 
         public RegisterDto() { }
         public RegisterDto(
            RegisterId id,
            /*PatientId patientId,*/
            PatientDto patient,
+           RegisterStatus? status = null,
            List<RiskFactorDto>? familyMedicalHistory = null,
            List<RiskFactorDto>? personalMedicalHistory = null,
            List<RiskFactorDto>? diseases = null,
            List<RiskFactorDto>? allergies = null,
-           List<History>? history = null,
-           List<Test>? test = null)
+           List<HistoryDto>? history = null,
+           List<TestDto>? test = null,
+           DateTime? createdAt = null)
         {
             Id = id.Value;
             /*PatientId = patientId.Value;*/
             Patient = patient;
+            CreatedAt = createdAt;
+            Status = status;
             FamilyMedicalHistory = familyMedicalHistory;
             PersonalMedicalHistory = personalMedicalHistory;
             Diseases = diseases;

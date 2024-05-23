@@ -87,7 +87,7 @@ namespace Registration.Infrastructure.Data.Extensions
             var cc = History.Create(
                id: HistoryId.Of(Guid.Parse(historyId)),
                date: DateTime.Now,
-               status: Status.Resident,
+               status: HistoryStatus.Resident,
                registerId: RegisterId.Of(Guid.Parse(registerId)));
             
             return cc;

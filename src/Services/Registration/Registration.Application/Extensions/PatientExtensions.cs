@@ -6,21 +6,21 @@ namespace Registration.Application.Extensions
 {
     public static partial class PatientExtensions
     {
-        public static IEnumerable<PatientDto> ToPatientDto(this List<Patient> patients)
+        public static PatientDto ToPatientDto(this Patient p)
         {
-            return patients.Select(p => new PatientDto(
+            return new PatientDto(
                 id: p.Id.Value,
-               firstName: p.FirstName,
+                firstName: p.FirstName,
                 lastName: p.LastName,
                 dateOfBirth: p.DateOfBirth,
                 identity: p.Identity,
                 cnam: p.CNAM,
-                assurance:p.Assurance,
+                assurance: p.Assurance,
                 gender: p.Gender,
                 height: p.Height,
                 weight: p.Weight,
                 addressIsRegistrations: p.AddressIsRegisterations,
-                saveForNextTime:p.SaveForNextTime,
+                saveForNextTime: p.SaveForNextTime,
                 email: p.Email,
                 address1: p.Address1,
                 address2: p.Address2,
@@ -29,9 +29,11 @@ namespace Registration.Application.Extensions
                 zipCode: p.ZipCode,
                 familyStatus: p.FamilyStatus,
                 children: p.Children
-
-
-                ));
+                );
+        }
+        public static IEnumerable<PatientDto> ToPatientDto(this List<Patient> patients)
+        {
+            return patients.Select(p => p.ToPatientDto());
         }
     }
 }

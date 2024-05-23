@@ -28,7 +28,7 @@ namespace Registration.Application.Histories.Commands.CreateHistory
             var newRiskFactor = History.Create(
                 id: HistoryId.Of(Guid.NewGuid()),
                 date:DateTime.Now,
-                status:Status.Out,
+                status:HistoryStatus.Out,
                 registerId:RegisterId.Of(Guid.NewGuid())
                
                 );

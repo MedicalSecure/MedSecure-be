@@ -16,10 +16,10 @@
                    .IsRequired();
 
             // Configure Status property
-            builder.Property(t => t.Status).HasDefaultValue(Status.Resident)
+            builder.Property(t => t.Status).HasDefaultValue(HistoryStatus.Resident)
                    .HasConversion(
                        v => v.ToString(), // Convert enum to string
-                       status => (Status)Enum.Parse(typeof(Status), status) // Convert string to enum
+                       status => (HistoryStatus)Enum.Parse(typeof(HistoryStatus), status) // Convert string to enum
                    );
 
             // Configure the relationship with Register
