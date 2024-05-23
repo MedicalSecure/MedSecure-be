@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("api/WeatherForecast")]
+[Authorize]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
@@ -20,7 +22,7 @@ public class WeatherForecastController : ControllerBase
     }
 
     [HttpGet("usa")]
-    [Authorize]
+    //[RequiredScope(RequiredScopesConfigurationKey = "AzureAdB2C:Scopes:Write")]
     public IEnumerable<WeatherForecast> Get()
     {
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -34,7 +36,7 @@ public class WeatherForecastController : ControllerBase
     }
     
     [HttpGet("sahara")]
-    //[Authorize]
+    [RequiredScope(RequiredScopesConfigurationKey = "AzureAdB2C:Scopes:Read")]
     public IEnumerable<WeatherForecast> GetDesertForecast()
     {
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
