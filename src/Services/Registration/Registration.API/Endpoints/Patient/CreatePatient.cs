@@ -6,7 +6,7 @@ using Registration.Application.Patients.Commands.CreatePatient;
 
 namespace Registration.Api.Endpoints.Patient
 {
-    public record CreatePatientRequest(PatientDto Patient);
+    public record CreatePatientRequest(PatientDto patient);
     public record CreatePatientResponse(string Id);
 
     public class CreatePatient : ICarterModule
@@ -15,8 +15,8 @@ namespace Registration.Api.Endpoints.Patient
         {
             app.MapPost("/patients", async (CreatePatientRequest request, ISender sender) =>
             {
-                var command = request.Adapt<CreatePatientCommand>();
-
+                //var command = request.Adapt<CreatePatientCommand>();
+                CreatePatientCommand command = new CreatePatientCommand(request.patient);
                 var result = await sender.Send(command);
 
                 var response = result.Adapt<CreatePatientResponse>();
