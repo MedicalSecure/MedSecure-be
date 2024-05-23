@@ -13,7 +13,32 @@ namespace Prescription.Domain.Shared
             if (string.IsNullOrWhiteSpace(value))
             {
                 if (throwError == false) return $"{paramName} cannot be null, empty, or whitespace.";
-                throw new ArgumentException($"{paramName} cannot be null, empty, or whitespace.", paramName);
+                throw new DomainException($"{paramName} cannot be null, empty, or whitespace.");
+            }
+            return null;
+        }
+
+        public static string? isNotNull(object? value, string paramName, bool throwError = true)
+        {
+            if (value == null)
+            {
+                if (throwError == false) return $"{paramName} cannot be null";
+                throw new DomainException($"{paramName} cannot be null");
+            }
+            return null;
+        }
+
+        public static string? isGuidValid(Guid? value, string paramName, bool throwError = true)
+        {
+            if (value == null)
+            {
+                if (throwError == false) return $"{paramName} cannot be null";
+                throw new DomainException($"{paramName} cannot be null");
+            }
+            if (value == Guid.Empty)
+            {
+                if (throwError == false) return $"{paramName} cannot be Empty";
+                throw new DomainException($"{paramName} cannot be Empty");
             }
             return null;
         }
@@ -26,7 +51,7 @@ namespace Prescription.Domain.Shared
                 {
                     return $"{paramName} must be between 0 and 23."; // Corrected message
                 }
-                throw new ArgumentException($"{paramName} must be between 0 and 23.", paramName);
+                throw new DomainException($"{paramName} must be between 0 and 23.");
             }
             return null;
         }

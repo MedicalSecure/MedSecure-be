@@ -11,11 +11,11 @@
         public record GetPrescriptionsByRegisterIdResponse(Dictionary<Guid, List<PrescriptionDto>> PrescriptionsByRegisterId);
 
         // Post
-        public record CreatePrescriptionRequest(PrescriptionCreateDto Prescription);
+        public record CreatePrescriptionRequest(PrescriptionCreateUpdateDto Prescription);
         public record CreatePrescriptionResponse(Guid Id);
 
         // Put
-        public record UpdatePrescriptionRequest(PrescriptionDto Prescription);
+        public record UpdatePrescriptionRequest(PrescriptionCreateUpdateDto Prescription);
         public record UpdatePrescriptionResponse(Guid Id);
 
         //Delete

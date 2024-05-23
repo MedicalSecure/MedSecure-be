@@ -1,65 +1,95 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BuildingBlocks.Exceptions;
+using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Prescription.Application.Contracts;
 using Prescription.Application.Exceptions;
 using Prescription.Application.Features.UnitCare.Queries;
 using Prescription.Domain.Entities;
+using Prescription.Domain.Entities.UnitCareRoot;
 using Prescription.Domain.ValueObjects;
 
-namespace Prescription.Application.Features.Prescription.Commands.CreatePrescription
+namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescription
 {
-    public class CreatePrescriptionHandler : ICommandHandler<CreatePrescriptionCommand, CreatePrescriptionResult>
+    public class UpdatePrescriptionHandler : ICommandHandler<UpdatePrescriptionCommand, UpdatePrescriptionResult>
     {
         private readonly IApplicationDbContext _dbContext;
         private readonly TypeAdapterConfig _mapsterConfig;
 
-        public CreatePrescriptionHandler(IApplicationDbContext dbContext, TypeAdapterConfig mapsterConfig)
+        public UpdatePrescriptionHandler(IApplicationDbContext dbContext, TypeAdapterConfig mapsterConfig)
         {
             _dbContext = dbContext;
             _mapsterConfig = mapsterConfig;
         }
 
-        public async Task<CreatePrescriptionResult> Handle(CreatePrescriptionCommand command, CancellationToken cancellationToken)
+        public async Task<UpdatePrescriptionResult> Handle(UpdatePrescriptionCommand command, CancellationToken cancellationToken)
         {
             try
             {
-                // Create Prescription entity from command object
-                var prescription = await CreateNewPrescription(command.Prescription, cancellationToken);
+                // Get the old prescription from DB so we can update the status
+                var prescriptionId = PrescriptionId.Of(command.Prescription.Id
+                    ?? throw new BadRequestException($"{nameof(Prescription)} : Updating a prescription Require an ID"));
+
+                var oldPrescription = await _dbContext.Prescriptions.FindAsync([prescriptionId], cancellationToken)
+                    ?? throw new NotFoundException($"{nameof(Prescription)} : Can't find prescription to update with the given id : {prescriptionId.Value}");
+
+                // Update Prescription entity from command object
+                var newPrescription = await CreateNewPrescription(command.Prescription, oldPrescription, cancellationToken);
 
                 // Save to database
-                _dbContext.Prescriptions.Add(prescription);
+                _dbContext.Prescriptions.Add(newPrescription);
 
+                // the new prescription is valid (didn't throw exception) so we can update the status of the old one
+                oldPrescription.UpdateStatus(PrescriptionStatus.Discontinued);
+
+                // the UpdateStatus Didn't throw a an exception => the new status (Discontinued) is valid relative to the old one, we can save changes!
+                _dbContext.Prescriptions.Update(oldPrescription);
+
+                //Create correspanding activity
                 Guid createdBy = Guid.NewGuid();
-                var newActivity = Domain.Entities.Activity.Create(createdBy, $"Created new {nameof(Prescription)}", "Hammadi AZ");
+                var newActivity = Domain.Entities.Activity.Create(createdBy, $"Updated a {nameof(Prescription)}", "Hammadi AZ");
                 _dbContext.Activities.Add(newActivity);
 
+                // Same the 3 changes : update old prescription (discontinued), Add the new one AND Add an activity
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 // Return result
-                return new CreatePrescriptionResult(prescription.Id.Value);
+                return new UpdatePrescriptionResult(newPrescription.Id.Value);
             }
             catch (Exception ex)
             {
                 // Option 1: Return a custom error result
-                //return new CreatePrescriptionResult(Guid.Empty);
+                //return new UpdatePrescriptionResult(Guid.Empty);
 
                 // Option 2: Throw a custom exception with the error message
-                throw new CreatePrescriptionException(ex.Message, ex);
+                throw new UpdatePrescriptionException(ex.Message, ex);
             }
         }
 
-        private async Task<Domain.Entities.Prescription?> CreateNewPrescription(PrescriptionCreateUpdateDto prescriptionDto, CancellationToken cancellationToken)
+        private async Task<Domain.Entities.Prescription?> CreateNewPrescription(PrescriptionCreateUpdateDto prescriptionDto, Domain.Entities.Prescription oldPrescription, CancellationToken cancellationToken)
         {
-            EquipmentDto? bed = null;
+            EquipmentId? bedId = null;
             var diet = prescriptionDto.Diet ?? null;
-
             if (prescriptionDto.UnitCare != null)
             {
-                bed = await GetAvailableRoomFromUnitCare(prescriptionDto.UnitCare, cancellationToken);
-                //only if a unitCare has been selected, throw this error, if unitCare is null => Not hospitalized patient
-                if(bed==null)
-                    throw new Exception($"Cant find empty room for new prescription in UnitCare : {prescriptionDto.UnitCare.Title}");
-                //return null;
+                if (NewBedIsInSameUnitCare(prescriptionDto, oldPrescription) == false)
+                {
+                    EquipmentDto? bed = null;
+                    //try to search for new bed in the new unit care
+                    bed = await GetAvailableBedFromUnitCare(prescriptionDto.UnitCare, cancellationToken);
+
+                    if (bed == null)
+                    {
+                        throw new Exception($"Cant find empty room for new prescription in UnitCare : {prescriptionDto.UnitCare.Title}");
+                        //return null;
+                    }
+                    bedId = EquipmentId.Of(bed.Id);
+                }
+                else
+                {
+                    // its the same Bed, get the id from the old prescription
+                    bedId = oldPrescription.BedId;
+                }
             }
-            if (diet == null && bed != null)
+            if (diet == null && bedId != null)
             {
                 //unit care provided but no diet!!
                 throw new Exception($"Hospitalized patients require a diet to be specified! : {prescriptionDto.UnitCare.Title}");
@@ -77,10 +107,9 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
             var newPrescription = Domain.Entities.Prescription.Create(
                     RegisterId: RegisterId.Of(prescriptionDto.RegisterId),
                     doctorId: DoctorId.Of(prescriptionDto.DoctorId),
-                    bedId: EquipmentId.OfNullable(bed?.Id),
+                    bedId: bedId,
                     diet: newDiet
                 );
-
             string createdBy_DoctorId = newPrescription.CreatedBy!;
 
             var diagnosisEntities = prescriptionDto.Diagnoses
@@ -96,7 +125,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                     {
                         return null;
                         //here we can enable creating new diagnosis if we want (add diagnosis in the front must be enabled ...)
-                        /*return Domain.Entities.Diagnosis.Create(
+                        /*return Domain.Entities.Diagnosis.Update(
                             DiagnosisId.Of(dto.Id),
                             dto.Code,
                             dto.Name,
@@ -121,7 +150,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                     {
                         return null;
                         //here we can enable creating new symptom if we want (add symptom in the front must be enabled ...)
-                        /*return Domain.Entities.Symptom.Create(
+                        /*return Domain.Entities.Symptom.Update(
                             SymptomId.Of(dto.Id),
                             dto.Code,
                             dto.Name,
@@ -175,7 +204,33 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
             return newPrescription;
         }
 
-        private async Task<EquipmentDto?> GetAvailableRoomFromUnitCare(UnitCareDto unitCare, CancellationToken cancellationToken)
+        private bool NewBedIsInSameUnitCare(PrescriptionCreateUpdateDto prescription, Domain.Entities.Prescription oldPrescription)
+        {
+            //this function will check if the doctor is trying to move the patient to new unit care
+            //this checks if the bedId that he is already occupying, is in the same new UNIT CARE from the updated prescription
+            var oldBedId = oldPrescription.BedId?.Value;
+            var newDestinationUnitCare = prescription.UnitCare;
+            //oldBedId==null : old prescription wasn't hospitalized but this one is!!
+            //in case the new prescription is not hospitalized, its handled in the caller of this function (this function wont be called)
+
+            if (newDestinationUnitCare == null || oldBedId==null) return false;
+            foreach (var room in newDestinationUnitCare.Rooms)
+            {
+                foreach (var equipment in room.Equipments)
+                {
+                    //TODO verify bed name in string "Bed" => match ranim's name
+                    if (equipment == null || equipment.Name != "Bed") continue;
+
+                    if (equipment.Id == oldBedId)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private async Task<EquipmentDto?> GetAvailableBedFromUnitCare(UnitCareDto unitCare, CancellationToken cancellationToken)
         {
             var handler = new GetOccupiedRoomsHandler(_dbContext);
 

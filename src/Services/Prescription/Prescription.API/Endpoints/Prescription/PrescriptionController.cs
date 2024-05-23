@@ -1,6 +1,4 @@
-﻿using Prescription.Application.Exceptions;
-using static Prescription.API.Endpoints.Prescription.Records;
-
+﻿
 namespace Prescription.API.Endpoints.Prescription
 {
     [Route("api/v1/[controller]")]
@@ -80,20 +78,47 @@ namespace Prescription.API.Endpoints.Prescription
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
                     Error = "An unexpected error occurred",
-                    Message = "An unexpected error occurred while processing your request."
+                    Message = $"An unexpected error occurred while processing your request. : {ex.Message}"
                 });
             }
         }
 
-        /*// PUT api/<PrescriptionsController>
+        // PUT api/<PrescriptionsController>
         [HttpPut()]
         public async Task<IActionResult> UpdatePrescription([FromBody] UpdatePrescriptionRequest request)
         {
-            var command = request.Adapt<UpdatePrescriptionCommand>();
-            var result = await _sender.Send(command);
-            var response = result.Adapt<UpdatePrescriptionResponse>();
-            return Ok(response);
-        }*/
+            try
+            {
+                var command = request.Adapt<UpdatePrescriptionCommand>();
+                var result = await _sender.Send(command);
+                var response = result.Adapt<UpdatePrescriptionResponse>();
+                return Ok(response);
+            }
+            catch (UpdatePrescriptionException ex)
+            {
+                // Log the exception for debugging purposes
+                // _logger.LogError(ex, "An error occurred while creating a prescription.");
+
+                // Return an appropriate error response to the client
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Error = "Failed to update prescription",
+                    Message = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                //_logger.LogError(ex, "An unexpected error occurred while creating a prescription.");
+
+                // Return a generic error response to the client
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Error = "An unexpected error occurred",
+                    Message = $"An unexpected error occurred while processing your request. : {ex.Message}"
+                });
+            }
+        }
 
         [HttpGet("Register/{id}")]
         public async Task<IActionResult> GetPrescriptionsByRegisterId(Guid id)

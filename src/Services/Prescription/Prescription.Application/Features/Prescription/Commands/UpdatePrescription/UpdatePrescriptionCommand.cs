@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescription
 {
-    public class UpdatePrescriptionCommand
-    {
-    }
+    public record UpdatePrescriptionCommand(PrescriptionCreateUpdateDto Prescription) : ICommand<UpdatePrescriptionResult>;
+
+    public record UpdatePrescriptionResult(Guid Id);
 
     public class UpdatePrescriptionCommandValidator : AbstractValidator<UpdatePrescriptionCommand>
     {

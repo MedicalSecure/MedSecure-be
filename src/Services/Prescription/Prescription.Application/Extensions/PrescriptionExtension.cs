@@ -26,9 +26,9 @@ namespace Prescription.Application.Extensions
                     Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
                     Posologies: pres.Posology.ToPosologiesDto(),
                     CreatedAt: pres.CreatedAt ?? DateTime.UtcNow,
-                    BedId: pres.BedId.Value,
                     Status: pres.Status,
-                    DietId: pres.DietId?.Value,
+                    BedId: pres.BedId?.Value ?? null,
+                    Diet: pres.Diet?.ToDietForPrescriptionDto() ?? null,
                     LastModified: pres.LastModified,
                     CreatedBy: pres.CreatedBy,
                     LastModifiedBy: pres.LastModifiedBy
@@ -45,15 +45,25 @@ namespace Prescription.Application.Extensions
                     Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
                     Posologies: pres.Posology.ToPosologiesDto(),
                     CreatedAt: pres.CreatedAt ?? DateTime.UtcNow,
-                    BedId: pres.BedId.Value,
                     Status: pres.Status,
-                    DietId: pres.DietId?.Value,
+                    BedId: pres.BedId?.Value ?? null,
+                    Diet: pres.Diet?.ToDietForPrescriptionDto() ?? null,
                     LastModified: pres.LastModified,
                     CreatedBy: pres.CreatedBy,
                     LastModifiedBy: pres.LastModifiedBy
                 );
                 return x;
             }
+        }
+
+        public static DietForPrescriptionDTO ToDietForPrescriptionDto(this DietForPrescription diet)
+        {
+            return new DietForPrescriptionDTO(
+                Id: diet.Id.Value,
+                StartDate: diet.StartDate.ToDateTime(TimeOnly.MinValue),
+                EndDate: diet.EndDate.ToDateTime(TimeOnly.MinValue),
+                DietsId: diet.DietsId
+            );
         }
 
         public static IEnumerable<DispensesDto> ToDispensesDto(this IEnumerable<Dispense> dispenses)

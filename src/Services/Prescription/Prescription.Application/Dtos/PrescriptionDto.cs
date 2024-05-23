@@ -9,21 +9,22 @@ namespace Prescription.Application.DTOs
         ICollection<DiagnosisDto> Diagnoses,
         ICollection<PosologyDto> Posologies,
         DateTime CreatedAt,
-        Guid BedId,
         PrescriptionStatus Status,
-        Guid? DietId = null,
+        Guid? BedId = null,
+        DietForPrescriptionDTO? Diet = null,
         DateTime? LastModified = null,
         string? CreatedBy = null,
         string? LastModifiedBy = null);
 
-    public record PrescriptionCreateDto(
+    public record PrescriptionCreateUpdateDto(
+      Guid? Id, // Not present while creation, but present while updating!
       Guid RegisterId,
       Guid DoctorId,
       ICollection<SymptomDto> Symptoms,
       ICollection<DiagnosisDto> Diagnoses,
       ICollection<PosologyDto> Posologies,
-      UnitCareDto UnitCare,
-      Guid? DietId = null,
+      UnitCareDto? UnitCare = null,
+      DietForPrescriptionDTO? Diet = null,
       string? CreatedBy = null);
 
     public record PosologyDto(Guid Id,

@@ -32,6 +32,7 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             var totalCount = await _dbContext.Prescriptions.LongCountAsync(cancellationToken);
 
             var prescriptions = await _dbContext.Prescriptions
+                           .Include(p => p.Diet)
                            .Include(p => p.Symptoms)
                            .Include(p => p.Diagnosis)
                            .Include(p => p.Posology)

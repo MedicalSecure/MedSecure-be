@@ -31,12 +31,15 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             // return result
 
             var prescriptions = await _dbContext.Prescriptions.Where(p => p.RegisterId == RegisterId.Of(query.RegisterId))
-                   .Include(p => p.Symptoms)
-                   .Include(p => p.Diagnosis)
-                   .Include(p => p.Posology)
-                   .ThenInclude(posology => posology.Comments)
-                   .Include(p => p.Posology)
-                   .ThenInclude(posology => posology.Dispenses)
+                   .Include(p => p.Diet)
+                    .Include(p => p.Symptoms)
+                    .Include(p => p.Diagnosis)
+                    .Include(p => p.Posology)
+                    .ThenInclude(posology => posology.Comments)
+                    .Include(p => p.Posology)
+                    .ThenInclude(posology => posology.Dispenses)
+                    .Include(p => p.Posology)
+                    .ThenInclude(posology => posology.Medication)
                    .ToListAsync(cancellationToken);
 
             var totalCount = prescriptions.Count;

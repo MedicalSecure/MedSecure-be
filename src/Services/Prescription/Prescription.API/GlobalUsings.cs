@@ -11,6 +11,11 @@ global using Prescription.Application.Features.Prescription.Queries.GetPrescript
 global using Prescription.Application.Features.Prescription.Queries.GetPrescriptionByRegisterId;
 global using Prescription.Application.Features.Prescription.Queries.GetPrescriptionByRegisterIdList;
 
+global using Prescription.Application.Exceptions;
+global using Prescription.Application.Features.Prescription.Commands.UpdatePrescription;
+global using static Prescription.API.Endpoints.Prescription.Records;
+
+
 namespace Prescription.API
 {
     public class GlobalUsings

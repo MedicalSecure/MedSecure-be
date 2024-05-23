@@ -10,8 +10,8 @@
         public IReadOnlyList<Symptom> Symptoms => _symptoms.AsReadOnly();
         public IReadOnlyList<Diagnosis> Diagnosis => _diagnosis.AsReadOnly();
 
-        public EquipmentId BedId { get; private set; }
-        public DietId? DietId { get; private set; }
+        public EquipmentId? BedId { get; private set; }
+        public DietForPrescription? Diet { get; private set; }
         public RegisterId RegisterId { get; private set; }
         public DoctorId DoctorId { get; private set; }
 
@@ -20,34 +20,42 @@
         private Prescription()
         { }// for EF
 
-        private Prescription(PrescriptionId id, RegisterId registerId, DoctorId doctorId, EquipmentId bedId, DietId? dietId = null, PrescriptionStatus status = PrescriptionStatus.Pending)
+        private Prescription(PrescriptionId id, RegisterId registerId, DoctorId doctorId, EquipmentId? bedId, DietForPrescription? diet = null, PrescriptionStatus status = PrescriptionStatus.Pending)
         {
+            if (bedId == null)
+            {
+                BedId = null;
+                Diet = null;
+            }
+            else if (bedId != null && diet == null)
+            {
+                throw new DomainException($"Can't create a prescription without a diet, provided a Null diet but bedId:{bedId}");
+            }
+            else
+            {
+                BedId = bedId;
+                Diet = diet;
+            }
             Id = id;
             RegisterId = registerId;
             DoctorId = doctorId;
-            //CreatedBy = doctorId.ToString();
-            BedId = bedId;
-            DietId = dietId;
             Status = status;
         }
 
-        public static Prescription Create(RegisterId RegisterId, DoctorId doctorId, EquipmentId bedId, DietId? dietId = null, PrescriptionStatus status = PrescriptionStatus.Pending)
+        public static Prescription Create(RegisterId RegisterId, DoctorId doctorId, EquipmentId? bedId = null, DietForPrescription? diet = null, PrescriptionStatus status = PrescriptionStatus.Pending)
         {
-            //validations here
-            //..
-            //..
-
-            // Newly created prescription
             PrescriptionId prescriptionId = PrescriptionId.Of(Guid.NewGuid());
-            return new Prescription(prescriptionId, RegisterId, doctorId, bedId, dietId, status);
+            return new Prescription(prescriptionId, RegisterId, doctorId, bedId, diet, status);
         }
 
-        public static Prescription Create(PrescriptionId PrescriptionId, RegisterId registerId, DoctorId doctorId, EquipmentId bedId, DietId? dietId = null, PrescriptionStatus status = PrescriptionStatus.Pending)
+        public static Prescription Create(PrescriptionId PrescriptionId, RegisterId registerId, DoctorId doctorId, EquipmentId? bedId, DietForPrescription? diet = null, PrescriptionStatus status = PrescriptionStatus.Pending)
         {
-            //validations here
-            //..
-            //..
-            return new Prescription(PrescriptionId, registerId, doctorId, bedId, dietId, status);
+            return new Prescription(PrescriptionId, registerId, doctorId, bedId, diet, status);
+        }
+
+        public static Prescription CreateNonHospitalized(PrescriptionId PrescriptionId, RegisterId registerId, DoctorId doctorId, PrescriptionStatus status = PrescriptionStatus.Pending)
+        {
+            return new Prescription(PrescriptionId, registerId, doctorId, null, null, status);
         }
 
         private bool _IsReadOnly()
@@ -104,25 +112,64 @@
             return true;
         }
 
-        public bool UpdateStatus(PrescriptionStatus newStatus)
+        /*        public bool UpdateStatus(PrescriptionStatus newStatus)
+                {
+                    if (Status == PrescriptionStatus.Completed || Status == PrescriptionStatus.Discontinued)
+                    {
+                        return false;
+                    }
+
+                    if (Status == PrescriptionStatus.Draft)
+                    {
+                        var c1 = newStatus == PrescriptionStatus.Draft;
+                        var c2 = newStatus == PrescriptionStatus.Pending;
+                        if (c1 || c2)
+                        {
+                            this.Status = newStatus;
+                            return true;
+                        }
+                        return false;
+                    }
+                    if (Status == PrescriptionStatus.Pending)
+                    {
+                        var c1 = newStatus == PrescriptionStatus.Rejected;
+                        var c2 = newStatus == PrescriptionStatus.Active;
+                        var c3 = newStatus == PrescriptionStatus.Discontinued;
+                        if (c1 || c2 || c3)
+                        {
+                            this.Status = newStatus;
+                            return true;
+                        }
+                        return false;
+                    }
+                    if (Status == PrescriptionStatus.Rejected)
+                    {
+                        var c1 = newStatus == PrescriptionStatus.Pending;
+                        if (c1)
+                        {
+                            this.Status = newStatus;
+                            return true;
+                        }
+                        return false;
+                    }
+                    return false;
+                }*/
+
+        public void UpdateStatus(PrescriptionStatus newStatus)
         {
             if (Status == PrescriptionStatus.Completed || Status == PrescriptionStatus.Discontinued)
-            {
-                return false;
-            }
+                throw new UpdatePrescriptionStatusException("Can't update status of already completed of discontinued prescription");
 
             if (Status == PrescriptionStatus.Draft)
             {
-                var c1 = newStatus == PrescriptionStatus.Draft;
-                var c2 = newStatus == PrescriptionStatus.Pending;
-                if (c1 || c2)
+                if (newStatus == PrescriptionStatus.Pending)
                 {
                     this.Status = newStatus;
-                    return true;
+                    return;
                 }
-                return false;
+                throw new UpdatePrescriptionStatusException($"Can't update status of Draft to {newStatus}, new status must be Pending");
             }
-            if (Status == PrescriptionStatus.Pending)
+            else if (Status == PrescriptionStatus.Pending)
             {
                 var c1 = newStatus == PrescriptionStatus.Rejected;
                 var c2 = newStatus == PrescriptionStatus.Active;
@@ -130,21 +177,22 @@
                 if (c1 || c2 || c3)
                 {
                     this.Status = newStatus;
-                    return true;
+                    return;
                 }
-                return false;
+                throw new UpdatePrescriptionStatusException($"Can't update status of {this.Status} to {newStatus}, Pending can be changed to Rejected, Active Or Discontinued only");
             }
-            if (Status == PrescriptionStatus.Rejected)
+            else if (Status == PrescriptionStatus.Rejected)
             {
                 var c1 = newStatus == PrescriptionStatus.Pending;
-                if (c1)
+                var c2 = newStatus == PrescriptionStatus.Discontinued;
+                if (c1 || c2)
                 {
                     this.Status = newStatus;
-                    return true;
+                    return;
                 }
-                return false;
+                throw new UpdatePrescriptionStatusException($"Can't update status of {this.Status} to {newStatus}, Rejected can be changed to Pending Or Discontinued only");
             }
-            return false;
+            throw new UpdatePrescriptionStatusException($"Can't update status of {this.Status} to {newStatus}, unhandled case");
         }
     }
 }

@@ -18,23 +18,6 @@ namespace Prescription.Infrastructure.Database.Configurations
             .HasConversion(PrescriptionId => PrescriptionId.Value,
                dbId => PrescriptionId.Of(dbId));
 
-            /*            builder.Property(p => p.DietId)
-                    .HasConversion(dietId => dietId.Value,
-                           dbId => DietId.Of(dbId));*/
-
-            builder.Property(p => p.DietId)
-            .HasConversion(
-                new ValueConverter<DietId?, Guid?>(
-                    modelDietId => modelDietId == null ? null : modelDietId.Value,
-                    dbDietId => dbDietId.HasValue ? DietId.OfNullable(dbDietId.Value) : null
-                ),
-                new ValueComparer<DietId?>(
-                    (dietId1, dietId2) => dietId1 == null && dietId2 == null || dietId1 != null && dietId2 != null && dietId1.Value == dietId2.Value,
-                    dietId => dietId == null ? 0 : dietId.Value.GetHashCode(),
-                    dietId => dietId ?? DietId.Of(Guid.Empty)
-                )
-            );
-
             builder.Property(p => p.BedId)
             .HasConversion(
                 new ValueConverter<EquipmentId?, Guid?>(

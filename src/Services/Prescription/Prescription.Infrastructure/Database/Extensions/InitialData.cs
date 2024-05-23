@@ -20,7 +20,7 @@
 
         private static readonly RegisterId registerId = RegisterId.Of(new Guid("77777777-7777-7777-7777-777777777777"));
 
-        private static readonly EquipmentId bedId = EquipmentId.Of(new Guid("33333333-3333-3333-3333-333333333333"));
+        //private static readonly EquipmentId bedId = EquipmentId.Of(new Guid("33333333-3333-3333-3333-333333333333"));
 
         public static IEnumerable<Comment> Comments
         {
@@ -186,7 +186,7 @@
         {
             try
             {
-                var p = Domain.Entities.Prescription.Create(registerId, doctorId, bedId);
+                var p = Domain.Entities.Prescription.Create(registerId, doctorId);
                 p.AddPosology(posology(medications)[0]);
                 p.AddPosology(posology(medications)[1]);
 

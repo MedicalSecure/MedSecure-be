@@ -36,12 +36,15 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
                 {
                     var prescriptions = await _dbContext.Prescriptions
                         .Where(p => p.RegisterId == RegisterId.Of(registerId))
-                        .Include(p => p.Symptoms)
-                        .Include(p => p.Diagnosis)
-                        .Include(p => p.Posology)
-                        .ThenInclude(posology => posology.Comments)
-                        .Include(p => p.Posology)
-                        .ThenInclude(posology => posology.Dispenses)
+                        .Include(p => p.Diet)
+                           .Include(p => p.Symptoms)
+                           .Include(p => p.Diagnosis)
+                           .Include(p => p.Posology)
+                           .ThenInclude(posology => posology.Comments)
+                           .Include(p => p.Posology)
+                           .ThenInclude(posology => posology.Dispenses)
+                           .Include(p => p.Posology)
+                           .ThenInclude(posology => posology.Medication)
                         .ToListAsync(cancellationToken);
 
                     List<PrescriptionDto> prescriptionDtos = prescriptions.Select(p => p.ToPrescriptionDto()).ToList();
