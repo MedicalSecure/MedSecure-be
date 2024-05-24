@@ -1,6 +1,8 @@
-﻿namespace Registration.Application.Histories.Commands.CreateHistory
+﻿using Registration.Application.Histories.Commands.UpdateHistory;
+
+namespace Registration.Application.Histories.Commands.CreateHistory
 {
-    public class UpdateHistoryHandler : ICommandHandler<CreateHistoryCommand, CreateHistoryResult>
+    public class UpdateHistoryHandler : ICommandHandler<UpdateHistoryCommand, UpdateHistoryResult>
     {
         private readonly IApplicationDbContext dbContext;
 
@@ -9,17 +11,17 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<CreateHistoryResult> Handle(CreateHistoryCommand command, CancellationToken cancellationToken)
+        public async Task<UpdateHistoryResult> Handle(UpdateHistoryCommand command, CancellationToken cancellationToken)
         {
             // create history entity from command object
             // save to database
             // return result
-            var history = CreateNewHistory(command.History);
+/*            var history = CreateNewHistory(command.History);
 
             dbContext.Histories.Add(history);
-            await dbContext.SaveChangesAsync(cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);*/
 
-            return new CreateHistoryResult(history.Id.Value);
+            return new UpdateHistoryResult(false);
         }
 
         private static History CreateNewHistory(HistoryDto historyDto)

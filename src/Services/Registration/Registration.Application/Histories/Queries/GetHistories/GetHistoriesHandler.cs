@@ -19,7 +19,7 @@ namespace Registration.Application.Histories.Queries.GetHistories
             var pageIndex = query.PaginationRequest.PageIndex;
             var pageSize = query.PaginationRequest.PageSize;
 
-            var totalCount = await dbContext.Registers.LongCountAsync(cancellationToken);
+            var totalCount = await dbContext.Histories.LongCountAsync(cancellationToken);
 
             var histories = await dbContext.Histories
                            .OrderBy(o => o.RegisterId)
