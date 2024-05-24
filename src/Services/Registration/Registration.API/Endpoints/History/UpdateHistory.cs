@@ -6,7 +6,7 @@ using Registration.Application.Histories.Commands.UpdateHistory;
 
 namespace Registration.Api.Endpoints.History
 {
-    public record UpdateHistoryRequest(HistoryDto History);
+    /*public record UpdateHistoryRequest(HistoryDto History);
     public record UpdateHistoryResponse(bool IsSuccess);
     public class UpdateHistory : ICarterModule
     {
@@ -28,5 +28,5 @@ namespace Registration.Api.Endpoints.History
             .WithSummary("Update History")
             .WithDescription("Update History");
         }
-    }
+    }*/
 }

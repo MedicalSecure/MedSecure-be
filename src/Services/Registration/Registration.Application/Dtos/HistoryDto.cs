@@ -2,12 +2,12 @@
 {
     public record HistoryDto
     {
-        public Guid Id { get; init; }
+        public Guid? Id { get; init; }
         public DateTime? Date { get; init; }
-        public HistoryStatus? Status { get; init; }
+        public HistoryStatus Status { get; init; }
         public Guid RegisterId { get; init; }
 
-        public HistoryDto(Guid id, DateTime? date, HistoryStatus? status, Guid registerId)
+        public HistoryDto(HistoryStatus status, Guid registerId, Guid? id, DateTime? date)
         {
             Id = id;
             Date = date;

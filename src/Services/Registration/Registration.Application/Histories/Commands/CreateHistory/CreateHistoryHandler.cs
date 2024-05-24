@@ -23,17 +23,17 @@ namespace Registration.Application.Histories.Commands.CreateHistory
             return new CreateHistoryResult(riskFactor.Id.Value);
         }
 
-        private static History CreateNewHistory(HistoryDto riskFactorDto)
+        private static History CreateNewHistory(HistoryDto history)
         {
-            var newRiskFactor = History.Create(
+            var newHistory = History.Create(
                 id: HistoryId.Of(Guid.NewGuid()),
-                date:DateTime.Now,
-                status:HistoryStatus.Out,
-                registerId:RegisterId.Of(Guid.NewGuid())
-               
+                date: DateTime.Now,
+                status: history.Status,
+                registerId: RegisterId.Of(history.RegisterId)
+
                 );
 
-            return newRiskFactor;
+            return newHistory;
         }
     }
 }

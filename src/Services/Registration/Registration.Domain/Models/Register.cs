@@ -110,7 +110,7 @@ public class Register : Aggregate<RegisterId>
     public void Archive()
     {
         this.Status = RegisterStatus.Archived;
-        History outHistory = Domain.Models.History.Create(new DateTime(), HistoryStatus.Out, this.Id);
+        History outHistory = Domain.Models.History.Create(this.Id, HistoryStatus.Out, new DateTime());
         _history.Add(outHistory);
         AddDomainEvent(new RegisterUpdatedEvent(this));
     }
