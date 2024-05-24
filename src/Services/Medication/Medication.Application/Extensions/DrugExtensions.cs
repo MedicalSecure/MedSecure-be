@@ -1,12 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Medication.Application.Extensions;
 
-namespace Medication.Application.Extensions
+
+public static partial class DrugExtensions
 {
-    internal class DrugExtensions
+    public static IEnumerable<DrugDto> ToDrugDto(this List<Drug> drugs)
     {
+        return drugs.Select(m => new DrugDto(
+            Id: m.Id.Value,
+            Name: m.Name,
+            Dosage: m.Dosage,
+            Form: m.Form,
+            Code: m.Code,
+            Unit: m.Unit,
+            Description: m.Description,
+            ExpiredAt: m.ExpiredAt,
+            Stock: m.Stock,
+            AvailableStock: m.AvailableStock,
+            AlertStock: m.AlertStock,
+            AvrgStock: m.AvrgStock,
+            MinStock: m.MinStock,
+            SafetyStock: m.SafetyStock,
+            ReservedStock: m.ReservedStock,
+            Price: m.Price,
+            IsDrugExist: m.IsDrugExist,
+            IsDosageValid: m.IsDosageValid));
     }
 }

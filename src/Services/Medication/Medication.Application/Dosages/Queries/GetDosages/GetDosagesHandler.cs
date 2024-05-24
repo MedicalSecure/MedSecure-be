@@ -1,9 +1,5 @@
-﻿using BuildingBlocks.CQRS;
-using BuildingBlocks.Pagination;
-using Medication.Application.Data;
-using Medication.Application.Dtos;
+﻿namespace Medication.Application.Dosages.Queries.GetDosages;
 
-namespace Medication.Application.Dosages.Queries.GetDosages;
 
 public class GetDosagesHandler(IApplicationDbContext dbContext)
     : IQueryHandler<GetDosagesQuery, GetDosagesResult>

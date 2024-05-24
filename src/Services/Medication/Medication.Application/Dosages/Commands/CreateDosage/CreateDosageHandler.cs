@@ -1,9 +1,5 @@
-﻿using BuildingBlocks.CQRS;
-using Medication.Application.Data;
-using Medication.Application.Dtos;
-using Medication.Domain.ValueObjects;
+﻿namespace Medication.Application.Dosages.Commands.CreateDosage;
 
-namespace Medication.Application.Dosages.Commands.CreateDosage;
 
 public class CreateDosageHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateDosageCommand, CreateDosageResult>
 {

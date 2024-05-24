@@ -1,5 +1,6 @@
 ﻿namespace Medication.Infrastructure.Database.Configurations;
 
+
 public class DosageConfiguration : IEntityTypeConfiguration<Dosage>
 {
     public void Configure(EntityTypeBuilder<Dosage> builder)

@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Medication.Application.Dtos;
 
-namespace Medication.Application.Dtos
-{
-    internal class CreteriaDto
-    {
-    }
-}
+
+public record CreteriaDto(string? Name, string? Form, string? Code);
+

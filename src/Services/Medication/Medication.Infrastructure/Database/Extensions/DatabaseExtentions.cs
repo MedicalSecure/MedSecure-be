@@ -1,5 +1,6 @@
 ﻿namespace Medication.Infrastructure.Database.Extensions;
 
+
 public static class DatabaseExtentions
 {
     public static async Task InitialiseDatabaseAsync(this WebApplication app)

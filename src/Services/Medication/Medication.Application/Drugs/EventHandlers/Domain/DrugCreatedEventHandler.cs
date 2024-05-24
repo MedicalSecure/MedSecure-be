@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Medication.Application.Drugs.EventHandlers.Domain;
 
-namespace Medication.Application.Drugs.EventHandlers.Domain
+
+public class DrugCreatedEventHandler(ILogger<DrugCreatedEventHandler> logger)
+    : INotificationHandler<DrugCreatedEvent>
 {
-    internal class DrugCreatedEventHandler
+    public Task Handle(DrugCreatedEvent notification, CancellationToken cancellationToken)
     {
+        // Log that the domain event is being handled
+        logger.LogInformation("Domain Event handled: {DomainEvent}", notification.GetType().Name);
+
+        // Return a completed task since there is no further asynchronous work to be done
+        return Task.CompletedTask;
     }
 }

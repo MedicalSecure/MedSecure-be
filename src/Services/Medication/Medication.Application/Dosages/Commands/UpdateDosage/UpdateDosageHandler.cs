@@ -1,10 +1,5 @@
-﻿using BuildingBlocks.CQRS;
-using Medication.Application.Data;
-using Medication.Application.Dtos;
-using Medication.Application.Exceptions;
-using Medication.Domain.ValueObjects;
+﻿namespace Medication.Application.Dosages.Commands.UpdateDosage;
 
-namespace Medication.Application.Dosages.Commands.UpdateDosage;
 
 public class UpdateDosageHandler(IApplicationDbContext dbContext) : ICommandHandler<UpdateDosageCommand, UpdateDosageResult>
 {

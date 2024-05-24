@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Medication.Application.Extensions;
 
-namespace Medication.Application.Extensions
+
+public static partial class DosageExtensions
 {
-    internal class DosageExtensions
+    public static IEnumerable<DosageDto> ToDosageDto(this List<Dosage> dosages)
     {
+        return dosages.Select(d => new DosageDto(
+            Id: d.Id.Value,
+            Code: d.Code,
+            Label: d.Label
+            ));
     }
+
 }

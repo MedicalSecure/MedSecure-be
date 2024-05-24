@@ -1,6 +1,5 @@
-﻿using Medication.Domain.Exceptions;
+﻿namespace Medication.Domain.ValueObjects;
 
-namespace Medication.Domain.ValueObjects;
 
 public record DosageId
 {

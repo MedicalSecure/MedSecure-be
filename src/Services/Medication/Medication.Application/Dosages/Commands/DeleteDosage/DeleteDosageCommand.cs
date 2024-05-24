@@ -1,7 +1,5 @@
-﻿using BuildingBlocks.CQRS;
-using FluentValidation;
+﻿namespace Medication.Application.Dosages.Commands.DeleteDosage;
 
-namespace Medication.Application.Dosages.Commands.DeleteDosage;
 
 public record DeleteDosageCommand(Guid Id) : ICommand<DeleteDosageResult>;
 

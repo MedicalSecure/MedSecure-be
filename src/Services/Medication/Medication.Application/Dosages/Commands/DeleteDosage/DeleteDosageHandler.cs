@@ -1,9 +1,5 @@
-﻿using BuildingBlocks.CQRS;
-using Medication.Application.Data;
-using Medication.Application.Exceptions;
-using Medication.Domain.ValueObjects;
+﻿namespace Medication.Application.Dosages.Commands.DeleteDosage;
 
-namespace Medication.Application.Dosages.Commands.DeleteDosage;
 
 public class DeleteDosageHandler(IApplicationDbContext dbContext) : ICommandHandler<DeleteDosageCommand, DeleteDosageResult>
 {

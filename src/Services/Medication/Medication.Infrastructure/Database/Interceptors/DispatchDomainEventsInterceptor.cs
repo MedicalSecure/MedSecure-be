@@ -1,5 +1,6 @@
 ﻿namespace Medication.Infrastructure.Database.Interceptors;
 
+
 public class DispatchDomainEventsInterceptor(IMediator mediator)
     : SaveChangesInterceptor
 {

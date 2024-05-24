@@ -1,6 +1,5 @@
-﻿using BuildingBlocks.Exceptions;
+﻿namespace Medication.Application.Exceptions;
 
-namespace Medication.Application.Exceptions;
 
 public class DosageNotFoundException : NotFoundException
 {

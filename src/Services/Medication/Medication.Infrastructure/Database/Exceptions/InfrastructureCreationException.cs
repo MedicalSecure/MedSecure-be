@@ -1,5 +1,6 @@
 ﻿namespace Medication.Infrastructure.Database.Exceptions;
 
+
 public class InfrastructureException : Exception
 {
     public InfrastructureException(string message)

@@ -1,5 +1,6 @@
 ﻿namespace Medication.Application.Data;
 
+
 public interface IApplicationDbContext
 {
     DbSet<Drug> Drugs { get; }
@@ -7,4 +8,3 @@ public interface IApplicationDbContext
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
-

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Medication.Application.Exceptions;
 
-namespace Medication.Application.Exceptions
+
+public class DrugNotFoundException : NotFoundException
 {
-    internal class DrugNotFoundException
+    public DrugNotFoundException(Guid id) : base("Drug", id)
     {
     }
 }
+
+

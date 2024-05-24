@@ -39,13 +39,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YarpApiGateway", "ApiGatewa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Medication", "Medication", "{96991B5D-E14C-4B87-B150-2FC212E48628}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medication.Domain", "Services\Medication\Medication.Domain\Medication.Domain.csproj", "{5294ECC3-2AD8-43D7-B83D-E85B4749030C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medication.Domain", "Services\Medication\Medication.Domain\Medication.Domain.csproj", "{5294ECC3-2AD8-43D7-B83D-E85B4749030C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medication.Application", "Services\Medication\Medication.Application\Medication.Application.csproj", "{8258A691-56FE-4B21-9EAE-3B9CCC3C0681}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medication.Application", "Services\Medication\Medication.Application\Medication.Application.csproj", "{8258A691-56FE-4B21-9EAE-3B9CCC3C0681}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medication.Infrastructure", "Services\Medication\Medication.Infrastructure\Medication.Infrastructure.csproj", "{8230D7B2-4D7A-454D-A796-8C6553469234}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medication.Infrastructure", "Services\Medication\Medication.Infrastructure\Medication.Infrastructure.csproj", "{8230D7B2-4D7A-454D-A796-8C6553469234}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medication.API", "Services\Medication\Medication.API\Medication.API.csproj", "{CAB6D685-5BAA-4D28-9E8D-0D9432AAA2C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medication.API", "Services\Medication\Medication.API\Medication.API.csproj", "{CAB6D685-5BAA-4D28-9E8D-0D9432AAA2C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

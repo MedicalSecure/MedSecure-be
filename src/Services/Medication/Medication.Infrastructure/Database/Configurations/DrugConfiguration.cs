@@ -1,9 +1,13 @@
 ﻿namespace Medication.Infrastructure.Database.Configurations;
 
+
 public class DrugConfiguration : IEntityTypeConfiguration<Drug>
 {
     public void Configure(EntityTypeBuilder<Drug> builder)
     {
+        
+        builder.HasIndex(d => new {d.Name, d.Dosage, d.Form, d.Code, d.Unit, d.Description})
+               .HasDatabaseName("INDEX_DRUG");
 
         builder.HasKey(d => d.Id);
 

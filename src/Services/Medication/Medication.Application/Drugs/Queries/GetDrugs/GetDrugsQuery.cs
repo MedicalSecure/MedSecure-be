@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Medication.Application.Drugs.Queries.GetDrugs;
 
-namespace Medication.Application.Drugs.Queries.GetDrugs
-{
-    internal class GetDrugsQuery
-    {
-    }
-}
+
+public record GetDrugsQuery(PaginationRequest PaginationRequest)
+: IQuery<GetDrugsResult>;
+
+public record GetDrugsResult(PaginatedResult<DrugDto> Drugs);

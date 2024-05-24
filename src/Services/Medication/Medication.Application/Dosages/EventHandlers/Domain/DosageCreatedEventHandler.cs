@@ -1,8 +1,5 @@
-﻿using MediatR;
-using Medication.Domain.Events;
-using Microsoft.Extensions.Logging;
+﻿namespace Medication.Application.Dosages.EventHandlers.Domain;
 
-namespace Medication.Application.Dosages.EventHandlers.Domain;
 
 public class DosageCreatedEventHandler(ILogger<DosageCreatedEventHandler> logger)
     : INotificationHandler<DosageCreatedEvent>
