@@ -17,5 +17,5 @@
 
     // Predict
     public record PredictFromSymptomsRequest(List<SymptomDto> Symptoms);
-    public record PredictFromSymptomsResponse(DiagnosisDto PredictedDiagnosis);
+    public record PredictFromSymptomsResponse(DiagnosisDTO PredictedDiagnosis);
 }

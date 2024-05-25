@@ -35,7 +35,7 @@ namespace Prescription.Application.Features.Diagnosis.Commands.UpdateDiagnosis
             return new UpdateDiagnosisResult(Diagnosis.Id.Value);
         }
 
-        private static void UpdateDiagnosisWithNewValues(Domain.Entities.Diagnosis diagnosis, DiagnosisDto diagnosisDto)
+        private static void UpdateDiagnosisWithNewValues(Domain.Entities.Diagnosis diagnosis, DiagnosisDTO diagnosisDto)
         {
             diagnosis.Update(diagnosisDto.Code, diagnosisDto.Name, diagnosisDto.ShortDescription, diagnosisDto.LongDescription);
         }

@@ -3,7 +3,7 @@ using Prescription.Application.Features.Diagnosis.Queries.GetDiagnosis;
 
 namespace Prescription.API.Endpoints.Diagnosis
 {
-    public record GetDiagnosisResponse(PaginatedResult<DiagnosisDto> diagnosis);
+    public record GetDiagnosisResponse(PaginatedResult<DiagnosisDTO> diagnosis);
 
     public class GetDiagnosis : ICarterModule
     {

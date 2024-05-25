@@ -8,14 +8,14 @@ namespace Prescription.Application.Extensions
 {
     public static class DiagnosisExtension
     {
-        public static ICollection<DiagnosisDto> ToDiagnosisDto(this IReadOnlyList<Diagnosis> diagnoses)
+        public static ICollection<DiagnosisDTO> ToDiagnosisDto(this IReadOnlyList<Diagnosis> diagnoses)
         {
             return diagnoses.Select(d => d.ToDiagnosisDto()).ToList();
         }
 
-        public static DiagnosisDto ToDiagnosisDto(this Diagnosis diagnosis)
+        public static DiagnosisDTO ToDiagnosisDto(this Diagnosis diagnosis)
         {
-            return new DiagnosisDto(
+            return new DiagnosisDTO(
                 Id: diagnosis.Id.Value,
                 Code: diagnosis.Code,
                 Name: diagnosis.Name,

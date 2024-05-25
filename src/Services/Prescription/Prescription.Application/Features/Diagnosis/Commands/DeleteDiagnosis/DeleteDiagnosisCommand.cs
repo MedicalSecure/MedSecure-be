@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Prescription.Application.Features.Diagnosis.Commands.DeleteDiagnosis
 {
-    public record DeleteDiagnosisCommand(DiagnosisDto Diagnosis) : ICommand<DeleteDiagnosisResult>;
+    public record DeleteDiagnosisCommand(DiagnosisDTO Diagnosis) : ICommand<DeleteDiagnosisResult>;
 
     public record DeleteDiagnosisResult(Guid Id);
 

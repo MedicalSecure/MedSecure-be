@@ -4,7 +4,7 @@ using Prescription.Application.Features.Diagnosis.Commands.UpdateDiagnosis;
 namespace Prescription.API.Endpoints.Diagnosis
 {
 
-    public record UpdateDiagnosisRequest(DiagnosisDto Diagnosis);
+    public record UpdateDiagnosisRequest(DiagnosisDTO Diagnosis);
     public record UpdateDiagnosisResponse(Guid Id);
 
     public class UpdateDiagnosis : ICarterModule

@@ -2,7 +2,7 @@
 
 namespace Prescription.API.Endpoints.Diagnosis
 {
-    public record CreateDiagnosisRequest(DiagnosisDto Diagnosis);
+    public record CreateDiagnosisRequest(DiagnosisDTO Diagnosis);
     public record CreateDiagnosisResponse(string Id);
 
     public class CreateDiagnosis : ICarterModule

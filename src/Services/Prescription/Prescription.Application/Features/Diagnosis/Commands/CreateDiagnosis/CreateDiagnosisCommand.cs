@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Prescription.Application.Features.Diagnosis.Commands.CreateDiagnosis
 {
-    public record CreateDiagnosisCommand(DiagnosisDto Diagnosis) : ICommand<CreateDiagnosisResult>;
+    public record CreateDiagnosisCommand(DiagnosisDTO Diagnosis) : ICommand<CreateDiagnosisResult>;
 
     public record CreateDiagnosisResult(Guid Id);
 

@@ -31,7 +31,7 @@ namespace Prescription.Application.Features.Diagnosis.Queries.GetDiagnosis
                            .ToListAsync(cancellationToken);
 
             return new GetDiagnosisResult(
-                new PaginatedResult<DiagnosisDto>(
+                new PaginatedResult<DiagnosisDTO>(
                     pageIndex,
                     pageSize,
                     totalCount,

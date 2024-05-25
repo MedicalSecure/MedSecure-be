@@ -6,7 +6,7 @@ using Prescription.Application.Features.Diagnosis.Queries.GetDiagnosis;
 
 namespace Prescription.API.Endpoints.Diagnosis
 {
-    public record DeleteDiagnosisRequest(DiagnosisDto Diagnosis);
+    public record DeleteDiagnosisRequest(DiagnosisDTO Diagnosis);
     public record DeleteDiagnosisResponse(Guid Id);
 
     public class DeleteDiagnosis : ICarterModule

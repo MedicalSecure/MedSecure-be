@@ -4,7 +4,7 @@ using Prescription.Application.Features.Diagnosis.Commands.UpdateDiagnosis;
 namespace Prescription.Application.Features.Diagnosis.Queries.GetDiagnosis
 {
     public record GetDiagnosisQuery(PaginationRequest PaginationRequest) : IQuery<GetDiagnosisResult>;
-    public record GetDiagnosisResult(PaginatedResult<DiagnosisDto> Diagnosis);
+    public record GetDiagnosisResult(PaginatedResult<DiagnosisDTO> Diagnosis);
 
     public class GetDiagnosisQueryValidator : AbstractValidator<GetDiagnosisQuery>
     {

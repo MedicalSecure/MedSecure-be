@@ -27,7 +27,7 @@ namespace Prescription.Application.Features.Diagnosis.Commands.CreateDiagnosis
             return new CreateDiagnosisResult(Diagnosis.Id.Value);
         }
 
-        private static Domain.Entities.Diagnosis CreateNewDiagnosis(DiagnosisDto DiagnosisDto)
+        private static Domain.Entities.Diagnosis CreateNewDiagnosis(DiagnosisDTO DiagnosisDto)
         {
             var newDiagnosis = Domain.Entities.Diagnosis.Create(DiagnosisDto.Code, DiagnosisDto.Name, DiagnosisDto.ShortDescription, DiagnosisDto.LongDescription);
             return newDiagnosis;
