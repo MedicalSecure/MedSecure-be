@@ -20,6 +20,11 @@ services:
       context: .
       dockerfile: Services/Waste/Waste.API/Dockerfile
 
+  bacpatient.api:
+    image: ${DOCKER_REGISTRY-}bacpatientapi
+    build:
+      context: .
+      dockerfile: Services/BacPatient/BacPatient.API/Dockerfile
   visit.api:
     image: ${DOCKER_REGISTRY-}visitapi
     build:
