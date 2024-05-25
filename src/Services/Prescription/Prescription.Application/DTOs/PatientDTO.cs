@@ -3,7 +3,7 @@ using Prescription.Domain.Enums;
 
 namespace Prescription.Application.DTOs
 {
-    public record PatientDto(
+    public record PatientDTO(
     Guid Id,
     string FirstName,
     string? LastName,

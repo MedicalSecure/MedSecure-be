@@ -1,13 +1,11 @@
-﻿using rescription.Application.DTOs;
-
-namespace Prescription.Application.DTOs
+﻿namespace Prescription.Application.DTOs
 {
-    public record PrescriptionDto(Guid Id,
+    public record PrescriptionDTO(Guid Id,
         Guid RegisterId,
         Guid DoctorId,
-        ICollection<SymptomDto> Symptoms,
+        ICollection<SymptomDTO> Symptoms,
         ICollection<DiagnosisDTO> Diagnoses,
-        ICollection<PosologyDto> Posologies,
+        ICollection<PosologyDTO> Posologies,
         DateTime CreatedAt,
         PrescriptionStatus Status,
         Guid? BedId = null,
@@ -20,29 +18,29 @@ namespace Prescription.Application.DTOs
       Guid? Id, // Not present while creation, but present while updating!
       Guid RegisterId,
       Guid DoctorId,
-      ICollection<SymptomDto> Symptoms,
+      ICollection<SymptomDTO> Symptoms,
       ICollection<DiagnosisDTO> Diagnoses,
-      ICollection<PosologyDto> Posologies,
-      UnitCareDto? UnitCare = null,
+      ICollection<PosologyDTO> Posologies,
+      UnitCareDTO? UnitCare = null,
       DietForPrescriptionDTO? Diet = null,
       string? CreatedBy = null);
 
-    public record PosologyDto(Guid Id,
+    public record PosologyDTO(Guid Id,
         Guid PrescriptionId,
         Guid MedicationId,
-        MedicationDto? Medication,
+        MedicationDTO? Medication,
         DateTime StartDate,
         DateTime? EndDate,
         bool IsPermanent,
-        ICollection<CommentsDto> Comments,
-        ICollection<DispensesDto> Dispenses);
+        ICollection<CommentsDTO> Comments,
+        ICollection<DispensesDTO> Dispenses);
 
-    public record CommentsDto(Guid Id,
+    public record CommentsDTO(Guid Id,
         Guid PosologyId,
         string Label,
         string Content);
 
-    public record DispensesDto(Guid Id,
+    public record DispensesDTO(Guid Id,
         Guid PosologyId,
         int Hour,
         Dose? BeforeMeal,

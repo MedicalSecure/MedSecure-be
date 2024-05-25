@@ -46,23 +46,23 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
             }
         }
 
-        private async Task<Domain.Entities.Prescription?> CreateNewPrescription(PrescriptionCreateUpdateDto prescriptionDto, CancellationToken cancellationToken)
+        private async Task<Domain.Entities.Prescription> CreateNewPrescription(PrescriptionCreateUpdateDto prescriptionDto, CancellationToken cancellationToken)
         {
-            EquipmentDto? bed = null;
+            EquipmentDTO? bed = null;
             var diet = prescriptionDto.Diet ?? null;
 
             if (prescriptionDto.UnitCare != null)
             {
                 bed = await GetAvailableRoomFromUnitCare(prescriptionDto.UnitCare, cancellationToken);
                 //only if a unitCare has been selected, throw this error, if unitCare is null => Not hospitalized patient
-                if(bed==null)
+                if (bed == null)
                     throw new Exception($"Cant find empty room for new prescription in UnitCare : {prescriptionDto.UnitCare.Title}");
                 //return null;
             }
             if (diet == null && bed != null)
             {
                 //unit care provided but no diet!!
-                throw new Exception($"Hospitalized patients require a diet to be specified! : {prescriptionDto.UnitCare.Title}");
+                throw new Exception($"Hospitalized patients require a diet to be specified! : {prescriptionDto?.UnitCare?.Title}");
             }
 
             //now we continue with two cases:
@@ -175,7 +175,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
             return newPrescription;
         }
 
-        private async Task<EquipmentDto?> GetAvailableRoomFromUnitCare(UnitCareDto unitCare, CancellationToken cancellationToken)
+        private async Task<EquipmentDTO?> GetAvailableRoomFromUnitCare(UnitCareDTO unitCare, CancellationToken cancellationToken)
         {
             var handler = new GetOccupiedRoomsHandler(_dbContext);
 

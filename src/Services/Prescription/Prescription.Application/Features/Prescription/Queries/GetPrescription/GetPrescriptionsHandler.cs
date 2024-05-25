@@ -50,7 +50,7 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             // await prescriptionDtos.Select<PrescriptionDto>(p => p);
 
             return new GetPrescriptionsResult(
-                new PaginatedResult<PrescriptionDto>(
+                new PaginatedResult<PrescriptionDTO>(
                     pageIndex,
                     pageSize,
                     totalCount,

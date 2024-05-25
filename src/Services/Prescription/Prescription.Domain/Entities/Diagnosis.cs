@@ -2,10 +2,10 @@
 {
     public class Diagnosis : Aggregate<DiagnosisId>
     {
-        public string Code { get; private set; }
-        public string Name { get; private set; }
-        public string ShortDescription { get; private set; }
-        public string LongDescription { get; private set; }
+        public string Code { get; private set; } = string.Empty;
+        public string Name { get; private set; } = string.Empty;
+        public string ShortDescription { get; private set; } = string.Empty;
+        public string LongDescription { get; private set; } = string.Empty;
 
         public List<Prescription>? Prescriptions;
 

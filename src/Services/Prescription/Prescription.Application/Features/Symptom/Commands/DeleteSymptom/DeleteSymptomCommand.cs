@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Prescription.Application.Features.Symptom.Commands.DeleteSymptom
 {
-    public record DeleteSymptomCommand(SymptomDto Symptom) : ICommand<DeleteSymptomResult>;
+    public record DeleteSymptomCommand(SymptomDTO Symptom) : ICommand<DeleteSymptomResult>;
 
     public record DeleteSymptomResult(Guid Id);
 

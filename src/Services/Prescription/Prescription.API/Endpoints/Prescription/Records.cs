@@ -3,12 +3,12 @@
     public class Records
     {
         //Get
-        public record GetPrescriptionResponse(PaginatedResult<PrescriptionDto> Prescriptions);
+        public record GetPrescriptionResponse(PaginatedResult<PrescriptionDTO> Prescriptions);
 
         //Get By register Id List
 
         public record GetPrescriptionsByRegisterIdRequest(List<Guid> registerIds);
-        public record GetPrescriptionsByRegisterIdResponse(Dictionary<Guid, List<PrescriptionDto>> PrescriptionsByRegisterId);
+        public record GetPrescriptionsByRegisterIdResponse(Dictionary<Guid, List<PrescriptionDTO>> PrescriptionsByRegisterId);
 
         // Post
         public record CreatePrescriptionRequest(PrescriptionCreateUpdateDto Prescription);
@@ -19,7 +19,7 @@
         public record UpdatePrescriptionResponse(Guid Id);
 
         //Delete
-        public record DeletePrescriptionRequest(PrescriptionDto Prescription);
+        public record DeletePrescriptionRequest(PrescriptionDTO Prescription);
         public record DeletePrescriptionResponse(Guid Id);
     }
 }

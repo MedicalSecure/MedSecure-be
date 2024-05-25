@@ -2,12 +2,12 @@
 {
     public class Activity
     {
-        public Guid Id { get; init; }
-        public string Content { get; init; }
-        public Guid CreatedBy { get; init; }
-        public string CreatorName { get; init; }
+        public Guid Id { get; init; } = default;
+        public string Content { get; init; } = string.Empty;
+        public Guid CreatedBy { get; init; } = default;
+        public string CreatorName { get; init; } = string.Empty;
 
-        public DateTime CreatedAt { get; init; }
+        public DateTime CreatedAt { get; init; } = default;
 
         public Activity()
         {

@@ -1,4 +1,6 @@
-﻿namespace Prescription.Domain.Entities
+﻿#pragma warning disable CS8618 // Disable the warning for non-nullable reference types
+
+namespace Prescription.Domain.Entities
 {
     public class Prescription : Aggregate<PrescriptionId>
     {
@@ -85,10 +87,10 @@
         public bool AddDiagnosis(ICollection<Diagnosis?> diagnosis)
         {
             if (_IsReadOnly()) return false;
-            foreach (Diagnosis diagnosisItem in diagnosis)
+            //iterate throught non null items only
+            foreach (Diagnosis diagnosisItem in diagnosis.OfType<Diagnosis>())
             {
-                if (diagnosisItem != null)
-                    this._diagnosis.Add(diagnosisItem);
+                this._diagnosis.Add(diagnosisItem);
             }
             return true;
         }

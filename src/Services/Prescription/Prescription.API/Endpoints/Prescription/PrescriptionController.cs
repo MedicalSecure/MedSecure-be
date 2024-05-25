@@ -1,12 +1,11 @@
-﻿
-namespace Prescription.API.Endpoints.Prescription
+﻿namespace Prescription.API.Endpoints.Prescription
 {
     [Route("api/v1/[controller]")]
     [ApiController]
     public class PrescriptionController : ControllerBase
     {
         private readonly ISender _sender;
-        private readonly ILogger _logger;
+        //private readonly ILogger _logger;
 
         public PrescriptionController(ISender sender)
         {
@@ -60,7 +59,7 @@ namespace Prescription.API.Endpoints.Prescription
             catch (CreatePrescriptionException ex)
             {
                 // Log the exception for debugging purposes
-               // _logger.LogError(ex, "An error occurred while creating a prescription.");
+                // _logger.LogError(ex, "An error occurred while creating a prescription.");
 
                 // Return an appropriate error response to the client
                 return StatusCode(StatusCodes.Status500InternalServerError, new

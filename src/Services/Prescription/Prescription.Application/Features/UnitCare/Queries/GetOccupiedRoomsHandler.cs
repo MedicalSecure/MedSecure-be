@@ -46,7 +46,7 @@ namespace Prescription.Application.Features.UnitCare.Queries
                            .ToListAsync(cancellationToken);
             }
 
-            var roomsIds = prescriptions.Select(p => p.BedId).ToList();
+            var roomsIds = prescriptions.Select(p => p.BedId).OfType<EquipmentId>().ToList() ?? [];
             return new GetOccupiedRoomsResult(
                 new PaginatedResult<EquipmentId>(
                     pageIndex,

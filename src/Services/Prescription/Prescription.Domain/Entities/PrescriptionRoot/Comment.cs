@@ -2,11 +2,11 @@
 {
     public class Comment : Entity<CommentId>
     {
-        public string Label { get; private set; }
+        public string Label { get; private set; } = string.Empty;
 
-        public string Content { get; private set; }
+        public string Content { get; private set; } = string.Empty;
 
-        public PosologyId PosologyId { get; private set; }
+        public PosologyId PosologyId { get; private set; } = default!;
         public Posology? posology { get; private set; }
 
         private Comment()

@@ -64,7 +64,7 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
             }
         }
 
-        private async Task<Domain.Entities.Prescription?> CreateNewPrescription(PrescriptionCreateUpdateDto prescriptionDto, Domain.Entities.Prescription oldPrescription, CancellationToken cancellationToken)
+        private async Task<Domain.Entities.Prescription> CreateNewPrescription(PrescriptionCreateUpdateDto prescriptionDto, Domain.Entities.Prescription oldPrescription, CancellationToken cancellationToken)
         {
             EquipmentId? bedId = null;
             var diet = prescriptionDto.Diet ?? null;
@@ -72,7 +72,7 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
             {
                 if (NewBedIsInSameUnitCare(prescriptionDto, oldPrescription) == false)
                 {
-                    EquipmentDto? bed = null;
+                    EquipmentDTO? bed = null;
                     //try to search for new bed in the new unit care
                     bed = await GetAvailableBedFromUnitCare(prescriptionDto.UnitCare, cancellationToken);
 
@@ -92,7 +92,7 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
             if (diet == null && bedId != null)
             {
                 //unit care provided but no diet!!
-                throw new Exception($"Hospitalized patients require a diet to be specified! : {prescriptionDto.UnitCare.Title}");
+                throw new Exception($"Hospitalized patients require a diet to be specified! : {prescriptionDto?.UnitCare?.Title}");
             }
 
             //now we continue with two cases:
@@ -213,7 +213,7 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
             //oldBedId==null : old prescription wasn't hospitalized but this one is!!
             //in case the new prescription is not hospitalized, its handled in the caller of this function (this function wont be called)
 
-            if (newDestinationUnitCare == null || oldBedId==null) return false;
+            if (newDestinationUnitCare == null || oldBedId == null) return false;
             foreach (var room in newDestinationUnitCare.Rooms)
             {
                 foreach (var equipment in room.Equipments)
@@ -230,7 +230,7 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
             return false;
         }
 
-        private async Task<EquipmentDto?> GetAvailableBedFromUnitCare(UnitCareDto unitCare, CancellationToken cancellationToken)
+        private async Task<EquipmentDTO?> GetAvailableBedFromUnitCare(UnitCareDTO unitCare, CancellationToken cancellationToken)
         {
             var handler = new GetOccupiedRoomsHandler(_dbContext);
 

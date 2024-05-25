@@ -1,4 +1,6 @@
-﻿namespace Prescription.Domain.Entities
+﻿#pragma warning disable CS8618 // Disable the warning for non-nullable reference types
+
+namespace Prescription.Domain.Entities
 {
     public class Posology : Entity<PosologyId>
     {
@@ -6,7 +8,7 @@
         private readonly List<Dispense> _dispenses = new List<Dispense>();
 
         public PrescriptionId PrescriptionId { get; private set; }
-        public Prescription Prescription { get; set; }
+        public Prescription? Prescription { get; set; }
         public MedicationId MedicationId { get; set; }
         public Medication? Medication { get; private set; }
         public DateTime StartDate { get; private set; }
@@ -41,10 +43,10 @@
                     return new Posology(PosologyId.Of(Guid.NewGuid()), prescriptionId, medication, startDate, endDate, isPermanent);
                 }*/
 
-        public static Posology Create(PrescriptionId prescriptionId, MedicationId medicationId, DateTime startDate, DateTime? endDate, bool isPermanent,string createdBy, DateTime createdAt = default)
+        public static Posology Create(PrescriptionId prescriptionId, MedicationId medicationId, DateTime startDate, DateTime? endDate, bool isPermanent, string createdBy, DateTime createdAt = default)
         {
             if (isPermanent == false && endDate == null) throw new ArgumentNullException("test");
-            
+
             var CreatedAt = createdAt == default ? DateTime.Now : createdAt;
             return new Posology(PosologyId.Of(Guid.NewGuid()), prescriptionId, medicationId, null, startDate, endDate, isPermanent, createdBy, CreatedAt);
         }

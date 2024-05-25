@@ -4,7 +4,7 @@ namespace Prescription.Application.Extensions
 {
     public static class PrescriptionExtension
     {
-        public static IEnumerable<PrescriptionDto> ToPrescriptionsDto(this IEnumerable<Domain.Entities.Prescription> prescriptions, bool includeRegister = true)
+        public static IEnumerable<PrescriptionDTO> ToPrescriptionsDto(this IEnumerable<Domain.Entities.Prescription> prescriptions, bool includeRegister = true)
         {
             return prescriptions.Select(p => p.ToPrescriptionDto(includeRegister));
         }
@@ -14,11 +14,11 @@ namespace Prescription.Application.Extensions
                     return pres
                 }*/
 
-        public static PrescriptionDto ToPrescriptionDto(this Domain.Entities.Prescription pres, bool includeRegister = false)
+        public static PrescriptionDTO ToPrescriptionDto(this Domain.Entities.Prescription pres, bool includeRegister = false)
         {
             if (includeRegister)
             {
-                var x = new PrescriptionDto(
+                var x = new PrescriptionDTO(
                     Id: pres.Id.Value,
                     RegisterId: pres.RegisterId.Value,
                     DoctorId: pres.DoctorId.Value,
@@ -37,7 +37,7 @@ namespace Prescription.Application.Extensions
             }
             else
             {
-                var x = new PrescriptionDto(
+                var x = new PrescriptionDTO(
                     Id: pres.Id.Value,
                     RegisterId: pres.RegisterId.Value,
                     DoctorId: pres.DoctorId.Value,
@@ -66,14 +66,14 @@ namespace Prescription.Application.Extensions
             );
         }
 
-        public static IEnumerable<DispensesDto> ToDispensesDto(this IEnumerable<Dispense> dispenses)
+        public static IEnumerable<DispensesDTO> ToDispensesDto(this IEnumerable<Dispense> dispenses)
         {
             return dispenses.Select(d => d.ToDispenseDto());
         }
 
-        public static DispensesDto ToDispenseDto(this Dispense dispense)
+        public static DispensesDTO ToDispenseDto(this Dispense dispense)
         {
-            return new DispensesDto(
+            return new DispensesDTO(
                 Id: dispense.Id.Value,
                 PosologyId: dispense.PosologyId.Value,
                 Hour: dispense.Hour,
@@ -82,25 +82,25 @@ namespace Prescription.Application.Extensions
             );
         }
 
-        public static ICollection<PosologyDto> ToPosologiesDto(this IReadOnlyList<Posology> posologies)
+        public static ICollection<PosologyDTO> ToPosologiesDto(this IReadOnlyList<Posology> posologies)
         {
             return posologies.Select(posology => posology.ToPosologyDto()).ToList();
         }
 
-        public static PosologyDto ToPosologyDto(this Posology posology)
+        public static PosologyDTO ToPosologyDto(this Posology posology)
         {
-            return new PosologyDto(
+            return new PosologyDTO(
                  Id: posology.Id.Value,
                 PrescriptionId: posology.PrescriptionId.Value,
                 Medication: posology.Medication?.ToMedicationDto(),
                 MedicationId: posology.MedicationId.Value,
-                Comments: posology.Comments.Select(c => new CommentsDto(
+                Comments: posology.Comments.Select(c => new CommentsDTO(
                     Id: c.Id.Value,
                     PosologyId: posology.Id.Value,
                     Label: c.Label,
                     Content: c.Content
                 )).ToList(),
-               Dispenses: posology.Dispenses.Select(d => new DispensesDto(
+               Dispenses: posology.Dispenses.Select(d => new DispensesDTO(
                     Id: d.Id.Value,
                     PosologyId: posology.Id.Value,
                     Hour: d.Hour,

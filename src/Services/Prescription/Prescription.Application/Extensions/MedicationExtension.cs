@@ -1,22 +1,19 @@
-﻿using rescription.Application.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Prescription.Application.Extensions
+﻿namespace Prescription.Application.Extensions
 {
     public static class MedicationExtensions
     {
-        public static IEnumerable<MedicationDto> ToMedicationDto(this List<Medication> medications)
+        public static IEnumerable<MedicationDTO> ToMedicationDto(this List<Medication?> medications)
         {
-            return medications.Select(m => m.ToMedicationDto());
+            return medications
+                .Select(m => m.ToMedicationDto())
+                //filter nulls
+                .OfType<MedicationDTO>();
         }
 
-        public static MedicationDto ToMedicationDto(this Medication m)
+        public static MedicationDTO? ToMedicationDto(this Medication? m)
         {
-            return new MedicationDto(
+            if (m == null) { return null; }
+            return new MedicationDTO(
                 Id: m.Id.Value,
                 Name: m.Name,
                 Dosage: m.Dosage,

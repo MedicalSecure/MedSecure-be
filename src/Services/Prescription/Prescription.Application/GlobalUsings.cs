@@ -17,6 +17,9 @@ global using Prescription.Application.Features.Prescription.Queries.GetPrescript
 global using Prescription.Application.Contracts;
 global using Prescription.Application.Extensions;
 global using Prescription.Domain.ValueObjects;
+global using BuildingBlocks.Messaging.Events.PrescriptionEvents;
+global using MassTransit;
+global using Microsoft.FeatureManagement;
 
 namespace Prescription.Application
 {

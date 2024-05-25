@@ -45,11 +45,11 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             var totalCount = prescriptions.Count;
 
             /*TODO fix this*/
-            List<PrescriptionDto> prescriptionDTOs = prescriptions.Select(p => p.ToPrescriptionDto()).ToList();
+            List<PrescriptionDTO> prescriptionDTOs = prescriptions.Select(p => p.ToPrescriptionDto()).ToList();
 
             var pageSize = totalCount;
             return new GetPrescriptionsResult(
-                new PaginatedResult<PrescriptionDto>(0, pageSize, totalCount, prescriptionDTOs));
+                new PaginatedResult<PrescriptionDTO>(0, pageSize, totalCount, prescriptionDTOs));
         }
     }
 }

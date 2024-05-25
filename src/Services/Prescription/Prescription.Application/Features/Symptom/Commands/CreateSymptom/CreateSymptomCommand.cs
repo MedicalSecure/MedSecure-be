@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Prescription.Application.Features.Symptom.Commands.CreateSymptom
 {
-    public record CreateSymptomCommand(SymptomDto Symptom) : ICommand<CreateSymptomResult>;
+    public record CreateSymptomCommand(SymptomDTO Symptom) : ICommand<CreateSymptomResult>;
 
     public record CreateSymptomResult(Guid Id);
 

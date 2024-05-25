@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Prescription.Application.DTOs
 {
-    public record SymptomDto(Guid Id, string Code, string Name, string ShortDescription, string LongDescription);
+    public record SymptomDTO(Guid Id, string Code, string Name, string ShortDescription, string LongDescription);
 }

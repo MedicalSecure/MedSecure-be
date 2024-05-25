@@ -23,11 +23,15 @@ namespace Prescription.Application.Features.Symptom.Queries.GetSymptom
 
             var totalCount = Symptom == null ? 0 : 1;
 
-            SymptomDto? result = Symptom == null ? null : new SymptomDto(Symptom.Id.Value, Symptom.Code, Symptom.Name, Symptom.ShortDescription, Symptom.LongDescription);
+            List<SymptomDTO> returnList = [];
+            if (Symptom != null)
+            {
+                SymptomDTO result = new SymptomDTO(Symptom.Id.Value, Symptom.Code, Symptom.Name, Symptom.ShortDescription, Symptom.LongDescription);
+                returnList = [result];
+            }
 
-            List<SymptomDto> returnList = Symptom == null ? [] : [result];
             return new GetSymptomResult(
-                new PaginatedResult<SymptomDto>(0, 1, totalCount, returnList));
+                new PaginatedResult<SymptomDTO>(0, 1, totalCount, returnList));
         }
     }
 }

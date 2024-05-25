@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Prescription.Application.Features.Symptom.Commands.UpdateSymptom
 {
-    public record UpdateSymptomCommand(SymptomDto Symptom) : ICommand<UpdateSymptomResult>;
+    public record UpdateSymptomCommand(SymptomDTO Symptom) : ICommand<UpdateSymptomResult>;
 
     public record UpdateSymptomResult(Guid Id);
 

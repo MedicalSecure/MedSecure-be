@@ -27,7 +27,7 @@ namespace Prescription.Application.Features.Symptom.Commands.CreateSymptom
             return new CreateSymptomResult(Symptom.Id.Value);
         }
 
-        private static Domain.Entities.Symptom CreateNewSymptom(SymptomDto SymptomDto)
+        private static Domain.Entities.Symptom CreateNewSymptom(SymptomDTO SymptomDto)
         {
             var newSymptom = Domain.Entities.Symptom.Create(SymptomDto.Code, SymptomDto.Name, SymptomDto.ShortDescription, SymptomDto.LongDescription);
             return newSymptom;

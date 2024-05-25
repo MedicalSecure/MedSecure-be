@@ -2,12 +2,12 @@
 {
     public class Medication : Aggregate<MedicationId>
     {
-        public string? Name { get; private set; } = default!;
-        public string? Dosage { get; private set; } = default!;
-        public string? Form { get; private set; } = default!;
-        public string? Unit { get; private set; } = default!;
-        public string? Description { get; private set; } = default!;
-        public string? Code { get; private set; } = default!;
+        public string Name { get; private set; } = default!;
+        public string Dosage { get; private set; } = default!;
+        public string Form { get; private set; } = default!;
+        public string Unit { get; private set; } = default!;
+        public string Description { get; private set; } = default!;
+        public string Code { get; private set; } = default!;
         public DateTime ExpiredAt { get; private set; } = default!;
         public int Stock { get; private set; } = default!;
         public int AlertStock { get; private set; } = default!;

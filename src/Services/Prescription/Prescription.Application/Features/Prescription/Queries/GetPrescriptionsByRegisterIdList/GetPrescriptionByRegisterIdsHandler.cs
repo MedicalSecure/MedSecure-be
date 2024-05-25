@@ -28,7 +28,7 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
         public async Task<GetPrescriptionsByRegisterIdsResult> Handle(GetPrescriptionsByRegisterIdsQuery query, CancellationToken cancellationToken)
         {
             List<Guid> registerIds = query.registerIds;
-            Dictionary<Guid, List<PrescriptionDto>> prescriptionsByRegisterIds = new Dictionary<Guid, List<PrescriptionDto>>();
+            Dictionary<Guid, List<PrescriptionDTO>> prescriptionsByRegisterIds = new Dictionary<Guid, List<PrescriptionDTO>>();
 
             try
             {
@@ -47,14 +47,14 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
                            .ThenInclude(posology => posology.Medication)
                         .ToListAsync(cancellationToken);
 
-                    List<PrescriptionDto> prescriptionDtos = prescriptions.Select(p => p.ToPrescriptionDto()).ToList();
+                    List<PrescriptionDTO> prescriptionDtos = prescriptions.Select(p => p.ToPrescriptionDto()).ToList();
 
                     prescriptionsByRegisterIds[registerId] = prescriptionDtos;
                 }
             }
-            catch (Exception x)
+            catch (Exception ex)
             {
-                throw x;
+                throw new ApplicationException("Get Prescription by id", ex);
             }
 
             return new GetPrescriptionsByRegisterIdsResult(prescriptionsByRegisterIds);

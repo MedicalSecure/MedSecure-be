@@ -39,10 +39,10 @@ namespace Prescription.Application.Features.Symptom.Queries.GetSymptom
             return new PredictFromSymptomsResult(null);
         }
 
-        private static string? GetPredictedDiagnosis(List<SymptomDto> symptoms)
+        private static string? GetPredictedDiagnosis(List<SymptomDTO> symptoms)
         {
             List<int> DiagnosisToBinaryEquivalentList = CreateListOfZeros();
-            foreach (SymptomDto symptom in symptoms)
+            foreach (SymptomDTO symptom in symptoms)
             {
                 int symptomIndexInList = int.Parse(symptom.Code);
                 DiagnosisToBinaryEquivalentList[symptomIndexInList] = 1;

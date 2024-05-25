@@ -47,15 +47,15 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             if (p == null)
             {
                 // Prescription not found, return not found response
-                return new GetPrescriptionsResult(new PaginatedResult<PrescriptionDto>(0, 0, totalCount, []));
+                return new GetPrescriptionsResult(new PaginatedResult<PrescriptionDTO>(0, 0, totalCount, []));
             }
 
             /*TODO fix this*/
-            PrescriptionDto result = p.ToPrescriptionDto();
+            PrescriptionDTO result = p.ToPrescriptionDto();
 
-            List<PrescriptionDto> returnList = p == null ? [] : [result];
+            List<PrescriptionDTO> returnList = p == null ? [] : [result];
             return new GetPrescriptionsResult(
-                new PaginatedResult<PrescriptionDto>(0, 1, totalCount, returnList));
+                new PaginatedResult<PrescriptionDTO>(0, 1, totalCount, returnList));
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Prescription.Infrastructure.Database.Configurations
             // Configure DietsId as JSON using ValueConverter
             var converter = new ValueConverter<List<Guid>, string>(
                 v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<List<Guid>>(v));
+                v => JsonConvert.DeserializeObject<List<Guid>>(v) ?? new List<Guid>());
 
             builder.Property(p => p.DietsId)
                 .HasConversion(converter);

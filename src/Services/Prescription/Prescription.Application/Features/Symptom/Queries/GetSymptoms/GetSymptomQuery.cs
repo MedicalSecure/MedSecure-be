@@ -4,7 +4,7 @@ using Prescription.Application.Features.Symptom.Commands.UpdateSymptom;
 namespace Prescription.Application.Features.Symptom.Queries.GetSymptom
 {
     public record GetSymptomQuery(PaginationRequest PaginationRequest) : IQuery<GetSymptomResult>;
-    public record GetSymptomResult(PaginatedResult<SymptomDto> Symptom);
+    public record GetSymptomResult(PaginatedResult<SymptomDTO> Symptom);
 
     public class GetSymptomQueryValidator : AbstractValidator<GetSymptomQuery>
     {

@@ -35,7 +35,7 @@ namespace Prescription.Application.Features.Symptom.Commands.UpdateSymptom
             return new UpdateSymptomResult(Symptom.Id.Value);
         }
 
-        private static void UpdateSymptomWithNewValues(Domain.Entities.Symptom Symptom, SymptomDto SymptomDto)
+        private static void UpdateSymptomWithNewValues(Domain.Entities.Symptom Symptom, SymptomDTO SymptomDto)
         {
             Symptom.Update(SymptomDto.Code, SymptomDto.Name, SymptomDto.ShortDescription, SymptomDto.LongDescription);
         }

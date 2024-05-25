@@ -31,7 +31,7 @@ namespace Prescription.Application.Features.Symptom.Queries.GetSymptom
                            .ToListAsync(cancellationToken);
 
             return new GetSymptomResult(
-                new PaginatedResult<SymptomDto>(
+                new PaginatedResult<SymptomDTO>(
                     pageIndex,
                     pageSize,
                     totalCount,

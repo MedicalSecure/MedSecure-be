@@ -77,7 +77,7 @@ namespace Prescription.API.Endpoints.Symptoms
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSymptom(Guid id)
         {
-            var command = new DeleteSymptomCommand(new SymptomDto(id, "", "", "", ""));
+            var command = new DeleteSymptomCommand(new SymptomDTO(id, "", "", "", ""));
             var result = await _sender.Send(command);
             var response = result.Adapt<DeleteSymptomResponse>();
 

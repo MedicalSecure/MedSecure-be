@@ -6,7 +6,7 @@
 
         public Dose? BeforeMeal { get; private set; }
         public Dose? AfterMeal { get; private set; }
-        public PosologyId PosologyId { get; private set; }
+        public PosologyId PosologyId { get; private set; } = default!;
         public Posology? Posology { get; private set; }
 
         private Dispense()
