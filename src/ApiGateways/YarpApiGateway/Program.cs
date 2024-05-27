@@ -1,17 +1,17 @@
 using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
-
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:4200");
+                          policy.WithOrigins("http://localhost:4200")
+                                .AllowAnyHeader() // Allow any header
+                                .AllowAnyMethod();
                       });
 });
-
 
 // Add configuration to appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json", optional: false);

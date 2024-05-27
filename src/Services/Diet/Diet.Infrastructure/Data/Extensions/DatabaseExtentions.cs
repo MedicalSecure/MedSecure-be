@@ -1,4 +1,5 @@
 ﻿
+
 namespace Diet.Infrastructure.Data.Extensions;
 
 public static class DatabaseExtentions

@@ -4,10 +4,11 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        //"diet.api": "StartDebugging",
-        //"waste.api": "StartDebugging",
-        //"yarpapigateway": "StartDebugging",
-        "medication.api": "StartDebugging"
+        "diet.api": "StartDebugging",
+        "waste.api": "StartDebugging",
+        "bacPatient.api": "StartDebugging",
+        "medication.api": "StartDebugging",
+        "yarpapigateway": "StartDebugging"
       }
     }
   }
