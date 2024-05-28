@@ -8,6 +8,7 @@ builder
     .AddInfrastructureServices(builder.Configuration)  // Add infrastructure services layer 
     .AddApiServices(builder.Configuration);  // Add API services layer 
 
+
 var app = builder.Build();  // Build the application
 
 // Configure the HTTP request pipeline
@@ -20,11 +21,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Diet API V1");  // Configure Swagger UI endpoint
+        c.RoutePrefix = "swagger"; // Use root URL for Swagger UI
     });
 
     // Initialize the database asynchronously with mock data 
     await app.InitialiseDatabaseAsync();
 }
+
+app.UseRouting();
 
 // Start the application
 app.Run();

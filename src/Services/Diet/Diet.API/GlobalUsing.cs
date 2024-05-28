@@ -24,3 +24,8 @@ global using HealthChecks.UI.Client;
 global using Mapster;
 global using MediatR;
 global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using Microsoft.Extensions.Primitives;
+global using System.IdentityModel.Tokens.Jwt;
+global using Microsoft.IdentityModel.Tokens;
+global using System.Security.Claims;
+global using Microsoft.Identity.Web;

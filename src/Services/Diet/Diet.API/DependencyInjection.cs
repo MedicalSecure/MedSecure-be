@@ -27,6 +27,9 @@ public static class DependencyInjection
 
     public static WebApplication UseApiServices(this WebApplication app)
     {
+        // Add custom middleware to block incoming requests except from the API gateway
+        app.UseMiddleware<HttpAuthorizationMiddleware>(new HttpAuthorizationOptions { AllowSwagger = app.Environment.IsDevelopment() , OnlyFromApiGateway = false });
+
         // Map Carter routes
         app.MapCarter();
 
