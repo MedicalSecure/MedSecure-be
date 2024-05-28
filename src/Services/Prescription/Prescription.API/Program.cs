@@ -44,7 +44,7 @@ namespace Prescription.API
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Prescription API V1");  // Configure Swagger UI endpoint
                 });
 
-                // Initialize the database asynchronously with mock data 
+                // Initialize the database asynchronously with mock data
                 app.InitialiseDatabaseAsync(true);
             }
 

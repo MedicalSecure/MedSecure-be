@@ -119,6 +119,42 @@
             }
         }
 
+        [HttpPut("Status")]
+        public async Task<IActionResult> UpdatePrescriptionStatus([FromBody] UpdatePrescriptionStatusRequest request)
+        {
+            try
+            {
+                var command = request.Adapt<UpdatePrescriptionStatusCommand>();
+                var result = await _sender.Send(command);
+                var response = result.Adapt<UpdatePrescriptionStatusResponse>();
+                return Ok(response);
+            }
+            catch (UpdatePrescriptionException ex)
+            {
+                // Log the exception for debugging purposes
+                // _logger.LogError(ex, "An error occurred while creating a prescription.");
+
+                // Return an appropriate error response to the client
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Error = "Failed to update prescription",
+                    Message = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                //_logger.LogError(ex, "An unexpected error occurred while creating a prescription.");
+
+                // Return a generic error response to the client
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Error = "An unexpected error occurred",
+                    Message = $"An unexpected error occurred while processing your request. : {ex.Message}"
+                });
+            }
+        }
+
         [HttpGet("Register/{id}")]
         public async Task<IActionResult> GetPrescriptionsByRegisterId(Guid id)
         {

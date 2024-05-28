@@ -14,7 +14,7 @@ global using Prescription.Application.Features.Prescription.Queries.GetPrescript
 global using Prescription.Application.Exceptions;
 global using Prescription.Application.Features.Prescription.Commands.UpdatePrescription;
 global using static Prescription.API.Endpoints.Prescription.Records;
-
+global using Prescription.Application.Features.Prescription.Commands.UpdatePrescriptionStatus;
 
 namespace Prescription.API
 {

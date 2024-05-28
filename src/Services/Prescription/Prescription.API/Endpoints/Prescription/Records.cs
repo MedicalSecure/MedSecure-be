@@ -18,6 +18,10 @@
         public record UpdatePrescriptionRequest(PrescriptionCreateUpdateDto Prescription);
         public record UpdatePrescriptionResponse(Guid Id);
 
+        // Put Status
+        public record UpdatePrescriptionStatusRequest(PrescriptionDTO Prescription);
+        public record UpdatePrescriptionStatusResponse(Guid Id);
+
         //Delete
         public record DeletePrescriptionRequest(PrescriptionDTO Prescription);
         public record DeletePrescriptionResponse(Guid Id);
