@@ -31,3 +31,9 @@ services:
       context: .
       dockerfile: ApiGateways/YarpApiGateway/Dockerfile
 
+  prescription.api:
+    image: ${DOCKER_REGISTRY-}prescriptionapi
+    build:
+      context: .
+      dockerfile: Services/Prescription/Prescription.API/Dockerfile
+
