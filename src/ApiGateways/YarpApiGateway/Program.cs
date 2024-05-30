@@ -2,12 +2,15 @@ using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+var frontEndUrl = Environment.GetEnvironmentVariable("FRONTEND_URL");
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:4200")
+                          policy.WithOrigins(frontEndUrl ?? "*")
                            .AllowAnyHeader() // Allow any header
                                 .AllowAnyMethod();
                       });
