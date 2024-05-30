@@ -8,14 +8,12 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Drug> Drugs => Set<Drug>();
     public DbSet<Dosage> Dosages => Set<Dosage>();
 
+    public DbSet<Activity> Activities => Set<Activity>();
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
-
-        /*        modelBuilder.Entity<Medication>()
-                    .HasIndex(m => new { m.Name, m.Dosage, m.Form, m.Code, m.Unit, m.Description })
-                    .HasDatabaseName("IX_Medication");*/
     }
 }

@@ -17,6 +17,7 @@ global using Medication.Application.Dosages.Queries.GetDosages;
 global using Medication.Application.Dosages.Commands.UpdateDosage;
 global using Medication.Infrastructure;
 global using Medication.Infrastructure.Database.Extensions;
+global using Medication.Application.Activities.Queries;
 
 
 

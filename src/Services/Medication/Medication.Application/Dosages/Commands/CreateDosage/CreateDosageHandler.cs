@@ -13,6 +13,13 @@ public class CreateDosageHandler(IApplicationDbContext dbContext) : ICommandHand
 
         dbContext.Dosages.AddRange(dosagesCreated);
 
+        //create new activity
+        Guid createdBy = Guid.NewGuid();
+
+        var newActivity = Activity.Create(createdBy, $"Created new {nameof(Dosage)}", "Aymen Elhajji");
+
+        dbContext.Activities.Add(newActivity);
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         var createdDosageIds = dosagesCreated.Select(d => d.Id.Value).ToList();

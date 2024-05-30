@@ -45,6 +45,12 @@ public class CreateDrugHandler(IApplicationDbContext dbContext) : ICommandHandle
             }
         }
 
+        Guid createdBy = Guid.NewGuid();
+
+        var newActivity = Activity.Create(createdBy, $"Updated {nameof(Medication)}", "Aymen Elhajji");
+
+        dbContext.Activities.Add(newActivity);
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return new CreateDrugResult(drugsCreated.Select(c => c.Id ?? Guid.NewGuid()).ToList());

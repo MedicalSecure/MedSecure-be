@@ -8,6 +8,7 @@ public class DeleteDosageHandler(IApplicationDbContext dbContext) : ICommandHand
         // Delete Dosage entity from command object
         // save to database
         // return result
+
         var dosageId = DosageId.Of(command.Id);
         var dosage = await dbContext.Dosages.FindAsync([dosageId], cancellationToken);
 
@@ -17,6 +18,13 @@ public class DeleteDosageHandler(IApplicationDbContext dbContext) : ICommandHand
         }
 
         dbContext.Dosages.Remove(dosage);
+
+        Guid createdBy = Guid.NewGuid();
+
+        var newActivity = Activity.Create(createdBy, $"Remove {nameof(Dosage)}", "Aymen Elhajji");
+
+        dbContext.Activities.Add(newActivity);
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return new DeleteDosageResult(true);

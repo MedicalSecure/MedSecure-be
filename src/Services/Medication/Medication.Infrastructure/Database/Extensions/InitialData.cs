@@ -23,7 +23,7 @@ internal class InitialData
                     Drug.Create(
                         id: DrugId.Of(Guid.NewGuid()),
                         name: "Aspirin",
-                        dosage: "500mg",
+                        dosage: "500 mg",
                         form: "Tablet",
                         code: "A1010",
                         unit: "B/90",
@@ -41,7 +41,7 @@ internal class InitialData
                     Drug.Create(
                         id: DrugId.Of(Guid.NewGuid()),
                         name: "Ibuprofen",
-                        dosage: "700mg",
+                        dosage: "700 mg",
                         form: "Tablet",
                         code: "A2020",
                         unit: "B/90/5L",
@@ -58,7 +58,7 @@ internal class InitialData
                     Drug.Create(
                         id: DrugId.Of(Guid.NewGuid()),
                         name: "Fervex",
-                        dosage: "1000mg",
+                        dosage: "1000 mg",
                         form: "Tablet",
                         code: "A2020",
                         unit: "B/90/2L",
@@ -75,7 +75,7 @@ internal class InitialData
                     Drug.Create(
                         id: DrugId.Of(Guid.NewGuid()),
                         name: "Paracetamol",
-                        dosage: "250mg",
+                        dosage: "250 mg",
                         form: "Tablet",
                         code: "A2020",
                         unit: "mg",

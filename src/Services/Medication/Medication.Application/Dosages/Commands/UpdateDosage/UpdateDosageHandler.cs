@@ -8,6 +8,7 @@ public class UpdateDosageHandler(IApplicationDbContext dbContext) : ICommandHand
         // Update Dosage entity from command object
         // save to database
         // return result
+
         var dosageId = DosageId.Of(command.Dosage.Id);
         var dosage = await dbContext.Dosages.FindAsync([dosageId], cancellationToken);
 
@@ -19,6 +20,13 @@ public class UpdateDosageHandler(IApplicationDbContext dbContext) : ICommandHand
         UpdateDosageWithNewValues(dosage, command.Dosage);
 
         dbContext.Dosages.Update(dosage);
+
+        Guid createdBy = Guid.NewGuid();
+
+        var newActivity = Activity.Create(createdBy, $"Updated {nameof(Dosage)}", "Aymen Elhajji");
+
+        dbContext.Activities.Add(newActivity);
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return new UpdateDosageResult(true);
