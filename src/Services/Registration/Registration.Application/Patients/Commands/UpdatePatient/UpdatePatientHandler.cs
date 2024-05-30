@@ -11,12 +11,15 @@
 
         public async Task<UpdatePatientResult> Handle(UpdatePatientCommand command, CancellationToken cancellationToken)
         {
-            var patientId = PatientId.Of(command.Patient.Id);
+            if (command.Patient.Id == null)
+                throw new MissingFieldException("PatientId is required for updating");
+
+            var patientId = PatientId.Of(command.Patient.Id ?? Guid.NewGuid());
             var patient = await _dbContext.Patients.FindAsync(new object[] { patientId }, cancellationToken);
 
             if (patient == null)
             {
-                throw new PatientNotFoundException(command.Patient.Id);
+                throw new PatientNotFoundException(command.Patient.Id ?? Guid.NewGuid());
             }
 
             UpdatePatientWithNewValues(patient, command.Patient);
@@ -28,7 +31,6 @@
 
         private static void UpdatePatientWithNewValues(Patient patient, PatientDto patientDto)
         {
-            
             patient.Update(
                 patientDto.FirstName ?? patient.FirstName,
                 patientDto.LastName ?? patient.LastName,

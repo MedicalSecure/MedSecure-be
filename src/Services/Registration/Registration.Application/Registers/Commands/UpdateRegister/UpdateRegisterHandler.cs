@@ -9,12 +9,16 @@ namespace Registration.Application.Registers.Commands.UpdateRegister
             // Update Patient entity from command object
             // save to database
             // return result
-            var registerId = RegisterId.Of(command.Register.Id);
+
+            if (command.Register.Id == null)
+                throw new MissingFieldException("RegisterId is required for updating");
+
+            var registerId = RegisterId.Of(command.Register.Id ?? Guid.NewGuid());
             var register = await dbContext.Registers.FindAsync([registerId], cancellationToken);
 
             if (register == null)
             {
-                throw new RegisterNotFoundException(command.Register.Id);
+                throw new RegisterNotFoundException(command.Register.Id ?? Guid.NewGuid());
             }
 
             UpdateRegister(register, command.Register);
@@ -27,8 +31,6 @@ namespace Registration.Application.Registers.Commands.UpdateRegister
 
         private static void UpdateRegister(Domain.Models.Register existingRegister, RegisterDto newRegisterDto)
         {
-          
         }
     }
-
 }

@@ -13,7 +13,7 @@ namespace Registration.Application.Dtos
         public bool IsSelected { get; init; }
         public string? Type { get; init; }
         public string? Icon { get; init; }
-        public List<SubRiskFactor>? SubRiskFactors { get; init; }
+        public List<RiskFactorDto>? SubRiskFactors { get; init; }
         public RiskFactorDto() { }
         public RiskFactorDto(
             Guid id,
@@ -24,7 +24,7 @@ namespace Registration.Application.Dtos
             bool? isSelected,
             string? type,
             string? icon,
-            List<SubRiskFactor>? subRiskFactors)
+            List<RiskFactorDto>? subRiskFactors)
         {
             Id = id;
             Key = key;

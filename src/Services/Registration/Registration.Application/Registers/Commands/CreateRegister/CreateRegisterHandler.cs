@@ -1,6 +1,6 @@
 ﻿namespace Registration.Application.Registers.Commands.CreateRegister
 {
-    public class CreateRegisterHandler(IApplicationDbContext dbContext) :ICommandHandler<CreateRegisterCommand,CreateRegisterResult>
+    public class CreateRegisterHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateRegisterCommand, CreateRegisterResult>
     {
         public async Task<CreateRegisterResult> Handle(CreateRegisterCommand command, CancellationToken cancellationToken)
         {
@@ -29,9 +29,9 @@
 
             // Accessing properties with null checks and providing default values if they are null
             var register = Domain.Models.Register.Create(
-                id: RegisterId.Of(registerDto.Id),
+                id: RegisterId.Of(Guid.NewGuid()),
                 patient: Patient.Create(
-                    id: PatientId.Of(registerDto.Patient.Id),
+                    id: PatientId.Of(Guid.NewGuid()),
                     firstName: registerDto.Patient.FirstName ?? "",
                     lastName: registerDto.Patient.LastName ?? "",
                     dateOfBirth: registerDto.Patient.DateOfBirth,
@@ -56,6 +56,5 @@
 
             return register;
         }
-
     }
 }
