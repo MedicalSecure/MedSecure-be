@@ -1,10 +1,7 @@
 ﻿using BuildingBlocks.Exceptions;
-using FluentValidation;
+
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Prescription.Application.Features.Diagnosis.Commands.DeleteDiagnosis;
-using Prescription.Domain.Entities;
-using System;
 
 namespace Prescription.API
 {
