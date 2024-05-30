@@ -1,3 +1,4 @@
+
 version: '3.4'
 
 services:
@@ -8,33 +9,48 @@ services:
   message-broker:
     image: rabbitmq:management
 
-  # diet.api:
-  #   image: ${DOCKER_REGISTRY-}dietapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/Diet/Diet.API/Dockerfile
+  yarpapigateway:
+    image: ${DOCKER_REGISTRY-}yarpapigateway
+    build:
+      context: .
+      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
+        
+  diet.api:
+    image: ${DOCKER_REGISTRY-}dietapi
+    build:
+      context: .
+      dockerfile: Services/Diet/Diet.API/Dockerfile
+    depends_on:
+       - sql-server-db
 
-  # waste.api:
-  #   image: ${DOCKER_REGISTRY-}wasteapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/Waste/Waste.API/Dockerfile
+  bacpatient.api:
+    image: ${DOCKER_REGISTRY-}bacpatientapi
+    build:
+      context: .
+      dockerfile: Services/BacPatient/BacPatient.API/Dockerfile
+    depends_on:
+       - sql-server-db
+ 
+  waste.api:
+    image: ${DOCKER_REGISTRY-}wasteapi
+    build:
+      context: .
+      dockerfile: Services/Waste/Waste.API/Dockerfile
+    depends_on:
+       - sql-server-db
+
+  prescription.api:
+    image: ${DOCKER_REGISTRY-}prescriptionapi
+    build:
+      context: .
+      dockerfile: Services/Prescription/Prescription.API/Dockerfile
+    depends_on:
+       - sql-server-db
 
   medication.api:
     image: ${DOCKER_REGISTRY-}medicationapi
     build:
       context: .
       dockerfile: Services/Medication/Medication.API/Dockerfile
-
-  # bacpatient.api:
-  #   image: ${DOCKER_REGISTRY-}bacpatientapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/BacPatient/BacPatient.API/Dockerfile
-
-  yarpapigateway:
-    image: ${DOCKER_REGISTRY-}yarpapigateway
-    build:
-      context: .
-      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
-
+    depends_on:
+       - sql-server-db
