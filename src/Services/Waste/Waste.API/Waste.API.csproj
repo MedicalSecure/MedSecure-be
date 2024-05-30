@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Diet\Diet.Infrastructure\Diet.Infrastructure.csproj" />
     <ProjectReference Include="..\Waste.Application\Waste.Application.csproj" />
     <ProjectReference Include="..\Waste.Infrastructure\Waste.Infrastructure.csproj" />
   </ItemGroup>

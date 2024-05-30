@@ -11,8 +11,8 @@ public class Meal : Aggregate<MealId>
 
     public static Meal Create(
         MealId id,
-        DietId dietId, 
-        string name, 
+        DietId dietId,
+        string name,
         MealType mealType)
     {
         var meal = new Meal()

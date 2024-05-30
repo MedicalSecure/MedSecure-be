@@ -1,0 +1,4 @@
+﻿namespace BacPatient.Application.Dtos
+{
+    public record PersonnelDto(Guid Id, Guid UnitCareId, string Name, Shift Shift, Gender Gender);
+}
