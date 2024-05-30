@@ -26,7 +26,8 @@ namespace Diet.Application.Extensions
                                                  Description: mi.Description,
                                                  FoodCategory: mi.FoodCategory
                                              )).ToList()
-                                         )).ToList()
+                                         )
+                                         ).ToList()
                         ));
         }
     }

@@ -54,3 +54,11 @@ services:
       dockerfile: Services/Medication/Medication.API/Dockerfile
     depends_on:
        - sql-server-db
+
+  visit.api:
+    image: ${DOCKER_REGISTRY-}visitapi
+    build:
+      context: .
+      dockerfile: Services/Visit/Visit.API/Dockerfile
+    depends_on:
+       - sql-server-db
