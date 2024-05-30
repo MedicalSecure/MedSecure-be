@@ -1,3 +1,4 @@
+
 version: '3.4'
 
 services:
@@ -43,5 +44,13 @@ services:
     build:
       context: .
       dockerfile: Services/Prescription/Prescription.API/Dockerfile
+    depends_on:
+       - sql-server-db
+
+  medication.api:
+    image: ${DOCKER_REGISTRY-}medicationapi
+    build:
+      context: .
+      dockerfile: Services/Medication/Medication.API/Dockerfile
     depends_on:
        - sql-server-db

@@ -44,6 +44,7 @@ builder.Services.AddRateLimiter(rateLimiterOptions =>
 });
 
 var app = builder.Build();
+
 app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
