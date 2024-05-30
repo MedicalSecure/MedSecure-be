@@ -12,16 +12,12 @@ builder.Services.AddCors(options =>
                                 .AllowAnyMethod();
                       });
 });
-builder.Configuration.AddJsonFile("appsettings.json", optional: false);
-
-// Ajouter la configuration à partir de appsettings.local.json pour Docker Compose
-builder.Configuration.AddJsonFile("appsettings.local.json", optional: true);
 
 // Ajouter la configuration à partir de appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json", optional: false);
 
 // Ajouter la configuration à partir de appsettings.local.json pour Docker Compose
-builder.Configuration.AddJsonFile("appsettings.local.json", optional: true);
+//builder.Configuration.AddJsonFile("appsettings.local.json", optional: true);
 
 // Add services to the container.
 builder.Services.AddReverseProxy()
@@ -31,7 +27,7 @@ builder.Services.AddRateLimiter(rateLimiterOptions =>
 {
     rateLimiterOptions.AddFixedWindowLimiter("fixed", options =>
     {
-        options.Window = TimeSpan.FromSeconds(10);
+        options.Window = TimeSpan.FromSeconds(1);
         options.PermitLimit = 5;
     });
 });

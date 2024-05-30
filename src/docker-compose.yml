@@ -8,11 +8,11 @@ services:
   message-broker:
     image: rabbitmq:management
 
-  diet.api:
-    image: ${DOCKER_REGISTRY-}dietapi
+  yarpapigateway:
+    image: ${DOCKER_REGISTRY-}yarpapigateway
     build:
       context: .
-      dockerfile: Services/Diet/Diet.API/Dockerfile
+      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
 
   waste.api:
     image: ${DOCKER_REGISTRY-}wasteapi
@@ -20,20 +20,8 @@ services:
       context: .
       dockerfile: Services/Waste/Waste.API/Dockerfile
 
-  bacpatient.api:
-    image: ${DOCKER_REGISTRY-}bacpatientapi
-    build:
-      context: .
-      dockerfile: Services/BacPatient/BacPatient.API/Dockerfile
-  yarpapigateway:
-    image: ${DOCKER_REGISTRY-}yarpapigateway
-    build:
-      context: .
-      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
-
   prescription.api:
     image: ${DOCKER_REGISTRY-}prescriptionapi
     build:
       context: .
       dockerfile: Services/Prescription/Prescription.API/Dockerfile
-

@@ -9,7 +9,7 @@ services:
     restart: always
     ports:
       - "1433:1433"
-  
+
   message-broker:
     container_name: message-broker
     hostname: medsecure-mq
@@ -21,41 +21,20 @@ services:
       - "5672:5672"
       - "15672:15672"
 
-  diet.api:
-    container_name: diet-api
+  yarpapigateway:
+    container_name: yarp-api-gateway
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__Database=Server=sql-server-db;Database=DietDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
-      - MessageBroker__Host=amqp://medsecure-mq:5672
-      - MessageBroker__UserName=guest
-      - MessageBroker__Password=guest
-      - FeatureManagement__DietPlanSharedFulfillment=false
     ports:
-      - "6003:8080"
-      - "6063:8081"
+      - "6004:8080"
+      - "6064:8081"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-  
-  bacpatient.api:
-    container_name: bacPatient-api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__Database=Server=sql-server-db;Database=bacPatientDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
-      - MessageBroker__Host=amqp://medsecure-mq:5672
-      - MessageBroker__UserName=guest
-      - MessageBroker__Password=guest
-      - FeatureManagement__BacPatientPlanSharedFulfillment=false
-    ports:
-      - "6005:8080"
-      - "6065:8081"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+ 
 
   waste.api:
     container_name: waste-api
@@ -75,34 +54,19 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
-  yarpapigateway:
-    container_name: yarp-api-gateway
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
-    ports:
-      - "6004:8080"
-      - "6064:8081"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-  
   prescription.api:
     container_name: prescription-api
     environment:
-        - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_HTTP_PORTS=8080
-        - ASPNETCORE_HTTPS_PORTS=8081
-        - ConnectionStrings__Database=Server=sql-server-db;Database=PrescriptionDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
-        - MessageBroker__Host=amqp://medsecure-mq:5672
-        - MessageBroker__UserName=guest
-        - MessageBroker__Password=guest
-        - FeatureManagement__DietPlanSharedFulfillment=false
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__Database=Server=sql-server-db;Database=PrescriptionDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
+      - MessageBroker__Host=amqp://medsecure-mq:5672
+      - MessageBroker__UserName=guest
+      - MessageBroker__Password=guest
+      - FeatureManagement__DietPlanSharedFulfillment=false
     ports:
-        - "6007:8080"
-        - "6067:8081"
+      - "6007:8080"
+      - "6067:8081"
     volumes:
-        - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-        - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-      
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
