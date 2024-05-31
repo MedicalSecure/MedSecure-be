@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +20,21 @@ namespace Registration.Domain.ValueObjects
                 throw new DomainException("RegisterId cannot be empty!");
             }
             return new RegisterId(value);
+        }
+
+        public static RegisterId? OfNullable(Guid? value)
+        {
+            if (!value.HasValue)
+            {
+                return null;
+            }
+
+            if (value.Value == Guid.Empty)
+            {
+                throw new DomainException("RegisterId cannot be empty!");
+            }
+
+            return new RegisterId(value.Value);
         }
     }
 }

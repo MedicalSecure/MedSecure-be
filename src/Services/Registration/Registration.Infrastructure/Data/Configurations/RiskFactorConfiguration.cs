@@ -1,46 +1,59 @@
-﻿namespace Registration.Infrastructure.Data.Configurations
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
+namespace Registration.Infrastructure.Data.Configurations
 {
     public class RiskFactorConfiguration : IEntityTypeConfiguration<RiskFactor>
     {
         public void Configure(EntityTypeBuilder<RiskFactor> builder)
         {
-            builder.HasKey(r => r.Id);
+            builder.HasKey(x => x.Id);
 
             // Configure primary key to use Value property of RiskFactorId
             builder.Property(r => r.Id)
                    .HasConversion(riskFactorId => riskFactorId.Value,
                                   dbId => RiskFactorId.Of(dbId));
 
-            // Configure many-to-one relationship with Register for Disease
-            builder.HasOne<Register>()
-                   .WithMany(r => r.Disease)
-                   .HasForeignKey(rf => rf.RegisterIdForDisease)
-                   .OnDelete(DeleteBehavior.Restrict); // Specify NO ACTION on delete
+            builder.Property(p => p.RiskFactorParentId)
+           .HasConversion(
+               new ValueConverter<RiskFactorId?, Guid?>(
+                   modelRiskFactorId => modelRiskFactorId == null ? null : modelRiskFactorId.Value,
+                   dbRiskFactorId => dbRiskFactorId.HasValue ? RiskFactorId.OfNullable(dbRiskFactorId.Value) : null
+               ),
+               new ValueComparer<RiskFactorId?>(
+                   (RiskFactorId1, RiskFactorId2) => RiskFactorId1 == null && RiskFactorId2 == null || RiskFactorId1 != null && RiskFactorId2 != null && RiskFactorId1.Value == RiskFactorId2.Value,
+                   RiskFactorId => RiskFactorId == null ? 0 : RiskFactorId.Value.GetHashCode(),
+                   RiskFactorId => RiskFactorId ?? RiskFactorId.Of(Guid.Empty)
+               )
+           );
 
-            // Configure many-to-one relationship with Register for Allergy
-            builder.HasOne<Register>()
-                   .WithMany(r => r.Allergy)
-                   .HasForeignKey(rf => rf.RegisterIdForAllergy)
-                   .OnDelete(DeleteBehavior.Restrict); // Specify NO ACTION on delete
+            builder.HasMany(d => d.SubRiskFactors)
+                    .WithOne(r => r.RiskFactorParent)
+                    .HasForeignKey(sub => sub.RiskFactorParentId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            // Configure many-to-one relationship with Register for FamilyMedicalHistory
-            builder.HasOne<Register>()
-                   .WithMany(r => r.FamilyMedicalHistory)
-                   .HasForeignKey(rf => rf.RegisterIdForFamilyMedicalHistory)
-                   .OnDelete(DeleteBehavior.Restrict); // Specify NO ACTION on delete
+            builder.Property(x => x.Key)
+                   .HasMaxLength(128); // Set max length for Key
 
-            // Configure many-to-one relationship with Register for PersonalMedicalHistory
-            builder.HasOne<Register>()
-                   .WithMany(r => r.PersonalMedicalHistory)
-                   .HasForeignKey(rf => rf.RegisterIdForPersonalMedicalHistory)
-                   .OnDelete(DeleteBehavior.Restrict); // Specify NO ACTION on delete
+            builder.Property(x => x.Value)
+                   .HasMaxLength(256); // Set max length for Value
 
-            // Configure Key and Value properties to be required
-            builder.Property(rf => rf.Key)
-                   .IsRequired();
+            builder.Property(x => x.Code)
+                   .HasMaxLength(64); // Set max length for Code
 
-            builder.Property(rf => rf.Value)
-                   .IsRequired();
+            builder.Property(x => x.Description)
+                   .HasMaxLength(512); // Set max length for Description
+
+            builder.Property(x => x.Type)
+                   .HasMaxLength(100); // Set max length for Type
+
+            builder.Property(x => x.Icon)
+                   .HasMaxLength(500); // Set max length for Icon
+
+            builder.Property(d => d.LastModifiedBy)
+                .HasMaxLength(128);
+
+            builder.Property(d => d.CreatedBy)
+                .HasMaxLength(128);
         }
     }
 }

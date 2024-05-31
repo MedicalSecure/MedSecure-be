@@ -4,36 +4,28 @@ using Registration.Domain.ValueObjects;
 
 namespace Registration.Application.Extensions
 {
-    public static partial class RiskFactorExtensions
+    public static class RiskFactorExtension
     {
         public static IEnumerable<RiskFactorDto> ToRiskFactorDto(this IEnumerable<RiskFactor> riskFactors)
         {
-            return riskFactors.Select(p => new RiskFactorDto(
-                            Id: p.Id.Value,
-                            Key: p.Key,
-                            Value: p.Value,
-                            Code: p.Code,
-                            Description: p.Description,
-                            IsSelected: p.IsSelected ?? true,
-                            Type: p.Type,
-                            Icon: p.Icon,
-                            SubRiskFactors: p.SubRiskFactors?.ToRiskFactorDtoFromSubRiskFactor().ToList()
-                            ));
+            return riskFactors.Select(p => p.ToRiskFactorDto());
         }
 
-        public static IEnumerable<RiskFactorDto> ToRiskFactorDtoFromSubRiskFactor(this IEnumerable<SubRiskFactor> subRiskFactors)
+        public static RiskFactorDto ToRiskFactorDto(this RiskFactor riskFactor)
         {
-            return subRiskFactors.Select(p => new RiskFactorDto(
-                            Id: p.Id.Value,
-                            Key: p.Key,
-                            Value: p.Value,
-                            Code: p.Code,
-                            Description: p.Description,
-                            IsSelected: p.IsSelected,
-                            Type: p.Type,
-                            Icon: p.Icon,
-                            SubRiskFactors: null
-                            ));
+            var dto = new RiskFactorDto(
+                Id: riskFactor.Id.Value,
+                SubRiskFactor: riskFactor.SubRiskFactors?.ToRiskFactorDto().ToList(),
+                RiskFactorParentId: riskFactor.RiskFactorParentId?.Value,
+                Key: riskFactor.Key,
+                Value: riskFactor.Value,
+                Code: riskFactor.Code,
+                Description: riskFactor.Description,
+                IsSelected: riskFactor.IsSelected,
+                Type: riskFactor.Type,
+                Icon: riskFactor.Icon
+            );
+            return dto;
         }
     }
 }

@@ -10,47 +10,154 @@ namespace Registration.Infrastructure.Data.Extensions
     internal class InitialData
     {
         private static readonly string patientId1 = "7506213d-3b5f-4498-b35c-9169a600ff10";
-        private static readonly string registerId = "0f42ff42-f701-48c9-a7b5-c56ad78f55b1";
-        private static readonly string historyId = "0f42ff42-f701-48c9-a7b5-c56ad78f55b1";
-        private static readonly string testId = "0f42ff42-f701-48c9-a7b5-c56ad78f55b1";
+        private static readonly string registerId = "88888888-8888-8888-8888-888888888888";
+
         //Register
-        public static IEnumerable<Register> Registers
+
+        public static Register GetRegisterInitialData()
         {
-            get
+            RegisterId RegisterId = RegisterId.Of(Guid.Parse(registerId));
+
+            // Create family medical history
+            var familyHistory = new List<RiskFactor>
             {
-                try
-                {
-                    var patient = CreatePatients();
-                    var familyHistoryRisk = CreateRiskFactorForFamilyHistory();
-                    var personalMedicalHistory = CreateRiskFactorForPersonalMedicalHistroy();
-                    var disease = CreateRiskFactorForDiseases();
-                    var allergy = CreateRiskFactorForAllergies();
-                    var history = CreateHistory();
-                    var test = CreateTest();
-                    
+                RiskFactor.Create(
+                    key: "FamilyHistory1 (lvl0-1-1child)",
+                    value: "Heart Disease",
+                    code: "FH001",
+                    description: "Family history of heart disease",
+                    isSelected: true,
+                    type: "Cardiovascular",
+                    icon: "heart-icon.png",
+                    subRiskFactor: new List<RiskFactor>
+                    {
+                        RiskFactor.Create(
+                            key: "Heart Diseases (lvl1-1-2child)",
+                            value: "Heart Disease",
+                            code: "HD001",
+                            description: "Family history of heart disease",
+                            isSelected: false,
+                            type: "Cardiovascular",
+                            icon: "heart-icon.png",
+                            subRiskFactor: new List<RiskFactor>
+                            {
+                                RiskFactor.Create(
+                                    key: "ParentalHeartDisease (lvl2-1-0child)",
+                                    value: "Heart Disease (Parental)",
+                                    code: "HD001-P",
+                                    description: "Parental history of heart disease",
+                                    isSelected: false,
+                                    type: "Cardiovascular",
+                                    icon: "heart-icon.png",
+                                    subRiskFactor: []
+                                ),
+                                RiskFactor.Create(
+                                    key: "SiblingHeartDisease (lvl2-2-0child)",
+                                    value: "Heart Disease (Sibling)",
+                                    code: "HD001-S",
+                                    description: "Sibling history of heart disease",
+                                    isSelected: false,
+                                    type: "Cardiovascular",
+                                    icon: "heart-icon.png",
+                                    subRiskFactor: []
+                                )
+                            }
+                        )
+                    }
+                ),
+                RiskFactor.Create(
+                    key: "FamilyHistory2",
+                    value: "Diabetes",
+                    code: "FH002",
+                    description: "Family history of diabetes",
+                    isSelected: true,
+                    type: "Metabolic",
+                    icon: "diabetes-icon.png",
+                    subRiskFactor: []
+                )
+            };
 
-                    // Create a new Register instance
-                    var register = Register.Create(
-                        id: RegisterId.Of(Guid.Parse(registerId)),
-                        patient: patient
-                    );
-                
+            // Create personal medical history
+            var personalHistory = new List<RiskFactor>
+            {
+                RiskFactor.Create(
+                    key: "PersonalHistory1",
+                    value: "Asthma",
+                    code: "PH001",
+                    description: "Personal history of asthma",
+                    isSelected: true,
+                    type: "Respiratory",
+                    icon: "asthma-icon.png",
+                    subRiskFactor: []
+                )
+            };
 
-                    // Add additional properties
-                    register.AddFamilyMedicalHistory(familyHistoryRisk);
-                    register.AddPersonalMedicalHistory(personalMedicalHistory); 
-                    register.AddDisease(disease); 
-                    register.AddAllergy(allergy); 
-                    register.AddHistory(history);
-                    register.AddTests(test);
+            // Create diseases
+            var diseases = new List<RiskFactor>
+            {
+                RiskFactor.Create(
+                    key: "Disease1",
+                    value: "Hypertension",
+                    code: "D001",
+                    description: "Diagnosed with hypertension",
+                    isSelected: true,
+                    type: "Cardiovascular",
+                    icon: "hypertension-icon.png",
+                    subRiskFactor: []
+                )
+            };
 
-                    return new List<Register> { register };
-                }
-                catch (Exception ex)
-                {
-                    throw new EntityCreationException(nameof(Register), ex.Message);
-                }
-            }
+            // Create allergies
+            var allergies = new List<RiskFactor>
+            {
+                RiskFactor.Create(
+                    key: "Allergy1",
+                    value: "Peanut Allergy",
+                    code: "A001",
+                    description: "Allergic to peanuts",
+                    isSelected: true,
+                    type: "Food",
+                    icon: "peanut-icon.png",
+                    subRiskFactor: []
+                )
+            };
+
+            // Create history
+            var historyList = new List<History>
+            {
+                History.Create(RegisterId, HistoryStatus.Resident,new DateTime(2022, 5, 15)),
+                History.Create(RegisterId, HistoryStatus.Out,new DateTime(2023, 2, 1))
+            };
+
+            var testList = new List<Test>
+            {
+                Test.Create(RegisterId,"T001", "Complete Blood Count", Language.English, TestType.LabTest),
+                Test.Create(RegisterId,"T002", "Physical Examination", Language.French, TestType.ClinicTest)
+            };
+
+            // Create Register instance with static data
+            /*var register = Register.Create(RegisterId, patient);
+
+            register.AddFamilyMedicalHistory(familyHistory);
+            register.AddPersonalMedicalHistory(personalHistory);
+            register.AddDisease(diseases);
+            register.AddAllergy(allergies);
+            register.AddHistory(historyList);
+            register.AddTests(testList);*/
+            
+            // Create Register instance with static data
+            var register = Register.Create(
+                RegisterId,
+                CreatePatients(),
+                familyHistory,
+                personalHistory,
+                diseases,
+                allergies,
+                historyList,
+                testList
+            );
+
+            return register;
         }
 
         private static Patient CreatePatients()
@@ -78,94 +185,5 @@ namespace Registration.Infrastructure.Data.Extensions
                             children: Children.ThreeOrMore
                         );
         }
-
-        
-
-         //History
-        private static History CreateHistory()
-        {
-            var cc = History.Create(
-               id: HistoryId.Of(Guid.Parse(historyId)),
-               date: DateTime.Now,
-               status: HistoryStatus.Resident,
-               registerId: RegisterId.Of(Guid.Parse(registerId)));
-            
-            return cc;
-        }
-
-        private static Test CreateTest()
-        {
-            var cc = Test.Create(
-               id: TestId.Of(Guid.Parse(testId)),
-               code: "DateTime.Now",
-               description: "Status.Resident",
-               language: Language.English,
-               type: TestType.ClinicTest,
-               registerId: RegisterId.Of(Guid.Parse(registerId)));
-
-            return cc;
-        }
-
-        private static RiskFactor CreateRiskFactorForAllergies()
-        {
-            var cc = RiskFactor.Create(
-                id: RiskFactorId.Of(Guid.NewGuid()),
-                key: "Smoking",
-                value: "Yes",
-                code: "SMK001",
-                description: "Smoking Description",
-                isSelected: true,
-                type: "Smoking Type",
-                icon: "Smoking Icon",
-                registerId : RegisterId.Of(Guid.Parse(registerId)));
-
-            return cc;
-
-        }
-        private static RiskFactor CreateRiskFactorForDiseases()
-        {
-            var cc = RiskFactor.Create(
-                id: RiskFactorId.Of(Guid.NewGuid()),
-                key: "Smoking",
-                value: "Yes",
-                code: "SMK001",
-                description: "Smoking Description",
-                isSelected: true,
-                type: "Smoking Type",
-                icon: "Smoking Icon",
-                registerId: RegisterId.Of(Guid.Parse(registerId)));
-            return cc;
-            
-        }
-        private static RiskFactor CreateRiskFactorForFamilyHistory()
-        {
-            return RiskFactor.Create(
-                id: RiskFactorId.Of(Guid.NewGuid()),
-                key: "Family History of Heart Disease",
-                value: "Yes",
-                code: "FH001",
-                description: "Family History of Heart Disease Description",
-                isSelected: true,
-                type: "Family History Type",
-                icon: "Family History Icon",
-                registerId: RegisterId.Of(Guid.Parse(registerId))
-            ) ;
-        }
-        
-        private static RiskFactor CreateRiskFactorForPersonalMedicalHistroy()
-        {
-            return RiskFactor.Create(
-                id: RiskFactorId.Of(Guid.NewGuid()),
-                key: "Obesity (BMI > 30)",
-                value: "Yes",
-                code: "OB001",
-                description: "Obesity Description",
-                isSelected: true,
-                type: "Obesity Type",
-                icon: "Obesity Icon",
-                registerId: RegisterId.Of(Guid.Parse(registerId))
-            );
-        }
-        
     }
 }

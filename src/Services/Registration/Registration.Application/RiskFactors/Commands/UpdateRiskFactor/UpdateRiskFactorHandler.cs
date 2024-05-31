@@ -5,7 +5,6 @@ using Registration.Application.Exceptions;
 using Registration.Domain.Models;
 using Registration.Domain.ValueObjects;
 
-
 namespace Registration.Application.RiskFactors.Commands.UpdateRiskFactor
 {
     public class UpdateRiskFactorHandler
@@ -16,12 +15,15 @@ namespace Registration.Application.RiskFactors.Commands.UpdateRiskFactor
             // Update Patient entity from command object
             // save to database
             // return result
-            var riskFactorId = RiskFactorId.Of(command.RiskFactor.Id);
+            var riskFactorId = command.RiskFactor.Id.HasValue
+                ? RiskFactorId.Of(command.RiskFactor.Id.Value)
+                : throw new ArgumentException("RiskFactor.Id cannot be null.", nameof(RiskFactorId));
+
             var riskFactor = await dbContext.RiskFactors.FindAsync([riskFactorId], cancellationToken);
 
             if (riskFactor == null)
             {
-                throw new RiskFactorNotFoundException(command.RiskFactor.Id);
+                throw new RiskFactorNotFoundException(command.RiskFactor.Id ?? Guid.Empty);
             }
 
             UpdatePatientWithNewValues(riskFactor, command.RiskFactor);
@@ -34,8 +36,15 @@ namespace Registration.Application.RiskFactors.Commands.UpdateRiskFactor
 
         private static void UpdatePatientWithNewValues(RiskFactor riskFactor, RiskFactorDto riskFactorDto)
         {
-            riskFactor.Update(riskFactorDto.Key, riskFactorDto.Value,riskFactorDto.Code ,riskFactorDto.Description,riskFactorDto.IsSelected,riskFactorDto.Type,riskFactorDto.Icon);
+            riskFactor.Update(riskFactorDto.Key,
+                riskFactorDto.Value,
+                riskFactorDto.Description,
+                riskFactorDto.IsSelected,
+                riskFactorDto.Type,
+                riskFactorDto.Icon,
+                riskFactorDto.Code,
+                [] //TODO subriskfactordto to riskfactor
+                );
         }
-
     }
 }

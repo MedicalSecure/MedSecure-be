@@ -12,8 +12,8 @@ using Registration.Infrastructure.Data;
 namespace Registration.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240523164008_addReg")]
-    partial class addReg
+    [Migration("20240531111610_initialData")]
+    partial class initialData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,66 @@ namespace Registration.Infrastructure.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("RegisterAllergy", b =>
+                {
+                    b.Property<Guid>("RegisterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RiskFactorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RegisterId", "RiskFactorId");
+
+                    b.HasIndex("RiskFactorId");
+
+                    b.ToTable("RegisterAllergy");
+                });
+
+            modelBuilder.Entity("RegisterDisease", b =>
+                {
+                    b.Property<Guid>("RegisterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RiskFactorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RegisterId", "RiskFactorId");
+
+                    b.HasIndex("RiskFactorId");
+
+                    b.ToTable("RegisterDisease");
+                });
+
+            modelBuilder.Entity("RegisterFamilyMedicalHistory", b =>
+                {
+                    b.Property<Guid>("RegisterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RiskFactorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RegisterId", "RiskFactorId");
+
+                    b.HasIndex("RiskFactorId");
+
+                    b.ToTable("RegisterFamilyMedicalHistory");
+                });
+
+            modelBuilder.Entity("RegisterPersonalMedicalHistory", b =>
+                {
+                    b.Property<Guid>("RegisterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RiskFactorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RegisterId", "RiskFactorId");
+
+                    b.HasIndex("RiskFactorId");
+
+                    b.ToTable("RegisterPersonalMedicalHistory");
+                });
 
             modelBuilder.Entity("Registration.Domain.Models.History", b =>
                 {
@@ -36,8 +96,7 @@ namespace Registration.Infrastructure.Data.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("Date")
-                        .IsRequired()
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LastModified")
@@ -50,6 +109,7 @@ namespace Registration.Infrastructure.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("Resident");
@@ -79,7 +139,7 @@ namespace Registration.Infrastructure.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool?>("AddressIsRegisterations")
+                    b.Property<bool>("AddressIsRegisterations")
                         .HasColumnType("bit");
 
                     b.Property<string>("Assurance")
@@ -126,6 +186,7 @@ namespace Registration.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Gender")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("Other");
@@ -150,7 +211,7 @@ namespace Registration.Infrastructure.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool?>("SaveForNextTime")
+                    b.Property<bool>("SaveForNextTime")
                         .HasColumnType("bit");
 
                     b.Property<string>("State")
@@ -178,13 +239,15 @@ namespace Registration.Infrastructure.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uniqueidentifier");
@@ -205,121 +268,56 @@ namespace Registration.Infrastructure.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("Icon")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.Property<bool>("IsSelected")
+                    b.Property<bool?>("IsSelected")
                         .HasColumnType("bit");
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
-                    b.Property<Guid>("RegisterIdForAllergy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RegisterIdForDisease")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RegisterIdForFamilyMedicalHistory")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RegisterIdForPersonalMedicalHistory")
+                    b.Property<Guid?>("RiskFactorParentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RegisterIdForAllergy");
-
-                    b.HasIndex("RegisterIdForDisease");
-
-                    b.HasIndex("RegisterIdForFamilyMedicalHistory");
-
-                    b.HasIndex("RegisterIdForPersonalMedicalHistory");
+                    b.HasIndex("RiskFactorParentId");
 
                     b.ToTable("RiskFactors");
-                });
-
-            modelBuilder.Entity("Registration.Domain.Models.SubRiskFactor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Icon")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsSelected")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("RiskFactorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RiskFactorId");
-
-                    b.ToTable("SubRiskFactors");
                 });
 
             modelBuilder.Entity("Registration.Domain.Models.Test", b =>
@@ -369,6 +367,66 @@ namespace Registration.Infrastructure.Data.Migrations
                     b.ToTable("Tests");
                 });
 
+            modelBuilder.Entity("RegisterAllergy", b =>
+                {
+                    b.HasOne("Registration.Domain.Models.Register", null)
+                        .WithMany()
+                        .HasForeignKey("RegisterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Registration.Domain.Models.RiskFactor", null)
+                        .WithMany()
+                        .HasForeignKey("RiskFactorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RegisterDisease", b =>
+                {
+                    b.HasOne("Registration.Domain.Models.Register", null)
+                        .WithMany()
+                        .HasForeignKey("RegisterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Registration.Domain.Models.RiskFactor", null)
+                        .WithMany()
+                        .HasForeignKey("RiskFactorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RegisterFamilyMedicalHistory", b =>
+                {
+                    b.HasOne("Registration.Domain.Models.Register", null)
+                        .WithMany()
+                        .HasForeignKey("RegisterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Registration.Domain.Models.RiskFactor", null)
+                        .WithMany()
+                        .HasForeignKey("RiskFactorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RegisterPersonalMedicalHistory", b =>
+                {
+                    b.HasOne("Registration.Domain.Models.Register", null)
+                        .WithMany()
+                        .HasForeignKey("RegisterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Registration.Domain.Models.RiskFactor", null)
+                        .WithMany()
+                        .HasForeignKey("RiskFactorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Registration.Domain.Models.History", b =>
                 {
                     b.HasOne("Registration.Domain.Models.Register", null)
@@ -391,38 +449,12 @@ namespace Registration.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Registration.Domain.Models.RiskFactor", b =>
                 {
-                    b.HasOne("Registration.Domain.Models.Register", null)
-                        .WithMany("Allergy")
-                        .HasForeignKey("RegisterIdForAllergy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Registration.Domain.Models.Register", null)
-                        .WithMany("Disease")
-                        .HasForeignKey("RegisterIdForDisease")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Registration.Domain.Models.Register", null)
-                        .WithMany("FamilyMedicalHistory")
-                        .HasForeignKey("RegisterIdForFamilyMedicalHistory")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Registration.Domain.Models.Register", null)
-                        .WithMany("PersonalMedicalHistory")
-                        .HasForeignKey("RegisterIdForPersonalMedicalHistory")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Registration.Domain.Models.SubRiskFactor", b =>
-                {
-                    b.HasOne("Registration.Domain.Models.RiskFactor", null)
+                    b.HasOne("Registration.Domain.Models.RiskFactor", "RiskFactorParent")
                         .WithMany("SubRiskFactors")
-                        .HasForeignKey("RiskFactorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RiskFactorParentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("RiskFactorParent");
                 });
 
             modelBuilder.Entity("Registration.Domain.Models.Test", b =>
@@ -436,15 +468,7 @@ namespace Registration.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Registration.Domain.Models.Register", b =>
                 {
-                    b.Navigation("Allergy");
-
-                    b.Navigation("Disease");
-
-                    b.Navigation("FamilyMedicalHistory");
-
                     b.Navigation("History");
-
-                    b.Navigation("PersonalMedicalHistory");
 
                     b.Navigation("Tests");
                 });

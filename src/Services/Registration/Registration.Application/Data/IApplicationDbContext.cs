@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Registration.Domain.Models;
 
 namespace Registration.Application.Data
@@ -10,10 +9,8 @@ namespace Registration.Application.Data
         DbSet<Domain.Models.Register> Registers { get; }
         DbSet<RiskFactor> RiskFactors { get; }
 
-        DbSet<SubRiskFactor> SubRiskFactors { get; }
         DbSet<History> Histories { get; }
         DbSet<Test> Tests { get; }
-
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

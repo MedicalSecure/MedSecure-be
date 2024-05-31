@@ -1,5 +1,101 @@
-﻿namespace Registration.Domain.Models;
+﻿using Registration.Domain.ValueObjects;
 
+namespace Registration.Domain.Models;
+
+public class RiskFactor : Aggregate<RiskFactorId>
+{
+    public IReadOnlyList<RiskFactor> SubRiskFactors => _subRiskFactors.AsReadOnly();
+
+    //Navigation property can be null
+    public RiskFactor? RiskFactorParent { get; private set; } = default!;
+
+    public RiskFactorId? RiskFactorParentId { get; private set; } = default!;
+
+    public string Key { get; private set; } = default!;
+
+    public string Value { get; private set; } = default!;
+    public string? Code { get; private set; } = default!;
+    public string? Description { get; private set; } = default!;
+    public Boolean? IsSelected { get; private set; } = false;
+    public string? Type { get; private set; } = default!;
+    public string? Icon { get; private set; } = default!;
+
+    private readonly List<RiskFactor> _subRiskFactors = new();
+
+    public static RiskFactor Create(RiskFactorId id, string key, string value, string? code, string? description, Boolean? isSelected, string? type, string? icon, List<RiskFactor>? subRiskFactor = null)
+    {
+        var riskFactor = new RiskFactor
+        {
+            Id = id,
+            Key = key,
+            Value = value,
+            Code = code,
+            Description = description,
+            IsSelected = isSelected,
+            Type = type,
+            Icon = icon,
+        };
+        riskFactor.AddSubRiskFactor(subRiskFactor);
+        riskFactor.AddDomainEvent(new RiskFactorCreatedEvent(riskFactor));
+        return riskFactor;
+    }
+
+    public static RiskFactor Create(string key, string value, string? code, string? description, Boolean? isSelected, string? type, string? icon, List<RiskFactor>? subRiskFactor = null)
+    {
+        var riskFactor = new RiskFactor
+        {
+            Id = RiskFactorId.Of(Guid.NewGuid()),
+            Key = key,
+            Value = value,
+            Code = code,
+            Description = description,
+            IsSelected = isSelected,
+            Type = type,
+            Icon = icon
+        };
+        riskFactor.AddSubRiskFactor(subRiskFactor);
+        riskFactor.AddDomainEvent(new RiskFactorCreatedEvent(riskFactor));
+        return riskFactor;
+    }
+
+    public void Update(string key, string value, string? description, Boolean? isSelected, string? type, string? icon, string? code, List<RiskFactor>? subRiskFactor)
+    {
+        Key = key;
+        Value = value;
+        Description = description;
+        IsSelected = isSelected;
+        Type = type;
+        Icon = icon;
+        Code = code;
+        _subRiskFactors.Clear();
+        AddSubRiskFactor(subRiskFactor);
+        AddDomainEvent(new RiskFactorUpdatedEvent(this));
+    }
+
+    public void AddSubRiskFactor(RiskFactor? subRiskFactor)
+    {
+        if (subRiskFactor == null)
+            return;
+        //throw new ArgumentNullException(nameof(subRiskFactor));
+
+        _subRiskFactors.Add(subRiskFactor);
+    }
+
+    public void AddSubRiskFactor(List<RiskFactor?>? subRiskFactor)
+    {
+        if (subRiskFactor == null)
+            return;
+        //throw new ArgumentNullException(nameof(subRiskFactor));
+
+        var notNullList = subRiskFactor.Where(sub => sub != null).Select(sub => sub);
+        foreach (var sub in notNullList)
+        {
+            AddSubRiskFactor(sub);
+        }
+    }
+}
+
+/*
 public class RiskFactor : Aggregate<RiskFactorId>
 {
     // Properties
@@ -99,4 +195,4 @@ public class RiskFactor : Aggregate<RiskFactorId>
 
         _subRiskFactors.Add(subRiskFactor);
     }
-}
+}*/

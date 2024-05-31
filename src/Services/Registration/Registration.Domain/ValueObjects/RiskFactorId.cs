@@ -1,5 +1,4 @@
-﻿
-namespace Registration.Domain.ValueObjects
+﻿namespace Registration.Domain.ValueObjects
 {
     public record RiskFactorId
     {
@@ -15,6 +14,20 @@ namespace Registration.Domain.ValueObjects
                 throw new DomainException("RiskFactorId cannot be empty!");
             }
             return new RiskFactorId(value);
+        }
+        public static RiskFactorId? OfNullable(Guid? value)
+        {
+            if (!value.HasValue)
+            {
+                return null;
+            }
+
+            if (value.Value == Guid.Empty)
+            {
+                throw new DomainException("RiskFactorId cannot be empty!");
+            }
+
+            return new RiskFactorId(value.Value);
         }
     }
 }

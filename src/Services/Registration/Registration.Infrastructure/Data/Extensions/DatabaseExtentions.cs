@@ -1,5 +1,4 @@
-﻿
-namespace Registration.Infrastructure.Data.Extensions;
+﻿namespace Registration.Infrastructure.Data.Extensions;
 
 public static class DatabaseExtentions
 {
@@ -19,17 +18,17 @@ public static class DatabaseExtentions
         await ClearDataAsync(context);
 
         await SeedRegisterAsync(context);
-        
     }
 
     private static async Task SeedRegisterAsync(ApplicationDbContext context)
     {
         if (!await context.Registers.AnyAsync())
         {
-            await context.Registers.AddRangeAsync(InitialData.Registers);
+            await context.Registers.AddAsync(InitialData.GetRegisterInitialData());
             await context.SaveChangesAsync();
         }
     }
+
     //private static async Task SeedPatientAsync(ApplicationDbContext context)
     //{
     //    if (!await context.Patients.AnyAsync())
@@ -44,11 +43,9 @@ public static class DatabaseExtentions
 
         context.Patients.RemoveRange(context.Patients);
         context.Histories.RemoveRange(context.Histories);
-        context.SubRiskFactors.RemoveRange(context.SubRiskFactors);
         context.RiskFactors.RemoveRange(context.RiskFactors);
         context.Tests.RemoveRange(context.Tests);
         context.Registers.RemoveRange(context.Registers);
-        
 
         // Save changes to the database
         await context.SaveChangesAsync();
