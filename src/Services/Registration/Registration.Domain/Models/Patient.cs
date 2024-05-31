@@ -4,16 +4,17 @@ public class Patient : Aggregate<PatientId>
 {
     // Properties
     public string FirstName { get; private set; } = default!;
+
     public string LastName { get; private set; } = default!;
     public DateTime DateOfBirth { get; private set; } = default!;
     public string Identity { get; private set; } = default!;
     public int? CNAM { get; private set; } = default!;
     public string? Assurance { get; private set; } = default!;
-    public Gender? Gender { get; private set; } = default!;
+    public Gender Gender { get; private set; } = default!;
     public int? Height { get; private set; } = default!;
     public int? Weight { get; private set; } = default!;
-    public bool? AddressIsRegisterations { get; private set; } = default!;
-    public bool? SaveForNextTime { get; private set; } = default!;
+    public bool AddressIsRegisterations { get; private set; } = default!;
+    public bool SaveForNextTime { get; private set; } = default!;
     public string? Email { get; private set; } = default!;
     public string? Address1 { get; private set; } = default!;
     public string? Address2 { get; private set; } = default!;
@@ -25,7 +26,8 @@ public class Patient : Aggregate<PatientId>
     public Children? Children { get; private set; } = default!;
 
     // Constructor (private to enforce creation through factory method)
-    private Patient() { }
+    private Patient()
+    { }
 
     // Factory method
     public static Patient Create(
@@ -34,13 +36,13 @@ public class Patient : Aggregate<PatientId>
         string lastName,
         DateTime dateOfBirth,
         string identity,
+        Gender gender,
+        bool addressIsRegisterations,
+        bool saveForNextTime,
         int? cnam,
         string? assurance,
-        Gender? gender,
         int? height,
         int? weight,
-        bool? addressIsRegisterations,
-        bool? saveForNextTime,
         string? email,
         string? address1,
         string? address2,
@@ -86,8 +88,8 @@ public class Patient : Aggregate<PatientId>
         string lastName,
         DateTime dateOfBirth,
         string identity,
+        Gender gender,
         int? cnam,
-        Gender? gender,
         int? height,
         int? weight,
         string? email,

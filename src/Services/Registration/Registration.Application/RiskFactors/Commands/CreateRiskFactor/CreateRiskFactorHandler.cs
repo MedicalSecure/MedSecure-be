@@ -28,17 +28,17 @@ namespace Registration.Application.RiskFactors.Commands.CreateRiskFactor
             return new CreateRiskFactorResult(riskFactor.Id.Value);
         }
 
-        private static RiskFactor CreateNewRiskFactor(RiskFactorDto riskFactorDto)
+        public static RiskFactor CreateNewRiskFactor(RiskFactorDto riskFactorDto)
         {
             var newRiskFactor = RiskFactor.Create(
                 id: RiskFactorId.Of(Guid.NewGuid()),
                 key: riskFactorDto.Key,
                 value: riskFactorDto.Value,
-                code:riskFactorDto.Code,
-                description:riskFactorDto.Description,
-                isSelected:riskFactorDto.IsSelected,
-                type:riskFactorDto.Type,
-                icon:riskFactorDto.Icon,
+                code: riskFactorDto.Code,
+                description: riskFactorDto.Description,
+                isSelected: riskFactorDto.IsSelected,
+                type: riskFactorDto.Type,
+                icon: riskFactorDto.Icon,
                 registerId: RegisterId.Of(Guid.NewGuid())
                 );
 

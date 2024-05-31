@@ -1,4 +1,6 @@
-﻿namespace Registration.Application.Patients.Commands.CreatePatient
+﻿using Registration.Application.Dtos;
+
+namespace Registration.Application.Patients.Commands.CreatePatient
 {
     public class CreatePatientHandler(IApplicationDbContext dbContext) : ICommandHandler<CreatePatientCommand, CreatePatientResult>
     {
@@ -15,33 +17,32 @@
             return new CreatePatientResult(patient.Id.Value);
         }
 
-        private static Patient CreateNewPatient(PatientDto patientDto)
+        public static Patient CreateNewPatient(PatientDto patientDto)
         {
             var newPatient = Patient.Create(
-                id: PatientId.Of(Guid.NewGuid()),
-                firstName: patientDto.FirstName ?? string.Empty, // Default value if FirstName is null
-                lastName: patientDto.LastName ?? string.Empty, // Default value if LastName is null
-                dateOfBirth: patientDto.DateOfBirth,
-                identity: patientDto.Identity ?? string.Empty, // Default value if Identity is null
-                cnam: patientDto.CNAM ?? 0, // Default value if CNAM is null
-                assurance: patientDto.Assurance,
-                gender: patientDto.Gender ?? Gender.Male,
-                height: patientDto.Height ?? 0, // Default value if Height is null
-                weight: patientDto.Weight ?? 0, // Default value if Weight is null
-                addressIsRegisterations: patientDto.AddressIsRegistrations,
-                saveForNextTime: patientDto.SaveForNextTime,
-                email: patientDto.Email,
-                address1: patientDto.Address1,
-                address2: patientDto.Address2,
-                country: patientDto.Country,
-                state: patientDto.State,
-                zipCode: patientDto.ZipCode ?? 0, // Default value if ZipCode is null
-                familyStatus: patientDto.FamilyStatus,
-                children: patientDto.Children
+            id: PatientId.Of(Guid.NewGuid()),
+                    firstName: patientDto.FirstName,
+                    lastName: patientDto.LastName,
+                    dateOfBirth: patientDto.DateOfBirth,
+                    identity: patientDto.Identity,
+                    gender: patientDto.Gender,
+                    addressIsRegisterations: patientDto.AddressIsRegistrations ?? true,
+                    saveForNextTime: patientDto.SaveForNextTime ?? true,
+                    cnam: patientDto.CNAM,
+                    assurance: patientDto.Assurance,
+                    height: patientDto.Height,
+                    weight: patientDto.Weight,
+                    email: patientDto.Email,
+                    address1: patientDto.Address1,
+                    address2: patientDto.Address2,
+                    country: patientDto.Country ?? Country.TN, // Assuming default value for Country is Unknown
+                    state: patientDto.State,
+                    zipCode: patientDto.ZipCode ?? 0, // Assuming default value for ZipCode is 0
+                    familyStatus: patientDto.FamilyStatus ?? FamilyStatus.SINGLE, // Assuming default value for FamilyStatus is Unknown
+                    children: patientDto.Children ?? Children.None // Assuming default value for Children is Unknown
             );
 
             return newPatient;
         }
-
     }
 }

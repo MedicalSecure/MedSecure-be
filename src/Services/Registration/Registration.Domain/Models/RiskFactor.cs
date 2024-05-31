@@ -1,45 +1,47 @@
 ﻿namespace Registration.Domain.Models;
 
-    public class RiskFactor : Aggregate<RiskFactorId>
-    {
-        // Properties
-        public string Key { get; private set; } = default!;
-        public string Value { get; private set; } = default!;
-        public string Code { get; private set; } = default!;
-        public string Description { get; private set; } = default!;
-        public bool IsSelected { get; private set; } = false;
-        public string Type { get; private set; } = default!;
-        public string Icon { get; private set; } = default!;
-        public IReadOnlyList<SubRiskFactor> SubRiskFactors => _subRiskFactors.AsReadOnly();
+public class RiskFactor : Aggregate<RiskFactorId>
+{
+    // Properties
+    public string Key { get; private set; } = default!;
 
-        // Foreign key for Disease relationship
-        public RegisterId RegisterIdForDisease { get; private set; } = default!;
+    public string Value { get; private set; } = default!;
+    public string? Code { get; private set; } = default!;
+    public string? Description { get; private set; } = default!;
+    public bool? IsSelected { get; private set; } = false;
+    public string? Type { get; private set; } = default!;
+    public string? Icon { get; private set; } = default!;
+    public IReadOnlyList<SubRiskFactor> SubRiskFactors => _subRiskFactors.AsReadOnly();
 
-        // Foreign key for Allergy relationship
-        public RegisterId RegisterIdForAllergy { get; private set; } = default!;
+    // Foreign key for Disease relationship
+    public RegisterId RegisterIdForDisease { get; private set; } = default!;
 
-        // Foreign key for FamilyMedicalHistory relationship
-        public RegisterId RegisterIdForFamilyMedicalHistory { get; private set; } = default!;
+    // Foreign key for Allergy relationship
+    public RegisterId RegisterIdForAllergy { get; private set; } = default!;
 
-        // Foreign key for PersonalMedicalHistory relationship
-        public RegisterId RegisterIdForPersonalMedicalHistory { get; private set; } = default!;
+    // Foreign key for FamilyMedicalHistory relationship
+    public RegisterId RegisterIdForFamilyMedicalHistory { get; private set; } = default!;
 
-        // Fields
-        private readonly List<SubRiskFactor> _subRiskFactors = new();
+    // Foreign key for PersonalMedicalHistory relationship
+    public RegisterId RegisterIdForPersonalMedicalHistory { get; private set; } = default!;
+
+    // Fields
+    private readonly List<SubRiskFactor> _subRiskFactors = new();
 
     // Constructor (private to enforce creation through factory method)
-    private RiskFactor() { }
+    private RiskFactor()
+    { }
 
     // Factory method
     public static RiskFactor Create(
         RiskFactorId id,
         string key,
         string value,
-        string code,
-        string description,
-        bool isSelected,
-        string type,
-        string icon,
+        string? code,
+        string? description,
+        bool? isSelected,
+        string? type,
+        string? icon,
         RegisterId registerId)
     {
         if (string.IsNullOrWhiteSpace(key))
@@ -57,7 +59,7 @@
             Icon = icon ?? string.Empty,
             RegisterIdForAllergy = registerId,
             RegisterIdForDisease = registerId,
-            RegisterIdForFamilyMedicalHistory = registerId, 
+            RegisterIdForFamilyMedicalHistory = registerId,
             RegisterIdForPersonalMedicalHistory = registerId,
         };
 

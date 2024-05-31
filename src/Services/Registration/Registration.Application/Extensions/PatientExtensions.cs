@@ -9,28 +9,29 @@ namespace Registration.Application.Extensions
         public static PatientDto ToPatientDto(this Patient p)
         {
             return new PatientDto(
-                id: p.Id.Value,
-                firstName: p.FirstName,
-                lastName: p.LastName,
-                dateOfBirth: p.DateOfBirth,
-                identity: p.Identity,
-                cnam: p.CNAM,
-                assurance: p.Assurance,
-                gender: p.Gender,
-                height: p.Height,
-                weight: p.Weight,
-                addressIsRegistrations: p.AddressIsRegisterations,
-                saveForNextTime: p.SaveForNextTime,
-                email: p.Email,
-                address1: p.Address1,
-                address2: p.Address2,
-                country: p.Country,
-                state: p.State,
-                zipCode: p.ZipCode,
-                familyStatus: p.FamilyStatus,
-                children: p.Children
-                );
+                Id: p.Id.Value,
+                FirstName: p.FirstName,
+                LastName: p.LastName,
+                DateOfBirth: p.DateOfBirth,
+                Identity: p.Identity,
+                CNAM: p.CNAM,
+                Assurance: p.Assurance,
+                Gender: p.Gender,
+                Height: p.Height,
+                Weight: p.Weight,
+                AddressIsRegistrations: p.AddressIsRegisterations,
+                SaveForNextTime: p.SaveForNextTime,
+                Email: p.Email,
+                Address1: p.Address1,
+                Address2: p.Address2,
+                Country: p.Country,
+                State: p.State,
+                ZipCode: p.ZipCode,
+                FamilyStatus: p.FamilyStatus,
+                Children: p.Children
+            );
         }
+
         public static IEnumerable<PatientDto> ToPatientDto(this List<Patient> patients)
         {
             return patients.Select(p => p.ToPatientDto());
