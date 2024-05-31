@@ -11,12 +11,17 @@
 
         public async Task<UpdateTestResult> Handle(UpdateTestCommand command, CancellationToken cancellationToken)
         {
-            var testId = TestId.Of(command.Test.Id);
+            if (command.Test == null || command.Test?.Id == null)
+            {
+                throw new ArgumentNullException("Test id is required for updates");
+            }
+
+            var testId = TestId.Of(command.Test.Id ?? Guid.NewGuid());
             var test = await _dbContext.Tests.FindAsync([testId], cancellationToken);
 
             if (test == null)
             {
-                throw new TestNotFoundException(command.Test.Id);
+                throw new TestNotFoundException(testId.Value);
             }
 
             UpdateTest(test, command.Test);

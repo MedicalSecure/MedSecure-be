@@ -37,7 +37,10 @@
                 patientDto.DateOfBirth,
                 patientDto.Identity ?? patient.Identity,
                 patientDto.Gender,
+                patientDto.AddressIsRegistrations ?? patient.AddressIsRegisterations,
+                patientDto.SaveForNextTime ?? patient.SaveForNextTime,
                 patientDto.CNAM ?? patient.CNAM,
+                patientDto.Assurance ?? patient.Assurance,
                 patientDto.Height ?? patient.Height,
                 patientDto.Weight ?? patient.Weight,
                 patientDto.Email ?? patient.Email,
@@ -45,6 +48,7 @@
                 patientDto.Address2 ?? patient.Address2,
                 patientDto.Country ?? patient.Country,
                 patientDto.State ?? patient.State,
+                patientDto.ZipCode ?? patient.ZipCode,
                 patientDto.FamilyStatus ?? patient.FamilyStatus,
                 patientDto.Children ?? patient.Children);
         }

@@ -13,6 +13,8 @@ namespace Registration.Application.RiskFactors.Queries.GetRiskFactors
         public async Task<GetRiskFactorsResult> Handle(GetRiskFactorsQuery query, CancellationToken cancellationToken)
 
         {
+
+            bool removeDuplicatedRiskFactors = true;
             // get patients with pagination
             // return result
 
@@ -21,18 +23,32 @@ namespace Registration.Application.RiskFactors.Queries.GetRiskFactors
 
             var totalCount = await dbContext.RiskFactors.LongCountAsync(cancellationToken);
 
-            var riskFactors = await dbContext.RiskFactors
-                           .OrderBy(o => o.Key)
-                           .Skip(pageSize * pageIndex)
-                           .Take(pageSize)
-                           .ToListAsync(cancellationToken);
+            var riskFactors = removeDuplicatedRiskFactors ? 
+                    await dbContext.RiskFactors
+                           .OrderByDescending(o => o.CreatedAt)
+                           .ToListAsync(cancellationToken) :
+                    await dbContext.RiskFactors
+                        .OrderByDescending(o => o.CreatedAt)
+                        .Skip(pageSize * pageIndex)
+                        .Take(pageSize)
+                        .ToListAsync(cancellationToken);
 
+
+            IEnumerable<RiskFactorDto> dtos = [];
+            if (removeDuplicatedRiskFactors)
+                dtos = riskFactors
+                .Where(r => r.RiskFactorParentId == null) // don't include the children in the parent list(hey are duplicated in two levels), they will be included inside the parents
+                .ToRiskFactorDto();
+            else
+                dtos = riskFactors
+                .ToRiskFactorDto();
+                
             return new GetRiskFactorsResult(
                 new PaginatedResult<RiskFactorDto>(
-                    pageIndex,
-                    pageSize,
+                    removeDuplicatedRiskFactors ? 0 : pageIndex,
+                    removeDuplicatedRiskFactors ? dtos.Count() : pageSize,
                     totalCount,
-                    riskFactors.ToRiskFactorDto()));
+                    dtos));
         }
     }
 }

@@ -39,18 +39,18 @@ public class Patient : Aggregate<PatientId>
         Gender gender,
         bool addressIsRegisterations,
         bool saveForNextTime,
-        int? cnam,
-        string? assurance,
-        int? height,
-        int? weight,
-        string? email,
-        string? address1,
-        string? address2,
-        Country? country,
-        string? state,
-        int? zipCode,
-        FamilyStatus? familyStatus,
-        Children? children)
+        int? cnam = null,
+        string? assurance = null,
+        int? height = null,
+        int? weight = null,
+        string? email = null,
+        string? address1 = null,
+        string? address2 = null,
+        Country? country = null,
+        string? state = null,
+        int? zipCode = null,
+        FamilyStatus? familyStatus = null,
+        Children? children = null)
     {
         // Validate parameters here
 
@@ -83,22 +83,26 @@ public class Patient : Aggregate<PatientId>
     }
 
     // Method to update the patient
-    public void Update(
+    public bool Update(
         string firstName,
         string lastName,
         DateTime dateOfBirth,
         string identity,
         Gender gender,
-        int? cnam,
-        int? height,
-        int? weight,
-        string? email,
-        string? address1,
-        string? address2,
-        Country? country,
-        string? state,
-        FamilyStatus? familyStatus,
-        Children? children)
+        bool addressIsRegisterations,
+        bool saveForNextTime,
+        int? cnam = null,
+        string? assurance = null,
+        int? height = null,
+        int? weight = null,
+        string? email = null,
+        string? address1 = null,
+        string? address2 = null,
+        Country? country = null,
+        string? state = null,
+        int? zipCode = null,
+        FamilyStatus? familyStatus = null,
+        Children? children = null)
     {
         // Validate parameters here if necessary
 
@@ -117,7 +121,12 @@ public class Patient : Aggregate<PatientId>
         State = state;
         FamilyStatus = familyStatus;
         Children = children;
+        AddressIsRegisterations = addressIsRegisterations;
+        SaveForNextTime = saveForNextTime;
+        Assurance = assurance;
+        ZipCode = zipCode;
 
         AddDomainEvent(new PatientUpdatedEvent(this));
+        return true;
     }
 }

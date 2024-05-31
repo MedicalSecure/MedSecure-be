@@ -15,7 +15,7 @@ public class History : Aggregate<HistoryId>
     { }
 
     // Factory method
-    public static History Create(HistoryId id, RegisterId registerId, HistoryStatus? status, DateTime? date)
+    public static History Create(HistoryId id, RegisterId registerId, HistoryStatus? status, DateTime? date = null)
     {
         var history = new History
         {
@@ -28,7 +28,7 @@ public class History : Aggregate<HistoryId>
         return history;
     }
 
-    public static History Create(RegisterId registerId, HistoryStatus? status, DateTime? date)
+    public static History Create(RegisterId registerId, HistoryStatus? status, DateTime? date = null)
     {
         HistoryId id = HistoryId.Of(Guid.NewGuid());
         var history = new History

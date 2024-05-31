@@ -14,12 +14,12 @@ namespace Registration.Application.Extensions
         public static TestDto ToTestDto(this Test t)
         {
             return new TestDto(
-                id: t.Id.Value,
-                code: t.Code,
-                description: t.Description,
-                language: t.Language,
-                testType: t.Type,
-                registerId: t.RegisterId.Value
+                Id: t.Id.Value,
+                Code: t.Code,
+                Description: t.Description,
+                Language: t.Language,
+                TestType: t.Type,
+                RegisterId: t.RegisterId.Value
             );
         }
     }
