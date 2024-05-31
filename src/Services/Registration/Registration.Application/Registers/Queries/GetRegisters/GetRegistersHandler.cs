@@ -1,6 +1,4 @@
-﻿
-
-namespace Registration.Application.Registers.Queries.GetRegisters
+﻿namespace Registration.Application.Registers.Queries.GetRegisters
 {
     public class GetRegistersHandler(IApplicationDbContext dbContext)
         : IQueryHandler<GetRegistersQuery, GetRegistersResult>
@@ -20,24 +18,32 @@ namespace Registration.Application.Registers.Queries.GetRegisters
             var riskFactor = await dbContext.RiskFactors.ToListAsync(cancellationToken);
 
             var registers = await dbContext.Registers
-                            .Include(t =>t.Patient)
-                            .Include(t=>t.Tests)
+                            .Include(t => t.Patient)
+                            .Include(t => t.Tests)
                             .Include(r => r.FamilyMedicalHistory)
                             .Include(r => r.PersonalMedicalHistory)
                             .Include(r => r.Disease)
                             .Include(r => r.Allergy)
-                            .Include(t=>t.History)
+                            .Include(t => t.History)
                             .OrderByDescending(o => o.CreatedAt)
                             .Skip(pageSize * pageIndex)
                             .Take(pageSize)
                             .ToListAsync(cancellationToken);
+
+            var registersDto = registers.Select(register =>
+            {
+                if (register.Status == RegisterStatus.Archived)
+                    return register.ToRegisterDto(isArchived: true);
+                else
+                    return register.ToRegisterDto(isArchived: false);
+            });
 
             return new GetRegistersResult(
                 new PaginatedResult<RegisterDto>(
                     pageIndex,
                     pageSize,
                     totalCount,
-                    registers.ToRegisterDto()));
+                    registersDto));
         }
     }
 }
