@@ -2,6 +2,8 @@
 {
     public enum ActivityStatus
     {
-        LOW , MEDIUM, HIGH
+        Light = 0,
+        Medium = 1,
+        Intense = 2
     }
 }

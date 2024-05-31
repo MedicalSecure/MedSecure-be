@@ -1,4 +1,5 @@
-﻿using System.Reflection.Emit;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 using System.Text.RegularExpressions;
 
 namespace Registration.Infrastructure.Data.Configurations;
@@ -40,13 +41,6 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
                    .IsRequired(false)
                    .HasAnnotation("RegularExpression", new Regex(@"^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$").ToString()); // Strict email format validation
 
-        // Configure Gender property
-        builder.Property(t => t.Gender).HasDefaultValue(Gender.Other)
-               .HasConversion(
-                   v => v.ToString(), // Convert enum to string
-                   gender => (Gender)Enum.Parse(typeof(Gender), gender) // Convert string to enum
-               );
-
         builder.Property(p => p.Height)
                .IsRequired(false);
 
@@ -62,9 +56,8 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
         builder.Property(p => p.State)
                .IsRequired();
 
-
         // Configure ActivityStatus property
-        builder.Property(t => t.ActivityStatus).HasDefaultValue(ActivityStatus.HIGH)
+        builder.Property(t => t.ActivityStatus).HasDefaultValue(ActivityStatus.Light)
                .HasConversion(
                    v => v.ToString(), // Convert enum to string
                    activityStatus => (ActivityStatus)Enum.Parse(typeof(ActivityStatus), activityStatus) // Convert string to enum
@@ -90,5 +83,11 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
                    v => v.ToString(), // Convert enum to string
                    country => (Country)Enum.Parse(typeof(Country), country) // Convert string to enum
                );
+
+        // Configure Gender property
+        builder.Property(p => p.Gender)
+            .HasConversion(
+                v => v.ToString(),
+                v => (Gender)Enum.Parse(typeof(Gender), v));
     }
 }

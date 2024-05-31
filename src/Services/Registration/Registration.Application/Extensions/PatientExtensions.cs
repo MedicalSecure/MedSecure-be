@@ -27,6 +27,7 @@ namespace Registration.Application.Extensions
                 Country: archived ? null : p.Country,
                 State: archived ? "*Archived*" : p.State,
                 ZipCode: archived ? null : p.ZipCode,
+                ActivityStatus: archived ? null : p.ActivityStatus,
                 FamilyStatus: archived ? null : p.FamilyStatus,
                 Children: archived ? null : p.Children
             );
