@@ -50,7 +50,9 @@
                 patientDto.State ?? patient.State,
                 patientDto.ZipCode ?? patient.ZipCode,
                 patientDto.FamilyStatus ?? patient.FamilyStatus,
-                patientDto.Children ?? patient.Children);
+                patientDto.Children ?? patient.Children,
+                patientDto.ActivityStatus ?? patient.ActivityStatus
+                );
         }
     }
 }

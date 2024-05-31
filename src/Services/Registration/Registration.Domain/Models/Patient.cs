@@ -1,4 +1,6 @@
-﻿namespace Registration.Domain.Models;
+﻿using Registration.Domain.Enums;
+
+namespace Registration.Domain.Models;
 
 public class Patient : Aggregate<PatientId>
 {
@@ -50,7 +52,8 @@ public class Patient : Aggregate<PatientId>
         string? state = null,
         int? zipCode = null,
         FamilyStatus? familyStatus = null,
-        Children? children = null)
+        Children? children = null,
+        ActivityStatus? activityStatus = null)
     {
         // Validate parameters here
 
@@ -75,7 +78,8 @@ public class Patient : Aggregate<PatientId>
             State = state,
             ZipCode = zipCode,
             FamilyStatus = familyStatus,
-            Children = children
+            Children = children,
+            ActivityStatus = activityStatus
         };
 
         patient.AddDomainEvent(new PatientCreatedEvent(patient));
@@ -102,7 +106,8 @@ public class Patient : Aggregate<PatientId>
         string? state = null,
         int? zipCode = null,
         FamilyStatus? familyStatus = null,
-        Children? children = null)
+        Children? children = null,
+        ActivityStatus? activityStatus=null)
     {
         // Validate parameters here if necessary
 
@@ -125,6 +130,7 @@ public class Patient : Aggregate<PatientId>
         SaveForNextTime = saveForNextTime;
         Assurance = assurance;
         ZipCode = zipCode;
+        ActivityStatus = activityStatus;
 
         AddDomainEvent(new PatientUpdatedEvent(this));
         return true;

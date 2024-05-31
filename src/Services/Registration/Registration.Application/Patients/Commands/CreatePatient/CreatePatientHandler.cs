@@ -35,11 +35,12 @@ namespace Registration.Application.Patients.Commands.CreatePatient
                     email: patientDto.Email,
                     address1: patientDto.Address1,
                     address2: patientDto.Address2,
-                    country: patientDto.Country ?? Country.TN, // Assuming default value for Country is Unknown
+                    country: patientDto.Country ?? Country.TN, // Assuming default value for Country is TN
                     state: patientDto.State,
-                    zipCode: patientDto.ZipCode ?? 0, // Assuming default value for ZipCode is 0
-                    familyStatus: patientDto.FamilyStatus ?? FamilyStatus.SINGLE, // Assuming default value for FamilyStatus is Unknown
-                    children: patientDto.Children ?? Children.None // Assuming default value for Children is Unknown
+                    zipCode: patientDto.ZipCode,
+                    familyStatus: patientDto.FamilyStatus,
+                    children: patientDto.Children,
+                    activityStatus: patientDto.ActivityStatus 
             );
 
             return newPatient;
