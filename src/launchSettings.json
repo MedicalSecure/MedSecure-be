@@ -7,6 +7,9 @@
         "diet.api": "StartDebugging",
         "waste.api": "StartDebugging",
         "bacPatient.api": "StartDebugging",
+        "prescription.api": "StartDebugging",
+        "medication.api": "StartDebugging",
+        "visit.api": "StartDebugging",
         "yarpapigateway": "StartDebugging"
       }
     }

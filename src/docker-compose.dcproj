@@ -7,7 +7,7 @@
     <ProjectGuid>b40e49e7-e202-4ae1-af18-3462e6d81a07</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>diet.api</DockerServiceName>
+    <DockerServiceName>visit.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

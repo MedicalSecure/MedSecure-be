@@ -1,6 +1,6 @@
-﻿
+﻿namespace Diet.Application.Diets.Commands.CreateDiet;
 
-namespace Diet.Application.Diets.Commands.CreateDiet;
+
 
 public class CreateDietHandler(IPublishEndpoint publishEndpoint, IApplicationDbContext dbContext, IFeatureManager featureManager) : ICommandHandler<CreateDietCommand, CreateDietResult>
 {

@@ -1,0 +1,19 @@
+﻿global using Visit.Application.Data;
+global using Visit.Domain.Abstractions;
+global using Visit.Domain.Enums;
+global using Visit.Domain.Models;
+global using Visit.Domain.ValueObjects;
+global using Visit.Infrastructure;
+global using Visit.Infrastructure.Data;
+global using Visit.Infrastructure.Data.Exceptions;
+global using Visit.Infrastructure.Data.Interceptors;
+global using MediatR;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.ChangeTracking;
+global using Microsoft.EntityFrameworkCore.Diagnostics;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using System.Reflection;
+
