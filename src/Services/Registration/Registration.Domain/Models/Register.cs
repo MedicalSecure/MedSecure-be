@@ -39,7 +39,6 @@ public class Register : Aggregate<RegisterId>
         IEnumerable<RiskFactor>? personalHistory = null,
         IEnumerable<RiskFactor>? diseases = null,
         IEnumerable<RiskFactor>? allergies = null,
-        IEnumerable<History>? historyList = null,
         IEnumerable<Test>? testList = null,
         RegisterStatus status = RegisterStatus.Active)
     {
@@ -57,10 +56,11 @@ public class Register : Aggregate<RegisterId>
         register.AddPersonalMedicalHistory(personalHistory ?? Enumerable.Empty<RiskFactor>());
         register.AddDisease(diseases ?? Enumerable.Empty<RiskFactor>());
         register.AddAllergy(allergies ?? Enumerable.Empty<RiskFactor>());
-        register.AddHistory(historyList ?? Enumerable.Empty<History>());
         register.AddTests(testList ?? Enumerable.Empty<Test>());
-
         register.AddDomainEvent(new RegisterCreatedEvent(register));
+
+        var newHistory = Models.History.Create(id, HistoryStatus.Registered);
+        register.AddHistory(newHistory);
 
         return register;
     }
@@ -87,6 +87,9 @@ public class Register : Aggregate<RegisterId>
     // Methods to add medical history, disease, allergy
     public void AddFamilyMedicalHistory(RiskFactor riskFactor)
     {
+        if (Status == RegisterStatus.Archived)
+            throw new DomainException("Can't modify an archived patient");
+
         if (riskFactor == null)
             throw new ArgumentNullException(nameof(riskFactor));
 
@@ -98,6 +101,8 @@ public class Register : Aggregate<RegisterId>
 
     public void AddPersonalMedicalHistory(RiskFactor riskFactor)
     {
+        if (Status == RegisterStatus.Archived)
+            throw new DomainException("Can't modify an archived patient");
         if (riskFactor == null)
             throw new ArgumentNullException(nameof(riskFactor));
 
@@ -109,6 +114,8 @@ public class Register : Aggregate<RegisterId>
 
     public void AddDisease(RiskFactor riskFactor)
     {
+        if (Status == RegisterStatus.Archived)
+            throw new DomainException("Can't modify an archived patient");
         if (riskFactor == null)
             throw new ArgumentNullException(nameof(riskFactor));
 
@@ -120,6 +127,8 @@ public class Register : Aggregate<RegisterId>
 
     public void AddAllergy(RiskFactor riskFactor)
     {
+        if (Status == RegisterStatus.Archived)
+            throw new DomainException("Can't modify an archived patient");
         if (riskFactor == null)
             throw new ArgumentNullException(nameof(riskFactor));
 
@@ -131,6 +140,8 @@ public class Register : Aggregate<RegisterId>
 
     public void AddTests(Test test)
     {
+        if (Status == RegisterStatus.Archived)
+            throw new DomainException("Can't modify an archived patient");
         if (test == null)
             throw new ArgumentNullException(nameof(test));
 
@@ -142,6 +153,8 @@ public class Register : Aggregate<RegisterId>
 
     public void AddHistory(History history)
     {
+        if (Status == RegisterStatus.Archived && history.Status != HistoryStatus.Registered)
+            throw new DomainException("Can't add history for an archived patient, except for a new Registred State");
         if (history == null)
             throw new ArgumentNullException(nameof(history));
 

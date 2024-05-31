@@ -37,7 +37,6 @@ namespace Registration.Application.Registers.Commands.CreateRegister
             IEnumerable<RiskFactor>? diseases = registerDto.Diseases?.Select(h => CreateRiskFactorHandler.CreateNewRiskFactor(h, null));
             IEnumerable<RiskFactor>? allergies = registerDto.Allergies?.Select(h => CreateRiskFactorHandler.CreateNewRiskFactor(h, null));
 
-            IEnumerable<History>? historyList = registerDto.History?.Select(h => CreateHistoryHandler.CreateNewHistory(h, newRegisterId.Value));
             IEnumerable<Test>? testList = registerDto.Test?.Select(t => CreateTestHandler.CreateNewTest(t, newRegisterId.Value));
 
             var register = Register.Create(
@@ -47,7 +46,6 @@ namespace Registration.Application.Registers.Commands.CreateRegister
                personalHistory: personalHistory,
                diseases: diseases,
                allergies: allergies,
-               historyList: historyList,
                testList: testList
            );
 

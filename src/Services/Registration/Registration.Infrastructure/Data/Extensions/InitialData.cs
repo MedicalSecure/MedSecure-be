@@ -122,13 +122,6 @@ namespace Registration.Infrastructure.Data.Extensions
                 )
             };
 
-            // Create history
-            var historyList = new List<History>
-            {
-                History.Create(RegisterId, HistoryStatus.Resident,new DateTime(2022, 5, 15)),
-                History.Create(RegisterId, HistoryStatus.Out,new DateTime(2023, 2, 1))
-            };
-
             var testList = new List<Test>
             {
                 Test.Create(RegisterId,"T001", "Complete Blood Count", Language.English, TestType.LabTest),
@@ -144,7 +137,7 @@ namespace Registration.Infrastructure.Data.Extensions
             register.AddAllergy(allergies);
             register.AddHistory(historyList);
             register.AddTests(testList);*/
-            
+
             // Create Register instance with static data
             var register = Register.Create(
                 RegisterId,
@@ -153,7 +146,6 @@ namespace Registration.Infrastructure.Data.Extensions
                 personalHistory,
                 diseases,
                 allergies,
-                historyList,
                 testList
             );
 

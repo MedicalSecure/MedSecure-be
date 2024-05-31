@@ -37,7 +37,7 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
 
         builder.Property(p => p.Email)
                    .HasMaxLength(100) // Update to appropriate max length
-                   .IsRequired()
+                   .IsRequired(false)
                    .HasAnnotation("RegularExpression", new Regex(@"^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$").ToString()); // Strict email format validation
 
         // Configure Gender property
@@ -48,10 +48,10 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
                );
 
         builder.Property(p => p.Height)
-               .IsRequired();
+               .IsRequired(false);
 
         builder.Property(p => p.Weight)
-               .IsRequired();
+               .IsRequired(false);
 
         builder.Property(p => p.Address1)
                .HasMaxLength(50);
