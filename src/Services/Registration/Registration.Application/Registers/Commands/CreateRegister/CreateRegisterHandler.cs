@@ -1,4 +1,6 @@
 ﻿using Registration.Application.Patients.Commands.CreatePatient;
+using Registration.Application.Histories.Commands.CreateHistory;
+using Registration.Application.RiskFactors.Commands.CreateRiskFactor;
 
 namespace Registration.Application.Registers.Commands.CreateRegister
 {
@@ -17,7 +19,7 @@ namespace Registration.Application.Registers.Commands.CreateRegister
             return new CreateRegisterResult(register.Id.Value);
         }
 
-        private static Domain.Models.Register CreateNewRegister(RegisterDto registerDto)
+        private static Register CreateNewRegister(RegisterDto registerDto)
         {
             if (registerDto == null)
             {
@@ -29,11 +31,27 @@ namespace Registration.Application.Registers.Commands.CreateRegister
                 throw new ArgumentNullException(nameof(registerDto.Patient), "PatientDto cannot be null");
             }
 
+            var newRegisterId = RegisterId.Of(Guid.NewGuid());
+            IEnumerable<RiskFactor>? familyHistory = registerDto.FamilyMedicalHistory?.Select(h => CreateRiskFactorHandler.CreateNewRiskFactor(h, null));
+            IEnumerable<RiskFactor>? personalHistory = registerDto.PersonalMedicalHistory?.Select(h => CreateRiskFactorHandler.CreateNewRiskFactor(h, null));
+            IEnumerable<RiskFactor>? diseases = registerDto.Diseases?.Select(h => CreateRiskFactorHandler.CreateNewRiskFactor(h, null));
+            IEnumerable<RiskFactor>? allergies = registerDto.Allergies?.Select(h => CreateRiskFactorHandler.CreateNewRiskFactor(h, null));
+
+            IEnumerable<History>? historyList = registerDto.History?.Select(h => CreateHistoryHandler.CreateNewHistory(h, newRegisterId.Value));
+            IEnumerable<Test>? testList = registerDto.Test?.Select(t => CreateTestHandler.CreateNewTest(t, newRegisterId.Value));
+
+            var register = Register.Create(
+               id: newRegisterId,
+               patient: CreatePatientHandler.CreateNewPatient(registerDto.Patient),
+               familyHistory: familyHistory,
+               personalHistory: personalHistory,
+               diseases: diseases,
+               allergies: allergies,
+               historyList: historyList,
+               testList: testList
+           );
+
             // Accessing properties with null checks and providing default values if they are null
-            var register = Domain.Models.Register.Create(
-                id: RegisterId.Of(Guid.NewGuid()),
-                patient: CreatePatientHandler.CreateNewPatient(registerDto.Patient)
-            );
 
             return register;
         }

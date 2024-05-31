@@ -1,10 +1,8 @@
-﻿
-namespace Registration.Domain.Enums
+﻿namespace Registration.Domain.Enums
 {
-    public enum HistoryStatus
+    public enum RegisterStatus
     {
-        Resident = 0,
-        Out = 1,
-        Registered = 2
+        Active = 0,
+        Archived = 1,
     }
 }

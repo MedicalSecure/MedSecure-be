@@ -22,7 +22,7 @@ public class RiskFactor : Aggregate<RiskFactorId>
 
     private readonly List<RiskFactor> _subRiskFactors = new();
 
-    public static RiskFactor Create(RiskFactorId id, string key, string value, string? code, string? description, Boolean? isSelected, string? type, string? icon, List<RiskFactor>? subRiskFactor = null)
+    public static RiskFactor Create(RiskFactorId id, string key, string value, string? code, string? description, Boolean? isSelected, string? type, string? icon, List<RiskFactor>? subRiskFactor = null, RiskFactorId? riskFactorParentId = null)
     {
         var riskFactor = new RiskFactor
         {
@@ -34,13 +34,14 @@ public class RiskFactor : Aggregate<RiskFactorId>
             IsSelected = isSelected,
             Type = type,
             Icon = icon,
+            RiskFactorParentId = riskFactorParentId,
         };
         riskFactor.AddSubRiskFactor(subRiskFactor);
         riskFactor.AddDomainEvent(new RiskFactorCreatedEvent(riskFactor));
         return riskFactor;
     }
 
-    public static RiskFactor Create(string key, string value, string? code, string? description, Boolean? isSelected, string? type, string? icon, List<RiskFactor>? subRiskFactor = null)
+    public static RiskFactor Create(string key, string value, string? code, string? description, Boolean? isSelected, string? type, string? icon, List<RiskFactor>? subRiskFactor = null, RiskFactorId? riskFactorParentId = null)
     {
         var riskFactor = new RiskFactor
         {
@@ -51,14 +52,15 @@ public class RiskFactor : Aggregate<RiskFactorId>
             Description = description,
             IsSelected = isSelected,
             Type = type,
-            Icon = icon
+            Icon = icon,
+            RiskFactorParentId = riskFactorParentId,
         };
         riskFactor.AddSubRiskFactor(subRiskFactor);
         riskFactor.AddDomainEvent(new RiskFactorCreatedEvent(riskFactor));
         return riskFactor;
     }
 
-    public void Update(string key, string value, string? description, Boolean? isSelected, string? type, string? icon, string? code, List<RiskFactor>? subRiskFactor)
+    public void Update(string key, string value, string? description, Boolean? isSelected, string? type, string? icon, string? code, List<RiskFactor>? subRiskFactor, RiskFactorId? riskFactorParentId = null)
     {
         Key = key;
         Value = value;
@@ -67,6 +69,7 @@ public class RiskFactor : Aggregate<RiskFactorId>
         Type = type;
         Icon = icon;
         Code = code;
+        RiskFactorParentId = riskFactorParentId;
         _subRiskFactors.Clear();
         AddSubRiskFactor(subRiskFactor);
         AddDomainEvent(new RiskFactorUpdatedEvent(this));

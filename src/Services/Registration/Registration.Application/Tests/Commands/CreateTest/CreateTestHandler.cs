@@ -16,7 +16,7 @@ namespace Registration.Application.Registers.Commands.CreateRegister
 
         public async Task<CreateTestResult> Handle(CreateTestCommand command, CancellationToken cancellationToken)
         {
-            if (command.Test.RegisterId == null)
+            if (command.Test.RegisterId == null || command.Test.RegisterId == Guid.Empty)
             {
                 throw new ArgumentNullException("Register Id is required for creating a test");
             }
@@ -28,15 +28,16 @@ namespace Registration.Application.Registers.Commands.CreateRegister
             return new CreateTestResult(test.Id.Value);
         }
 
-        private static Test CreateNewTest(TestDto testDto)
+        public static Test CreateNewTest(TestDto testDto, Guid? registerId = null)
         {
+            Guid finalRegisterId = registerId ?? (testDto.RegisterId ?? Guid.Empty);
             var newTest = Test.Create(
                 id: TestId.Of(Guid.NewGuid()),
                 code: testDto.Code,
                 description: testDto.Description,
                 language: testDto.Language,
                 type: testDto.TestType,
-                registerId: RegisterId.Of(testDto.RegisterId ?? Guid.Empty) // will throw an error, but this line will no be reached, we will check above if the regiser id is null
+                registerId: RegisterId.Of(finalRegisterId) // will throw an error if Guid.Empty, but this line will no be reached, we will check above if the regiser id is null
             );
 
             return newTest;

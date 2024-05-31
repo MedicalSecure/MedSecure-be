@@ -35,12 +35,12 @@ public class Register : Aggregate<RegisterId>
     public static Register Create(
         RegisterId id,
         Patient patient,
-        IEnumerable<RiskFactor> familyHistory = null,
-        IEnumerable<RiskFactor> personalHistory = null,
-        IEnumerable<RiskFactor> diseases = null,
-        IEnumerable<RiskFactor> allergies = null,
-        IEnumerable<History> historyList = null,
-        IEnumerable<Test> testList = null,
+        IEnumerable<RiskFactor>? familyHistory = null,
+        IEnumerable<RiskFactor>? personalHistory = null,
+        IEnumerable<RiskFactor>? diseases = null,
+        IEnumerable<RiskFactor>? allergies = null,
+        IEnumerable<History>? historyList = null,
+        IEnumerable<Test>? testList = null,
         RegisterStatus status = RegisterStatus.Active)
     {
         if (patient == null)
@@ -216,5 +216,4 @@ public class Register : Aggregate<RegisterId>
             AddHistory(history);
         }
     }
-
 }
