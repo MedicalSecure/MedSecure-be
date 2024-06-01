@@ -17,15 +17,20 @@ namespace Registration.Application.Registers.Queries.GetRegistersById
             try
             {
                 var registerId = RegisterId.Of(regId);
+
                 var register = await dbContext.Registers
-                .Include(t => t.Patient)
-                .Include(t => t.Tests)
-                .Include(r => r.FamilyMedicalHistory)
-                .Include(r => r.PersonalMedicalHistory)
-                .Include(r => r.Disease)
-                .Include(r => r.Allergy)
-                .Include(t => t.History)
-                .FirstOrDefaultAsync(r => r.Id == registerId, cancellationToken);
+                    .Include(t => t.Patient)
+                    .Include(t => t.Tests)
+                    .Include(r => r.FamilyMedicalHistory)
+                    .Include(r => r.PersonalMedicalHistory)
+                    .Include(r => r.Disease)
+                    .Include(r => r.Allergy)
+                    .Include(t => t.History)
+                    .FirstOrDefaultAsync(r => r.Id == registerId, cancellationToken);
+
+                //Auto include the riskFactors
+                var riskFactor = await dbContext.RiskFactors.ToListAsync(cancellationToken);
+
 
                 if (register == null)
                     throw new ArgumentNullException(nameof(register) + $" with id {regId} is not found");
