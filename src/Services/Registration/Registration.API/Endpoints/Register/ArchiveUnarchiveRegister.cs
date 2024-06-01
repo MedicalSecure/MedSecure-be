@@ -8,7 +8,7 @@ using Registration.Domain.Enums;
 namespace Registration.Api.Endpoints.Register
 {
     public record ArchiveUnarchiveRegisterRequest(Guid registerId, RegisterStatus registerStatus);
-    public record ArchiveUnarchiveRegisterResponse(string registerId);
+    public record ArchiveUnarchiveRegisterResponse(string id);
 
     public class ArchiveUnarchiveRegister : ICarterModule
     {
@@ -24,7 +24,7 @@ namespace Registration.Api.Endpoints.Register
                         var result = await sender.Send(command);
 
                         var response = new ArchiveUnarchiveRegisterResponse(result.registerId);
-                        return Results.Created($"/registers/status/{response.registerId}", response);
+                        return Results.Created($"/registers/status/{response.id}", response);
                     }
                     catch (Exception ex)
                     {
