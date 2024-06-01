@@ -76,12 +76,59 @@ public class Register : Aggregate<RegisterId>
         AddDomainEvent(new RegisterUpdatedEvent(this));
     }
 
-    public void Archive()
+    public History? Archive()
     {
+        if (this.Status == RegisterStatus.Archived)
+            throw new DomainException("Can't archive an archived patient");
+
         this.Status = RegisterStatus.Archived;
-        History outHistory = Domain.Models.History.Create(this.Id, HistoryStatus.Out, new DateTime());
+
+        var lastAddedHistoryStatus = GetRegistrationStatus();
+        if (lastAddedHistoryStatus == HistoryStatus.Out)
+            return null;
+
+        History outHistory = Domain.Models.History.Create(this.Id, HistoryStatus.Out, DateTime.Now);
         _history.Add(outHistory);
         AddDomainEvent(new RegisterUpdatedEvent(this));
+        return outHistory;
+    }
+
+    public History? Unarchive()
+    {
+        if (this.Status != RegisterStatus.Archived)
+            throw new DomainException("Can't unarchive an already active patient");
+
+        this.Status = RegisterStatus.Active;
+
+        var lastAddedHistoryStatus = GetRegistrationStatus();
+        //if already registered : don't add a new history
+        if (lastAddedHistoryStatus == HistoryStatus.Registered)
+            return null;
+
+        //Add a new Registered History
+        History registeredHistory = Domain.Models.History.Create(this.Id, HistoryStatus.Registered, DateTime.Now);
+        _history.Add(registeredHistory);
+        AddDomainEvent(new RegisterUpdatedEvent(this));
+        return registeredHistory;
+    }
+
+    public HistoryStatus GetRegistrationStatus()
+    {
+        var historyList = this.History;
+        var registerId = this.Id.Value.ToString();
+
+        if (historyList == null || !historyList.Any())
+        {
+            Console.Error.WriteLine($"Can't find register status: in GetRegistrationStatus, registerId: {registerId}, list of history: {string.Join(", ", historyList ?? Enumerable.Empty<History>())}");
+            // we must throw an exception, cuz every created register must have at least one initial registred history
+            throw new InvalidOperationException($"Can't find register status, MRN: {registerId}");
+        }
+
+        // Sort the history list by date in descending order
+        var sortedHistory = historyList.OrderByDescending(h => h.CreatedAt);
+
+        // Return the status of the first history object in the sorted list
+        return sortedHistory.First().Status;
     }
 
     // Methods to add medical history, disease, allergy

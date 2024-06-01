@@ -8,6 +8,7 @@ namespace Registration.Api.Endpoints.Register
 {
     public record CreateRegisterRequest(RegisterDto register);
     public record CreateRegisterResponse(string Id);
+
     public class CreateRegister : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
@@ -23,10 +24,10 @@ namespace Registration.Api.Endpoints.Register
                     var response = result.Adapt<CreateRegisterResponse>();
                     return Results.Created($"/registers/{response.Id}", response);
                 }
-                else {
+                else
+                {
                     return Results.BadRequest("Request object is null.");
                 }
-
             })
             .WithName("CreateRegister")
             .Produces<CreateRegisterResponse>(StatusCodes.Status201Created)

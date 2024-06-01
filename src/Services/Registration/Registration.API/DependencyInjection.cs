@@ -1,5 +1,4 @@
-﻿
-using BuildingBlocks.Exceptions;
+﻿using BuildingBlocks.Exceptions;
 using Carter;
 using HealthChecks.UI.Client;
 
