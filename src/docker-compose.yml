@@ -8,17 +8,60 @@ services:
   message-broker:
     image: rabbitmq:management
 
-  # diet.api:
-  #   image: ${DOCKER_REGISTRY-}dietapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/Diet/Diet.API/Dockerfile
+  yarpapigateway:
+    image: ${DOCKER_REGISTRY-}yarpapigateway
+    build:
+      context: .
+      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
 
-  # waste.api:
-  #   image: ${DOCKER_REGISTRY-}wasteapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/Waste/Waste.API/Dockerfile
+  diet.api:
+    image: ${DOCKER_REGISTRY-}dietapi
+    build:
+      context: .
+      dockerfile: Services/Diet/Diet.API/Dockerfile
+
+
+
+
+
+
+
+
+
+
+
+
+  waste.api:
+    image: ${DOCKER_REGISTRY-}wasteapi
+    build:
+      context: .
+      dockerfile: Services/Waste/Waste.API/Dockerfile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   registration.api:
     image: ${DOCKER_REGISTRY-}registrationapi
@@ -26,9 +69,4 @@ services:
       context: .
       dockerfile: Services/Registration/Registration.API/Dockerfile
 
-  yarpapigateway:
-    image: ${DOCKER_REGISTRY-}yarpapigateway
-    build:
-      context: .
-      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
 
