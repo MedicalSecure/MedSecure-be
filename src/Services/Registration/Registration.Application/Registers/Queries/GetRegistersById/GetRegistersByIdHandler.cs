@@ -13,9 +13,10 @@ namespace Registration.Application.Registers.Queries.GetRegistersById
             var regId = query.Id;
 
             if (regId == Guid.Empty)
-                throw new ArgumentNullException($"Register Id ${regId} is invalid");
+                throw new ArgumentNullException($"Register Id {regId} is invalid");
             try
             {
+                var registerId = RegisterId.Of(regId);
                 var register = await dbContext.Registers
                 .Include(t => t.Patient)
                 .Include(t => t.Tests)
@@ -24,20 +25,18 @@ namespace Registration.Application.Registers.Queries.GetRegistersById
                 .Include(r => r.Disease)
                 .Include(r => r.Allergy)
                 .Include(t => t.History)
-                .FirstOrDefaultAsync(r => r.Id.Value == regId, cancellationToken);
-
+                .FirstOrDefaultAsync(r => r.Id == registerId, cancellationToken);
 
                 if (register == null)
-                    throw new ArgumentNullException(nameof(register) + $" with id ${regId} is not found");
+                    throw new ArgumentNullException(nameof(register) + $" with id {regId} is not found");
                 var registersDto = register.Status == RegisterStatus.Archived ? register.ToRegisterDto(isArchived: true) : register.ToRegisterDto(isArchived: false);
 
                 return new GetRegistersByIdResult(registersDto);
             }
             catch (Exception x)
             {
-                throw new ArgumentNullException($"Register with id ${regId} is not found",x);
+                throw new ArgumentNullException($"Register with id ${regId} is not found", x);
             }
-            
         }
     }
 }
