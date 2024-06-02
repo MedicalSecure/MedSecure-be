@@ -33,7 +33,7 @@ public class CreateUnitCareHandler(IPublishEndpoint publishEndpoint, IApplicatio
         if (await featureManager.IsEnabledAsync("UnitCarePlanSharedFulfillment"))
         {
             // Adapt the command.UnitCare object to a DietPlanSharedEvent and publish it
-            var eventMessage = command.UnitCare.Adapt<DietPlanSharedEvent>();
+            var eventMessage = command.UnitCare.Adapt<UnitCarePlanSharedEvent>();
             await publishEndpoint.Publish(eventMessage, cancellationToken);
         }
 

@@ -16,7 +16,7 @@ public class UpdateUnitCare : ICarterModule
 
             return Results.Ok(response);
         })
-        .WithName("UpdateDiet")
+        .WithName("UpdateUnitCare")
         .Produces<UpdateUnitCareResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Update UnitCare")

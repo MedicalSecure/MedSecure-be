@@ -25,7 +25,11 @@ public async Task<UpdateUnitCareResult> Handle(UpdateUnitCareCommand command, Ca
        UpdateUnitCareWithNewValues(unitCare, command.UnitCare);
 
     dbContext.UnitCares.Update(unitCare);
-    await dbContext.SaveChangesAsync(cancellationToken);
+
+        Guid createdBy = Guid.NewGuid();
+        var newActivity = Domain.Models.Activity.Create(createdBy, $"Updated new {nameof(unitCare)}", "Ranim.M");
+        dbContext.Activities.Add(newActivity);
+        await dbContext.SaveChangesAsync(cancellationToken);
 
     return new UpdateUnitCareResult(true);
     }
