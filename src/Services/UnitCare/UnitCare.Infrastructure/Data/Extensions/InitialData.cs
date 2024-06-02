@@ -77,9 +77,9 @@ namespace UnitCare.Infrastructure.Data.Extensions
                 Equipment.Create(
                     id: EquipmentId.Of(Guid.NewGuid()),
                     roomId: Test2Romm.Id,
-                    name: "Respirateurs",
+                    name: "bed",
                     reference: "21354DMT",
-                    eqStatus:EqStatus.nonAvailable,
+                    eqStatus:EqStatus.available,
                     eqType : EqType.bloodPessureCuffs),
             };
 
