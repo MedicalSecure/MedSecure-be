@@ -38,7 +38,7 @@ namespace UnitCare.Infrastructure.Data.Extensions
                 Equipment.Create(
                     id: EquipmentId.Of(Guid.NewGuid()),
                     roomId: TestRomm.Id,
-                    name: "bed",
+                    name: "Bed",
                     reference: "253DMT",
                     eqStatus:EqStatus.nonAvailable,
                     eqType:EqType.bed),
@@ -77,7 +77,7 @@ namespace UnitCare.Infrastructure.Data.Extensions
                 Equipment.Create(
                     id: EquipmentId.Of(Guid.NewGuid()),
                     roomId: Test2Romm.Id,
-                    name: "bed",
+                    name: "Bed",
                     reference: "21354DMT",
                     eqStatus:EqStatus.available,
                     eqType : EqType.bloodPessureCuffs),
