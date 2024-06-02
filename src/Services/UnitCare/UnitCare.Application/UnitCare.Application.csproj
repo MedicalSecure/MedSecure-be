@@ -19,4 +19,8 @@
     <ProjectReference Include="..\UnitCare.Domain\UnitCare.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Tasks\Commands\UpdateTask\" />
+  </ItemGroup>
+
 </Project>

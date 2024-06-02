@@ -13,7 +13,8 @@ namespace UnitCare.Application.Extensions
                             Id: t.Id.Value,
                             Content: t.Content,
                             TaskState: t.TaskState,
-                            TaskAction: t.TaskAction
+                            TaskAction: t.TaskAction,
+                            CreatedAt:t.CreatedAt
 
                    )).ToList();
         }
