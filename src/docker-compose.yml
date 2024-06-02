@@ -29,7 +29,8 @@ services:
       dockerfile: Services/BacPatient/BacPatient.API/Dockerfile
     depends_on:
        - sql-server-db
- 
+
+
   waste.api:
     image: ${DOCKER_REGISTRY-}wasteapi
     build:
@@ -67,3 +68,13 @@ services:
     build:
       context: .
       dockerfile: Services/Registration/Registration.API/Dockerfile
+    depends_on:
+       - sql-server-db
+
+  unitcare.api:
+    image: ${DOCKER_REGISTRY-}unitcareapi
+    build:
+      context: .
+      dockerfile: Services/UnitCare/UnitCare.API/Dockerfile
+    depends_on:
+       - sql-server-db
