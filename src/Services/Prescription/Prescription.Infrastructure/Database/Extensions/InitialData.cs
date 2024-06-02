@@ -18,7 +18,7 @@
         private static readonly PosologyId posologyId = PosologyId.Of(new Guid("142f0efe-9e11-4808-a7f6-fcb564908772"));
         private static readonly PrescriptionId prescriptionId = PrescriptionId.Of(new Guid("7506213d-3b5f-4498-b35c-9169a600ff12"));
 
-        private static readonly RegisterId registerId = RegisterId.Of(new Guid("77777777-7777-7777-7777-777777777777"));
+        private static readonly RegisterId registerId = RegisterId.Of(new Guid("88888888-8888-8888-8888-888888888888"));
 
         //private static readonly EquipmentId bedId = EquipmentId.Of(new Guid("33333333-3333-3333-3333-333333333333"));
 
