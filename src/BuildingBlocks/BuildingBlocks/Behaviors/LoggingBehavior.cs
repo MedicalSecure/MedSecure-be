@@ -15,7 +15,7 @@ public class LoggingBehavior<TRequest, TRespone>
     public async Task<TRespone> Handle(TRequest request, RequestHandlerDelegate<TRespone> next, CancellationToken cancellationToken)
     {
         logger.LogError("[START] : Handle request={Request} - Response={Response} - RequestData={RequestData}",
-             typeof(TRequest).Name, typeof(TRespone).Name , request);
+             typeof(TRequest).Name, typeof(TRespone).Name, request);
 
         var timer = new Stopwatch();
         timer.Start();
@@ -25,7 +25,7 @@ public class LoggingBehavior<TRequest, TRespone>
         timer.Stop();
         var timeTaken = timer.Elapsed;
 
-        if(timeTaken.Seconds > 3)
+        if (timeTaken.Seconds > 3)
             logger.LogWarning("[PERFORMANCE] The request {Request} took {TimeTaken}.",
                 typeof(TRequest).Name, timeTaken.Seconds);
 
@@ -33,6 +33,5 @@ public class LoggingBehavior<TRequest, TRespone>
                 typeof(TRequest).Name, typeof(TRespone).Name);
 
         return response;
-
     }
 }
