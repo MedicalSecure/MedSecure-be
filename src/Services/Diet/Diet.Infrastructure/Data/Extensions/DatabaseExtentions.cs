@@ -20,8 +20,7 @@ public static class DatabaseExtentions
         await ClearDataAsync(context);
 
         await SeedPatientAsync(context);
-        await SeedDietWithMealDetailsAsync(context);
-    }
+           }
 
     private static async Task SeedPatientAsync(ApplicationDbContext context)
     {
@@ -32,22 +31,13 @@ public static class DatabaseExtentions
         }
     }
 
-    private static async Task SeedDietWithMealDetailsAsync(ApplicationDbContext context)
-    {
-        if (!context.Diets.Any())
-        {
-            await context.Diets.AddRangeAsync(InitialData.Diets);
-            await context.SaveChangesAsync();
-        }
-    }
+    
 
     private static async Task ClearDataAsync(ApplicationDbContext context)
     {
         // Clear all data from tables
         context.Patients.RemoveRange(context.Patients);
-        context.Foods.RemoveRange(context.Foods);
-        context.Meals.RemoveRange(context.Meals);
-        context.Diets.RemoveRange(context.Diets);
+        
 
         // Save changes to the database
         await context.SaveChangesAsync();
