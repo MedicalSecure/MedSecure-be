@@ -25,9 +25,6 @@ namespace Prescription.Application.Features.Activities.Queries.GetActivities
                            .Take(pageSize)
                            .ToListAsync(cancellationToken);
 
-            var message = new HospitalizedPrescription("test");
-            await publishEndpoint.Publish(message, cancellationToken);
-
             return new GetActivitiesResult(
                 new PaginatedResult<ActivityDto>(
                     pageIndex,
