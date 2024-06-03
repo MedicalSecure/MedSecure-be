@@ -78,7 +78,7 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
 
                     if (bed == null)
                     {
-                        throw new Exception($"Cant find empty room for new prescription in UnitCare : {prescriptionDto.UnitCare.Title}");
+                        throw new Exception($"Cant find empty Bed in UnitCare : {prescriptionDto.UnitCare.Title}");
                         //return null;
                     }
                     bedId = EquipmentId.Of(bed.Id);

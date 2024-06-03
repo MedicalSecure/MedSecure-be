@@ -57,7 +57,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                 bed = await GetAvailableRoomFromUnitCare(prescriptionDto.UnitCare, cancellationToken);
                 //only if a unitCare has been selected, throw this error, if unitCare is null => Not hospitalized patient
                 if (bed == null)
-                    throw new Exception($"Cant find empty room for new prescription in UnitCare : {prescriptionDto.UnitCare.Title}");
+                    throw new Exception($"Cant find empty Bed in UnitCare : {prescriptionDto.UnitCare.Title}");
                 //return null;
             }
             if (diet == null && bed != null)
