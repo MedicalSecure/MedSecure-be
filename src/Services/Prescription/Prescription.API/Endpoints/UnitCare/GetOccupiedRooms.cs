@@ -11,7 +11,7 @@ namespace Prescription.API.Endpoints.OccupiedRooms
         {
             app.MapGet("/api/v1/UnitCare/OccupiedRooms", async ([AsParameters] PaginationRequest paginationRequest, ISender sender) =>
             {
-                var result = await sender.Send(new GetOccupiedRoomsQuery(paginationRequest));
+                var result = await sender.Send(new GetOccupiedBedsQuery(paginationRequest));
 
                 var response = result.Adapt<GetOccupiedRoomsResponse>();
 
