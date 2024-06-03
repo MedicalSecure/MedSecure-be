@@ -102,7 +102,9 @@ services:
       - MessageBroker__Host=amqp://medsecure-mq:5672
       - MessageBroker__UserName=guest
       - MessageBroker__Password=guest
-      - FeatureManagement__DietPlanSharedFulfillment=false
+      - FeatureManagement__PrescriptionDiscontinued=true
+      - FeatureManagement__InpatientPrescriptionCreated=true
+      - FeatureManagement__OutPrescriptionCreated=false
     ports:
       - "6007:8080"
       - "6067:8081"
