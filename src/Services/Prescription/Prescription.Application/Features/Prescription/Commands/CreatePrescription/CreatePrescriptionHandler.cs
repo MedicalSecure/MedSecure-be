@@ -1,6 +1,3 @@
-﻿using BacPatient.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-using Prescription.Application.Contracts;
 using Prescription.Application.Exceptions;
 using Prescription.Application.Features.UnitCare.Queries;
 using Prescription.Domain.Entities;
