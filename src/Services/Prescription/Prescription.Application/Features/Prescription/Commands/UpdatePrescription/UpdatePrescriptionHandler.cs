@@ -218,8 +218,7 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
             {
                 foreach (var equipment in room.Equipments)
                 {
-                    //TODO verify bed name in string "Bed" => match ranim's name
-                    if (equipment == null || equipment.Name != "Bed") continue;
+                    if (equipment == null || equipment.EqType != EqType.bed) continue;
 
                     if (equipment.Id == oldBedId)
                     {
@@ -232,27 +231,32 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
 
         private async Task<EquipmentDTO?> GetAvailableBedFromUnitCare(UnitCareDTO unitCare, CancellationToken cancellationToken)
         {
-            var handler = new GetOccupiedRoomsHandler(_dbContext);
+            var handler = new GetOccupiedBedsHandler(_dbContext);
 
-            var req = new GetOccupiedRoomsQuery(new PaginationRequest(0, -1));
-            var occupiedRoomsResult = await handler.Handle(req, cancellationToken);
-            var occupiedRooms = occupiedRoomsResult?.OccupiedRooms?.Data?.ToArray();
-            var allRoomsAreAvailable = occupiedRooms == null || occupiedRooms.Length == 0;
+            var req = new GetOccupiedBedsQuery(new PaginationRequest(0, -1));
+            var occupiedBedsResult = await handler.Handle(req, cancellationToken);
+            var occupiedBedsIds = occupiedBedsResult?.OccupiedRooms?.Data?.ToArray();
+            var allBedsAreAvailable = occupiedBedsIds == null || occupiedBedsIds.Length == 0;
 
-            if (occupiedRooms != null)
+            if (occupiedBedsIds != null)
                 foreach (var room in unitCare.Rooms)
                 {
                     foreach (var equipment in room.Equipments)
                     {
-                        if (equipment == null) continue;
-                        //TODO verify bed name
+                        // jump over the other equipments, we search for beds only
+                        if (equipment == null || equipment.EqType != EqType.bed) continue;
 
-                        if (equipment.Name == "Bed" && allRoomsAreAvailable)
+                        //Now we have only equipments of type BED here
+
+                        //if all beds are available, return this first BED we found
+                        if (allBedsAreAvailable)
                         {
                             return equipment;
                         }
-                        else if (equipment.Name == "Bed" && !occupiedRooms.Contains(EquipmentId.Of(equipment.Id)))
+                        //if this BED is not in the occupied list of bed => return it
+                        else if (occupiedBedsIds.Contains(EquipmentId.Of(equipment.Id)) == false)
                             return equipment;
+                        //if didnt yet return, continue searching for next equipment, then next room...
                     }
                 }
             return null;
