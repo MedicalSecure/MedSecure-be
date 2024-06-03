@@ -25,6 +25,10 @@ namespace BacPatient.Infrastructure.Database.Configurations
 
             builder.Property(d => d.CreatedBy)
                 .HasMaxLength(128);
+
+            builder.Property(p => p.RegisterId)
+            .HasConversion(registedId => registedId.Value,
+                   dbId => RegisterId.Of(dbId));
         }
     }
 }

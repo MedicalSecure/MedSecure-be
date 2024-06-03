@@ -11,7 +11,7 @@ public class MealConfiguration : IEntityTypeConfiguration<Meal>
                .HasConversion(mealId => mealId.Value,
                               dbId => MealId.Of(dbId));
 
-      
+        
         builder.Property(wi => wi.Name).HasMaxLength(255)
               .IsRequired();
 

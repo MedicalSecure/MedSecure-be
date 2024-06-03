@@ -10,7 +10,7 @@ namespace Diet.Domain.ValueObjects
     public record DailyMealId
     {
         public Guid Value { get; }
-
+        public DailyMealId() { }
         private DailyMealId(Guid value) => Value = value;
 
         public static DailyMealId Of(Guid value)

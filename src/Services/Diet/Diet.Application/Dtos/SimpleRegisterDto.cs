@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BacPatient.Application.Dtos.BacPatientSimpleDto
+namespace Diet.Application.Dtos
 {
     public record SimpleRegisterDto
     {

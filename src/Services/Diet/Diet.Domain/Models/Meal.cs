@@ -5,7 +5,9 @@ public class Meal : Aggregate<MealId>
 {
     private readonly List<Food> _foods = new();
     public IReadOnlyList<Food> Foods => _foods.AsReadOnly();
-    public DietId DietId { get; set; } = default!;
+    public DailyMealId DailyMealId { get; set; }
+
+
     public string Name { get; set; } = default!;
     public MealType MealType { get; set; } = MealType.Breakfast;
 
@@ -18,7 +20,6 @@ public class Meal : Aggregate<MealId>
         var meal = new Meal()
         {
             Id = id,
-            DietId = dietId,
             Name = name,
             MealType = mealType,
         };
@@ -35,7 +36,6 @@ public class Meal : Aggregate<MealId>
     {
         Name = name;
         MealType = mealType;
-        DietId = dietId;
 
         AddDomainEvent(new MealUpdatedEvent(this));
     }

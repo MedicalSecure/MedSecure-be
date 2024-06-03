@@ -22,8 +22,7 @@ global using Microsoft.Extensions.Logging;
 global using Microsoft.FeatureManagement;
 global using System.Reflection;
 global using Diet.Domain.Models.RegisterRoot;
-global using BacPatient.Application.Dtos.BacPatientSimpleDto;
 global using Diet.Application.Extensions;
-global using Diet.Application.Extensions.SimpleBacPatientExtension;
+
 
 

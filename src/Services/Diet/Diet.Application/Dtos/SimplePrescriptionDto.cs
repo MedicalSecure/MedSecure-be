@@ -1,6 +1,6 @@
 ﻿
 
-namespace BacPatient.Application.Dtos.BacPatientSimpleDto
+namespace Diet.Application.Dtos
 {
    
         public record SimplePrescriptionDto(

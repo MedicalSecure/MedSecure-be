@@ -38,9 +38,10 @@ public class CreateDietHandler(IPublishEndpoint publishEndpoint, IApplicationDbC
 
         foreach (var meal in dietDto.Meals)
         {
-            var newMeal = DailyMeal.Create(DailyMealId.Of(meal.Id), meal.DietDate);
+            var newMeal = DailyMeal.Create(DailyMealId.Of(Guid.NewGuid()), meal.DietDate);
             newDiet.AddMeal(newMeal);
         }
+    
 
         return newDiet;
     }

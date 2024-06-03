@@ -1,4 +1,6 @@
 ﻿
+
+
 namespace Diet.Domain.Models;
 public class Diet : Aggregate<DietId>
 {
@@ -15,7 +17,11 @@ public class Diet : Aggregate<DietId>
         DateTime startDate,
         DateTime endDate,
         DietType dietType ,
-        string label )
+        string label 
+        
+        
+
+       )
     {
         var diet = new Diet()
         {
@@ -57,6 +63,7 @@ public class Diet : Aggregate<DietId>
         _dailyMeals.Add(meal);
     }
 
+  
     public void RemoveMeal(DailyMealId mealId)
     {
         var mealToRemove = _dailyMeals.FirstOrDefault(meal => meal.Id == mealId);

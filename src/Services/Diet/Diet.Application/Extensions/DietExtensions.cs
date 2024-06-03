@@ -15,9 +15,10 @@ namespace Diet.Application.Extensions
                             StartDate: d.StartDate,
                             EndDate: d.EndDate,
                             Meals: d.DailyMeals.ToDailyMealDto().ToList(),
-                            Label: d.Label
+                            Label: d.Label 
                         )).ToList();
         }
+
 
         public static IEnumerable<DailyMealDto> ToDailyMealDto(this IEnumerable<Domain.Models.DailyMeal> dailyMeals)
         {
@@ -25,7 +26,6 @@ namespace Diet.Application.Extensions
                 Id: dm.Id.Value,
                 Meals: dm.Meals.Select(m => new MealDto(
                     Id: m.Id.Value,
-                    DietId: m.DietId.Value,
                     Name: m.Name,
                     MealType: m.MealType,
                     Foods: m.Foods.Select(f => new FoodDto(
@@ -35,9 +35,12 @@ namespace Diet.Application.Extensions
                         Calories: f.Calories,
                         Description: f.Description,
                         FoodCategory: f.FoodCategory
-                    )).ToList()
+                    )).ToList(),
+                    Comments: dm.Comments.ToSimpleCommentDto().ToList()
+
                 )).ToList(),
                 DietDate: dm.DietDate
+
             )).ToList();
         }
     }

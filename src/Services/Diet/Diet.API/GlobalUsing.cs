@@ -18,3 +18,5 @@ global using HealthChecks.UI.Client;
 global using Mapster;
 global using MediatR;
 global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using Diet.Infrastructure.Data.Extensions;
+

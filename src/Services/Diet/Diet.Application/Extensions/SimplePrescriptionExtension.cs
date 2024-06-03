@@ -1,4 +1,6 @@
-﻿namespace Diet.Application.Extensions.SimpleBacPatientExtension
+﻿using Diet.Application.Dtos;
+
+namespace Diet.Application.Extensions
 {
     public static class SimplePrescriptionExtension
     {

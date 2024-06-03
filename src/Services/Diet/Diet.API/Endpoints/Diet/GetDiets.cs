@@ -14,9 +14,11 @@ public class GetDiets : ICarterModule
     {
         app.MapGet("/diets", async ([AsParameters] PaginationRequest request, ISender sender) =>
         {
+
+
             var result = await sender.Send(new GetDietsQuery(request));
 
-            var response = result.Adapt<GetDietsResponse>();
+            var response = new GetDietsResponse(result.Diets);
 
             return Results.Ok(response);
         })

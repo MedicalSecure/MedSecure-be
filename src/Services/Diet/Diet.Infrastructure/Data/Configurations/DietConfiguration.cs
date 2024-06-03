@@ -18,6 +18,11 @@ public class DietConfiguration : IEntityTypeConfiguration<Domain.Models.Diet>
         builder.Property(wi => wi.StartDate)
                .IsRequired();
 
+        builder.HasMany(d => d.DailyMeals)
+                .WithOne()
+                .HasForeignKey(dm => dm.DietId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
         builder.Property(wi => wi.EndDate)
               .IsRequired();
     }

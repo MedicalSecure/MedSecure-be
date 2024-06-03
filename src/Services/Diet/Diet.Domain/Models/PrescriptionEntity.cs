@@ -15,7 +15,7 @@ namespace Diet.Domain.Models
         public IReadOnlyList<Posology> Posology => _posology.AsReadOnly();
         public IReadOnlyList<Symptom> Symptoms => _symptoms.AsReadOnly();
         public IReadOnlyList<Diagnosis> Diagnosis => _diagnosis.AsReadOnly();
-        public Guid RegisterId { get; private set; }
+        public RegisterId RegisterId { get; private set; }
         public Register? Register { get; private set; }
         public UnitCare? UnitCare { get; private set; }
 
@@ -23,7 +23,7 @@ namespace Diet.Domain.Models
         public Prescription()
         { }// for EF
 
-        private Prescription(PrescriptionId id, Guid registerId, DateTime? createdAt = default)
+        private Prescription(PrescriptionId id, RegisterId registerId, DateTime? createdAt = default)
         {
             Id = id;
             RegisterId = registerId;
@@ -39,13 +39,13 @@ namespace Diet.Domain.Models
             UnitCare = unitCare;
             CreatedAt = createdAt == default ? DateTime.Now : createdAt;
         }
-        public static Prescription Create(Guid RegisterId,DateTime? createdAt = default)
+        public static Prescription Create(RegisterId RegisterId,DateTime? createdAt = default)
         {
             PrescriptionId id = PrescriptionId.Of(Guid.NewGuid());
             return new Prescription(id, RegisterId, createdAt);
         }
 
-        public static Prescription Create(PrescriptionId PrescriptionId, Guid registerId, DateTime createdAt = default)
+        public static Prescription Create(PrescriptionId PrescriptionId, RegisterId registerId, DateTime createdAt = default)
         {
            
             return new Prescription(PrescriptionId, registerId, createdAt);

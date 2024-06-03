@@ -4,7 +4,16 @@
     {
         private readonly List<Meal> _meals = new();
         public IReadOnlyList<Meal> Meals => _meals.AsReadOnly();
+
         public DateTime DietDate { get; set; } = DateTime.Now;
+
+
+        private readonly List<Comment> _comments = new();
+        public IReadOnlyList<Comment> Comments => _comments.AsReadOnly();
+        //for EF 
+        public DietId DietId { get; set; }
+
+        public DailyMeal() { }
         public static DailyMeal Create(
             DailyMealId id,
             DateTime dietDate)
@@ -34,7 +43,13 @@
 
             _meals.Add(meal);
         }
-
+        public void AddComments(ICollection<Comment> comments)
+        {
+            foreach (var comment in comments)
+            {
+                _comments.Add(comment);
+            }
+        }
         public void RemoveMeal(MealId mealId)
         {
             var dailyMeal = _meals.FirstOrDefault(p => p.Id == mealId);
@@ -43,6 +58,7 @@
                 _meals.Remove(dailyMeal);
             }
         }
+
     }
 
 
