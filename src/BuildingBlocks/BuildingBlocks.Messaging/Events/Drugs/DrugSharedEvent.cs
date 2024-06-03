@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BuildingBlocks.Messaging.Events.Drugs
 {
     public record DrugSharedEvent(
-    Guid DrugId,
+    Guid Id,
     string Name,
     string Dosage,
     string Form,

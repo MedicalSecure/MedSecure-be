@@ -47,13 +47,13 @@ services:
     depends_on:
        - sql-server-db
 
-  # medication.api:
-  #   image: ${DOCKER_REGISTRY-}medicationapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/Medication/Medication.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  medication.api:
+    image: ${DOCKER_REGISTRY-}medicationapi
+    build:
+      context: .
+      dockerfile: Services/Medication/Medication.API/Dockerfile
+    depends_on:
+       - sql-server-db
 
   # visit.api:
   #   image: ${DOCKER_REGISTRY-}visitapi
@@ -63,18 +63,18 @@ services:
   #   depends_on:
   #      - sql-server-db
 
-  # registration.api:
-  #   image: ${DOCKER_REGISTRY-}registrationapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/Registration/Registration.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  registration.api:
+    image: ${DOCKER_REGISTRY-}registrationapi
+    build:
+      context: .
+      dockerfile: Services/Registration/Registration.API/Dockerfile
+    depends_on:
+       - sql-server-db
 
-  # unitcare.api:
-  #   image: ${DOCKER_REGISTRY-}unitcareapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/UnitCare/UnitCare.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  unitcare.api:
+    image: ${DOCKER_REGISTRY-}unitcareapi
+    build:
+      context: .
+      dockerfile: Services/UnitCare/UnitCare.API/Dockerfile
+    depends_on:
+       - sql-server-db

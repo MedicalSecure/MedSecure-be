@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BuildingBlocks.Messaging.Events.PrescriptionEvents
 {
-    public record PosologySharedEvent(Guid PosologyId,
+    public record PosologySharedEvent(Guid Id,
     Guid PrescriptionId,
     Guid MedicationId,
     DrugSharedEvent Medication,
@@ -18,13 +18,13 @@ namespace BuildingBlocks.Messaging.Events.PrescriptionEvents
     ICollection<DispenseSharedEvent> Dispenses);
 
     public record CommentSharedEvent(
-    Guid CommentId,
+    Guid Id,
     Guid PosologyId,
     string Label,
     string Content
     );
     public record DispenseSharedEvent(
-    Guid DispenseId,
+    Guid Id,
     Guid PosologyId,
     int Hour,
     DoseSharedEvent? BeforeMeal,

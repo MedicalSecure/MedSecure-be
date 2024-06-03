@@ -1,8 +1,4 @@
-﻿
-
-using BacPatient.Domain.Enums;
-
-namespace BuildingBlocks.Messaging.Events;
+﻿namespace BuildingBlocks.Messaging.Events;
 
 public record BacPatientSharedEvent : IntegrationEvent
 {
@@ -16,11 +12,9 @@ public record BacPatientSharedEvent : IntegrationEvent
     public DateTime ServingDate { get; init; } = default!;
     public int Served { get; init; } = default!;
     public int ToServed { get; init; } = default!;
-    public StatusBP Status { get; init; } = default!;
+    public int Status { get; init; } = default!;
 
     public List<MedcinesShared> Meals { get; init; } = default!;
-    
-    
 }
 
 public record MedcinesShared
@@ -30,7 +24,7 @@ public record MedcinesShared
     public string MedForme { get; init; } = default!;
     public string MedDose { get; init; } = default!;
     public string MedUnit { get; init; } = default!;
-    public DateTime MedDateExp{ get; init; } = default!;
+    public DateTime MedDateExp { get; init; } = default!;
     public int MedStock { get; init; } = default!;
     public List<string> MedNote { get; init; } = default!;
 
@@ -48,6 +42,4 @@ public record PosologyShared
     public bool isPermanant { get; init; } = default!;
 
     public List<string> Hours { get; init; } = default!;
-
-
 }
