@@ -1,13 +1,11 @@
-﻿using BacPatient.Application.Config;
-using BuildingBlocks.Messaging.Events.Drugs;
+﻿using BuildingBlocks.Messaging.Events.Drugs;
 using BuildingBlocks.Messaging.Events.PrescriptionEvents;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
 
 namespace BacPatient.Application.BacPatient.EventHandlers.Integration
 {
-    //public class ValidPrescriptionCreatedEventHandler(RegistrationMicroserviceSettings _settings, HttpClient _httpClient) : IConsumer<ValidatedPrescriptionSharedEvent>
-    public class ValidPrescriptionCreatedEventHandler(HttpClient _httpClient) : IConsumer<ValidatedPrescriptionSharedEvent>
+    public class ValidPrescriptionCreatedEventHandler(IConfiguration config, HttpClient _httpClient) : IConsumer<ValidatedPrescriptionSharedEvent>
     {
         public async Task Consume(ConsumeContext<ValidatedPrescriptionSharedEvent> context)
         {
@@ -92,8 +90,8 @@ namespace BacPatient.Application.BacPatient.EventHandlers.Integration
 
         public async Task<SimpleRegisterDto?> fetchSimpleRegisterById(Guid registerId)
         {
-            //var url = $"{_settings.GetByIdEndpoint}/{registerId}";
-            var url = $"http://registration.api:8080/registers/{registerId}";
+            var url = $"{config["RegistrationMicroservice:GetByIdEndpoint"]}/{registerId}";
+            //var url = $"http://registration.api:8080/registers/{registerId}";
 
             try
             {
