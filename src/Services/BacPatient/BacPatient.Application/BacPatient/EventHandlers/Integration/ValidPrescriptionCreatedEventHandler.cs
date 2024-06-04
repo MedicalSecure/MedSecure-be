@@ -16,6 +16,7 @@ namespace BacPatient.Application.BacPatient.EventHandlers.Integration
                 return;
             var newPrescription = await CreateSimplePrescriptionFromEvent(x);
             // Continue here
+
             Console.WriteLine(x);
         }
 
@@ -42,7 +43,7 @@ namespace BacPatient.Application.BacPatient.EventHandlers.Integration
             var simpleMed = CreateSimpleMedication(x.Medication);
             var simpleComments = x.Comments.Adapt<ICollection<SimpleCommentsDto>>();
             var simpleDispenses = x.Dispenses.Adapt<ICollection<SimpleDispensesDto>>();
-            var simplePosology = new SimplePosologyDto(x.Id,x.PrescriptionId, simpleMed,x.StartDate,x.EndDate,x.IsPermanent, simpleComments, simpleDispenses);
+            var simplePosology = new SimplePosologyDto(x.Id, x.PrescriptionId, simpleMed, x.StartDate, x.EndDate, x.IsPermanent, simpleComments, simpleDispenses);
             return simplePosology;
         }
 
