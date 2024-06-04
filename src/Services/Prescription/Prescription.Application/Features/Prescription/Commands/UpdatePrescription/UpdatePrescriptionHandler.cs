@@ -1,26 +1,24 @@
 ﻿using BuildingBlocks.Exceptions;
+using BuildingBlocks.Messaging.Events;
 using MassTransit;
+using MassTransit.Transports;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.FeatureManagement;
 using Prescription.Application.Contracts;
 using Prescription.Application.Exceptions;
 using Prescription.Application.Features.UnitCare.Queries;
 using Prescription.Domain.Entities;
 using Prescription.Domain.Entities.UnitCareRoot;
 using Prescription.Domain.ValueObjects;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Threading;
+using Newtonsoft.Json;
+using System;
 
 namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescription
 {
-    public class UpdatePrescriptionHandler : ICommandHandler<UpdatePrescriptionCommand, UpdatePrescriptionResult>
+    public class UpdatePrescriptionHandler(IApplicationDbContext _dbContext, IPublishEndpoint publishEndpoint, IFeatureManager featureManager) : ICommandHandler<UpdatePrescriptionCommand, UpdatePrescriptionResult>
     {
-        private readonly IApplicationDbContext _dbContext;
-        private readonly TypeAdapterConfig _mapsterConfig;
-
-        public UpdatePrescriptionHandler(IApplicationDbContext dbContext, TypeAdapterConfig mapsterConfig)
-        {
-            _dbContext = dbContext;
-            _mapsterConfig = mapsterConfig;
-        }
-
         public async Task<UpdatePrescriptionResult> Handle(UpdatePrescriptionCommand command, CancellationToken cancellationToken)
         {
             try
@@ -51,6 +49,8 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
 
                 // Same the 3 changes : update old prescription (discontinued), Add the new one AND Add an activity
                 await _dbContext.SaveChangesAsync(cancellationToken);
+
+                await HandleSendingTheEvents(oldPrescription, newPrescription, command.Prescription, cancellationToken);
                 // Return result
                 return new UpdatePrescriptionResult(newPrescription.Id.Value);
             }
@@ -61,6 +61,42 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
 
                 // Option 2: Throw a custom exception with the error message
                 throw new UpdatePrescriptionException(ex.Message, ex);
+            }
+        }
+
+        private async Task HandleSendingTheEvents(Domain.Entities.Prescription oldP, Domain.Entities.Prescription newP, PrescriptionCreateUpdateDto dto, CancellationToken cancellationToken)
+        {
+            // Handle sending events
+            var ShareOutPatient = await featureManager.IsEnabledAsync("OutPrescriptionCreated");
+            var ShareInPatient = await featureManager.IsEnabledAsync("InpatientPrescriptionCreated");
+
+            // Check if the feature for using message broker is enabled for inpatientPrescription && the prescription is Inpatient
+            if (dto.UnitCare != null && ShareInPatient)
+            {
+                var newlyCreatedPrescription = newP.ToPrescriptionDto(); //use the new one to retrieve the new created IDs with the entities
+                var eventMessage = newlyCreatedPrescription.Adapt<InpatientPrescriptionSharedEvent>();
+                //fill the unitCare from the request, cuz we save only the bed id in the DB
+                eventMessage.UnitCare = dto.UnitCare.Adapt<UnitCarePlanSharedEvent>();
+                await publishEndpoint.Publish(eventMessage, cancellationToken);
+            }
+            // Check if the feature for using message broker is enabled for OutpatientPrescription && the prescription is Outpatient
+            else if (dto.UnitCare == null && ShareOutPatient)
+            {
+                //use the new Prescription to retrieve the new created IDs with the entities
+                var newlyCreatedPrescription = newP.ToPrescriptionDto();
+                var eventMessage = newlyCreatedPrescription.Adapt<OutpatientPrescriptionSharedEvent>();
+                await publishEndpoint.Publish(eventMessage, cancellationToken);
+            }
+
+            var ShareDiscontinued = await featureManager.IsEnabledAsync("PrescriptionDiscontinued");
+            // Check if the feature for using message broker is enabled for inpatientPrescription && the prescription is Inpatient
+            if (oldP.Status == PrescriptionStatus.Discontinued && ShareDiscontinued && newP.BedId != null)
+            {
+                //the status of the old one after being modified,its generally discontinued
+                var dataToSend = oldP.ToPrescriptionDto();
+                var eventMessage = dataToSend.Adapt<DiscontinuedInpatientPrescriptionSharedEvent>();
+                //fill the unitCare from the request, cuz we save only the bed id in the DB
+                await publishEndpoint.Publish(eventMessage, cancellationToken);
             }
         }
 

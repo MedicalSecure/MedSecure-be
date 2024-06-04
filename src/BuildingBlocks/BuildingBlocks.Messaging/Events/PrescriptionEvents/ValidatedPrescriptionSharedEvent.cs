@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BuildingBlocks.Messaging.Events.PrescriptionEvents
 {
-    public record RejectedPrescriptionSharedEvent : IntegrationEvent
+    public record ValidatedPrescriptionSharedEvent : IntegrationEvent
     {
         public Guid Id { get; set; }
         public Guid RegisterId { get; set; }
@@ -22,10 +22,10 @@ namespace BuildingBlocks.Messaging.Events.PrescriptionEvents
         public string Remarques { get; set; }
 
         // Empty constructor
-        public RejectedPrescriptionSharedEvent() { }
+        public ValidatedPrescriptionSharedEvent() { }
 
         // Full constructor
-        public RejectedPrescriptionSharedEvent(
+        public ValidatedPrescriptionSharedEvent(
             Guid id,
             Guid registerId,
             Guid doctorId,
