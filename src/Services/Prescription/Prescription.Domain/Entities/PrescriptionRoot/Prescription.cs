@@ -194,6 +194,15 @@ namespace Prescription.Domain.Entities
                 }
                 throw new UpdatePrescriptionStatusException($"Can't update status of {this.Status} to {newStatus}, Rejected can be changed to Pending Or Discontinued only");
             }
+            else if (Status == PrescriptionStatus.Active)
+            {
+                if (newStatus == PrescriptionStatus.Discontinued)
+                {
+                    this.Status = newStatus;
+                    return;
+                }
+                throw new UpdatePrescriptionStatusException($"Can't update status of {this.Status} to {newStatus}, Rejected can be changed to Pending Or Discontinued only");
+            }
             throw new UpdatePrescriptionStatusException($"Can't update status of {this.Status} to {newStatus}, unhandled case");
         }
     }

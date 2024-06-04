@@ -40,7 +40,7 @@ namespace Prescription.Application.Features.Prescription.EventHandlers.Integrati
                 eventMessage.PharmacistId = response.PharmacistId;
                 eventMessage.Remarques = response.Remarques ?? string.Empty;
                 eventMessage.PharmacistName = response.PharmacistName ?? string.Empty;
-
+                var ValidInpatientShared = JsonConvert.SerializeObject(eventMessage);
                 await publishEndpoint.Publish(eventMessage);
             }
         }

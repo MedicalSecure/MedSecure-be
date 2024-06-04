@@ -8,6 +8,8 @@
         public int Status { get; set; }
         public Guid BedId { get; set; }
         public ICollection<PosologySharedEvent> Posologies { get; set; }
+        public ICollection<SymptomSharedEvent> Symptoms { get; set; }
+        public ICollection<DiagnosesSharedEvent> Diagnoses { get; set; }
         public DietForPrescriptionSharedEvent Diet { get; set; }
 
         // Empty constructor

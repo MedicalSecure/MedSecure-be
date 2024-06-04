@@ -4,6 +4,7 @@ using MassTransit;
 using MassTransit.Transports;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.FeatureManagement;
+using Newtonsoft.Json;
 using Prescription.Application.Contracts;
 using Prescription.Application.Exceptions;
 using Prescription.Application.Features.UnitCare.Queries;
@@ -25,7 +26,7 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
                 // Get the old prescription from DB so we can update the status
                 var oldPrescription = await _dbContext.Prescriptions.FindAsync([prescriptionId], cancellationToken)
                     ?? throw new NotFoundException($"{nameof(Prescription)} : Can't find prescription to update Status with the given id : {prescriptionId.Value}");
-
+                var oldStatus = oldPrescription.Status;
                 var newStatus = command.Prescription.Status;
                 // the request is valid (didn't throw exception) so we can update the status of the old one
                 oldPrescription.UpdateStatus(newStatus);//still can throw exceptions
@@ -45,10 +46,11 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
                 // Handle sending events
                 var ShareDiscontinued = await featureManager.IsEnabledAsync("PrescriptionDiscontinued");
                 // Check if the feature for using message broker is enabled for inpatientPrescription && the prescription is Inpatient
-                if (newStatus == PrescriptionStatus.Discontinued && ShareDiscontinued && command.Prescription.BedId != null && oldPrescription.Status == PrescriptionStatus.Active)
+                if (newStatus == PrescriptionStatus.Discontinued && oldStatus == PrescriptionStatus.Active && ShareDiscontinued && command.Prescription.BedId != null)
                 {
-                    var dataToSend = oldPrescription.ToPrescriptionDto();
+                    var dataToSend = command.Prescription;
                     var eventMessage = dataToSend.Adapt<DiscontinuedInpatientPrescriptionSharedEvent>();
+                    var discontinued = JsonConvert.SerializeObject(eventMessage);
                     //fill the unitCare from the request, cuz we save only the bed id in the DB
                     await publishEndpoint.Publish(eventMessage, cancellationToken);
                 }

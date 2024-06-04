@@ -7,6 +7,7 @@ namespace BacPatient.Application.BacPatient.EventHandlers.Integration
         public Task Consume(ConsumeContext<DiscontinuedInpatientPrescriptionSharedEvent> context)
         {
             var x = context.Message;
+
             Console.WriteLine(context.Message);
             return Task.Delay(5000);
         }

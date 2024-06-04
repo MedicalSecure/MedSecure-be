@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Messaging.Events;
+using Newtonsoft.Json;
 using Prescription.Application.Exceptions;
 using Prescription.Application.Features.UnitCare.Queries;
 
@@ -32,6 +33,8 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                     var eventMessage = newlyCreatedPrescription.Adapt<InpatientPrescriptionSharedEvent>();
                     //fill the unitCare from the request, cuz we save only the bed id in the DB
                     eventMessage.UnitCare = command.Prescription.UnitCare.Adapt<UnitCarePlanSharedEvent>();
+
+                    var jsonInpatientShared = JsonConvert.SerializeObject(eventMessage);
                     await publishEndpoint.Publish(eventMessage, cancellationToken);
                 }
                 // Check if the feature for using message broker is enabled for OutpatientPrescription && the prescription is Outpatient
