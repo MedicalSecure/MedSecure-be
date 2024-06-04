@@ -1,4 +1,3 @@
-
 version: '3.4'
 
 services:
@@ -30,7 +29,8 @@ services:
       dockerfile: Services/BacPatient/BacPatient.API/Dockerfile
     depends_on:
        - sql-server-db
- 
+
+
   waste.api:
     image: ${DOCKER_REGISTRY-}wasteapi
     build:
@@ -60,5 +60,21 @@ services:
     build:
       context: .
       dockerfile: Services/Visit/Visit.API/Dockerfile
+    depends_on:
+       - sql-server-db
+
+  registration.api:
+    image: ${DOCKER_REGISTRY-}registrationapi
+    build:
+      context: .
+      dockerfile: Services/Registration/Registration.API/Dockerfile
+    depends_on:
+       - sql-server-db
+
+  unitcare.api:
+    image: ${DOCKER_REGISTRY-}unitcareapi
+    build:
+      context: .
+      dockerfile: Services/UnitCare/UnitCare.API/Dockerfile
     depends_on:
        - sql-server-db

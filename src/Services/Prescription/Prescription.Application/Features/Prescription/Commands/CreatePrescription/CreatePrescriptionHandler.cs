@@ -135,9 +135,9 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
 
             foreach (var posology in prescriptionDto.Posologies)
             {
-                var newPosology = Posology.Create(
+                var newPosology = Domain.Entities.Posology.Create(
                     prescriptionId: newPrescription.Id,
-                    medicationId: MedicationId.Of(posology.MedicationId),
+                    medication: await CreateMedication(posology.Medication, _dbContext, cancellationToken),
                     startDate: posology.StartDate,
                     endDate: posology.EndDate,
                     isPermanent: posology.IsPermanent,
@@ -145,7 +145,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
 
                 foreach (var comment in posology.Comments)
                 {
-                    var newComment = Comment.Create(
+                    var newComment = Domain.Entities.Comment.Create(
                         posologyId: newPosology.Id,
                         label: comment.Label,
                         content: comment.Content,
@@ -156,7 +156,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
 
                 foreach (var dispense in posology.Dispenses)
                 {
-                    var newDispense = Dispense.Create(
+                    var newDispense = Domain.Entities.Dispense.Create(
                         posologyId: newPosology.Id,
                         hour: dispense.Hour,
                         QuantityBM: dispense.BeforeMeal?.Quantity,
@@ -201,6 +201,35 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                     }
                 }
             return null;
+        }
+
+        private async Task<Domain.Entities.Medication> CreateMedication(MedicationDTO? medic, IApplicationDbContext dbContext, CancellationToken cancellationToken)
+        {
+            if (medic == null)
+                throw new ArgumentNullException("Medication must be provided");
+
+            var medication = await dbContext.Medications.Where(p => p.Id == MedicationId.Of(medic.Id))
+                   .FirstOrDefaultAsync(cancellationToken);
+
+            if (medication != null)
+                return medication;
+
+            return Domain.Entities.Medication.Create(
+                id: MedicationId.Of(medic.Id),
+                name: medic.Name,
+                dosage: medic.Dosage,
+                form: medic.Form,
+                unit: medic.Unit,
+                description: medic.Description,
+                code: medic.Code,
+                expiredAt: medic.ExpiredAt,
+                stock: medic.Stock,
+                alertStock: medic.AlertStock,
+                avrgStock: medic.AvrgStock,
+                minStock: medic.MinStock,
+                safetyStock: medic.SafetyStock,
+                reservedStock: medic.ReservedStock,
+                price: medic.Price);
         }
     }
 }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.RateLimiting;
 
-var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var builder = WebApplication.CreateBuilder(args);
 
 var frontEndUrl = Environment.GetEnvironmentVariable("FRONTEND_URL");
 
@@ -19,15 +19,15 @@ builder.Services.AddCors(options =>
 // Check if the ASPNETCORE_ENVIRONMENT environment variable is set to "local"
 var isDevEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
 
-// If it's the local environment, load only the appsettings.local.json file
+// If it's the dev environment, load only the appsettings.json file
 if (isDevEnv)
 {
-    builder.Configuration.AddJsonFile("appsettings.local.json", optional: false, reloadOnChange: true);
+    builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 }
 else
 {
-    // Otherwise, load the default appsettings.json file
-    builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+    // Otherwise, load the default appsettings.local.json file
+    builder.Configuration.AddJsonFile("appsettings.local.json", optional: false, reloadOnChange: true);
 }
 
 // Add services to the container.
@@ -44,6 +44,7 @@ builder.Services.AddRateLimiter(rateLimiterOptions =>
 });
 
 var app = builder.Build();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseCors(MyAllowSpecificOrigins);
 

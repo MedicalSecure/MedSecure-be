@@ -50,6 +50,13 @@ namespace Prescription.Domain.Entities
             var CreatedAt = createdAt == default ? DateTime.Now : createdAt;
             return new Posology(PosologyId.Of(Guid.NewGuid()), prescriptionId, medicationId, null, startDate, endDate, isPermanent, createdBy, CreatedAt);
         }
+        public static Posology Create(PrescriptionId prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent, string createdBy, DateTime createdAt = default)
+        {
+            if (isPermanent == false && endDate == null) throw new ArgumentNullException("test");
+
+            var CreatedAt = createdAt == default ? DateTime.Now : createdAt;
+            return new Posology(PosologyId.Of(Guid.NewGuid()), prescriptionId, medication.Id, medication, startDate, endDate, isPermanent, createdBy, CreatedAt);
+        }
 
         /*        public static Posology Create(PosologyId id, PrescriptionId prescriptionId, Medication medication, DateTime startDate, DateTime? endDate, bool isPermanent)
                 {
