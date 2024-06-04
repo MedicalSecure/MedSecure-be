@@ -16,6 +16,7 @@ namespace BuildingBlocks.Messaging.Events.PrescriptionEvents
         public ICollection<DiagnosesSharedEvent> Diagnoses { get; set; }
         public ICollection<PosologySharedEvent> Posologies { get; set; }
         public DietForPrescriptionSharedEvent Diet { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         // Empty constructor
         public OutpatientPrescriptionSharedEvent()
@@ -30,7 +31,8 @@ namespace BuildingBlocks.Messaging.Events.PrescriptionEvents
             ICollection<SymptomSharedEvent> symptoms,
             ICollection<DiagnosesSharedEvent> diagnoses,
             ICollection<PosologySharedEvent> posologies,
-            DietForPrescriptionSharedEvent diet)
+            DietForPrescriptionSharedEvent diet,
+            DateTime createdAt)
         {
             Id = id;
             RegisterId = registerId;
@@ -40,6 +42,7 @@ namespace BuildingBlocks.Messaging.Events.PrescriptionEvents
             Diagnoses = diagnoses;
             Posologies = posologies;
             Diet = diet;
+            CreatedAt = createdAt;
         }
     }
 }

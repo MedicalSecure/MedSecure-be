@@ -12,6 +12,7 @@ namespace BuildingBlocks.Messaging.Events.PrescriptionEvents
         public Guid RegisterId { get; set; }
         public Guid DoctorId { get; set; }
         public Guid PharmacistId { get; set; }
+        public Guid BedId { get; set; }
         public int Status { get; set; }
         public ICollection<SymptomSharedEvent> Symptoms { get; set; }
         public ICollection<DiagnosesSharedEvent> Diagnoses { get; set; }
@@ -20,6 +21,8 @@ namespace BuildingBlocks.Messaging.Events.PrescriptionEvents
         public DietForPrescriptionSharedEvent Diet { get; set; }
         public string PharmacistName { get; set; }
         public string Remarques { get; set; }
+
+        public DateTime CreatedAt { get; set; }
 
         // Empty constructor
         public ValidatedPrescriptionSharedEvent() { }
@@ -30,6 +33,7 @@ namespace BuildingBlocks.Messaging.Events.PrescriptionEvents
             Guid registerId,
             Guid doctorId,
             Guid pharmacistId,
+            Guid bedId,
             int status,
             ICollection<SymptomSharedEvent> symptoms,
             ICollection<DiagnosesSharedEvent> diagnoses,
@@ -37,12 +41,14 @@ namespace BuildingBlocks.Messaging.Events.PrescriptionEvents
             UnitCarePlanSharedEvent unitCare,
             DietForPrescriptionSharedEvent diet,
             string pharmacistName,
-            string remarques)
+            string remarques,
+            DateTime createdAt)
         {
             Id = id;
             RegisterId = registerId;
             DoctorId = doctorId;
             PharmacistId = pharmacistId;
+            BedId = bedId;
             Status = status;
             Symptoms = symptoms;
             Diagnoses = diagnoses;
@@ -51,6 +57,7 @@ namespace BuildingBlocks.Messaging.Events.PrescriptionEvents
             Diet = diet;
             PharmacistName = pharmacistName;
             Remarques = remarques;
+            CreatedAt = createdAt;
         }
     }
 }

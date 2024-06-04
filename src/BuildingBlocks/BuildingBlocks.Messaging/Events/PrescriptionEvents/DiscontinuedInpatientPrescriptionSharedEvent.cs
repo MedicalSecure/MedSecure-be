@@ -11,6 +11,7 @@
         public ICollection<SymptomSharedEvent> Symptoms { get; set; }
         public ICollection<DiagnosesSharedEvent> Diagnoses { get; set; }
         public DietForPrescriptionSharedEvent Diet { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         // Empty constructor
         public DiscontinuedInpatientPrescriptionSharedEvent() { }
@@ -23,7 +24,8 @@
             Guid bedId,
             int status,
             ICollection<PosologySharedEvent> posologies,
-            DietForPrescriptionSharedEvent diet)
+            DietForPrescriptionSharedEvent diet,
+            DateTime createdAt)
         {
             Id = id;
             RegisterId = registerId;
@@ -32,6 +34,7 @@
             Status = status;
             Posologies = posologies;
             Diet = diet;
+            CreatedAt = createdAt;
         }
     }
 }

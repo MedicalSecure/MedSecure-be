@@ -1,4 +1,5 @@
-﻿
+﻿using BacPatient.Application.Config;
+using Microsoft.Extensions.Configuration;
 
 namespace BacPatient.API;
 

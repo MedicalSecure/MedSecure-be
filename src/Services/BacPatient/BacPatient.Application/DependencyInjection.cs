@@ -1,4 +1,5 @@
-﻿
+﻿using BacPatient.Application.Config;
+
 namespace BacPatient.Application;
 
 public static class DependencyInjection
@@ -13,6 +14,15 @@ public static class DependencyInjection
             // Add behaviors for validation and logging
             config.AddOpenBehavior(typeof(ValidationBehavior<,>));
             config.AddOpenBehavior(typeof(LoggingBehavior<,>));
+        });
+
+        //services.Configure<RegistrationMicroserviceSettings>(configuration.GetSection("RegistrationMicroservice"));
+        services.AddHttpClient("api", c =>
+        {
+            c.BaseAddress = new Uri("https://api.example.com/");
+            c.Timeout = TimeSpan.FromSeconds(10);
+            c.DefaultRequestHeaders.Accept.Clear();
+            c.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         });
 
         // Add feature management for managing feature flags

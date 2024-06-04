@@ -25,6 +25,8 @@ namespace BuildingBlocks.Messaging.Events.Drugs
         public int? ReservedStock { get; set; }
         public decimal? Price { get; set; }
 
+        public int Route { get; set; } = 11;
+
         // Empty constructor
         public DrugSharedEvent() { }
 
@@ -36,6 +38,7 @@ namespace BuildingBlocks.Messaging.Events.Drugs
             string form,
             string code,
             string unit,
+            int route,
             string? description,
             DateTime? expiredAt,
             int? stock,
@@ -53,6 +56,7 @@ namespace BuildingBlocks.Messaging.Events.Drugs
             Form = form;
             Code = code;
             Unit = unit;
+            Route = route;
             Description = description;
             ExpiredAt = expiredAt;
             Stock = stock;
