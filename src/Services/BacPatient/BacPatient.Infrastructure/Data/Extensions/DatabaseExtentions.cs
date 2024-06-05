@@ -24,14 +24,19 @@ public static class DatabaseExtentions
 
     private static async Task SeedBacPatientAsync(ApplicationDbContext context)
     {
+
         if (!context.BacPatients.Any())
         {
             await context.SaveChangesAsync();
+                        await context.Registers.AddAsync(InitialData.GetRegisterInitialData());
+
         }
     }
 
     private static async Task ClearDataAsync(ApplicationDbContext context)
     {
         await context.SaveChangesAsync();
+        context.Patients.RemoveRange(context.Patients);
+        context.Registers.RemoveRange(context.Registers);
     }
 }
