@@ -5,6 +5,7 @@ using Medication.Application.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace Medication.Application.Prescriptions.EventHandlers
 {
@@ -34,50 +35,69 @@ namespace Medication.Application.Prescriptions.EventHandlers
             var jsonUnitCare = JsonConvert.SerializeObject(p.UnitCare);
             var drugs = await _dbContext.Drugs.ToListAsync();
 
+            string rejectionMessages = string.Empty;//Messages separated by #
+
             foreach (var posology in p.Posologies)
             {
                 var drug = drugs.FirstOrDefault(d => d.Id == DrugId.Of(posology.Medication.Id));
-                if (drug != null)
+                if (drug == null)
                 {
-                    var isPrescriptionValid = false;
-                    var availableStock = drug.AvailableStock;
-                    int quantityNeeded = 0;
+                    //Reset the rejection message (dont += to its old values)
+                    rejectionMessages = $"Error : Can't find medication with id : {posology.Medication.Id}, from event id {p.EventId}";
+                    Console.WriteLine(rejectionMessages);//TODO => move to log
 
-                    foreach (var dispense in posology.Dispenses)
-                    {
-                        var dispenseBeforeMeal = dispense.BeforeMeal?.Quantity ?? 0;
-                        var dispenseAfterMeal = dispense.AfterMeal?.Quantity ?? 0;
+                    break;//continue to rejection, dont continue the calculation
+                }
 
-                        quantityNeeded += dispenseBeforeMeal + dispenseAfterMeal;
-                    }
+                var availableStock = drug.AvailableStock;
+                int quantityNeeded = 0;
 
-                    if (quantityNeeded < availableStock)
-                    {
-                        // Enough stock available
-                        isPrescriptionValid = true;
-                        //await _hubContext.Clients.All.SendAsync("PrescriptionToValidateEvent", p);
-                    }
-                    else
-                    {
-                        // Not enough stock available
-                        isPrescriptionValid = false;
-                        var validatedPrescriptionEvent = new PrescriptionValidationSharedEvent(p.Id, p.RegisterId, Guid.NewGuid(), "Hammadi Phar", jsonUnitCare, isPrescriptionValid, "Quantity Not Sufficient");
-                        await _publishEndpoint.Publish(validatedPrescriptionEvent);
-                    }
+                foreach (var dispense in posology.Dispenses)
+                {
+                    var dispenseBeforeMeal = dispense.BeforeMeal?.Quantity ?? 0;
+                    var dispenseAfterMeal = dispense.AfterMeal?.Quantity ?? 0;
+
+                    quantityNeeded += dispenseBeforeMeal + dispenseAfterMeal;
+                }
+
+                if (quantityNeeded > availableStock)
+                {
+                    // Not enough stock available
+                    rejectionMessages += $"#Quantity of Medication {drug.Name} insufficient: Requested {quantityNeeded} | Available : {availableStock}";
                 }
             }
 
-            var newValidation = CreateValidationFromEvent(p);
-            try
+            if (rejectionMessages == string.Empty)
             {
-                _dbContext.Validations.Add(newValidation);
-                await _dbContext.SaveChangesAsync(CancellationToken.None);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);// if the event occurred twice for the same prescription => just log it and return ..
+                //valid => create a Pending validation for the pharmacy to Validate manually later
+                var newValidation = CreateValidationFromEvent(p);
+                try
+                {
+                    _dbContext.Validations.Add(newValidation);
+                    await _dbContext.SaveChangesAsync(CancellationToken.None);
+
+                    //Success saving db => Send notification to front:
+                    await _hubContext.Clients.All.SendAsync("PrescriptionToValidateEvent", p);
+
+                    //Add new Activity
+                    Guid createdBy = Guid.NewGuid();
+                    var newActivity = Activity.Create(createdBy, $"Received a new prescription to validate", "System");
+                    _dbContext.Activities.Add(newActivity);
+                    await _dbContext.SaveChangesAsync(CancellationToken.None);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);// if the event occurred twice for the same prescription => just log it and return ..
+                }
+                //Finished
                 return;
             }
+
+            var isPrescriptionValid = false;//Rejection
+            string RejectedBy = "System";
+            // Not enough stock available / Medication not found error :
+            var validatedPrescriptionEvent = new PrescriptionValidationSharedEvent(p.Id, p.RegisterId, Guid.NewGuid(), RejectedBy, jsonUnitCare, isPrescriptionValid, rejectionMessages);
+            await _publishEndpoint.Publish(validatedPrescriptionEvent);
         }
 
         private Validation CreateValidationFromEvent(InpatientPrescriptionSharedEvent ev)
