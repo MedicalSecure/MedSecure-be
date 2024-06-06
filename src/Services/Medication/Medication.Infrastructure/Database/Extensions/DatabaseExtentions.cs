@@ -1,6 +1,5 @@
 ﻿namespace Medication.Infrastructure.Database.Extensions;
 
-
 public static class DatabaseExtentions
 {
     public static async Task InitialiseDatabaseAsync(this WebApplication app)
@@ -21,7 +20,6 @@ public static class DatabaseExtentions
         await SeedDosageAsync(context);
 
         await SeedDrugAsync(context);
-
     }
 
     private static async Task SeedDosageAsync(ApplicationDbContext context)
@@ -48,6 +46,11 @@ public static class DatabaseExtentions
         context.Drugs.RemoveRange(context.Drugs);
 
         context.Dosages.RemoveRange(context.Dosages);
+        context.Validations.RemoveRange(context.Validations);      
+        context.Dispenses.RemoveRange(context.Dispenses);
+
+        context.Posologies.RemoveRange(context.Posologies);
+        context.Activities.RemoveRange(context.Activities);
 
         // Save changes to the database
         await context.SaveChangesAsync();

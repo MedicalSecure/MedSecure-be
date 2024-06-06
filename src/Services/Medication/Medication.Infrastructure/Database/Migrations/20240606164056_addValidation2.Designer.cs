@@ -4,6 +4,7 @@ using Medication.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medication.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240606164056_addValidation2")]
+    partial class addValidation2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,7 +124,7 @@ namespace Medication.Infrastructure.Database.Migrations
 
                     b.HasIndex("PosologyId");
 
-                    b.ToTable("Dispenses");
+                    b.ToTable("Dispense");
                 });
 
             modelBuilder.Entity("Medication.Domain.Models.Dosage", b =>
@@ -261,63 +264,14 @@ namespace Medication.Infrastructure.Database.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<Guid>("ValidationId")
+                    b.Property<Guid>("PrescriptionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DrugId");
 
-                    b.HasIndex("ValidationId");
-
-                    b.ToTable("Posologies");
-                });
-
-            modelBuilder.Entity("Medication.Domain.Models.Validation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("PharmacistId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PharmacistName")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<Guid>("PrescriptionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UnitCareJson")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PrescriptionId")
-                        .IsUnique();
-
-                    b.ToTable("Validations");
+                    b.ToTable("Posology");
                 });
 
             modelBuilder.Entity("Medication.Domain.Models.Comment", b =>
@@ -348,15 +302,7 @@ namespace Medication.Infrastructure.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Medication.Domain.Models.Validation", "Validation")
-                        .WithMany("Posologies")
-                        .HasForeignKey("ValidationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Drug");
-
-                    b.Navigation("Validation");
                 });
 
             modelBuilder.Entity("Medication.Domain.Models.Posology", b =>
@@ -364,11 +310,6 @@ namespace Medication.Infrastructure.Database.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Dispenses");
-                });
-
-            modelBuilder.Entity("Medication.Domain.Models.Validation", b =>
-                {
-                    b.Navigation("Posologies");
                 });
 #pragma warning restore 612, 618
         }
