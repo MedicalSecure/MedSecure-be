@@ -1,4 +1,6 @@
 // Create a web application builder
+using Medication.Application.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
@@ -8,6 +10,9 @@ builder
     .AddInfrastructureServices(builder.Configuration)  // Add infrastructure services layer 
     .AddApiServices(builder.Configuration);  // Add API services layer 
 
+
+//AddSignalR
+builder.Services.AddSignalR();
 
 //allow cross origin TODO REMOVE from here and place it in my API GATEWAY!!
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -40,6 +45,8 @@ if (app.Environment.IsDevelopment())
     // Initialize the database asynchronously with mock data 
     await app.InitialiseDatabaseAsync();
 }
+
+app.MapHub<PharmalinkHub>("/createdPrescription");
 
 // Start the application
 app.Run();
