@@ -21,7 +21,7 @@ internal class InitialData
                 {
                     // Create drug instances
                     Drug.Create(
-                        id: DrugId.Of(Guid.NewGuid()),
+                        id: DrugId.Of(Guid.Parse(drugId)),
                         name: "Aspirin",
                         dosage: "500 mg",
                         form: "Tablet",
@@ -29,7 +29,7 @@ internal class InitialData
                         unit: "B/90",
                         description: "Pain reliever and anti-inflammatory medication.",
                         expiredAt: DateTime.Now.AddYears(2),
-                        stock: 20,
+                        stock: 102,
                         alertStock: 18,
                         avrgStock: 13,
                         minStock: 8,
