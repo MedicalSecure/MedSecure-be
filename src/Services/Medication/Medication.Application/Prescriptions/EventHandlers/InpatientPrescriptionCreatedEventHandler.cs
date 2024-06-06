@@ -34,45 +34,30 @@ namespace Medication.Application.Prescriptions.EventHandlers
             //continue preparing the event
             var jsonUnitCare = JsonConvert.SerializeObject(p.UnitCare);
             var drugs = await _dbContext.Drugs.ToListAsync();
-
-            string rejectionMessages = string.Empty;//Messages separated by #
-
-            foreach (var posology in p.Posologies)
+            if (drugs == null)
             {
-                var drug = drugs.FirstOrDefault(d => d.Id == DrugId.Of(posology.Medication.Id));
-                if (drug == null)
-                {
-                    //Reset the rejection message (dont += to its old values)
-                    rejectionMessages = $"Error : Can't find medication with id : {posology.Medication.Id}, from event id {p.EventId}";
-                    Console.WriteLine(rejectionMessages);//TODO => move to log
-
-                    break;//continue to rejection, dont continue the calculation
-                }
-
-                var availableStock = drug.AvailableStock;
-                int quantityNeeded = 0;
-
-                foreach (var dispense in posology.Dispenses)
-                {
-                    var dispenseBeforeMeal = dispense.BeforeMeal?.Quantity ?? 0;
-                    var dispenseAfterMeal = dispense.AfterMeal?.Quantity ?? 0;
-
-                    quantityNeeded += dispenseBeforeMeal + dispenseAfterMeal;
-                }
-
-                if (quantityNeeded > availableStock)
-                {
-                    // Not enough stock available
-                    rejectionMessages += $"#Quantity of Medication {drug.Name} insufficient: Requested {quantityNeeded} | Available : {availableStock}";
-                }
+                Console.WriteLine("No drugs in DB");
+                return;
             }
+
+            string rejectionMessages = GetRejectionMessage(p, drugs, out Dictionary<DrugId, int> ReservedQuantities);
 
             if (rejectionMessages == string.Empty)
             {
                 //valid => create a Pending validation for the pharmacy to Validate manually later
-                var newValidation = CreateValidationFromEvent(p);
+                var newValidation = CreateValidationFromEvent(p, drugs);
                 try
                 {
+                    foreach (var drugId in ReservedQuantities.Keys)
+                    {
+                        var drug = drugs.FirstOrDefault(d => d.Id == drugId);
+                        if (drug == null)
+                            return;//impossible case, car this validation has occurred in : CreateValidationFromEvent from above
+
+                        drug.ReserveStock(ReservedQuantities[drugId]);
+                        _dbContext.Drugs.Update(drug);
+                    }
+
                     _dbContext.Validations.Add(newValidation);
                     await _dbContext.SaveChangesAsync(CancellationToken.None);
 
@@ -100,11 +85,69 @@ namespace Medication.Application.Prescriptions.EventHandlers
             await _publishEndpoint.Publish(validatedPrescriptionEvent);
         }
 
-        private Validation CreateValidationFromEvent(InpatientPrescriptionSharedEvent ev)
+        private static string GetRejectionMessage(InpatientPrescriptionSharedEvent p, List<Drug> drugs, out Dictionary<DrugId, int> ReservedQuantities)
+        {
+            ReservedQuantities = new Dictionary<DrugId, int>();
+            string rejectionMessages = string.Empty;//Messages separated by #
+
+            foreach (var posology in p.Posologies)
+            {
+                var drug = drugs.FirstOrDefault(d => d.Id == DrugId.Of(posology.Medication.Id));
+                if (drug == null)
+                {
+                    //Reset the rejection message (dont += to its old values)
+                    rejectionMessages = $"Error : Can't find medication with id : {posology.Medication.Id}, from event id {p.EventId}";
+                    Console.WriteLine(rejectionMessages);//TODO => move to log
+
+                    break;//continue to rejection, dont continue the calculation
+                }
+
+                var availableStock = drug.AvailableStock;
+                int quantityNeeded = 0;
+
+                foreach (var dispense in posology.Dispenses)
+                {
+                    var dispenseBeforeMeal = dispense.BeforeMeal?.Quantity ?? 0;
+                    var dispenseAfterMeal = dispense.AfterMeal?.Quantity ?? 0;
+
+                    quantityNeeded += dispenseBeforeMeal + dispenseAfterMeal;
+                }
+
+                if (ReservedQuantities.ContainsKey(drug.Id))
+                {
+                    //this handle the case where the medication existed more than one time inside the posology list
+                    //example list posology of 5, 3 of them are the medication X,
+                    quantityNeeded += ReservedQuantities[drug.Id];
+                }
+
+                if (quantityNeeded > availableStock)
+                {
+                    // Not enough stock available
+                    rejectionMessages += $"#Quantity of Medication {drug.Name} insufficient: Requested {quantityNeeded} | Available : {availableStock}";
+                }
+                else
+                {
+                    //reserve stock
+                    if (ReservedQuantities.ContainsKey(drug.Id))
+                    {
+                        //the sum is already updated above
+                        ReservedQuantities[drug.Id] = quantityNeeded;
+                    }
+                    else
+                    {
+                        //add the new quantity
+                        ReservedQuantities.Add(drug.Id, quantityNeeded);
+                    }
+                }
+            }
+
+            return rejectionMessages;
+        }
+
+        private Validation CreateValidationFromEvent(InpatientPrescriptionSharedEvent ev, List<Drug> drugs)
         {
             var jsonUnitCare = JsonConvert.SerializeObject(ev.UnitCare);
             var validation = Validation.Create(ev.Id, jsonUnitCare);
-            var drugs = _dbContext.Drugs.ToList();
             foreach (var posology in ev.Posologies)
             {
                 //TODO REMOVE THE COMMENT
