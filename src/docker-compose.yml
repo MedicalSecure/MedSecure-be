@@ -8,11 +8,11 @@ services:
   message-broker:
     image: rabbitmq:management
 
-  # yarpapigateway:
-  #   image: ${DOCKER_REGISTRY-}yarpapigateway
-  #   build:
-  #     context: .
-  #     dockerfile: ApiGateways/YarpApiGateway/Dockerfile
+  yarpapigateway:
+    image: ${DOCKER_REGISTRY-}yarpapigateway
+    build:
+      context: .
+      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
         
   # diet.api:
   #   image: ${DOCKER_REGISTRY-}dietapi
@@ -39,21 +39,21 @@ services:
   #   depends_on:
   #      - sql-server-db
 
-  # prescription.api:
-  #   image: ${DOCKER_REGISTRY-}prescriptionapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/Prescription/Prescription.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  prescription.api:
+    image: ${DOCKER_REGISTRY-}prescriptionapi
+    build:
+      context: .
+      dockerfile: Services/Prescription/Prescription.API/Dockerfile
+    depends_on:
+       - sql-server-db
 
-  # medication.api:
-  #   image: ${DOCKER_REGISTRY-}medicationapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/Medication/Medication.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  medication.api:
+    image: ${DOCKER_REGISTRY-}medicationapi
+    build:
+      context: .
+      dockerfile: Services/Medication/Medication.API/Dockerfile
+    depends_on:
+       - sql-server-db
 
   # visit.api:
   #   image: ${DOCKER_REGISTRY-}visitapi
@@ -71,10 +71,10 @@ services:
     depends_on:
        - sql-server-db
 
-  # unitcare.api:
-  #   image: ${DOCKER_REGISTRY-}unitcareapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/UnitCare/UnitCare.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  unitcare.api:
+    image: ${DOCKER_REGISTRY-}unitcareapi
+    build:
+      context: .
+      dockerfile: Services/UnitCare/UnitCare.API/Dockerfile
+    depends_on:
+       - sql-server-db
