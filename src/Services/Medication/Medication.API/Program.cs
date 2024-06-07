@@ -6,10 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder
     .Services
-    .AddApplicationServices(builder.Configuration)  // Add application services layer 
-    .AddInfrastructureServices(builder.Configuration)  // Add infrastructure services layer 
-    .AddApiServices(builder.Configuration);  // Add API services layer 
-
+    .AddApplicationServices(builder.Configuration)  // Add application services layer
+    .AddInfrastructureServices(builder.Configuration)  // Add infrastructure services layer
+    .AddApiServices(builder.Configuration);  // Add API services layer
 
 //AddSignalR
 builder.Services.AddSignalR();
@@ -21,9 +20,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:4200", "http://localhost:5008")
+                          policy.WithOrigins("http://localhost:4200")
                            .AllowAnyHeader()
-                           .AllowAnyMethod();
+                           .AllowAnyMethod()
+                           .AllowCredentials();
                       });
 });
 
@@ -32,6 +32,9 @@ app.UseCors(MyAllowSpecificOrigins);
 
 // Configure the HTTP request pipeline
 app.UseApiServices();  // Configure API-related middleware
+
+// Inject SignalR Hubs
+app.InjectHubs();
 
 if (app.Environment.IsDevelopment())
 {
@@ -42,11 +45,9 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Medication API V1");  // Configure Swagger UI endpoint
     });
 
-    // Initialize the database asynchronously with mock data 
+    // Initialize the database asynchronously with mock data
     await app.InitialiseDatabaseAsync();
 }
-
-app.MapHub<PharmalinkHub>("/createdPrescription");
 
 // Start the application
 app.Run();

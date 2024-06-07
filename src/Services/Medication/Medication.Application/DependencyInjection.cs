@@ -1,6 +1,5 @@
 ﻿namespace Medication.Application;
 
-
 public static class DependencyInjection
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
@@ -20,6 +19,9 @@ public static class DependencyInjection
 
         // Add message broker for async communication
         services.AddMessageBroker(configuration, Assembly.GetExecutingAssembly());
+
+        // Add Hubs
+        services.AddTransient<IPharmaLinkHub, PharmaLinkHub>();
 
         // Return the modified service collection
         return services;

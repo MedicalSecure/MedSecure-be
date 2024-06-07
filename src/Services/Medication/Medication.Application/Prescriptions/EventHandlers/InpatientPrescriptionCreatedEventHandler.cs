@@ -2,6 +2,7 @@
 using BuildingBlocks.Messaging.Events.PrescriptionEvents;
 using MassTransit;
 using Medication.Application.Hubs;
+using Medication.Application.Hubs.Abstractions;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -14,13 +15,16 @@ namespace Medication.Application.Prescriptions.EventHandlers
         private readonly ISender _sender;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly IApplicationDbContext _dbContext;
-        private readonly IHubContext<PharmalinkHub> _hubContext;
+        private readonly IPharmaLinkHub _hubContext;
 
-        public InpatientPrescriptionCreatedEventHandler(ISender sender, IPublishEndpoint publishEndpoint, IApplicationDbContext dbcontext, IHubContext<PharmalinkHub> hubContext)
+        public InpatientPrescriptionCreatedEventHandler(ISender sender,
+            IPublishEndpoint publishEndpoint,
+            IApplicationDbContext dbContext,
+            IPharmaLinkHub hubContext)
         {
             _sender = sender;
             _publishEndpoint = publishEndpoint;
-            _dbContext = dbcontext;
+            _dbContext = dbContext;
             _hubContext = hubContext;
         }
 
@@ -29,7 +33,7 @@ namespace Medication.Application.Prescriptions.EventHandlers
             var p = context.Message;
 
             //TODO REMOVE AFTER TESTS
-            await _hubContext.Clients.All.SendAsync("PrescriptionToValidateEvent", p);
+            await _hubContext.SendEventToAll(p);
 
             //continue preparing the event
             var jsonUnitCare = JsonConvert.SerializeObject(p.UnitCare);
@@ -62,7 +66,7 @@ namespace Medication.Application.Prescriptions.EventHandlers
                     await _dbContext.SaveChangesAsync(CancellationToken.None);
 
                     //Success saving db => Send notification to front:
-                    await _hubContext.Clients.All.SendAsync("PrescriptionToValidateEvent", p);
+                    await _hubContext.SendEventToAll(p);
 
                     //Add new Activity
                     Guid createdBy = Guid.NewGuid();
