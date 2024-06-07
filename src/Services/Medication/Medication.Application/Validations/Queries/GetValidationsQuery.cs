@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Medication.Application.Validations.Queries
 {
-    public record GetValidationsQuery(PaginationRequest PaginationRequest) : IQuery<GetValidationsResult>;
+    public record GetValidationsQuery(PaginationRequest PaginationRequest, bool pendingOnly = false) : IQuery<GetValidationsResult>;
     public record GetValidationsResult(PaginatedResult<ValidationDto> Validations);
 
     public class GetValidationsQueryValidator : AbstractValidator<GetValidationsQuery>

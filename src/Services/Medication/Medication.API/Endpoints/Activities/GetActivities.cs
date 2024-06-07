@@ -6,7 +6,7 @@ public class GetActivities : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/v1/Medication/Activities", async ([AsParameters] PaginationRequest paginationRequest, ISender sender) =>
+        app.MapGet("/api/v1/Activities", async ([AsParameters] PaginationRequest paginationRequest, ISender sender) =>
         {
             var result = await sender.Send(new GetActivitiesQuery(paginationRequest));
 

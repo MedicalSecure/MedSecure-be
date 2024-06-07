@@ -6,7 +6,7 @@ public class GetValidationsHandler(IApplicationDbContext dbContext) : IQueryHand
     {
         // get Validations with pagination
         // return result
-
+        var pendingOnly = query.pendingOnly;
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
@@ -18,15 +18,31 @@ public class GetValidationsHandler(IApplicationDbContext dbContext) : IQueryHand
                         .Include(p => p.Drug)
                         //.Where(p=> p.Validation.Id == ValidationId.Of(x))
                         .ToListAsync();
+        if (pendingOnly)
+        {
+            var validations = await dbContext.Validations
+                .Where(v => v.Status == Domain.Enums.ValidationStatus.Pending)
+                .ToListAsync();
 
-        var validations = await dbContext.Validations.ToListAsync();
+            return new GetValidationsResult(
+                new PaginatedResult<ValidationDto>(
+                    pageIndex,
+                    pageSize,
+                    totalCount,
+                    validations.ToValidationsDto().ToList()
+                    ));
+        }
+        else
+        {
+            var validations = await dbContext.Validations.ToListAsync();
 
-        return new GetValidationsResult(
-            new PaginatedResult<ValidationDto>(
-                pageIndex,
-                pageSize,
-                totalCount,
-                validations.ToValidationsDto().ToList()
-                ));
+            return new GetValidationsResult(
+                new PaginatedResult<ValidationDto>(
+                    pageIndex,
+                    pageSize,
+                    totalCount,
+                    validations.ToValidationsDto().ToList()
+                    ));
+        }
     }
 }
