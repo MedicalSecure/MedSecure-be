@@ -21,7 +21,7 @@ namespace Prescription.Infrastructure.Database.Configurations
             builder.Property(p => p.BedId)
             .HasConversion(
                 new ValueConverter<EquipmentId?, Guid?>(
-                    modelDietId => modelDietId == null ? null : modelDietId.Value,
+                    modelEquipmentId => modelEquipmentId == null ? null : modelEquipmentId.Value,
                     dbEquipmentId => dbEquipmentId.HasValue ? EquipmentId.OfNullable(dbEquipmentId.Value) : null
                 ),
                 new ValueComparer<EquipmentId?>(
@@ -38,6 +38,10 @@ namespace Prescription.Infrastructure.Database.Configurations
             builder.Property(p => p.DoctorId)
             .HasConversion(doctorId => doctorId.Value,
                dbId => DoctorId.Of(dbId));
+
+            /*            builder.HasMany(Prescription => Prescription.Validations)
+                            .WithOne(v => v.Prescription)
+                            .HasForeignKey(v => v.PrescriptionId);*/
 
             builder.HasMany(Prescription => Prescription.Symptoms)
                 .WithMany(Sym => Sym.Prescriptions);

@@ -37,6 +37,7 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
                     var prescriptions = await _dbContext.Prescriptions
                         .Where(p => p.RegisterId == RegisterId.Of(registerId))
                         .Include(p => p.Diet)
+                           .Include(p => p.Validation)
                            .Include(p => p.Symptoms)
                            .Include(p => p.Diagnosis)
                            .Include(p => p.Posology)

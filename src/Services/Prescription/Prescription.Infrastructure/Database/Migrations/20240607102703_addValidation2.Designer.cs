@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Prescription.Infrastructure.Database;
 
@@ -11,9 +12,11 @@ using Prescription.Infrastructure.Database;
 namespace Prescription.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240607102703_addValidation2")]
+    partial class addValidation2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -599,8 +602,7 @@ namespace Prescription.Infrastructure.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PrescriptionId")
-                        .IsUnique();
+                    b.HasIndex("PrescriptionId");
 
                     b.ToTable("Validation");
                 });
@@ -763,8 +765,8 @@ namespace Prescription.Infrastructure.Database.Migrations
             modelBuilder.Entity("Prescription.Domain.Entities.Validation", b =>
                 {
                     b.HasOne("Prescription.Domain.Entities.Prescription", "Prescription")
-                        .WithOne("Validation")
-                        .HasForeignKey("Prescription.Domain.Entities.Validation", "PrescriptionId")
+                        .WithMany("Validations")
+                        .HasForeignKey("PrescriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -797,7 +799,7 @@ namespace Prescription.Infrastructure.Database.Migrations
                 {
                     b.Navigation("Posology");
 
-                    b.Navigation("Validation");
+                    b.Navigation("Validations");
                 });
 
             modelBuilder.Entity("Prescription.Domain.Entities.UnitCareRoot.Room", b =>

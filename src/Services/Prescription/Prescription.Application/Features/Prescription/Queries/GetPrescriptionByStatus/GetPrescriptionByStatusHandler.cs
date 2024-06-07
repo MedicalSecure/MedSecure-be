@@ -21,6 +21,7 @@ namespace Prescription.Application.Features.Prescription.Queries.GetPrescription
             // return result
 
             var p = await _dbContext.Prescriptions.Where(p => p.Status == query.Status)
+                   .Include(p => p.Validation)
                    .Include(p => p.Diet)
                     .Include(p => p.Symptoms)
                     .Include(p => p.Diagnosis)
