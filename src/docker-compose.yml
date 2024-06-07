@@ -71,10 +71,10 @@ services:
     depends_on:
        - sql-server-db
 
-  # unitcare.api:
-  #   image: ${DOCKER_REGISTRY-}unitcareapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/UnitCare/UnitCare.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  unitcare.api:
+    image: ${DOCKER_REGISTRY-}unitcareapi
+    build:
+      context: .
+      dockerfile: Services/UnitCare/UnitCare.API/Dockerfile
+    depends_on:
+       - sql-server-db
