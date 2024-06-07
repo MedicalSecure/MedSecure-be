@@ -25,9 +25,10 @@ namespace BacPatient.Application.BacPatient.EventHandlers.Integration
             {
                 foreach (var Dispense in Posology.Dispenses)
                 {
-                    toServe = int.Parse(Dispense.BeforeMeal?.Quantity + Dispense.AfterMeal?.Quantity);
+                    int beforeMealQuantity = int.Parse(Dispense.BeforeMeal?.Quantity ?? "0");
+                    int afterMealQuantity = int.Parse(Dispense.AfterMeal?.Quantity ?? "0");
+                     toServe = beforeMealQuantity + afterMealQuantity;
                 }
-
             }
 
             Console.WriteLine(newPrescription);

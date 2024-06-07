@@ -23,7 +23,7 @@ public class DietPlanSharedEventHandler
         var wasteItems = message.Meals.Select(meal => new WasteItemDto(Guid.NewGuid(), Guid.NewGuid(), meal.Id, 1, 0)).ToList();
 
         // Assuming WasteStatus and WasteColor are enums
-        var status = WasteStatus.Pending;
+        var status = WasteStatus.Pending; 
         var color = WasteColor.Black;
         // message.PatientId
         var wasteDto = new WasteDto(
