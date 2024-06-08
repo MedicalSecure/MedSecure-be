@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Prescription.Application.Features.Prescription.Commands.UpdatePrescriptionStatus;
+using Prescription.Application.Hubs;
+using Prescription.Application.Hubs.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace Prescription.Application.Features.Prescription.EventHandlers.Integration
 {
-    public class PrescriptionValidationEventHandler(ISender sender, IPublishEndpoint publishEndpoint, IApplicationDbContext dbContext) : IConsumer<PrescriptionValidationSharedEvent>
+    public class PrescriptionValidationEventHandler(ISender sender, IPublishEndpoint publishEndpoint, IApplicationDbContext dbContext, IPrescriptionHub prescriptionHub) : IConsumer<PrescriptionValidationSharedEvent>
     {
         public async Task Consume(ConsumeContext<PrescriptionValidationSharedEvent> context)
         {
@@ -74,6 +76,8 @@ namespace Prescription.Application.Features.Prescription.EventHandlers.Integrati
                     PrescriptionTracked.AddValidation(validation);
                     dbContext.Prescriptions.Update(PrescriptionTracked);
                     await dbContext.SaveChangesAsync(CancellationToken.None);
+
+                    await prescriptionHub.SendEventToAll(response);
 
                     //Create activity message
                     activityMessage = $"Received a prescription rejection";
