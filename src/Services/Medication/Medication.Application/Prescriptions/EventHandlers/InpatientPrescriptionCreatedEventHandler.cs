@@ -32,9 +32,6 @@ namespace Medication.Application.Prescriptions.EventHandlers
         {
             var p = context.Message;
 
-            //TODO REMOVE AFTER TESTS
-            await _hubContext.SendEventToAll(p);
-
             //continue preparing the event
             var jsonUnitCare = JsonConvert.SerializeObject(p.UnitCare);
             var drugs = await _dbContext.Drugs.ToListAsync();
@@ -59,7 +56,7 @@ namespace Medication.Application.Prescriptions.EventHandlers
                             return;//impossible case, car this validation has occurred in : CreateValidationFromEvent from above
 
                         drug.ReserveStock(ReservedQuantities[drugId]);
-                        _dbContext.Drugs.Update(drug);
+                        //_dbContext.Drugs.Update(drug);
                     }
 
                     _dbContext.Validations.Add(newValidation);
@@ -85,7 +82,7 @@ namespace Medication.Application.Prescriptions.EventHandlers
             var isPrescriptionValid = false;//Rejection
             string RejectedBy = "System";
             // Not enough stock available / Medication not found error :
-            var validatedPrescriptionEvent = new PrescriptionValidationSharedEvent(p.Id, p.RegisterId, Guid.NewGuid(), RejectedBy, jsonUnitCare, isPrescriptionValid, rejectionMessages);
+            var validatedPrescriptionEvent = new PrescriptionValidationSharedEvent(p.Id, Guid.Empty, RejectedBy, jsonUnitCare, isPrescriptionValid, rejectionMessages);
             await _publishEndpoint.Publish(validatedPrescriptionEvent);
         }
 
@@ -154,9 +151,7 @@ namespace Medication.Application.Prescriptions.EventHandlers
             var validation = Validation.Create(ev.Id, jsonUnitCare);
             foreach (var posology in ev.Posologies)
             {
-                //TODO REMOVE THE COMMENT
-                //var drug = drugs.FirstOrDefault(d => d.Id == DrugId.Of(posology.MedicationId));
-                var drug = drugs.FirstOrDefault();
+                var drug = drugs.FirstOrDefault(d => d.Id == DrugId.Of(posology.MedicationId));
                 if (drug == null)
                     throw new NotFoundException($"Drug with id {posology.MedicationId} not found");
                 var newPosology = Posology.Create(validation.Id, drug.Id);

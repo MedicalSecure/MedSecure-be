@@ -10,6 +10,7 @@ namespace Medication.Domain.Enums
     {
         Pending = 0,
         Validated = 1,
-        Rejected = 2
+        Rejected = 2,
+        Cancelled = 3
     }
 }

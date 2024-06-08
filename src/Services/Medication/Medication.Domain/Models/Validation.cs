@@ -41,6 +41,8 @@ public class Validation : Entity<ValidationId>
 
     public void Validate(Guid pharmacistId, string notes = "No notes", string? pharmacistName = null)
     {
+        if (Status != ValidationStatus.Pending)
+            throw new InvalidOperationException("Cant Validate a readonly Validation");
         PharmacistId = pharmacistId;
         Notes = notes;
         PharmacistName = pharmacistName;
@@ -49,9 +51,21 @@ public class Validation : Entity<ValidationId>
 
     public void Reject(Guid pharmacistId, string notes, string? pharmacistName = null)
     {
+        if (Status != ValidationStatus.Pending)
+            throw new InvalidOperationException("Cant Reject a readonly Validation");
         PharmacistId = pharmacistId;
         Notes = notes;
         PharmacistName = pharmacistName;
         Status = ValidationStatus.Rejected;
+    }
+
+    public void Cancel(Guid doctorId, string? doctorName = null)
+    {
+        if (Status != ValidationStatus.Pending)
+            throw new InvalidOperationException("Cant Cancel a readonly Validation");
+        PharmacistId = doctorId;
+        Notes = "Cancelled By the doctor before validation";
+        PharmacistName = doctorName;
+        Status = ValidationStatus.Cancelled;
     }
 }

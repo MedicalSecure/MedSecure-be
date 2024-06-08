@@ -39,7 +39,7 @@ namespace Prescription.Application.Features.Prescription.EventHandlers.Integrati
                     //fill the unitCare from the request, cuz we save only the bed id in the DB
                     eventMessage.UnitCare = JsonConvert.DeserializeObject<UnitCarePlanSharedEvent>(response.UnitCareJson) ?? throw new NotFoundException($"Cant deserialize UnitCare From event for prescription : {getByIdQuery}"); ;
                     eventMessage.PharmacistId = response.PharmacistId;
-                    eventMessage.Remarques = response.Remarques ?? string.Empty;
+                    eventMessage.Remarques = response.Notes ?? string.Empty;
                     eventMessage.PharmacistName = response.PharmacistName ?? string.Empty;
                     // for testing purposes  TODO REMOVE
                     var ValidInpatientShared = JsonConvert.SerializeObject(eventMessage);
@@ -51,7 +51,7 @@ namespace Prescription.Application.Features.Prescription.EventHandlers.Integrati
                     if (PrescriptionTracked == null)
                         throw new NotFoundException($"Cant find prescription with id {response.PrescriptionId}");
 
-                    var validation = Validation.CreateValidated(PrescriptionTracked.Id, response.PharmacistId, response.Remarques, response.PharmacistName);
+                    var validation = Validation.CreateValidated(PrescriptionTracked.Id, response.PharmacistId, response.Notes, response.PharmacistName);
                     //will throw an error if its invalid operation
                     PrescriptionTracked.AddValidation(validation);
                     dbContext.Prescriptions.Update(PrescriptionTracked);
@@ -69,7 +69,7 @@ namespace Prescription.Application.Features.Prescription.EventHandlers.Integrati
                     if (PrescriptionTracked == null)
                         throw new NotFoundException($"Cant find prescription with id {response.PrescriptionId}");
 
-                    var validation = Validation.CreateRejected(PrescriptionTracked.Id, response.PharmacistId, response.Remarques ?? "No notes were given", response.PharmacistName);
+                    var validation = Validation.CreateRejected(PrescriptionTracked.Id, response.PharmacistId, response.Notes ?? "No notes were given", response.PharmacistName);
                     //will throw an error if its invalid operation
                     PrescriptionTracked.AddValidation(validation);
                     dbContext.Prescriptions.Update(PrescriptionTracked);

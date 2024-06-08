@@ -1,4 +1,6 @@
-﻿using Medication.Application.Drugs.Commands.CreateDrug;
+﻿using BuildingBlocks.Messaging.Events.Drugs;
+using MassTransit;
+using Medication.Application.Drugs.Commands.CreateDrug;
 using Medication.Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Medication.Application.Validations.Commands.UpdateValidation
 {
-    public class UpdateValidationHandler(IApplicationDbContext dbContext) : ICommandHandler<UpdateValidationCommand, UpdateValidationResult>
+    public class UpdateValidationHandler(IApplicationDbContext dbContext, IPublishEndpoint publisher) : ICommandHandler<UpdateValidationCommand, UpdateValidationResult>
     {
         public async Task<UpdateValidationResult> Handle(UpdateValidationCommand command, CancellationToken cancellationToken)
         {
@@ -56,9 +58,11 @@ namespace Medication.Application.Validations.Commands.UpdateValidation
             Guid createdBy = command.Validation.PharmacistId;
             string pharmacistName = command.Validation.PharmacistName ?? "Pharmacist x";
 
+            string? notesforEvent = null;
             if (isRejected)
             {
                 string notes = command.Validation.Notes ?? throw new ArgumentNullException($"Rejection must have a Note");
+                notesforEvent=notes;
                 validation.Reject(createdBy, notes, pharmacistName);
                 // Add Activity
                 var newActivity = Activity.Create(createdBy, $"Rejected a Prescription", pharmacistName);
@@ -67,6 +71,7 @@ namespace Medication.Application.Validations.Commands.UpdateValidation
             else
             {
                 string notes = command.Validation.Notes ?? "No notes";
+                notesforEvent = notes;
                 validation.Validate(createdBy, notes, pharmacistName);
                 // Add Activity
                 var newActivity = Activity.Create(createdBy, $"Validated a Prescription", pharmacistName);
@@ -74,8 +79,17 @@ namespace Medication.Application.Validations.Commands.UpdateValidation
             }
 
             dbContext.Validations.Update(validation);
-
             await dbContext.SaveChangesAsync(cancellationToken);
+
+            var newEvent = new PrescriptionValidationSharedEvent(
+                presId: validation.PrescriptionId,
+                pharmacistId: createdBy,
+                pharmacistName:pharmacistName,
+                unitCareJson:validation.UnitCareJson,
+                validated: !isRejected,
+                notes: notesforEvent
+                );
+            await publisher.Publish(newEvent);
 
             return new UpdateValidationResult(validation.ToValidationDto());
         }

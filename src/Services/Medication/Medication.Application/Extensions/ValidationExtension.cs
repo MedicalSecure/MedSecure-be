@@ -18,7 +18,8 @@ public static class ValidationExtensions
             Status: validation.Status,
             Notes: validation.Notes,
             CreatedAt: validation.CreatedAt ?? DateTime.UtcNow,
-            PharmacistName: validation.PharmacistName
+            PharmacistName: validation.PharmacistName,
+            ModifiedAt: validation.LastModified
         );
     }
 }

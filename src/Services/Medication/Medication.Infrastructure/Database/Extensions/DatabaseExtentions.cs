@@ -46,7 +46,7 @@ public static class DatabaseExtentions
         context.Drugs.RemoveRange(context.Drugs);
 
         context.Dosages.RemoveRange(context.Dosages);
-        context.Validations.RemoveRange(context.Validations);      
+        context.Validations.RemoveRange(context.Validations);
         context.Dispenses.RemoveRange(context.Dispenses);
 
         context.Posologies.RemoveRange(context.Posologies);

@@ -11,6 +11,7 @@ namespace Medication.Application.Dtos
         string? PharmacistName, 
         ValidationStatus Status, 
         string? Notes, 
-        DateTime CreatedAt
+        DateTime CreatedAt,
+        DateTime? ModifiedAt=null
         );
 }
