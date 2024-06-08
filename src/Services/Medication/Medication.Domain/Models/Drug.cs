@@ -82,6 +82,27 @@ public class Drug : Aggregate<DrugId>
         ReservedStock += quantityToReserve;
     }
 
+    public void FreeReservedStock(int quantityToFree)
+    {
+        if (quantityToFree < 0)
+            throw new DomainException(nameof(FreeReservedStock) + " : Stock must be greater than 0, error value : " + quantityToFree);
+        if (quantityToFree > ReservedStock)
+            throw new DomainException(nameof(FreeReservedStock) + $" : Quantity to free {quantityToFree} must be less or equal than the reserved: {ReservedStock}, Drug id {this.Id.Value}");
+
+        ReservedStock -= quantityToFree;
+    }
+
+    public void UpdateStockAfterValidation(int quantityToDeliver)
+    {
+        if (quantityToDeliver < 0)
+            throw new DomainException(nameof(UpdateStockAfterValidation) + " : Quantity must be greater than 0, error value : " + quantityToDeliver);
+        if (quantityToDeliver > ReservedStock)
+            throw new DomainException(nameof(UpdateStockAfterValidation) + $" : Quantity to deliver {quantityToDeliver} must be less or equal than the reserved: {ReservedStock}, Drug id {this.Id.Value}");
+
+        ReservedStock -= quantityToDeliver;
+        Stock -= quantityToDeliver;
+    }
+
     public void UpdateStock(int stock)
     {
         if (stock < 0)
