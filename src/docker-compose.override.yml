@@ -53,44 +53,44 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
   
-  bacpatient.api:
-    container_name: bacPatient-api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__Database=Server=sql-server-db;Database=bacPatientDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
-      - MessageBroker__Host=amqp://medsecure-mq:5672
-      - MessageBroker__UserName=guest
-      - MessageBroker__Password=guest
-      - FeatureManagement__BacPatientPlanSharedFulfillment=false
-    ports:
-      - "6005:8080"
-      - "6065:8081"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  # bacpatient.api:
+  #   container_name: bacPatient-api
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - ASPNETCORE_HTTP_PORTS=8080
+  #     - ASPNETCORE_HTTPS_PORTS=8081
+  #     - ConnectionStrings__Database=Server=sql-server-db;Database=bacPatientDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
+  #     - MessageBroker__Host=amqp://medsecure-mq:5672
+  #     - MessageBroker__UserName=guest
+  #     - MessageBroker__Password=guest
+  #     - FeatureManagement__BacPatientPlanSharedFulfillment=false
+  #   ports:
+  #     - "6005:8080"
+  #     - "6065:8081"
+  #   volumes:
+  #     - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+  #     - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
 
 
 
-  waste.api:
-    container_name: waste-api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__Database=Server=sql-server-db;Database=WasteDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
-      - MessageBroker__Host=amqp://medsecure-mq:5672
-      - MessageBroker__UserName=guest
-      - MessageBroker__Password=guest
-      - FeatureManagement__DietPlanSharedFulfillment=false
-    ports:
-      - "6002:8080"
-      - "6062:8081"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  # waste.api:
+  #   container_name: waste-api
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - ASPNETCORE_HTTP_PORTS=8080
+  #     - ASPNETCORE_HTTPS_PORTS=8081
+  #     - ConnectionStrings__Database=Server=sql-server-db;Database=WasteDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
+  #     - MessageBroker__Host=amqp://medsecure-mq:5672
+  #     - MessageBroker__UserName=guest
+  #     - MessageBroker__Password=guest
+  #     - FeatureManagement__DietPlanSharedFulfillment=false
+  #   ports:
+  #     - "6002:8080"
+  #     - "6062:8081"
+  #   volumes:
+  #     - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+  #     - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
   prescription.api:
     container_name: prescription-api
@@ -128,23 +128,23 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
-  visit.api:
-    container_name: visit-api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__Database=Server=sql-server-db;Database=VisitDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
-      - MessageBroker__Host=amqp://medsecure-mq:5672
-      - MessageBroker__UserName=guest
-      - MessageBroker__Password=guest
-      - FeatureManagement__DietPlanSharedFulfillment=false
-    ports:
-      - "6012:8080"
-      - "6072:8081"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  # visit.api:
+  #   container_name: visit-api
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - ASPNETCORE_HTTP_PORTS=8080
+  #     - ASPNETCORE_HTTPS_PORTS=8081
+  #     - ConnectionStrings__Database=Server=sql-server-db;Database=VisitDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
+  #     - MessageBroker__Host=amqp://medsecure-mq:5672
+  #     - MessageBroker__UserName=guest
+  #     - MessageBroker__Password=guest
+  #     - FeatureManagement__DietPlanSharedFulfillment=false
+  #   ports:
+  #     - "6012:8080"
+  #     - "6072:8081"
+  #   volumes:
+  #     - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+  #     - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
 
   registration.api:
@@ -165,21 +165,21 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro 
 
-  unitcare.api:
-    container_name: unitcare-api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__Database=Server=sql-server-db;Database=UnitCareDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
-      - MessageBroker__Host=amqp://medsecure-mq:5672
-      - MessageBroker__UserName=guest
-      - MessageBroker__Password=guest
-      - FeatureManagement__DietPlanSharedFulfillment=false
-    ports:
-      - "6011:8080"
-      - "6071:8081"
+  # unitcare.api:
+  #   container_name: unitcare-api
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - ASPNETCORE_HTTP_PORTS=8080
+  #     - ASPNETCORE_HTTPS_PORTS=8081
+  #     - ConnectionStrings__Database=Server=sql-server-db;Database=UnitCareDb;User Id=sa;Password=SwN12345678;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False
+  #     - MessageBroker__Host=amqp://medsecure-mq:5672
+  #     - MessageBroker__UserName=guest
+  #     - MessageBroker__Password=guest
+  #     - FeatureManagement__DietPlanSharedFulfillment=false
+  #   ports:
+  #     - "6011:8080"
+  #     - "6071:8081"
 
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  #   volumes:
+  #     - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+  #     - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

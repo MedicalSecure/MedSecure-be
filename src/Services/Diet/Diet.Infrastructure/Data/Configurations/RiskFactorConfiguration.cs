@@ -38,11 +38,9 @@ namespace BacPatient.Infrastructure.Database.Configurations
                    .OnDelete(DeleteBehavior.Restrict); // Specify NO ACTION on delete
 
             // Configure Key and Value properties to be required
-            builder.Property(rf => rf.Key)
-                   .IsRequired();
+            builder.Property(rf => rf.Key);
 
-            builder.Property(rf => rf.Value)
-                   .IsRequired();
+            builder.Property(rf => rf.Value);
         }
     }
 }

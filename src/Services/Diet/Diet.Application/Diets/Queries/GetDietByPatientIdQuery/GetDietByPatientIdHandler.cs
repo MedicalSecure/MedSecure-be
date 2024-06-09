@@ -10,11 +10,10 @@ public class GetDietByPatientIdHandler(IApplicationDbContext dbContext) : IQuery
         // var patients = await dbContext.Patients;
         // return result
         var diets = await dbContext.Diets
-            .Include(d => d.DailyMeals)
-             .ThenInclude(o => o.Meals)
+             .Include(o => o.Meals)
              .ThenInclude(c=> c.Foods)
              .AsNoTracking()
-             .Where(o => o.Prescription.Register.Patient.Id == PatientId.Of(query.id))
+             .Where(o => o.Register.Patient.Id == PatientId.Of(query.id))
              .OrderBy(o => o.Id)
              .ToListAsync(cancellationToken);
 

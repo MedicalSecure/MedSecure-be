@@ -10,10 +10,12 @@ public class MealConfiguration : IEntityTypeConfiguration<Meal>
         builder.Property(w => w.Id)
                .HasConversion(mealId => mealId.Value,
                               dbId => MealId.Of(dbId));
+        builder.HasMany(d => d.Comments)
+            .WithOne()
+            .HasForeignKey(dm => dm.MealId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        
-        builder.Property(wi => wi.Name).HasMaxLength(255)
-              .IsRequired();
+        builder.Property(wi => wi.Name).HasMaxLength(255);
 
         builder.Property(d => d.MealType).HasDefaultValue(MealType.Breakfast).
             HasConversion(

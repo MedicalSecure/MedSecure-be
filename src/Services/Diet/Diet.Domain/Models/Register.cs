@@ -105,6 +105,20 @@ namespace Diet.Domain.Models.RegisterRoot
 
             _allergy.Add(riskFactor);
         }
+        public void AddAllergies(ICollection<RiskFactor> allergy)
+        {
+            foreach (var al in allergy)
+            {
+                _allergy.Add(al);
+            }
+        }
+        public void AddDiseases(ICollection<RiskFactor> disease)
+        {
+            foreach (var dis in disease)
+            {
+                _disease.Add(dis);
+            }
+        }
 
         // Method to update patient and test
         public void Update(Patient patient)

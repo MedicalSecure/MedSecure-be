@@ -218,6 +218,31 @@ namespace Diet.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Diets",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RegisterId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DietType = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "Normal"),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Label = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Diets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Diets_Registers_RegisterId",
+                        column: x => x.RegisterId,
+                        principalTable: "Registers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "History",
                 columns: table => new
                 {
@@ -270,21 +295,21 @@ namespace Diet.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RiskFactor",
+                name: "RiskFactors",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Key = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsSelected = table.Column<bool>(type: "bit", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegisterIdForDisease = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RegisterIdForAllergy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RegisterIdForFamilyMedicalHistory = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RegisterIdForPersonalMedicalHistory = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsSelected = table.Column<bool>(type: "bit", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RegisterIdForDisease = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    RegisterIdForAllergy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    RegisterIdForFamilyMedicalHistory = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    RegisterIdForPersonalMedicalHistory = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -292,27 +317,27 @@ namespace Diet.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RiskFactor", x => x.Id);
+                    table.PrimaryKey("PK_RiskFactors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RiskFactor_Registers_RegisterIdForAllergy",
+                        name: "FK_RiskFactors_Registers_RegisterIdForAllergy",
                         column: x => x.RegisterIdForAllergy,
                         principalTable: "Registers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RiskFactor_Registers_RegisterIdForDisease",
+                        name: "FK_RiskFactors_Registers_RegisterIdForDisease",
                         column: x => x.RegisterIdForDisease,
                         principalTable: "Registers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RiskFactor_Registers_RegisterIdForFamilyMedicalHistory",
+                        name: "FK_RiskFactors_Registers_RegisterIdForFamilyMedicalHistory",
                         column: x => x.RegisterIdForFamilyMedicalHistory,
                         principalTable: "Registers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RiskFactor_Registers_RegisterIdForPersonalMedicalHistory",
+                        name: "FK_RiskFactors_Registers_RegisterIdForPersonalMedicalHistory",
                         column: x => x.RegisterIdForPersonalMedicalHistory,
                         principalTable: "Registers",
                         principalColumn: "Id",
@@ -370,6 +395,30 @@ namespace Diet.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Meals",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DietId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    MealType = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "Breakfast"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Meals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Meals_Diets_DietId",
+                        column: x => x.DietId,
+                        principalTable: "Diets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DiagnosisPrescription",
                 columns: table => new
                 {
@@ -388,32 +437,6 @@ namespace Diet.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_DiagnosisPrescription_Prescriptions_PrescriptionsId",
                         column: x => x.PrescriptionsId,
-                        principalTable: "Prescriptions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Diets",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PrescriptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DietType = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "Normal"),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Label = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Diets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Diets_Prescriptions_PrescriptionId",
-                        column: x => x.PrescriptionId,
                         principalTable: "Prescriptions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -497,20 +520,23 @@ namespace Diet.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_SubRiskFactor", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SubRiskFactor_RiskFactor_RiskFactorId",
+                        name: "FK_SubRiskFactor_RiskFactors_RiskFactorId",
                         column: x => x.RiskFactorId,
-                        principalTable: "RiskFactor",
+                        principalTable: "RiskFactors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DailyMeal",
+                name: "Foods",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DietDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DietId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Calories = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    FoodCategory = table.Column<int>(type: "int", nullable: true),
+                    MealId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -518,13 +544,42 @@ namespace Diet.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DailyMeal", x => x.Id);
+                    table.PrimaryKey("PK_Foods", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DailyMeal_Diets_DietId",
-                        column: x => x.DietId,
-                        principalTable: "Diets",
+                        name: "FK_Foods_Meals_MealId",
+                        column: x => x.MealId,
+                        principalTable: "Meals",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Label = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    PosologyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    MealId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_Meals_MealId",
+                        column: x => x.MealId,
+                        principalTable: "Meals",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_Posology_PosologyId",
+                        column: x => x.PosologyId,
+                        principalTable: "Posology",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -556,90 +611,10 @@ namespace Diet.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Label = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    PosologyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DailyMealId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Comments_DailyMeal_DailyMealId",
-                        column: x => x.DailyMealId,
-                        principalTable: "DailyMeal",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Comments_Posology_PosologyId",
-                        column: x => x.PosologyId,
-                        principalTable: "Posology",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Meals",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DailyMealId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    MealType = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "Breakfast"),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Meals", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Meals_DailyMeal_DailyMealId",
-                        column: x => x.DailyMealId,
-                        principalTable: "DailyMeal",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Foods",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Calories = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    FoodCategory = table.Column<int>(type: "int", nullable: false),
-                    MealId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Foods", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Foods_Meals_MealId",
-                        column: x => x.MealId,
-                        principalTable: "Meals",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_DailyMealId",
+                name: "IX_Comments_MealId",
                 table: "Comments",
-                column: "DailyMealId");
+                column: "MealId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PosologyId",
@@ -647,19 +622,14 @@ namespace Diet.Infrastructure.Migrations
                 column: "PosologyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DailyMeal_DietId",
-                table: "DailyMeal",
-                column: "DietId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_DiagnosisPrescription_PrescriptionsId",
                 table: "DiagnosisPrescription",
                 column: "PrescriptionsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Diets_PrescriptionId",
+                name: "IX_Diets_RegisterId",
                 table: "Diets",
-                column: "PrescriptionId");
+                column: "RegisterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dispenses_PosologyId",
@@ -683,9 +653,9 @@ namespace Diet.Infrastructure.Migrations
                 column: "RegisterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Meals_DailyMealId",
+                name: "IX_Meals_DietId",
                 table: "Meals",
-                column: "DailyMealId");
+                column: "DietId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Personnel_UnitCareId",
@@ -723,23 +693,23 @@ namespace Diet.Infrastructure.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RiskFactor_RegisterIdForAllergy",
-                table: "RiskFactor",
+                name: "IX_RiskFactors_RegisterIdForAllergy",
+                table: "RiskFactors",
                 column: "RegisterIdForAllergy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RiskFactor_RegisterIdForDisease",
-                table: "RiskFactor",
+                name: "IX_RiskFactors_RegisterIdForDisease",
+                table: "RiskFactors",
                 column: "RegisterIdForDisease");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RiskFactor_RegisterIdForFamilyMedicalHistory",
-                table: "RiskFactor",
+                name: "IX_RiskFactors_RegisterIdForFamilyMedicalHistory",
+                table: "RiskFactors",
                 column: "RegisterIdForFamilyMedicalHistory");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RiskFactor_RegisterIdForPersonalMedicalHistory",
-                table: "RiskFactor",
+                name: "IX_RiskFactors_RegisterIdForPersonalMedicalHistory",
+                table: "RiskFactors",
                 column: "RegisterIdForPersonalMedicalHistory");
 
             migrationBuilder.CreateIndex(
@@ -811,25 +781,22 @@ namespace Diet.Infrastructure.Migrations
                 name: "Symptoms");
 
             migrationBuilder.DropTable(
-                name: "RiskFactor");
+                name: "RiskFactors");
 
             migrationBuilder.DropTable(
                 name: "Medications");
 
             migrationBuilder.DropTable(
-                name: "DailyMeal");
+                name: "Prescriptions");
 
             migrationBuilder.DropTable(
                 name: "Diets");
 
             migrationBuilder.DropTable(
-                name: "Prescriptions");
+                name: "UnitCares");
 
             migrationBuilder.DropTable(
                 name: "Registers");
-
-            migrationBuilder.DropTable(
-                name: "UnitCares");
 
             migrationBuilder.DropTable(
                 name: "Patients");

@@ -10,13 +10,14 @@ namespace BacPatient.Infrastructure.Database.Configurations
             builder.Property(p => p.Id)
            .HasConversion(personnelId => personnelId.Value,
                           dbId => CommentId.Of(dbId));
-
+            builder.HasOne<Meal>()
+              .WithMany(d => d.Comments)
+              .HasForeignKey(w => w.MealId);
             builder.Property(d => d.Label)
             .HasMaxLength(30);
 
             builder.Property(d => d.Content)
-                .HasMaxLength(300)
-                .IsRequired();
+                .HasMaxLength(300);
 
             builder.Property(d => d.LastModifiedBy)
                 .HasMaxLength(128);

@@ -7,7 +7,6 @@ public static partial class FoodExtensions
     {
         return foods.Select(f => new FoodDto(
             Id: f.Id.Value,
-            MealId: f.MealId.Value,
             Name: f.Name,
             Calories: f.Calories,
             Description: f.Description,

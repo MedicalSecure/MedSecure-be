@@ -26,9 +26,5 @@
     <ProjectReference Include="..\Diet.Application\Diet.Application.csproj" />
     <ProjectReference Include="..\Diet.Infrastructure\Diet.Infrastructure.csproj" />
   </ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Endpoints\" />
-	</ItemGroup>
 	
 </Project>

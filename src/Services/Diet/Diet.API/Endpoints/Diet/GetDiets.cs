@@ -12,7 +12,7 @@ public class GetDiets : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/diets", async ([AsParameters] PaginationRequest request, ISender sender) =>
+        app.MapGet("/v1/diets", async ([AsParameters] PaginationRequest request, ISender sender) =>
         {
 
 

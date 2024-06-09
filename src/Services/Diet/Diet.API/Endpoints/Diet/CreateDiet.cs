@@ -13,9 +13,11 @@ public class CreateDiet : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/diets", async (CreateDietRequest request, ISender sender) =>
+        app.MapPost("/v1/diets", async (CreateDietRequest request, ISender sender) =>
         {
-            var command = request.Adapt<CreateDietCommand>();
+            //    var command = request.Adapt<CreateDietCommand>();
+            CreateDietCommand command = new CreateDietCommand(request.Diet);
+
 
             var result = await sender.Send(command);
 

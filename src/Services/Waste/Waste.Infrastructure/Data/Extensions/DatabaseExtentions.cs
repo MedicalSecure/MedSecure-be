@@ -10,7 +10,6 @@ public static class DatabaseExtentions
 
         context.Database.MigrateAsync().GetAwaiter().GetResult();
 
-        await SeedAsync(context);
     }
 
     private static async Task SeedAsync(ApplicationDbContext context)
@@ -26,22 +25,14 @@ public static class DatabaseExtentions
     private static async Task ClearDataAsync(ApplicationDbContext context)
     {
         // Clear all data from tables
-        context.Rooms.RemoveRange(context.Rooms);
-        context.Wastes.RemoveRange(context.Wastes);
-        context.Products.RemoveRange(context.Products);
-        context.WasteItems.RemoveRange(context.WasteItems);
-
+      
         // Save changes to the database
         await context.SaveChangesAsync();
     }
 
     private static async Task SeedRoomsAsync(ApplicationDbContext context)
     {
-        if (!await context.Rooms.AnyAsync())
-        {
-            await context.Rooms.AddRangeAsync(InitialData.Rooms);
-            await context.SaveChangesAsync();
-        }
+       
     }
 
     private static async Task SeedProductsAsync(ApplicationDbContext context)

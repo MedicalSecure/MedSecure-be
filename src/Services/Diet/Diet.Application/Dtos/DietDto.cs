@@ -1,4 +1,4 @@
 ﻿
 namespace Diet.Application.Dtos;
 
-public record DietDto(Guid Id, SimplePrescriptionDto Prescription, DietType DietType, DateTime StartDate, DateTime EndDate, List<DailyMealDto> Meals , string Label);
+public record DietDto(Guid Id, SimpleRegisterDto? Register, DietType? DietType, DateTime? StartDate, DateTime? EndDate, List<MealDto?> Meals , string? Label);

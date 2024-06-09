@@ -15,13 +15,9 @@ public class FoodConfiguration : IEntityTypeConfiguration<Food>
                .WithMany(d => d.Foods)
                .HasForeignKey(w => w.MealId);
 
-        builder.Property(wi => wi.Name).HasMaxLength(255)
-               .IsRequired();
+        builder.Property(wi => wi.Name).HasMaxLength(255);
 
-        builder.Property(wi => wi.Description).HasMaxLength(500)
-              .IsRequired();
+        builder.Property(wi => wi.Description).HasMaxLength(500);
 
-        builder.Property(wi => wi.Calories).HasDefaultValue(0)
-             .IsRequired();
     }
 }

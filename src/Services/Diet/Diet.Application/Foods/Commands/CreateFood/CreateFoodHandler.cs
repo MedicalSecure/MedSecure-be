@@ -21,7 +21,6 @@ public class CreateFoodHandler(IApplicationDbContext dbContext) : ICommandHandle
         //FoodId id, string name, decimal calories, string description
         var newFood = Food.Create(
             id: FoodId.Of(Guid.NewGuid()),
-            mealId: MealId.Of(foodDto.MealId),
             name: foodDto.Name,
             calories: foodDto.Calories,
             description: foodDto.Description,

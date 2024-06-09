@@ -71,13 +71,13 @@ namespace Diet.Application.Extensions
         }
         public static SimpleRegisterDto ToSimpleRegisterDto(this Register Register)
         {
-            return new SimpleRegisterDto
-            {
-                Id = Register.Id.Value,
-              
-                Patient = Register.Patient.ToSimplePatientDto(),
-                   };
-        }
+            return new SimpleRegisterDto(
+                Id: Register.Id.Value,
+                Patient: Register.Patient.ToSimplePatientDto(),
+                Allergies: Register.Allergy.ToSimpleRiskFactorDto().ToList(),
+                Diseases: Register.Disease.ToSimpleRiskFactorDto().ToList()
+);
+                }
         public static SimpleMedicationDto ToSimpleMedicationDto(this Medication Medication)
         {
            
@@ -98,6 +98,22 @@ namespace Diet.Application.Extensions
                 DateOfbirth: patient.DateOfBirth,
                 Gender: patient.Gender
             );
+        }
+        public static SimpleRiskFactorDto ToSimpleRiskFactorDto(this RiskFactor risk)
+        {
+            return new SimpleRiskFactorDto(
+                  Id: risk.Id.Value,
+                   Value: risk.Value,
+                    Type: risk.Type
+            );
+        }
+        public static ICollection<SimpleRiskFactorDto> ToSimpleRiskFactorDto(this IEnumerable<RiskFactor> risks)
+        {
+            return risks.Select(risk => new SimpleRiskFactorDto(
+                Id : risk.Id.Value ,
+                   Value: risk.Value,
+                    Type: risk.Type
+            )).ToList();
         }
         public static Medication ToSimpleMedicineEntity(this SimpleMedicationDto Medication)
         {
@@ -177,8 +193,8 @@ namespace Diet.Application.Extensions
         {
             return new  Comment (
                 id : CommentId.Of(Guid.NewGuid()) ,
-          label :       simpleComment.Label ?? "",
-           content :    simpleComment.Content ?? ""
+                label :       simpleComment.Label ?? "",
+                    content :    simpleComment.Content ?? ""
                 ) ;
             
                 
@@ -202,13 +218,43 @@ namespace Diet.Application.Extensions
                 simpleDispense.AfterMeal
                 ) ;
         }
+
         public static Register ToRegisterEntity(this SimpleRegisterDto simpleRegister)
         {
-            return  new Register(
-                id : RegisterId.Of(Guid.NewGuid()) ,
-             patient :   simpleRegister.Patient.ToPatientEntity() ?? throw new ArgumentNullException(nameof(simpleRegister.Patient))
+            var register = new Register(
+                id: RegisterId.Of(Guid.NewGuid()),
+              patient: simpleRegister.Patient.ToPatientEntity() ?? throw new ArgumentNullException(nameof(simpleRegister.Patient))
+            );
+            register.AddAllergies(simpleRegister.Allergies.ToSimpleRiskEntities());
+            register.AddDiseases(simpleRegister.Diseases.ToSimpleRiskEntities());
+
+
+            return register;
+        }
+
+        ///////////
+
+        public static RiskFactor ToSimpleRiskEntity(this SimpleRiskFactorDto simpleRiskFactorDto)
+        {
+            return new RiskFactor(
+                id :  RiskFactorId.Of(Guid.NewGuid()),
+                value : simpleRiskFactorDto.Value,
+                type : simpleRiskFactorDto.Type 
             );
         }
+
+        public static ICollection<RiskFactor> ToSimpleRiskEntities(this IEnumerable<SimpleRiskFactorDto> simpleRiskFactor)
+        {
+            var RiskFactor = new List<RiskFactor>();
+            foreach (var simpleDispense in simpleRiskFactor)
+            {
+                RiskFactor.Add(simpleDispense.ToSimpleRiskEntity());
+            }
+            return RiskFactor;
+        }
+
+
+        ///////////
         public static Medication ToMedicationEntity(this SimpleMedicationDto simpleMedication)
         {
             return new   Medication(

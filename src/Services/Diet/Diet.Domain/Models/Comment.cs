@@ -8,9 +8,9 @@ namespace Diet.Domain.Models
 
         public string Content { get; private set; }
 
-        public PosologyId PosologyId { get; private set; }
+        public PosologyId? PosologyId { get; private set; }
         public Posology? posology { get; private set; }
-
+        public MealId? MealId { get; private set; }
         private Comment()
         { } // Required for EF Core
         public Comment( CommentId id , string label  , string content )
@@ -30,11 +30,15 @@ namespace Diet.Domain.Models
             Content = content;
         }
 
-        public static Comment Create(PosologyId posologyId, string label, string content)
+        public static Comment Create(PosologyId? posologyId, string label, string content)
         {
             return new Comment(CommentId.Of(Guid.NewGuid()),posologyId, label, content);
         }
-        public static Comment Create(CommentId id,PosologyId posologyId, string label, string content)
+        public static Comment Create(CommentId id , string label, string content)
+        {
+            return new Comment(id, label, content);
+        }
+        public static Comment Create(CommentId id,PosologyId? posologyId, string label, string content)
         {
             return new Comment(id,posologyId, label, content);
         }

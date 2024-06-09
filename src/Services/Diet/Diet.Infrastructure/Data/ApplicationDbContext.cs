@@ -10,7 +10,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Meal> Meals => Set<Meal>();
 
     public DbSet<Food> Foods => Set<Food>();
-
+    public DbSet<RiskFactor> RiskFactors => Set<RiskFactor>();
 
     public DbSet<Room> Rooms => Set<Room>();
     public DbSet<UnitCare> UnitCares => Set<UnitCare>();

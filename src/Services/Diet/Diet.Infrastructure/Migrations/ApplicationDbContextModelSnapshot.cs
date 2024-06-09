@@ -81,9 +81,6 @@ namespace Diet.Infrastructure.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<Guid?>("DailyMealId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -96,46 +93,19 @@ namespace Diet.Infrastructure.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<Guid>("PosologyId")
+                    b.Property<Guid?>("MealId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PosologyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DailyMealId");
+                    b.HasIndex("MealId");
 
                     b.HasIndex("PosologyId");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("Diet.Domain.Models.DailyMeal", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DietDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("DietId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DietId");
-
-                    b.ToTable("DailyMeal");
                 });
 
             modelBuilder.Entity("Diet.Domain.Models.Diagnosis", b =>
@@ -194,16 +164,14 @@ namespace Diet.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DietType")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("Normal");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Label")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastModified")
@@ -212,15 +180,15 @@ namespace Diet.Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PrescriptionId")
+                    b.Property<Guid?>("RegisterId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PrescriptionId");
+                    b.HasIndex("RegisterId");
 
                     b.ToTable("Diets");
                 });
@@ -297,10 +265,8 @@ namespace Diet.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Calories")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18,2)")
-                        .HasDefaultValue(0m);
+                    b.Property<decimal?>("Calories")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -309,11 +275,10 @@ namespace Diet.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<int>("FoodCategory")
+                    b.Property<int?>("FoodCategory")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastModified")
@@ -322,11 +287,10 @@ namespace Diet.Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("MealId")
+                    b.Property<Guid?>("MealId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -348,7 +312,7 @@ namespace Diet.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("DailyMealId")
+                    b.Property<Guid?>("DietId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastModified")
@@ -358,19 +322,17 @@ namespace Diet.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MealType")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("Breakfast");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DailyMealId");
+                    b.HasIndex("DietId");
 
                     b.ToTable("Meals");
                 });
@@ -731,7 +693,6 @@ namespace Diet.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -741,18 +702,15 @@ namespace Diet.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Icon")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsSelected")
+                    b.Property<bool?>("IsSelected")
                         .HasColumnType("bit");
 
                     b.Property<string>("Key")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastModified")
@@ -761,24 +719,22 @@ namespace Diet.Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RegisterIdForAllergy")
+                    b.Property<Guid?>("RegisterIdForAllergy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("RegisterIdForDisease")
+                    b.Property<Guid?>("RegisterIdForDisease")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("RegisterIdForFamilyMedicalHistory")
+                    b.Property<Guid?>("RegisterIdForFamilyMedicalHistory")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("RegisterIdForPersonalMedicalHistory")
+                    b.Property<Guid?>("RegisterIdForPersonalMedicalHistory")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Value")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -791,7 +747,7 @@ namespace Diet.Infrastructure.Migrations
 
                     b.HasIndex("RegisterIdForPersonalMedicalHistory");
 
-                    b.ToTable("RiskFactor");
+                    b.ToTable("RiskFactors");
                 });
 
             modelBuilder.Entity("Diet.Domain.Models.RegisterRoot.Test", b =>
@@ -1037,37 +993,25 @@ namespace Diet.Infrastructure.Migrations
 
             modelBuilder.Entity("Diet.Domain.Models.Comment", b =>
                 {
-                    b.HasOne("Diet.Domain.Models.DailyMeal", null)
+                    b.HasOne("Diet.Domain.Models.Meal", null)
                         .WithMany("Comments")
-                        .HasForeignKey("DailyMealId");
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Diet.Domain.Models.Posology", "posology")
                         .WithMany("Comments")
-                        .HasForeignKey("PosologyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PosologyId");
 
                     b.Navigation("posology");
                 });
 
-            modelBuilder.Entity("Diet.Domain.Models.DailyMeal", b =>
-                {
-                    b.HasOne("Diet.Domain.Models.Diet", null)
-                        .WithMany("DailyMeals")
-                        .HasForeignKey("DietId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Diet.Domain.Models.Diet", b =>
                 {
-                    b.HasOne("Diet.Domain.Models.Prescription", "Prescription")
+                    b.HasOne("Diet.Domain.Models.RegisterRoot.Register", "Register")
                         .WithMany()
-                        .HasForeignKey("PrescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RegisterId");
 
-                    b.Navigation("Prescription");
+                    b.Navigation("Register");
                 });
 
             modelBuilder.Entity("Diet.Domain.Models.Dispense", b =>
@@ -1144,18 +1088,15 @@ namespace Diet.Infrastructure.Migrations
                 {
                     b.HasOne("Diet.Domain.Models.Meal", null)
                         .WithMany("Foods")
-                        .HasForeignKey("MealId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MealId");
                 });
 
             modelBuilder.Entity("Diet.Domain.Models.Meal", b =>
                 {
-                    b.HasOne("Diet.Domain.Models.DailyMeal", null)
+                    b.HasOne("Diet.Domain.Models.Diet", null)
                         .WithMany("Meals")
-                        .HasForeignKey("DailyMealId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DietId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Diet.Domain.Models.Personnel", b =>
@@ -1228,26 +1169,22 @@ namespace Diet.Infrastructure.Migrations
                     b.HasOne("Diet.Domain.Models.RegisterRoot.Register", null)
                         .WithMany("Allergy")
                         .HasForeignKey("RegisterIdForAllergy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Diet.Domain.Models.RegisterRoot.Register", null)
                         .WithMany("Disease")
                         .HasForeignKey("RegisterIdForDisease")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Diet.Domain.Models.RegisterRoot.Register", null)
                         .WithMany("FamilyMedicalHistory")
                         .HasForeignKey("RegisterIdForFamilyMedicalHistory")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Diet.Domain.Models.RegisterRoot.Register", null)
                         .WithMany("PersonalMedicalHistory")
                         .HasForeignKey("RegisterIdForPersonalMedicalHistory")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Diet.Domain.Models.RegisterRoot.Test", b =>
@@ -1292,20 +1229,15 @@ namespace Diet.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Diet.Domain.Models.DailyMeal", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("Meals");
-                });
-
             modelBuilder.Entity("Diet.Domain.Models.Diet", b =>
                 {
-                    b.Navigation("DailyMeals");
+                    b.Navigation("Meals");
                 });
 
             modelBuilder.Entity("Diet.Domain.Models.Meal", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Foods");
                 });
 

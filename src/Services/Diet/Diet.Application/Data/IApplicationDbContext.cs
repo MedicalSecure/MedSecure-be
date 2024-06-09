@@ -14,6 +14,8 @@ public interface IApplicationDbContext
     DbSet<Domain.Models.UnitCare> UnitCares { get; }
     DbSet<Prescription> Prescriptions { get; }
     public DbSet<Symptom> Symptoms { get; }
+    public DbSet<RiskFactor> RiskFactors { get; }
+
     public DbSet<Domain.Models.Activity> Activities { get; }
     public DbSet<Diagnosis> Diagnosis { get; }
     public DbSet<Dispense> Dispenses { get; }

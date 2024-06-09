@@ -7,41 +7,46 @@ namespace Diet.Application.Extensions
     {
         public static IEnumerable<DietDto> ToDietDto(this IEnumerable<Domain.Models.Diet> diets)
         {
-            return diets.OrderBy(d => d.DietType)
-                        .Select(d => new DietDto(
-                            Id: d.Id.Value,
-                            Prescription: d.Prescription.ToSimplePrescriptionDto(),
-                            DietType: d.DietType,
-                            StartDate: d.StartDate,
-                            EndDate: d.EndDate,
-                            Meals: d.DailyMeals.ToDailyMealDto().ToList(),
-                            Label: d.Label 
-                        )).ToList();
+            return diets
+                 .Select(d => new DietDto(
+                     Id: d.Id.Value,
+                     Register: d.Register.ToSimpleRegisterDto(),
+                     DietType: d.DietType,
+                     StartDate: d.StartDate,
+                     EndDate: d.EndDate,
+                     Meals: d.Meals.ToMealsDto().ToList(),
+                     Label: d.Label
+                 )).ToList();
+
         }
-
-
-        public static IEnumerable<DailyMealDto> ToDailyMealDto(this IEnumerable<Domain.Models.DailyMeal> dailyMeals)
+            public static IEnumerable<MealDto> ToMealsDto(this IEnumerable<Domain.Models.Meal> meals)
         {
-            return dailyMeals.Select(dm => new DailyMealDto(
-                Id: dm.Id.Value,
-                Meals: dm.Meals.Select(m => new MealDto(
-                    Id: m.Id.Value,
-                    Name: m.Name,
-                    MealType: m.MealType,
-                    Foods: m.Foods.Select(f => new FoodDto(
-                        Id: f.Id.Value,
-                        MealId: m.Id.Value,
-                        Name: f.Name,
-                        Calories: f.Calories,
-                        Description: f.Description,
-                        FoodCategory: f.FoodCategory
-                    )).ToList(),
-                    Comments: dm.Comments.ToSimpleCommentDto().ToList()
+            return meals
+             .Select(m => new MealDto(
+                 Id: m.Id.Value,
+                 Name: m.Name,
+                 MealType: m.MealType,
+                Foods : m.Foods.ToFoodDto().ToList(),
+                 Comments:m.Comments.Select(m=> new SimpleCommentsDto(
+                     Id : m.Id.Value,
+                     PosologyId: Guid.NewGuid() , 
+                     Label  : m.Label ,
+                     Content: m.Content )
+                 
+                 ).ToList()
+             )).ToList();
 
-                )).ToList(),
-                DietDate: dm.DietDate
+        }
+        public static IEnumerable<FoodDto> ToFoodDto(this IEnumerable<Domain.Models.Food> foods)
+        {
+            return foods.Select(m => new FoodDto(
+                  Id: m.Id.Value,
+                  Name: m.Name,
+                  Calories:m.Calories ,
+                  Description:m.Description ,
+                  FoodCategory:m.FoodCategory
+             )).ToList();
 
-            )).ToList();
         }
     }
 }

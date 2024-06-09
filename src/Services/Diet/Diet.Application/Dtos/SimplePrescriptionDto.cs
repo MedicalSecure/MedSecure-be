@@ -8,7 +8,7 @@ namespace Diet.Application.Dtos
    SimpleRegisterDto Register,
             DateTime? CreatedAt ,
             ICollection<SimplePosologyDto> Posologies , 
-            SimpleUnitCareDto UnitCare);
+            SimpleUnitCareDto? UnitCare);
         public record GetPrescriptionsResult(PaginatedResult<SimplePrescriptionDto> Prescriptions);
         public record SimplePosologyDto(Guid Id,
             Guid PrescriptionId,

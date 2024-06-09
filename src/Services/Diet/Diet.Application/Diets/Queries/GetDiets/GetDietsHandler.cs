@@ -11,22 +11,15 @@ public class GetDietsHandler(IApplicationDbContext dbContext)
 
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
-
         var totalCount = await dbContext.Diets.LongCountAsync(cancellationToken);
-
-        var med = await dbContext.Medications.ToArrayAsync(cancellationToken);
         var comment = await dbContext.Comments.ToArrayAsync(cancellationToken);
-        var dispense = await dbContext.Dispenses.ToArrayAsync(cancellationToken);
-        var unitcare = await dbContext.UnitCares.ToArrayAsync(cancellationToken);
         var register = await dbContext.Registers.ToArrayAsync(cancellationToken);
-        var posologies = await dbContext.Posology.ToArrayAsync(cancellationToken);
         var patient = await dbContext.Patients.ToArrayAsync(cancellationToken);
-        var room = await dbContext.Rooms.ToArrayAsync(cancellationToken);
-        var equipment = await dbContext.Equipments.ToArrayAsync(cancellationToken);
+        var food = await dbContext.Foods.ToArrayAsync(cancellationToken);
+        var riskFactors = await dbContext.RiskFactors.ToArrayAsync(cancellationToken);
         var diets = await dbContext.Diets
-               .Include(o => o.Prescription)
-                       .Include(o => o.DailyMeals)
-                       .ThenInclude(d => d.Meals)
+               .Include(o => o.Register)
+                       .Include(o => o.Meals)
                        .ThenInclude(f=> f.Foods)
                        .Skip(pageSize * pageIndex)
                        .Take(pageSize)

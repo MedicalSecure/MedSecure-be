@@ -15,15 +15,13 @@ public class DietConfiguration : IEntityTypeConfiguration<Domain.Models.Diet>
             dt => dt.ToString(),
             dietType => (DietType)Enum.Parse(typeof(DietType), dietType));
 
-        builder.Property(wi => wi.StartDate)
-               .IsRequired();
+        builder.Property(wi => wi.StartDate);
 
-        builder.HasMany(d => d.DailyMeals)
+        builder.HasMany(d => d.Meals)
                 .WithOne()
                 .HasForeignKey(dm => dm.DietId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired();
-        builder.Property(wi => wi.EndDate)
-              .IsRequired();
+                .OnDelete(DeleteBehavior.Cascade);
+       
+        builder.Property(wi => wi.EndDate);
     }
 }
