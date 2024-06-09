@@ -77,7 +77,7 @@ namespace Prescription.Application.Features.Prescription.EventHandlers.Integrati
                     dbContext.Prescriptions.Update(PrescriptionTracked);
                     await dbContext.SaveChangesAsync(CancellationToken.None);
 
-                    await prescriptionHub.SendEventToAll(response);
+                    await prescriptionHub.SendPrescriptionValidationToAll(response);
 
                     //Create activity message
                     activityMessage = $"Received a prescription rejection";
