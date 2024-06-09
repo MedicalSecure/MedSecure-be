@@ -1,11 +1,10 @@
 ﻿namespace Medication.Application.Extensions;
 
-
 public static partial class DrugExtensions
 {
-    public static IEnumerable<DrugDto> ToDrugDto(this List<Drug> drugs)
+    public static DrugDto ToDrugDto(this Drug m)
     {
-        return drugs.Select(m => new DrugDto(
+        return new DrugDto(
             Id: m.Id.Value,
             Name: m.Name,
             Dosage: m.Dosage,
@@ -23,6 +22,11 @@ public static partial class DrugExtensions
             ReservedStock: m.ReservedStock,
             Price: m.Price,
             IsDrugExist: m.IsDrugExist,
-            IsDosageValid: m.IsDosageValid));
+            IsDosageValid: m.IsDosageValid);
+    }
+
+    public static IEnumerable<DrugDto> ToDrugDto(this List<Drug> drugs)
+    {
+        return drugs.Select(m => m.ToDrugDto());
     }
 }

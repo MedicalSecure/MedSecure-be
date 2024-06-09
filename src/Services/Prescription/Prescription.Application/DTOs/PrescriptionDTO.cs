@@ -8,6 +8,7 @@
         ICollection<PosologyDTO> Posologies,
         DateTime CreatedAt,
         PrescriptionStatus Status,
+        ValidationDto? Validation,
         Guid? BedId = null,
         DietForPrescriptionDTO? Diet = null,
         DateTime? LastModified = null,
@@ -45,4 +46,6 @@
         int Hour,
         Dose? BeforeMeal,
         Dose? AfterMeal);
+
+    public record ValidationDto(Guid Id, Guid PharmacistId, Guid PrescriptionId, string? PharmacistName, bool IsValid, string Notes, DateTime CreatedAt);
 }

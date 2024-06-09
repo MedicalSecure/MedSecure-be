@@ -36,7 +36,6 @@
     <Folder Include="Features\Diagnosis\Queries\GetDiagnosisById\" />
     <Folder Include="Features\Diagnosis\Queries\GetDiagnosisByPrescriptionId\" />
     <Folder Include="Features\Diagnosis\Queries\GetDiagnosisByName\" />
-    <Folder Include="Features\Prescription\EventHandlers\" />
     <Folder Include="Features\Prescription\Queries\GetPrescriptionsByDate\" />
   </ItemGroup>
 

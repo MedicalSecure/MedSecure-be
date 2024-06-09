@@ -7,7 +7,7 @@ using Prescription.Application.Features.Activity.Queries.GetActivities;
 
 namespace Prescription.Application.Features.Activities.Queries.GetActivities
 {
-    public class GetActivitiesHandler(IApplicationDbContext dbContext) : IQueryHandler<GetActivitiesQuery, GetActivitiesResult>
+    public class GetActivitiesHandler(IPublishEndpoint publishEndpoint, IApplicationDbContext dbContext) : IQueryHandler<GetActivitiesQuery, GetActivitiesResult>
     {
         public async Task<GetActivitiesResult> Handle(GetActivitiesQuery query, CancellationToken cancellationToken)
         {

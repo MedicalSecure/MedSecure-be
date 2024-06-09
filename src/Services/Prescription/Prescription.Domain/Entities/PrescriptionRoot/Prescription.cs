@@ -7,10 +7,14 @@ namespace Prescription.Domain.Entities
         private readonly List<Posology> _posology = new();
         private readonly List<Diagnosis> _diagnosis = new();
         private readonly List<Symptom> _symptoms = new();
+        //private readonly List<Validation> _validations = new();
 
         public IReadOnlyList<Posology> Posology => _posology.AsReadOnly();
         public IReadOnlyList<Symptom> Symptoms => _symptoms.AsReadOnly();
         public IReadOnlyList<Diagnosis> Diagnosis => _diagnosis.AsReadOnly();
+
+        //public IReadOnlyList<Validation> Validations => _validations.AsReadOnly();
+        public Validation? Validation { get; private set; }
 
         public EquipmentId? BedId { get; private set; }
         public DietForPrescription? Diet { get; private set; }
@@ -67,6 +71,28 @@ namespace Prescription.Domain.Entities
 
             return true;
         }
+
+        public bool AddValidation(Validation validation)
+        {
+            if (validation.PrescriptionId != Id) throw new DomainException($"invalid addValidation operation if validation id {validation.Id} to prescription id {this.Id}");
+            if (Status != PrescriptionStatus.Pending) throw new DomainException($"invalid addValidation operation if validation id {validation.Id} to prescription id {this.Id} : Status is not pending: {this.Status}");
+
+            Validation = validation;
+            if (Validation.IsValid)
+                UpdateStatus(PrescriptionStatus.Active);
+            else
+                UpdateStatus(PrescriptionStatus.Rejected);
+            return true;
+        }
+
+        /*        public bool AddValidation(Validation validation)
+                {
+                    if (validation.PrescriptionId != Id) return false;
+                    if (Status != PrescriptionStatus.Pending) return false;
+
+                    this._validations.Add(validation);
+                    return true;
+                }*/
 
         public bool AddPosology(Posology posology)
         {
@@ -188,6 +214,15 @@ namespace Prescription.Domain.Entities
                 var c1 = newStatus == PrescriptionStatus.Pending;
                 var c2 = newStatus == PrescriptionStatus.Discontinued;
                 if (c1 || c2)
+                {
+                    this.Status = newStatus;
+                    return;
+                }
+                throw new UpdatePrescriptionStatusException($"Can't update status of {this.Status} to {newStatus}, Rejected can be changed to Pending Or Discontinued only");
+            }
+            else if (Status == PrescriptionStatus.Active)
+            {
+                if (newStatus == PrescriptionStatus.Discontinued)
                 {
                     this.Status = newStatus;
                     return;
