@@ -27,7 +27,7 @@ public class CreateBacPatientHandler(IPublishEndpoint publishEndpoint, IApplicat
 
         return new CreateBacPatientResult(bacPatients.Id.Value);
     }
-    private static Domain.Models.BacPatient CreateNewBP(BacPatientDto bacPatients)
+    public static Domain.Models.BacPatient CreateNewBP(BacPatientDto bacPatients)
     {
         var newBPModel = Domain.Models.BacPatient.Create(
             Id: BacPatienId.Of(Guid.NewGuid()),
