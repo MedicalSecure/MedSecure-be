@@ -1,6 +1,4 @@
-﻿
-
-namespace BacPatient.Infrastructure.Data.Extensions;
+﻿namespace BacPatient.Infrastructure.Data.Extensions;
 
 public static class DatabaseExtentions
 {
@@ -17,19 +15,16 @@ public static class DatabaseExtentions
     private static async Task SeedAsync(ApplicationDbContext context)
     {
         await ClearDataAsync(context);
-      
-        await SeedBacPatientAsync(context);
 
+        //await SeedBacPatientAsync(context);
     }
 
     private static async Task SeedBacPatientAsync(ApplicationDbContext context)
     {
-
         if (!context.BacPatients.Any())
         {
             await context.SaveChangesAsync();
-                        await context.Registers.AddAsync(InitialData.GetRegisterInitialData());
-
+            await context.Registers.AddAsync(InitialData.GetRegisterInitialData());
         }
     }
 

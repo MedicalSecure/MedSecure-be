@@ -17,7 +17,7 @@ public static class DatabaseExtentions
         // Clear existing data
         await ClearDataAsync(context);
 
-        await SeedRegisterAsync(context);
+        //await SeedRegisterAsync(context);
     }
 
     private static async Task SeedRegisterAsync(ApplicationDbContext context)

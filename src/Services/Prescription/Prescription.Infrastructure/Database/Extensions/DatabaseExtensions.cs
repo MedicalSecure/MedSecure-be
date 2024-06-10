@@ -4,11 +4,12 @@ namespace Prescription.Infrastructure.Database.Extensions;
 
 public static class DatabaseExtensions
 {
-    public static async Task InitialiseDatabaseAsync(this WebApplication app,bool resetData=true)
+    public static async Task InitialiseDatabaseAsync(this WebApplication app, bool resetData = true)
     {
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        if(resetData){
+        if (resetData)
+        {
             await context.Database.MigrateAsync();
             await SeedAsync(context);
         }
@@ -23,7 +24,7 @@ public static class DatabaseExtensions
         await SeedSymptomsAsync(context);
         await SeedDiagnosisAsync(context);
 
-        await SeedPrescriptionsAsync(context);
+        //await SeedPrescriptionsAsync(context);
     }
 
     private static async Task ClearDataAsync(ApplicationDbContext context)
