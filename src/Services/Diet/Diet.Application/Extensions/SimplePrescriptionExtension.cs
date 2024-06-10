@@ -225,9 +225,15 @@ namespace Diet.Application.Extensions
                 id: RegisterId.Of(Guid.NewGuid()),
               patient: simpleRegister.Patient.ToPatientEntity() ?? throw new ArgumentNullException(nameof(simpleRegister.Patient))
             );
-            register.AddAllergies(simpleRegister.Allergies.ToSimpleRiskEntities());
-            register.AddDiseases(simpleRegister.Diseases.ToSimpleRiskEntities());
+            if (simpleRegister.Allergies != null)
+            {
+                register.AddAllergies(simpleRegister.Allergies.ToSimpleRiskEntities());
+            }
 
+            if (simpleRegister.Diseases != null)
+            {
+                register.AddDiseases(simpleRegister.Diseases.ToSimpleRiskEntities());
+            }
 
             return register;
         }

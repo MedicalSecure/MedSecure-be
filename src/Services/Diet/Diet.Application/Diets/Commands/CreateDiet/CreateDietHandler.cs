@@ -1,4 +1,5 @@
 ﻿using Diet.Application.Dtos;
+using Diet.Domain.Models;
 
 namespace Diet.Application.Diets.Commands.CreateDiet;
 
@@ -47,25 +48,34 @@ public class CreateDietHandler(IPublishEndpoint publishEndpoint, IApplicationDbC
                 newMeal.AddFood(newFood);
               
             }
-            foreach (var comment in meal.Comments)
+            if (meal.Comments != null)
             {
-                var newComment = Comment.Create(
-            id: CommentId.Of(Guid.NewGuid()),
-            label: comment.Label ,
-            content : comment.Content );
+                foreach (var comment in meal.Comments)
+                {
+                    var newComment = Comment.Create(
+                        id: CommentId.Of(Guid.NewGuid()),
+                        label: comment.Label,
+                        content: comment.Content
+                    );
 
-                newMeal.AddComments(newComment);
-
+                    newMeal.AddComments(newComment);
+                }
             }
             newDiet.AddMeal(newMeal);
         }
-        foreach (var allergy in dietDto.Register.Allergies) 
+        if (dietDto.Register.Allergies != null)
         {
-            newDiet.Register.AddAllergy(allergy.ToSimpleRiskEntity());
+            foreach (var allergy in dietDto.Register.Allergies)
+            {
+                newDiet.Register.AddAllergy(allergy.ToSimpleRiskEntity());
+            }
         }
-        foreach (var disease in dietDto.Register.Diseases)
+        if (dietDto.Register.Diseases != null)
         {
-            newDiet.Register.AddDisease(disease.ToSimpleRiskEntity());
+            foreach (var disease in dietDto.Register.Diseases)
+            {
+                newDiet.Register.AddDisease(disease.ToSimpleRiskEntity());
+            }
         }
         return newDiet;
 
