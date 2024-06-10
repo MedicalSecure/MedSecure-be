@@ -10,8 +10,8 @@ namespace Registration.Application.Extensions
         {
             return new PatientDto(
                 Id: p.Id.Value,
-                FirstName: p.FirstName,
-                LastName: p.LastName,
+                FirstName: archived ? "*Archived*" : p.FirstName,
+                LastName: archived ? "*Archived*" : p.LastName,
                 DateOfBirth: archived ? new DateTime() : p.DateOfBirth,
                 Identity: archived ? "*Archived*" : p.Identity,
                 CNAM: archived ? null : p.CNAM,

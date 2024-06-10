@@ -40,7 +40,6 @@ namespace BacPatient.Application.BacPatient.EventHandlers.Integration
 
         }
 
-
         private async Task<SimplePrescriptionDto?> CreateSimplePrescriptionFromEvent(ValidatedPrescriptionSharedEvent x)
         {
             var simpleUnitCare = CreateSimpleUnitCare(x.UnitCare, x.BedId) ?? throw new ArgumentNullException("Cant extract a simple unitCare from this prescription");
@@ -113,7 +112,7 @@ namespace BacPatient.Application.BacPatient.EventHandlers.Integration
 
         public async Task<SimpleRegisterDto?> fetchSimpleRegisterById(Guid registerId)
         {
-           var url = $"{config["RegistrationMicroservice:GetByIdEndpoint"]}/{registerId}";
+            var url = $"{config["RegistrationMicroservice:GetByIdEndpoint"]}/{registerId}";
           // var url = $"http://localhost:6010/registers/{registerId}";
 
             try

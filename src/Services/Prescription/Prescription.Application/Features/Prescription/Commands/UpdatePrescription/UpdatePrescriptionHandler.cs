@@ -36,6 +36,8 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
                 // Save to database
                 _dbContext.Prescriptions.Add(newPrescription);
 
+                ///// IF THE OLD prescription is rejected => Send a created EVENT !!!
+
                 // the new prescription is valid (didn't throw exception) so we can update the status of the old one
                 oldPrescription.UpdateStatus(PrescriptionStatus.Discontinued);
 

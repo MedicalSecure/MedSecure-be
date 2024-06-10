@@ -1,10 +1,12 @@
-﻿using Registration.Application.Histories.Commands.CreateHistory;
+﻿using BuildingBlocks.Messaging.Events.RegistrationEvents;
+using BuildingBlocks.Messaging.Events.RegistrationSharedEvents;
+using Registration.Application.Histories.Commands.CreateHistory;
 using Registration.Domain.ValueObjects;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Registration.Application.Registers.Commands.ArchiveUnarchiveRegister
 {
-    public class ArchiveUnarchiveRegisterHandler(IApplicationDbContext dbContext) : ICommandHandler<ArchiveUnarchiveRegisterCommand, ArchiveUnarchiveRegisterResult>
+    public class ArchiveUnarchiveRegisterHandler(IApplicationDbContext dbContext, IPublishEndpoint publisher) : ICommandHandler<ArchiveUnarchiveRegisterCommand, ArchiveUnarchiveRegisterResult>
     {
         public async Task<ArchiveUnarchiveRegisterResult> Handle(ArchiveUnarchiveRegisterCommand command, CancellationToken cancellationToken)
         {
@@ -18,6 +20,13 @@ namespace Registration.Application.Registers.Commands.ArchiveUnarchiveRegister
             var registerId = RegisterId.Of(command.registerId);
             var register = await dbContext.Registers
                  .Include(reg => reg.History)
+                //for filling the shared event
+                .Include(t => t.Patient)
+                .Include(t => t.Tests)
+                .Include(r => r.FamilyMedicalHistory)
+                .Include(r => r.PersonalMedicalHistory)
+                .Include(r => r.Disease)
+                .Include(r => r.Allergy)
                  .FirstOrDefaultAsync(reg => reg.Id == registerId, cancellationToken);
 
             if (register == null)
@@ -38,6 +47,22 @@ namespace Registration.Application.Registers.Commands.ArchiveUnarchiveRegister
 
             dbContext.Registers.Update(register);
             await dbContext.SaveChangesAsync(cancellationToken);
+
+            //Handle sending the event
+            if (command.registerStatus == RegisterStatus.Archived)
+            {
+                var archivedEvent = new ArchiveRegisterSharedEvent(register.Id.Value);
+                await publisher.Publish(archivedEvent);
+            }
+            else
+            {
+                //Auto include the riskFactors
+                var riskFactor = await dbContext.RiskFactors.ToListAsync(cancellationToken);
+                RegisterDto registerTomap = register.ToRegisterDto();
+                RegisterSharedEvent registerToSend = registerTomap.Adapt<RegisterSharedEvent>();
+                var eventToSend = new NewRegisterSharedEvent(registerToSend);
+                await publisher.Publish(eventToSend);
+            }
 
             return new ArchiveUnarchiveRegisterResult(register.Id.Value.ToString());
         }

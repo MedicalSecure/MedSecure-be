@@ -49,6 +49,81 @@ namespace Medication.Infrastructure.Database.Migrations
                     b.ToTable("Activities");
                 });
 
+            modelBuilder.Entity("Medication.Domain.Models.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<Guid>("PosologyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PosologyId");
+
+                    b.ToTable("Comment");
+                });
+
+            modelBuilder.Entity("Medication.Domain.Models.Dispense", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("AfterMeal")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BeforeMeal")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Hour")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("PosologyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PosologyId");
+
+                    b.ToTable("Dispenses");
+                });
+
             modelBuilder.Entity("Medication.Domain.Models.Dosage", b =>
                 {
                     b.Property<Guid>("Id")
@@ -162,6 +237,138 @@ namespace Medication.Infrastructure.Database.Migrations
                         .HasDatabaseName("INDEX_DRUG");
 
                     b.ToTable("Drugs");
+                });
+
+            modelBuilder.Entity("Medication.Domain.Models.Posology", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<Guid>("DrugId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<Guid>("ValidationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DrugId");
+
+                    b.HasIndex("ValidationId");
+
+                    b.ToTable("Posologies");
+                });
+
+            modelBuilder.Entity("Medication.Domain.Models.Validation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("PharmacistId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PharmacistName")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<Guid>("PrescriptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UnitCareJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PrescriptionId")
+                        .IsUnique();
+
+                    b.ToTable("Validations");
+                });
+
+            modelBuilder.Entity("Medication.Domain.Models.Comment", b =>
+                {
+                    b.HasOne("Medication.Domain.Models.Posology", "Posology")
+                        .WithMany("Comments")
+                        .HasForeignKey("PosologyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Posology");
+                });
+
+            modelBuilder.Entity("Medication.Domain.Models.Dispense", b =>
+                {
+                    b.HasOne("Medication.Domain.Models.Posology", "Posology")
+                        .WithMany("Dispenses")
+                        .HasForeignKey("PosologyId");
+
+                    b.Navigation("Posology");
+                });
+
+            modelBuilder.Entity("Medication.Domain.Models.Posology", b =>
+                {
+                    b.HasOne("Medication.Domain.Models.Drug", "Drug")
+                        .WithMany()
+                        .HasForeignKey("DrugId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Medication.Domain.Models.Validation", "Validation")
+                        .WithMany("Posologies")
+                        .HasForeignKey("ValidationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Drug");
+
+                    b.Navigation("Validation");
+                });
+
+            modelBuilder.Entity("Medication.Domain.Models.Posology", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Dispenses");
+                });
+
+            modelBuilder.Entity("Medication.Domain.Models.Validation", b =>
+                {
+                    b.Navigation("Posologies");
                 });
 #pragma warning restore 612, 618
         }

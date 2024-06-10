@@ -24,7 +24,7 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
                     ?? throw new BadRequestException($"{nameof(Prescription)} : Updating prescription Status Require an ID"));
 
                 // Get the old prescription from DB so we can update the status
-                var oldPrescription = await _dbContext.Prescriptions.FindAsync([prescriptionId], cancellationToken)
+                var oldPrescription = await _dbContext.Prescriptions.Include(p => p.Validation).FirstOrDefaultAsync(p => p.Id == prescriptionId, cancellationToken)
                     ?? throw new NotFoundException($"{nameof(Prescription)} : Can't find prescription to update Status with the given id : {prescriptionId.Value}");
                 var oldStatus = oldPrescription.Status;
                 var newStatus = command.Prescription.Status;
@@ -45,13 +45,15 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
 
                 // Handle sending events
                 var ShareDiscontinued = await featureManager.IsEnabledAsync("PrescriptionDiscontinued");
+
+                var statusCondition = newStatus == PrescriptionStatus.Discontinued && (oldStatus == PrescriptionStatus.Active || oldStatus == PrescriptionStatus.Pending);
                 // Check if the feature for using message broker is enabled for inpatientPrescription && the prescription is Inpatient
-                if (newStatus == PrescriptionStatus.Discontinued && oldStatus == PrescriptionStatus.Active && ShareDiscontinued && command.Prescription.BedId != null)
+                if (statusCondition && ShareDiscontinued && command.Prescription.BedId != null)
                 {
                     var dataToSend = command.Prescription;
                     var eventMessage = dataToSend.Adapt<DiscontinuedInpatientPrescriptionSharedEvent>();
-                    var discontinued = JsonConvert.SerializeObject(eventMessage);
-                    //fill the unitCare from the request, cuz we save only the bed id in the DB
+                    eventMessage.ValidationId = oldPrescription.Validation?.Id.Value;
+
                     await publishEndpoint.Publish(eventMessage, cancellationToken);
                 }
 

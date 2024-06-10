@@ -16,44 +16,24 @@ namespace Prescription.Application.Extensions
 
         public static PrescriptionDTO ToPrescriptionDto(this Domain.Entities.Prescription pres, bool includeRegister = false)
         {
-            if (includeRegister)
-            {
-                var x = new PrescriptionDTO(
-                    Id: pres.Id.Value,
-                    RegisterId: pres.RegisterId.Value,
-                    DoctorId: pres.DoctorId.Value,
-                    Symptoms: pres.Symptoms.ToSymptomsDto(),
-                    Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
-                    Posologies: pres.Posology.ToPosologiesDto(),
-                    CreatedAt: pres.CreatedAt ?? DateTime.UtcNow,
-                    Status: pres.Status,
-                    BedId: pres.BedId?.Value ?? null,
-                    Diet: pres.Diet?.ToDietForPrescriptionDto() ?? null,
-                    LastModified: pres.LastModified,
-                    CreatedBy: pres.CreatedBy,
-                    LastModifiedBy: pres.LastModifiedBy
-                ); ;
-                return x;
-            }
-            else
-            {
-                var x = new PrescriptionDTO(
-                    Id: pres.Id.Value,
-                    RegisterId: pres.RegisterId.Value,
-                    DoctorId: pres.DoctorId.Value,
-                    Symptoms: pres.Symptoms.ToSymptomsDto(),
-                    Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
-                    Posologies: pres.Posology.ToPosologiesDto(),
-                    CreatedAt: pres.CreatedAt ?? DateTime.UtcNow,
-                    Status: pres.Status,
-                    BedId: pres.BedId?.Value ?? null,
-                    Diet: pres.Diet?.ToDietForPrescriptionDto() ?? null,
-                    LastModified: pres.LastModified,
-                    CreatedBy: pres.CreatedBy,
-                    LastModifiedBy: pres.LastModifiedBy
-                );
-                return x;
-            }
+            var x = new PrescriptionDTO(
+                Id: pres.Id.Value,
+                RegisterId: pres.RegisterId.Value,
+                DoctorId: pres.DoctorId.Value,
+                Symptoms: pres.Symptoms.ToSymptomsDto(),
+                Diagnoses: pres.Diagnosis.ToDiagnosisDto(),
+                Posologies: pres.Posology.ToPosologiesDto(),
+                //Validations: pres.Validations.ToValidationsDto(),
+                Validation: pres.Validation?.ToValidationDto(),
+                CreatedAt: pres.CreatedAt ?? DateTime.UtcNow,
+                Status: pres.Status,
+                BedId: pres.BedId?.Value ?? null,
+                Diet: pres.Diet?.ToDietForPrescriptionDto() ?? null,
+                LastModified: pres.LastModified,
+                CreatedBy: pres.CreatedBy,
+                LastModifiedBy: pres.LastModifiedBy
+            ); ;
+            return x;
         }
 
         public static DietForPrescriptionDTO ToDietForPrescriptionDto(this DietForPrescription diet)
@@ -110,6 +90,24 @@ namespace Prescription.Application.Extensions
                 IsPermanent: posology.IsPermanent,
                StartDate: posology.StartDate,
                 EndDate: posology.EndDate
+            );
+        }
+
+        public static ICollection<ValidationDto> ToValidationsDto(this IReadOnlyList<Validation> validations)
+        {
+            return validations.Select(v => v.ToValidationDto()).ToList();
+        }
+
+        public static ValidationDto ToValidationDto(this Validation validation)
+        {
+            return new ValidationDto(
+                Id: validation.Id.Value,
+                PharmacistId: validation.PharmacistId,
+                PrescriptionId: validation.PrescriptionId.Value,
+                PharmacistName: validation.PharmacistName,
+                IsValid: validation.IsValid,
+                Notes: validation.Notes,
+                CreatedAt: validation.CreatedAt ?? DateTime.UtcNow
             );
         }
     }

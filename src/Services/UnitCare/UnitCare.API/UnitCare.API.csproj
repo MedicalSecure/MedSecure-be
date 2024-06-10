@@ -14,7 +14,6 @@
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.0" />
     <PackageReference Include="Carter" Version="8.0.0" />
     <PackageReference Include="Mapster" Version="7.4.0" />
-    <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
       <PrivateAssets>all</PrivateAssets>
@@ -30,5 +29,4 @@
     <ProjectReference Include="..\UnitCare.Application\UnitCare.Application.csproj" />
     <ProjectReference Include="..\UnitCare.Infrastructure\UnitCare.Infrastructure.csproj" />
   </ItemGroup>
-
 </Project>
