@@ -1,10 +1,12 @@
 ﻿using Registration.Application.Patients.Commands.CreatePatient;
 using Registration.Application.Histories.Commands.CreateHistory;
 using Registration.Application.RiskFactors.Commands.CreateRiskFactor;
+using BuildingBlocks.Messaging.Events.RegistrationEvents;
+using BuildingBlocks.Messaging.Events.RegistrationSharedEvents;
 
 namespace Registration.Application.Registers.Commands.CreateRegister
 {
-    public class CreateRegisterHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateRegisterCommand, CreateRegisterResult>
+    public class CreateRegisterHandler(IApplicationDbContext dbContext, IPublishEndpoint publisher) : ICommandHandler<CreateRegisterCommand, CreateRegisterResult>
     {
         public async Task<CreateRegisterResult> Handle(CreateRegisterCommand command, CancellationToken cancellationToken)
         {
@@ -15,6 +17,29 @@ namespace Registration.Application.Registers.Commands.CreateRegister
 
             dbContext.Registers.Add(register);
             await dbContext.SaveChangesAsync(cancellationToken);
+
+            //prepare data for the event
+            var registerToSend = await dbContext.Registers
+                    .Include(t => t.Patient)
+                    .Include(t => t.Tests)
+                    .Include(r => r.FamilyMedicalHistory)
+                    .Include(r => r.PersonalMedicalHistory)
+                    .Include(r => r.Disease)
+                    .Include(r => r.Allergy)
+                    .Include(t => t.History)
+                    .FirstOrDefaultAsync(r => r.Id == register.Id, cancellationToken);
+
+            if (registerToSend != null)
+            {
+                //Auto include the riskFactors
+                var riskFactor = await dbContext.RiskFactors.ToListAsync(cancellationToken);
+
+                // map the data
+                RegisterDto registerTomap = registerToSend.ToRegisterDto();
+                RegisterSharedEvent registerSharedEvent = registerTomap.Adapt<RegisterSharedEvent>();
+                var eventToSend = new NewRegisterSharedEvent(registerSharedEvent);
+                await publisher.Publish(eventToSend);
+            }
 
             return new CreateRegisterResult(register.Id.Value);
         }

@@ -4,7 +4,6 @@ namespace UnitCare.Infrastructure.Data.Extensions
 {
     internal class InitialData
     {
-      
         public static IEnumerable<Domain.Models.UnitCare> UnitCares
         {
             get
@@ -17,20 +16,15 @@ namespace UnitCare.Infrastructure.Data.Extensions
                         title: "Unit1",
                         description: "this is the first unit",
                         type: "General",
-                        unitStatus:UnitStatus.activated);
-
+                        unitStatus: UnitStatus.activated);
 
                     // Create personnels for each unitCare
-                    var TestPersonnel = Personnel.Create(PersonnelId.Of(Guid.NewGuid()), unitCare.Id, "olivier", Shift.day,Gender.male);
-                    var Test2Personnel = Personnel.Create(PersonnelId.Of(Guid.NewGuid()), unitCare.Id, "emily", Shift.night,Gender.female);
-
+                    var TestPersonnel = Personnel.Create(PersonnelId.Of(Guid.NewGuid()), unitCare.Id, "olivier", Shift.day, Gender.male);
+                    var Test2Personnel = Personnel.Create(PersonnelId.Of(Guid.NewGuid()), unitCare.Id, "emily", Shift.night, Gender.female);
 
                     // Create rooms for each unitCare
                     var TestRomm = Room.Create(RoomId.Of(Guid.NewGuid()), unitCare.Id, 102, Status.pending);
                     var Test2Romm = Room.Create(RoomId.Of(Guid.NewGuid()), unitCare.Id, 103, Status.pending);
-
-
-
 
                     // Create equipments for each room
                     var TestRommEquipments = new List<Equipment>
@@ -54,7 +48,7 @@ namespace UnitCare.Infrastructure.Data.Extensions
                     roomId: TestRomm.Id,
                     name: "Respirateurs",
                     reference: "21354DMT",
-                    eqStatus:EqStatus.nonAvailable, 
+                    eqStatus:EqStatus.nonAvailable,
                     eqType : EqType.vitalSignsMonitors),
             };
 
@@ -80,10 +74,9 @@ namespace UnitCare.Infrastructure.Data.Extensions
                     name: "Bed",
                     reference: "21354DMT",
                     eqStatus:EqStatus.available,
-                    eqType : EqType.bloodPessureCuffs),
+                    eqType : EqType.bloodPressureCuffs),
             };
 
-                  
                     // Add equipments to respective rooms
                     foreach (var equipment in TestRommEquipments)
                         TestRomm.AddEquipment(equipment);
@@ -96,7 +89,6 @@ namespace UnitCare.Infrastructure.Data.Extensions
                     unitCare.AddRoom(Test2Romm);
                     unitCare.AddPersonnel(TestPersonnel);
                     unitCare.AddPersonnel(Test2Personnel);
-
 
                     return new List<Domain.Models.UnitCare> { unitCare };
                 }
@@ -128,11 +120,5 @@ namespace UnitCare.Infrastructure.Data.Extensions
                 }
             }
         }
-
     }
-
- 
-
-
-
 }

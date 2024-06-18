@@ -1,38 +1,51 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Prescription.Application.Contracts;
+﻿using BuildingBlocks.Messaging.Events;
+using Newtonsoft.Json;
 using Prescription.Application.Exceptions;
 using Prescription.Application.Features.UnitCare.Queries;
-using Prescription.Domain.Entities;
-using Prescription.Domain.ValueObjects;
 
 namespace Prescription.Application.Features.Prescription.Commands.CreatePrescription
 {
-    public class CreatePrescriptionHandler : ICommandHandler<CreatePrescriptionCommand, CreatePrescriptionResult>
+    public class CreatePrescriptionHandler(IApplicationDbContext dbContext, IPublishEndpoint publishEndpoint, IFeatureManager featureManager)
+        : ICommandHandler<CreatePrescriptionCommand, CreatePrescriptionResult>
     {
-        private readonly IApplicationDbContext _dbContext;
-        private readonly TypeAdapterConfig _mapsterConfig;
-
-        public CreatePrescriptionHandler(IApplicationDbContext dbContext, TypeAdapterConfig mapsterConfig)
-        {
-            _dbContext = dbContext;
-            _mapsterConfig = mapsterConfig;
-        }
-
         public async Task<CreatePrescriptionResult> Handle(CreatePrescriptionCommand command, CancellationToken cancellationToken)
         {
             try
             {
                 // Create Prescription entity from command object
                 var prescription = await CreateNewPrescription(command.Prescription, cancellationToken);
-
                 // Save to database
-                _dbContext.Prescriptions.Add(prescription);
+                dbContext.Prescriptions.Add(prescription);
 
                 Guid createdBy = Guid.NewGuid();
                 var newActivity = Domain.Entities.Activity.Create(createdBy, $"Created new {nameof(Prescription)}", "Hammadi AZ");
-                _dbContext.Activities.Add(newActivity);
+                dbContext.Activities.Add(newActivity);
 
-                await _dbContext.SaveChangesAsync(cancellationToken);
+                await dbContext.SaveChangesAsync(cancellationToken);
+
+                // Handle sending events
+                var ShareOutPatient = await featureManager.IsEnabledAsync("OutPrescriptionCreated");
+                var ShareInPatient = await featureManager.IsEnabledAsync("InpatientPrescriptionCreated");
+                // Check if the feature for using message broker is enabled for inpatientPrescription && the prescription is Inpatient
+                if (command.Prescription.UnitCare != null && ShareInPatient)
+                {
+                    var newlyCreatedPrescription = prescription.ToPrescriptionDto(); //use the new one to retrieve the new created IDs with the entities
+                    var eventMessage = newlyCreatedPrescription.Adapt<InpatientPrescriptionSharedEvent>();
+                    //fill the unitCare from the request, cuz we save only the bed id in the DB
+                    eventMessage.UnitCare = command.Prescription.UnitCare.Adapt<UnitCarePlanSharedEvent>();
+
+                    var jsonInpatientShared = JsonConvert.SerializeObject(eventMessage);
+                    await publishEndpoint.Publish(eventMessage, cancellationToken);
+                }
+                // Check if the feature for using message broker is enabled for OutpatientPrescription && the prescription is Outpatient
+                else if (command.Prescription.UnitCare == null && ShareOutPatient)
+                {
+                    //use the new Prescription to retrieve the new created IDs with the entities
+                    var newlyCreatedPrescription = prescription.ToPrescriptionDto();
+                    var eventMessage = newlyCreatedPrescription.Adapt<OutpatientPrescriptionSharedEvent>();
+                    await publishEndpoint.Publish(eventMessage, cancellationToken);
+                }
+
                 // Return result
                 return new CreatePrescriptionResult(prescription.Id.Value);
             }
@@ -56,7 +69,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                 bed = await GetAvailableRoomFromUnitCare(prescriptionDto.UnitCare, cancellationToken);
                 //only if a unitCare has been selected, throw this error, if unitCare is null => Not hospitalized patient
                 if (bed == null)
-                    throw new Exception($"Cant find empty room for new prescription in UnitCare : {prescriptionDto.UnitCare.Title}");
+                    throw new Exception($"Cant find empty Bed in UnitCare : {prescriptionDto.UnitCare.Title}");
                 //return null;
             }
             if (diet == null && bed != null)
@@ -86,10 +99,10 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
             var diagnosisEntities = prescriptionDto.Diagnoses
                 .Select(dto =>
                 {
-                    var diagnosis = _dbContext.Diagnosis.Find(DiagnosisId.Of(dto.Id));
+                    var diagnosis = dbContext.Diagnosis.Find(DiagnosisId.Of(dto.Id));
                     if (diagnosis != null)
                     {
-                        _dbContext.AttachEntity(diagnosis);
+                        dbContext.AttachEntity(diagnosis);
                         return diagnosis;
                     }
                     else
@@ -111,10 +124,10 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
             var symptomsEntities = prescriptionDto.Symptoms
                 .Select(dto =>
                 {
-                    var symptom = _dbContext.Symptoms.Find(SymptomId.Of(dto.Id));
+                    var symptom = dbContext.Symptoms.Find(SymptomId.Of(dto.Id));
                     if (symptom != null)
                     {
-                        _dbContext.AttachEntity(symptom);
+                        dbContext.AttachEntity(symptom);
                         return symptom;
                     }
                     else
@@ -137,7 +150,7 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
             {
                 var newPosology = Domain.Entities.Posology.Create(
                     prescriptionId: newPrescription.Id,
-                    medication: await CreateMedication(posology.Medication, _dbContext, cancellationToken),
+                    medication: await CreateMedication(posology.Medication, dbContext, cancellationToken),
                     startDate: posology.StartDate,
                     endDate: posology.EndDate,
                     isPermanent: posology.IsPermanent,
@@ -177,27 +190,32 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
 
         private async Task<EquipmentDTO?> GetAvailableRoomFromUnitCare(UnitCareDTO unitCare, CancellationToken cancellationToken)
         {
-            var handler = new GetOccupiedRoomsHandler(_dbContext);
+            var handler = new GetOccupiedBedsHandler(dbContext);
 
-            var req = new GetOccupiedRoomsQuery(new PaginationRequest(0, -1));
-            var occupiedRoomsResult = await handler.Handle(req, cancellationToken);
-            var occupiedRooms = occupiedRoomsResult?.OccupiedRooms?.Data?.ToArray();
-            var allRoomsAreAvailable = occupiedRooms == null || occupiedRooms.Length == 0;
+            var req = new GetOccupiedBedsQuery(new PaginationRequest(0, -1));
+            var occupiedBedsResult = await handler.Handle(req, cancellationToken);
+            var occupiedBedsIds = occupiedBedsResult?.OccupiedRooms?.Data?.ToArray();
+            var allBedsAreAvailable = occupiedBedsIds == null || occupiedBedsIds.Length == 0;
 
-            if (occupiedRooms != null)
+            if (occupiedBedsIds != null)
                 foreach (var room in unitCare.Rooms)
                 {
                     foreach (var equipment in room.Equipments)
                     {
-                        if (equipment == null) continue;
-                        //TODO verify bed name
+                        // jump over the other equipments, we search for beds only
+                        if (equipment == null || equipment.EqType != EqType.bed) continue;
 
-                        if (equipment.Name == "Bed" && allRoomsAreAvailable)
+                        //Now we have only equipments of type BED here
+
+                        //if all beds are available, return this first BED we found
+                        if (allBedsAreAvailable)
                         {
                             return equipment;
                         }
-                        else if (equipment.Name == "Bed" && !occupiedRooms.Contains(EquipmentId.Of(equipment.Id)))
+                        //if this BED is not in the occupied list of bed => return it
+                        else if (occupiedBedsIds.Contains(EquipmentId.Of(equipment.Id)) == false)
                             return equipment;
+                        //if didnt yet return, continue searching for next equipment, then next room...
                     }
                 }
             return null;

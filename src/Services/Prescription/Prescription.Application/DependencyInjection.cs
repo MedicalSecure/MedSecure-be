@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Prescription.Application.Features.Diagnosis;
+using Prescription.Application.Hubs;
+using Prescription.Application.Hubs.Abstractions;
 using Prescription.Services.PredictBySymptomsService;
 using System.Reflection;
 
@@ -34,6 +36,10 @@ namespace Prescription.Application
 
             //inject configuration into the ai module
             AiModule.addAiModule(configuration);
+
+            // Add Hubs
+            services.AddTransient<IPrescriptionHub, PrescriptionHub>();
+
 
             // Return the modified service collection
             return services;

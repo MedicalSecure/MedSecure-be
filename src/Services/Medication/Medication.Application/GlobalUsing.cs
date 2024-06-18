@@ -18,3 +18,5 @@ global using Microsoft.Extensions.Logging;
 global using Medication.Domain.Events;
 global using BuildingBlocks.Pagination;
 global using Medication.Application.Extensions;
+global using Medication.Application.Hubs.Abstractions;
+global using Medication.Application.Hubs;

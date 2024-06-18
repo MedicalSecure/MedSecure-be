@@ -15,14 +15,6 @@
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            // Check if the feature for using message broker is enabled
-            if (await featureManager.IsEnabledAsync("DiagnosisSharedFulfilment"))
-            {
-                // Adapt the command.Diet object to a DiagnosisPlanSharedEvent and publish it
-                var eventMessage = request.Diagnosis.Adapt<DiagnosisDeletedSharedEvent>();
-                await publishEndpoint.Publish(eventMessage, cancellationToken);
-            }
-
             // return result containing the ID of the deleted diagnosis
             return new DeleteDiagnosisResult(diagnosisDto.Id);
         }

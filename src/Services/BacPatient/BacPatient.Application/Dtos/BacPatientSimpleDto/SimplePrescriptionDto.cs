@@ -1,4 +1,7 @@
-﻿namespace BacPatient.Application.Dtos.BacPatientSimpleDto
+﻿using rescription.Application.DTOs;
+
+
+namespace BacPatient.Application.Dtos.BacPatientSimpleDto
 {
    
         public record SimplePrescriptionDto(
@@ -30,29 +33,27 @@
      
     };
     public record SimpleMedicationDto(
-                    Guid Id,
-                    string Name,
-                    string Dosage,
-                    Route? Form,
-                    string Description
-                                        );
+      Guid Id, //mapped
+      string Name,//mapped
+      string Dosage,//mapped
+      Route? Form,//mapped
+      string Description//mapped
+    );
     public record SimpleEquipmentDto(
-        Guid Id,
-        string Reference
-        );
+      Guid Id,//mapped
+      string Reference//mapped
+    );
 
-    public record SimpleUnitCareDto (
-           Guid Id,
-            string Title,
-            string Description ,
-        SimpleRoomDto Room 
-        );
-    public record SimpleRoomDto (
-        Guid Id , 
-            decimal? RoomNumber ,
-     Status? Status  , 
-     SimpleEquipmentDto Equipment 
-     
-        );
+    public record SimpleUnitCareDto(
+      Guid Id,//mapped
+      string Title,//mapped
+      string Description,//mapped
+      SimpleRoomDto Room // Warning
+    );
+    public record SimpleRoomDto(
+      Guid Id,//mapped
+      decimal? RoomNumber,//mapped
+      Status? Status,//Warning  To check
+      SimpleEquipmentDto Equipment // Mapped
+    );
 }
-

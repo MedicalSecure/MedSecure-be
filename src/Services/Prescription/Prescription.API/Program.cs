@@ -1,4 +1,5 @@
 using Prescription.API;
+using Prescription.Application.Hubs;
 using Prescription.Infrastructure.Database.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,9 @@ builder.Services.AddInfrastructureServices(builder.Configuration);// Add infrast
 builder.Services.AddApplicationServices(builder.Configuration);  // Add application services layer
 builder.Services.AddApiServices(builder.Configuration);  // Add API services layer
 
+//AddSignalR
+builder.Services.AddSignalR();
+
 //allow cross origin TODO REMOVE from here and place it in my API GATEWAY!!
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
@@ -19,9 +23,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:4200")
+                          policy.WithOrigins(["http://localhost:4200", "https://localhost:4200"])
                            .AllowAnyHeader()
-                           .AllowAnyMethod();
+                           .AllowAnyMethod()
+                           .AllowCredentials();
                       });
 });
 //build app
@@ -31,6 +36,9 @@ app.UseCors(MyAllowSpecificOrigins);
 
 // Configure the HTTP request pipeline
 app.UseApiServices();  // Configure API-related middleware
+
+// Inject SignalR Hubs
+app.InjectHubs();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

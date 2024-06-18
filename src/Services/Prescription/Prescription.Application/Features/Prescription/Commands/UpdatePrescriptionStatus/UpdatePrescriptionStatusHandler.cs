@@ -1,6 +1,10 @@
 ﻿using BuildingBlocks.Exceptions;
+using BuildingBlocks.Messaging.Events;
 using MassTransit;
+using MassTransit.Transports;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.FeatureManagement;
+using Newtonsoft.Json;
 using Prescription.Application.Contracts;
 using Prescription.Application.Exceptions;
 using Prescription.Application.Features.UnitCare.Queries;
@@ -10,17 +14,8 @@ using Prescription.Domain.ValueObjects;
 
 namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescriptionStatus
 {
-    public class UpdatePrescriptionStatusHandler : ICommandHandler<UpdatePrescriptionStatusCommand, UpdatePrescriptionStatusResult>
+    public class UpdatePrescriptionStatusHandler(IApplicationDbContext _dbContext, IPublishEndpoint publishEndpoint, IFeatureManager featureManager) : ICommandHandler<UpdatePrescriptionStatusCommand, UpdatePrescriptionStatusResult>
     {
-        private readonly IApplicationDbContext _dbContext;
-        private readonly TypeAdapterConfig _mapsterConfig;
-
-        public UpdatePrescriptionStatusHandler(IApplicationDbContext dbContext, TypeAdapterConfig mapsterConfig)
-        {
-            _dbContext = dbContext;
-            _mapsterConfig = mapsterConfig;
-        }
-
         public async Task<UpdatePrescriptionStatusResult> Handle(UpdatePrescriptionStatusCommand command, CancellationToken cancellationToken)
         {
             try
@@ -29,12 +24,12 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
                     ?? throw new BadRequestException($"{nameof(Prescription)} : Updating prescription Status Require an ID"));
 
                 // Get the old prescription from DB so we can update the status
-                var oldPrescription = await _dbContext.Prescriptions.FindAsync([prescriptionId], cancellationToken)
+                var oldPrescription = await _dbContext.Prescriptions.Include(p => p.Validation).FirstOrDefaultAsync(p => p.Id == prescriptionId, cancellationToken)
                     ?? throw new NotFoundException($"{nameof(Prescription)} : Can't find prescription to update Status with the given id : {prescriptionId.Value}");
-
+                var oldStatus = oldPrescription.Status;
                 var newStatus = command.Prescription.Status;
-                // the new prescription is valid (didn't throw exception) so we can update the status of the old one
-                oldPrescription.UpdateStatus(newStatus);
+                // the request is valid (didn't throw exception) so we can update the status of the old one
+                oldPrescription.UpdateStatus(newStatus);//still can throw exceptions
 
                 // the UpdateStatus Didn't throw a an exception => the new status (Discontinued) is valid relative to the old one, we can save changes!
                 _dbContext.Prescriptions.Update(oldPrescription);
@@ -47,6 +42,21 @@ namespace Prescription.Application.Features.Prescription.Commands.UpdatePrescrip
 
                 // Same the 3 changes : update old prescription (discontinued), Add the new one AND Add an activity
                 await _dbContext.SaveChangesAsync(cancellationToken);
+
+                // Handle sending events
+                var ShareDiscontinued = await featureManager.IsEnabledAsync("PrescriptionDiscontinued");
+
+                var statusCondition = newStatus == PrescriptionStatus.Discontinued && (oldStatus == PrescriptionStatus.Active || oldStatus == PrescriptionStatus.Pending);
+                // Check if the feature for using message broker is enabled for inpatientPrescription && the prescription is Inpatient
+                if (statusCondition && ShareDiscontinued && command.Prescription.BedId != null)
+                {
+                    var dataToSend = command.Prescription;
+                    var eventMessage = dataToSend.Adapt<DiscontinuedInpatientPrescriptionSharedEvent>();
+                    eventMessage.ValidationId = oldPrescription.Validation?.Id.Value;
+
+                    await publishEndpoint.Publish(eventMessage, cancellationToken);
+                }
+
                 // Return result
                 return new UpdatePrescriptionStatusResult(prescriptionId.Value);
             }

@@ -11,7 +11,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:4200")
+                          policy.WithOrigins(["http://localhost:4200", "http://bacpatient.api:8080", "https://bacpatient.api:8080", "https://localhost:4200"])
                           .AllowAnyHeader() // Allow any header
                                 .AllowAnyMethod();
                       });
@@ -19,9 +19,9 @@ builder.Services.AddCors(options =>
 // Add services to the container
 builder
     .Services
-    .AddApplicationServices(builder.Configuration)  // Add application services layer 
-    .AddInfrastructureServices(builder.Configuration)  // Add infrastructure services layer 
-    .AddApiServices(builder.Configuration);  // Add API services layer 
+    .AddApplicationServices(builder.Configuration)  // Add application services layer
+    .AddInfrastructureServices(builder.Configuration)  // Add infrastructure services layer
+    .AddApiServices(builder.Configuration);  // Add API services layer
 
 var app = builder.Build();  // Build the application
 app.UseCors(MyAllowSpecificOrigins);
@@ -38,7 +38,7 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Registration API V1");  // Configure Swagger UI endpoint
     });
 
-    // Initialize the database asynchronously with mock data 
+    // Initialize the database asynchronously with mock data
     await app.InitialiseDatabaseAsync();
 }
 

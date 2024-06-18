@@ -1,6 +1,4 @@
-﻿
-
-namespace BacPatient.API;
+﻿namespace BacPatient.API;
 
 public static class DependencyInjection
 {

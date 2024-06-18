@@ -19,8 +19,15 @@ namespace Prescription.Infrastructure.Database.Configurations
                 v => JsonConvert.SerializeObject(v),
                 v => JsonConvert.DeserializeObject<List<Guid>>(v) ?? new List<Guid>());
 
+            // Create a ValueComparer for List<Guid>
+            var comparer = new ValueComparer<List<Guid>>(
+                (c1, c2) => c1.SequenceEqual(c2),
+                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                c => c.ToList());
+
             builder.Property(p => p.DietsId)
-                .HasConversion(converter);
+                .HasConversion(converter)
+                .Metadata.SetValueComparer(comparer);//setvalueComparer
         }
     }
 }

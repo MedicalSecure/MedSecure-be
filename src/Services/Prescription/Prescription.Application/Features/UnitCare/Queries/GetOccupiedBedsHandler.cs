@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Prescription.Application.Features.UnitCare.Queries
+﻿namespace Prescription.Application.Features.UnitCare.Queries
 {
-    public class GetOccupiedRoomsHandler : IQueryHandler<GetOccupiedRoomsQuery, GetOccupiedRoomsResult>
+    public class GetOccupiedBedsHandler : IQueryHandler<GetOccupiedBedsQuery, GetOccupiedBedsResult>
     {
         private readonly IApplicationDbContext _dbContext;
 
-        public GetOccupiedRoomsHandler(IApplicationDbContext dbContext)
+        public GetOccupiedBedsHandler(IApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<GetOccupiedRoomsResult> Handle(GetOccupiedRoomsQuery query, CancellationToken cancellationToken)
+        public async Task<GetOccupiedBedsResult> Handle(GetOccupiedBedsQuery query, CancellationToken cancellationToken)
         {
             // get diets with pagination
             // return result
@@ -46,13 +40,13 @@ namespace Prescription.Application.Features.UnitCare.Queries
                            .ToListAsync(cancellationToken);
             }
 
-            var roomsIds = prescriptions.Select(p => p.BedId).OfType<EquipmentId>().ToList() ?? [];
-            return new GetOccupiedRoomsResult(
+            var occupiedBedsIds = prescriptions.Select(p => p.BedId).OfType<EquipmentId>().ToList() ?? [];
+            return new GetOccupiedBedsResult(
                 new PaginatedResult<EquipmentId>(
                     pageIndex,
                     pageSize,
                     totalCount,
-                    roomsIds));
+                    occupiedBedsIds));
         }
     }
 }

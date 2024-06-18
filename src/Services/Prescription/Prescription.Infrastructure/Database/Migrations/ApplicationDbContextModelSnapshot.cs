@@ -562,6 +562,49 @@ namespace Prescription.Infrastructure.Database.Migrations
                     b.ToTable("UnitCare");
                 });
 
+            modelBuilder.Entity("Prescription.Domain.Entities.Validation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PharmacistId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PharmacistName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PrescriptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PrescriptionId")
+                        .IsUnique();
+
+                    b.ToTable("Validation");
+                });
+
             modelBuilder.Entity("PrescriptionSymptom", b =>
                 {
                     b.Property<Guid>("PrescriptionsId")
@@ -717,6 +760,17 @@ namespace Prescription.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Prescription.Domain.Entities.Validation", b =>
+                {
+                    b.HasOne("Prescription.Domain.Entities.Prescription", "Prescription")
+                        .WithOne("Validation")
+                        .HasForeignKey("Prescription.Domain.Entities.Validation", "PrescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Prescription");
+                });
+
             modelBuilder.Entity("PrescriptionSymptom", b =>
                 {
                     b.HasOne("Prescription.Domain.Entities.Prescription", null)
@@ -742,6 +796,8 @@ namespace Prescription.Infrastructure.Database.Migrations
             modelBuilder.Entity("Prescription.Domain.Entities.Prescription", b =>
                 {
                     b.Navigation("Posology");
+
+                    b.Navigation("Validation");
                 });
 
             modelBuilder.Entity("Prescription.Domain.Entities.UnitCareRoot.Room", b =>
