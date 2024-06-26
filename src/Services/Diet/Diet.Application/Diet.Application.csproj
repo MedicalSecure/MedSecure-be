@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Diets\Commands\DeleteDiet\" />
     <Folder Include="Diets\EventHandlers\Integration\" />
     <Folder Include="Foods\Commands\DeleteFood\" />
     <Folder Include="Foods\EventHandlers\Integration\" />

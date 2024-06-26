@@ -14,13 +14,13 @@ services:
       context: .
       dockerfile: ApiGateways/YarpApiGateway/Dockerfile
         
-  # diet.api:
-  #   image: ${DOCKER_REGISTRY-}dietapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/Diet/Diet.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  diet.api:
+    image: ${DOCKER_REGISTRY-}dietapi
+    build:
+      context: .
+      dockerfile: Services/Diet/Diet.API/Dockerfile
+    depends_on:
+       - sql-server-db
 
   # bacpatient.api:
   #   image: ${DOCKER_REGISTRY-}bacpatientapi
@@ -71,10 +71,10 @@ services:
     depends_on:
        - sql-server-db
 
-  # unitcare.api:
-  #   image: ${DOCKER_REGISTRY-}unitcareapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/UnitCare/UnitCare.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  unitcare.api:
+    image: ${DOCKER_REGISTRY-}unitcareapi
+    build:
+      context: .
+      dockerfile: Services/UnitCare/UnitCare.API/Dockerfile
+    depends_on:
+       - sql-server-db
