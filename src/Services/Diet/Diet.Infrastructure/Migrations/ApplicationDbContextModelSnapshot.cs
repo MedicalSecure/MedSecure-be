@@ -1088,7 +1088,8 @@ namespace Diet.Infrastructure.Migrations
                 {
                     b.HasOne("Diet.Domain.Models.Meal", null)
                         .WithMany("Foods")
-                        .HasForeignKey("MealId");
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Diet.Domain.Models.Meal", b =>

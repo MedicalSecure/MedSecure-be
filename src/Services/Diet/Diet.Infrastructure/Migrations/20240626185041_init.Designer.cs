@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Diet.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240609130321_Init")]
-    partial class Init
+    [Migration("20240626185041_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1091,7 +1091,8 @@ namespace Diet.Infrastructure.Migrations
                 {
                     b.HasOne("Diet.Domain.Models.Meal", null)
                         .WithMany("Foods")
-                        .HasForeignKey("MealId");
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Diet.Domain.Models.Meal", b =>

@@ -13,7 +13,8 @@ public class FoodConfiguration : IEntityTypeConfiguration<Food>
 
         builder.HasOne<Meal>()
                .WithMany(d => d.Foods)
-               .HasForeignKey(w => w.MealId);
+               .HasForeignKey(w => w.MealId)
+               .OnDelete(DeleteBehavior.Cascade); ;
 
         builder.Property(wi => wi.Name).HasMaxLength(255);
 

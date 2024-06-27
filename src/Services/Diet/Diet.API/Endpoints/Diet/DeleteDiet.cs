@@ -12,7 +12,7 @@ public class DeleteDiet : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/diets/{id}", async (Guid Id, ISender sender) =>
+        app.MapDelete("/v1/diets/{id}", async (Guid Id, ISender sender) =>
         {
             var result = await sender.Send(new DeleteDietCommand(Id));
 

@@ -22,22 +22,22 @@ services:
     depends_on:
        - sql-server-db
 
-  # bacpatient.api:
-  #   image: ${DOCKER_REGISTRY-}bacpatientapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/BacPatient/BacPatient.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  bacpatient.api:
+    image: ${DOCKER_REGISTRY-}bacpatientapi
+    build:
+      context: .
+      dockerfile: Services/BacPatient/BacPatient.API/Dockerfile
+    depends_on:
+       - sql-server-db
 
 
-  # waste.api:
-  #   image: ${DOCKER_REGISTRY-}wasteapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/Waste/Waste.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  waste.api:
+    image: ${DOCKER_REGISTRY-}wasteapi
+    build:
+      context: .
+      dockerfile: Services/Waste/Waste.API/Dockerfile
+    depends_on:
+       - sql-server-db
 
   prescription.api:
     image: ${DOCKER_REGISTRY-}prescriptionapi
@@ -55,13 +55,13 @@ services:
     depends_on:
        - sql-server-db
 
-  # visit.api:
-  #   image: ${DOCKER_REGISTRY-}visitapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/Visit/Visit.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  visit.api:
+    image: ${DOCKER_REGISTRY-}visitapi
+    build:
+      context: .
+      dockerfile: Services/Visit/Visit.API/Dockerfile
+    depends_on:
+       - sql-server-db
 
   registration.api:
     image: ${DOCKER_REGISTRY-}registrationapi

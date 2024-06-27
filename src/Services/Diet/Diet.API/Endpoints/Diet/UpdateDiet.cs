@@ -13,7 +13,7 @@ public class UpdateDiet : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/diets", async (UpdateDietRequest request, ISender sender) =>
+        app.MapPut("/v1/diets", async (UpdateDietRequest request, ISender sender) =>
         {
             var command = request.Adapt<UpdateDietCommand>();
 
