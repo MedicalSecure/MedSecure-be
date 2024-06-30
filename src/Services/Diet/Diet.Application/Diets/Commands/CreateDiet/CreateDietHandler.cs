@@ -1,26 +1,23 @@
-﻿namespace Diet.Application.Diets.Commands.CreateDiet;
+﻿using Diet.Application.Dtos;
+using Diet.Domain.Models;
+
+namespace Diet.Application.Diets.Commands.CreateDiet;
+
 
 
 public class CreateDietHandler(IPublishEndpoint publishEndpoint, IApplicationDbContext dbContext, IFeatureManager featureManager) : ICommandHandler<CreateDietCommand, CreateDietResult>
 {
     public async Task<CreateDietResult> Handle(CreateDietCommand command, CancellationToken cancellationToken)
     {
-        // create Diet entity from command object
         var diet = CreateNewDiet(command.Diet);
-
-        // save to database
         dbContext.Diets.Add(diet);
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        // Check if the feature for using message broker is enabled
         if (await featureManager.IsEnabledAsync("DietPlanSharedFulfillment"))
         {
-            // Adapt the command.Diet object to a DietPlanSharedEvent and publish it
             var eventMessage = command.Diet.Adapt<DietPlanSharedEvent>();
             await publishEndpoint.Publish(eventMessage, cancellationToken);
         }
-
-        // return result containing the ID of the created diet
         return new CreateDietResult(diet.Id.Value);
     }
 
@@ -28,18 +25,59 @@ public class CreateDietHandler(IPublishEndpoint publishEndpoint, IApplicationDbC
     {
         var newDiet = Domain.Models.Diet.Create(
             id: DietId.Of(Guid.NewGuid()),
-            patientId: PatientId.Of(dietDto.PatientId),
+            register: dietDto.Register.ToRegisterEntity(),
             startDate: dietDto.StartDate,
             endDate: dietDto.EndDate,
-            dietType: dietDto.DietType
+            dietType: dietDto.DietType,
+            label : dietDto.Label
             );
 
         foreach (var meal in dietDto.Meals)
         {
-            var newMeal = Meal.Create(MealId.Of(meal.Id), DietId.Of(meal.DietId), meal.Name, meal.MealType);
+            var newMeal = Meal.Create(MealId.Of(Guid.NewGuid()), meal.Name , meal.MealType );
+            foreach (var food in meal.Foods)
+            {
+                var newFood = Food.Create(
+            id: FoodId.Of(Guid.NewGuid()),
+                name: food.Name,
+                calories: food.Calories,
+                description: food.Description,
+            foodCategory: food.FoodCategory
+            );
+
+                newMeal.AddFood(newFood);
+              
+            }
+            if (meal.Comments != null)
+            {
+                foreach (var comment in meal.Comments)
+                {
+                    var newComment = Comment.Create(
+                        id: CommentId.Of(Guid.NewGuid()),
+                        label: comment.Label,
+                        content: comment.Content
+                    );
+
+                    newMeal.AddComments(newComment);
+                }
+            }
             newDiet.AddMeal(newMeal);
         }
-
+        if (dietDto.Register.Allergies != null)
+        {
+            foreach (var allergy in dietDto.Register.Allergies)
+            {
+                newDiet.Register.AddAllergy(allergy.ToSimpleRiskEntity());
+            }
+        }
+        if (dietDto.Register.Diseases != null)
+        {
+            foreach (var disease in dietDto.Register.Diseases)
+            {
+                newDiet.Register.AddDisease(disease.ToSimpleRiskEntity());
+            }
+        }
         return newDiet;
+
     }
 }

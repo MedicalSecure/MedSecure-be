@@ -18,6 +18,7 @@ namespace BacPatient.Application.BacPatient.Commands.UpdateBacPatient
             var bacpatientid = BacPatienId.Of(command.BacPatient.Id);
             var bacpatient = await dbContext.BacPatients.FindAsync([bacpatientid], cancellationToken);
             UpdateBacPatientNewValues(bacpatient, command.BacPatient);
+
             dbContext.BacPatients.Update(bacpatient);
 
 

@@ -17,7 +17,6 @@ namespace Registration.Application.Registers.Queries.GetRegistersById
             try
             {
                 var registerId = RegisterId.Of(regId);
-
                 var register = await dbContext.Registers
                     .Include(t => t.Patient)
                     .Include(t => t.Tests)

@@ -3,7 +3,7 @@
 public record DietId
 {
     public Guid Value { get; }
-
+    public DietId() {}
     private DietId(Guid value) => Value = value;
 
     public static DietId Of(Guid value)

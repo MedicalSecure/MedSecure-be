@@ -6,14 +6,11 @@ namespace Prescription.Domain.Entities
     public class DietForPrescription : Entity<DietForPrescriptionId>
     {
         private readonly List<Guid> _dietsId = new();
-
         public DateOnly StartDate { get; private set; }
         public DateOnly EndDate { get; private set; }
-
         public List<Guid> DietsId => _dietsId;
-
         private DietForPrescription()
-        { } // Required for EF Core
+        { } 
 
         private DietForPrescription(DietForPrescriptionId id, List<Guid> dietsId, DateOnly startDate, DateOnly endDate)
         {

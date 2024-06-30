@@ -14,13 +14,13 @@ services:
       context: .
       dockerfile: ApiGateways/YarpApiGateway/Dockerfile
         
-  # diet.api:
-  #   image: ${DOCKER_REGISTRY-}dietapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/Diet/Diet.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  diet.api:
+    image: ${DOCKER_REGISTRY-}dietapi
+    build:
+      context: .
+      dockerfile: Services/Diet/Diet.API/Dockerfile
+    depends_on:
+       - sql-server-db
 
   bacpatient.api:
     image: ${DOCKER_REGISTRY-}bacpatientapi
@@ -31,13 +31,13 @@ services:
        - sql-server-db
 
 
-  # waste.api:
-  #   image: ${DOCKER_REGISTRY-}wasteapi
-  #   build:
-  #     context: .
-  #     dockerfile: Services/Waste/Waste.API/Dockerfile
-  #   depends_on:
-  #      - sql-server-db
+  waste.api:
+    image: ${DOCKER_REGISTRY-}wasteapi
+    build:
+      context: .
+      dockerfile: Services/Waste/Waste.API/Dockerfile
+    depends_on:
+       - sql-server-db
 
   prescription.api:
     image: ${DOCKER_REGISTRY-}prescriptionapi
