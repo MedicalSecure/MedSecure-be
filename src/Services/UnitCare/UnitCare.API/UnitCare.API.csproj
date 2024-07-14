@@ -29,5 +29,4 @@
     <ProjectReference Include="..\UnitCare.Application\UnitCare.Application.csproj" />
     <ProjectReference Include="..\UnitCare.Infrastructure\UnitCare.Infrastructure.csproj" />
   </ItemGroup>
-
 </Project>
