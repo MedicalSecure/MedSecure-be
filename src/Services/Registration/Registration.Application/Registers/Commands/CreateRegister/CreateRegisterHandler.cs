@@ -37,8 +37,6 @@ namespace Registration.Application.Registers.Commands.CreateRegister
                 // map the data
                 RegisterDto registerTomap = registerToSend.ToRegisterDto();
                 RegisterSharedEvent registerSharedEvent = registerTomap.Adapt<RegisterSharedEvent>();
-                var eventToSend = new NewRegisterSharedEvent(registerSharedEvent);
-                await publisher.Publish(eventToSend);
             }
 
             return new CreateRegisterResult(register.Id.Value);
