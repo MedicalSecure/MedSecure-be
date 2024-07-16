@@ -20,10 +20,10 @@ public class DietPlanSharedEventHandler
         var pickupLocationDto = new AddressDto("123 Clinic St", "Clinicville", "State", "12345", "Country", "123-456-7890", "clinic@example.com");
         var dropOffLocationDto = new AddressDto("456 Municipal Ave", "Municipal City", "State", "54321", "Country", "987-654-3210", "municipal@example.com");
 
-        var wasteItems = message.Meals.Select(meal => new WasteItemDto(Guid.NewGuid(), Guid.NewGuid(), meal.MealId, 1, 0)).ToList();
+        var wasteItems = message.Meals.Select(meal => new WasteItemDto(Guid.NewGuid(), Guid.NewGuid(), meal.Id, 1, 0)).ToList();
 
         // Assuming WasteStatus and WasteColor are enums
-        var status = WasteStatus.Pending;
+        var status = WasteStatus.Pending; 
         var color = WasteColor.Black;
         // message.PatientId
         var wasteDto = new WasteDto(
