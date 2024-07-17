@@ -13,7 +13,7 @@ namespace Visit.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240520143922_activititymigration")]
-    partial class activititymigration
+    partial class ActivitityMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

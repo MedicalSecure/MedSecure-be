@@ -12,11 +12,13 @@ public class GetDiets : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/diets", async ([AsParameters] PaginationRequest request, ISender sender) =>
+        app.MapGet("/v1/diets", async ([AsParameters] PaginationRequest request, ISender sender) =>
         {
+
+
             var result = await sender.Send(new GetDietsQuery(request));
 
-            var response = result.Adapt<GetDietsResponse>();
+            var response = new GetDietsResponse(result.Diets);
 
             return Results.Ok(response);
         })

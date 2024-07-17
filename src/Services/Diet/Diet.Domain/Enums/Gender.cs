@@ -1,8 +1,10 @@
-﻿namespace Diet.Domain.Enums;
-
-public enum Gender
+﻿
+namespace Diet.Domain.Enums
 {
-    Male,
-    Female,
-    Other
+    public enum Gender
+    {
+        Male,
+        Female,
+        Other,
+    }
 }

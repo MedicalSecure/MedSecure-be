@@ -1,32 +1,37 @@
 ﻿using rescription.Application.DTOs;
 
+
 namespace BacPatient.Application.Dtos.BacPatientSimpleDto
 {
-    public record SimplePrescriptionDto(
-      Guid Id,//Mapped
-      SimpleRegisterDto Register,//WARNING
-      DateTime? CreatedAt,//Mapped
-      ICollection<SimplePosologyDto> Posologies,//Mapped
-      SimpleUnitCareDto UnitCare);//Warning
-    public record GetPrescriptionsResult(PaginatedResult<PrescriptionDto> Prescriptions);
-    public record SimplePosologyDto(Guid Id,//Mapped
-      Guid PrescriptionId,//Mapped
-      SimpleMedicationDto Medication,//Mapped
-      DateTime StartDate,//Mapped
-      DateTime? EndDate,//Mapped
-      bool IsPermanent,//Mapped
-      ICollection<SimpleCommentsDto> Comments,//Mapped
-      ICollection<SimpleDispensesDto> Dispenses);//Mapped
-    public record SimpleCommentsDto(Guid Id,//Mapped
-      Guid PosologyId,//Mapped
-      string Label,//Mapped
-      string Content);//Mapped
-    public record SimpleDispensesDto(
-      Guid Id,//Mapped
-      Guid PosologyId,//Mapped
-      string Hour,//Mapped
-      Dose? BeforeMeal,//Mapped
-      Dose? AfterMeal);//Mapped
+   
+        public record SimplePrescriptionDto(
+            Guid Id,
+            SimpleRegisterDto Register,
+            DateTime? CreatedAt ,
+            ICollection<SimplePosologyDto> Posologies , 
+            SimpleUnitCareDto UnitCare);
+            public record GetPrescriptionsResult(PaginatedResult<PrescriptionDto> Prescriptions);
+            public record SimplePosologyDto(Guid Id,
+            Guid PrescriptionId,
+            SimpleMedicationDto Medication,
+            DateTime StartDate,
+            DateTime? EndDate,
+            bool IsPermanent,
+            ICollection<SimpleCommentsDto> Comments,
+            ICollection<SimpleDispensesDto> Dispenses);
+            public record SimpleCommentsDto(Guid Id,
+            Guid PosologyId,
+            string Label,
+            string Content);
+             public record SimpleDispensesDto(
+            Guid Id,
+            Guid PosologyId,
+            string Hour,
+            Dose? BeforeMeal,
+            Dose? AfterMeal)
+    {
+     
+    };
     public record SimpleMedicationDto(
       Guid Id, //mapped
       string Name,//mapped

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Visit.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class activititymigration : Migration
+    public partial class ActivitityMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

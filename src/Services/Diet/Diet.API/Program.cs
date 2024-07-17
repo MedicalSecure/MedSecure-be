@@ -1,6 +1,18 @@
-// Create a web application builder
-var builder = WebApplication.CreateBuilder(args);
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins(["http://localhost:4200", "https://localhost:4200"])
+                          .AllowAnyHeader()
+                             .AllowAnyMethod(); ; // Allow any header
+                              
+                      });
+});
 // Add services to the container
 builder
     .Services
@@ -9,6 +21,8 @@ builder
     .AddApiServices(builder.Configuration);  // Add API services layer 
 
 var app = builder.Build();  // Build the application
+
+app.UseCors(MyAllowSpecificOrigins);
 
 // Configure the HTTP request pipeline
 app.UseApiServices();  // Configure API-related middleware
