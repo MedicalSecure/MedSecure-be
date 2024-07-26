@@ -91,7 +91,9 @@ namespace Prescription.Application.Features.Prescription.Commands.CreatePrescrip
                     RegisterId: RegisterId.Of(prescriptionDto.RegisterId),
                     doctorId: DoctorId.Of(prescriptionDto.DoctorId),
                     bedId: EquipmentId.OfNullable(bed?.Id),
-                    diet: newDiet
+                    diet: newDiet,
+                    //prescription active if its external, pending if its internal
+                   status: bed == null ? PrescriptionStatus.Active : PrescriptionStatus.Pending 
                 );
 
             string createdBy_DoctorId = newPrescription.CreatedBy!;
